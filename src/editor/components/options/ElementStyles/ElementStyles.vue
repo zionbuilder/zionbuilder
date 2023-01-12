@@ -1,5 +1,11 @@
 <template>
 	<div class="znpb-element-styles__wrapper">
+		<div class="znpb-elementStylesStateWrapper">
+			<span class="znpb-elementStylesStateTitle">{{ __('State:', 'zionbuilder') }}</span>
+
+			<PseudoSelectors v-model="computedStyles" />
+		</div>
+
 		<OptionsForm
 			v-model="computedStyles"
 			:schema="getSchema('element_styles')"
@@ -9,7 +15,10 @@
 </template>
 
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { computed, inject, onMounted, onBeforeUnmount } from 'vue';
+import PseudoSelectors from './PseudoSelectors.vue';
+
 const { useOptionsSchemas } = window.zb.composables;
 
 const props = withDefaults(
@@ -76,6 +85,16 @@ onBeforeUnmount(() => {
 	}
 }
 .znpb-options-form-wrapper.znpb-element-styles-option__options-wrapper {
-	padding-top: 0;
+	padding: 0;
+}
+
+.znpb-elementStylesStateWrapper {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.znpb-elementStylesStateTitle {
+	margin-right: 10px;
 }
 </style>

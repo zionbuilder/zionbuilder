@@ -185,8 +185,9 @@ function onAddClass(cssClass: string) {
 	display: inline-flex;
 	align-items: center;
 	cursor: pointer;
-	margin-right: 4px;
+	margin-right: 5px;
 	user-select: none;
+	margin-bottom: 5px;
 }
 
 .znpb-element-styles__mediaActiveClass--active {

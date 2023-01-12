@@ -33,7 +33,7 @@
 						:modelValue="keyword"
 						:filterable="true"
 						:clearable="true"
-						:placeholder="__('Enter Class Name', 'zionbuilder')"
+						:placeholder="__('Enter class name', 'zionbuilder')"
 						@update:modelValue="handleClassInput($event as string)"
 						@keydown.enter.stop="addNewCssClass"
 					></BaseInput>

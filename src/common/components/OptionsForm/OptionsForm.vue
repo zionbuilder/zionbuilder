@@ -143,13 +143,13 @@ export default {
 		};
 
 		function deleteValues(allPaths) {
-			let newValues = { ...props.modelValue };
+			const newValues = { ...props.modelValue };
 			allPaths.forEach(path => {
 				const paths = path.split('.');
 
 				paths.reduce((acc, key, index) => {
 					if (index === paths.length - 1) {
-						let dynamicValue = get(acc, `__dynamic_content__[${key}]`);
+						const dynamicValue = get(acc, `__dynamic_content__[${key}]`);
 						dynamicValue !== undefined ? delete acc.__dynamic_content__ : delete acc[key];
 						return true;
 					}
@@ -294,7 +294,7 @@ export default {
 				if (newValue === null || Object.keys(newValue).length === 0) {
 					this.$emit('update:modelValue', null);
 				} else {
-					let clonedValue = { ...this.modelValue };
+					const clonedValue = { ...this.modelValue };
 					Object.keys(clonedValue).reduce((acc, key, index) => {
 						if (typeof newValue[key] === 'undefined') {
 							delete acc[key];
@@ -445,6 +445,6 @@ export default {
 	flex-wrap: wrap;
 	// width: 100%;
 	max-height: 100%;
-	padding: 20px 15px 0;
+	padding: 20px 20px 0;
 }
 </style>

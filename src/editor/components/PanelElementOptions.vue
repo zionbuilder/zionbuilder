@@ -56,10 +56,16 @@
 		/>
 
 		<div v-if="activeGlobalClass" class="znpb-panelElementOptionsGlobalClassForm znpb-fancy-scrollbar">
+			<div class="znpb-options-breadcrumbs" @click="activeGlobalClass = null">
+				<Icon class="znpb-back-icon-breadcrumbs" icon="select" @click="onItemClicked(previousItem)" />
+
+				<span class="znpb-classEditBackName">{{ __('Back to', 'zionbuilder') }} {{ UIStore.editedElement.name }}</span>
+			</div>
+
 			<OptionsForm v-model="activeClassStyles" :schema="activeClassSchema" />
 		</div>
 
-		<div v-else class="znpb-element-options-content-wrapper">
+		<div v-show="!activeGlobalClass" class="znpb-element-options-content-wrapper">
 			<Tabs
 				v-model:activeTab="activeKeyTab"
 				:has-scroll="['general', 'advanced']"
@@ -514,6 +520,15 @@ const activeClassSchema = computed(() => {
 		},
 	};
 });
+
+// Reset the class back to wrapper if the element is changed
+watch(
+	() => UIStore.editedElement,
+	() => {
+		activeStyleElementId.value = 'wrapper';
+		activeGlobalClass.value = null;
+	},
+);
 </script>
 
 <style lang="scss">
@@ -831,5 +846,9 @@ const activeClassSchema = computed(() => {
 	& .znpb-options-breadcrumbs {
 		padding-top: 0;
 	}
+}
+
+.znpb-classEditBackName {
+	font-weight: 500;
 }
 </style>

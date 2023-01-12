@@ -132,6 +132,8 @@ const props = withDefaults(
 	},
 );
 
+const emit = defineEmits(['update:modelValue']);
+
 const optionWrapper = ref(null);
 const searchInput = ref(null);
 const searchKeyword = ref('');
