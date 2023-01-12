@@ -252,6 +252,10 @@ watch(selectorIsOpen, newValue => {
 });
 
 watch(contentOpen, newValue => {
+	if (!pseudoContentInput.value) {
+		return;
+	}
+
 	if (newValue) {
 		nextTick(() => pseudoContentInput.value.focus());
 		document.addEventListener('click', closePanel);
@@ -261,6 +265,10 @@ watch(contentOpen, newValue => {
 	}
 });
 watch(pseudoNameInputRef, newValue => {
+	if (!pseudoNameInputRef.value) {
+		return;
+	}
+
 	if (newValue) {
 		nextTick(() => pseudoNameInputRef.value.focus());
 		document.addEventListener('click', closePanel);
@@ -298,7 +306,6 @@ onBeforeUnmount(() => {
 		border: 2px solid var(--zb-input-border-color);
 		border-radius: 3px;
 		cursor: pointer;
-		position: relative;
 	}
 
 	&-title {

@@ -50,12 +50,16 @@
 		</template>
 
 		<SelectorAndPseudo
+			v-if="UserStore.userCanEditContent"
 			v-model:activeGlobalClass="activeGlobalClass"
 			:element="UIStore.editedElement"
 			:active-style-element-id="activeStyleElementId"
 		/>
 
-		<div v-if="activeGlobalClass" class="znpb-panelElementOptionsGlobalClassForm znpb-fancy-scrollbar">
+		<div
+			v-if="activeGlobalClass && UserStore.userCanEditContent"
+			class="znpb-panelElementOptionsGlobalClassForm znpb-fancy-scrollbar"
+		>
 			<div class="znpb-options-breadcrumbs" @click="activeGlobalClass = null">
 				<Icon class="znpb-back-icon-breadcrumbs" icon="select" @click="onItemClicked(previousItem)" />
 

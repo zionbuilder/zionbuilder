@@ -75,7 +75,6 @@ function onItemClicked(breadcrumbItem: BreadcrumbItem) {
 	}
 	&-path {
 		position: relative;
-		top: -1px;
 		display: inline-flex;
 		align-items: center;
 		height: 100%;

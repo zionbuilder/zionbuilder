@@ -94,6 +94,7 @@ onBeforeUnmount(() => {
 	display: flex;
 	align-items: center;
 	margin-bottom: 10px;
+	position: relative;
 }
 
 .znpb-elementStylesStateTitle {

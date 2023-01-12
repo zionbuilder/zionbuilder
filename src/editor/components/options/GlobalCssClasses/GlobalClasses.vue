@@ -61,6 +61,7 @@ const schema = computed(() => {
 			type: 'css_selector',
 			title: title,
 			allow_class_assignments: false,
+			allow_custom_attributes: false,
 			show_changes: false,
 			showPseudoSelector: true,
 		};
