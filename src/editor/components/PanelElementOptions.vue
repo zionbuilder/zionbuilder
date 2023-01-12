@@ -50,14 +50,16 @@
 		</template>
 
 		<SelectorAndPseudo
-			v-model="computedModelValue"
-			v-model:activeClass="activeClass"
-			:title="title"
-			:selector="selector"
-			:allow_class_assignments="allow_class_assignments"
+			v-model:activeGlobalClass="activeGlobalClass"
+			:element="UIStore.editedElement"
+			:active-style-element-id="activeStyleElementId"
 		/>
 
-		<div class="znpb-element-options-content-wrapper">
+		<div v-if="activeGlobalClass" class="znpb-panelElementOptionsGlobalClassForm znpb-fancy-scrollbar">
+			<OptionsForm v-model="activeClassStyles" :schema="activeClassSchema" />
+		</div>
+
+		<div v-else class="znpb-element-options-content-wrapper">
 			<Tabs
 				v-model:activeTab="activeKeyTab"
 				:has-scroll="['general', 'advanced']"
@@ -135,9 +137,9 @@
 
 <script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
-import { ref, Ref, watch, provide, computed, onBeforeUnmount, nextTick, inject } from 'vue';
+import { ref, Ref, watch, provide, computed, onBeforeUnmount, nextTick } from 'vue';
 import { useElementProvide } from '../composables';
-import { useUIStore, useContentStore, useElementDefinitionsStore, useUserStore } from '../store';
+import { useUIStore, useContentStore, useElementDefinitionsStore, useUserStore, useCSSClassesStore } from '../store';
 
 // Components
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue';
@@ -215,16 +217,6 @@ const searchIcon = computed(() => {
 	return searchActive.value ? 'close' : 'search';
 });
 
-// Change the tab when a new element is selected
-// watch(UIStore.editedElement, newValue => {
-// 	activeKeyTab.value = 'general';
-// 	searchActive.value = false;
-// 	optionsFilterKeyword.value = '';
-
-// 	// Clear selected pseudo selector
-// 	setActivePseudoSelector(null);
-// });
-
 provideElement(UIStore.editedElement);
 provide(
 	'elementInfo',
@@ -251,6 +243,7 @@ const computedStyleOptionsSchema = computed(() => {
 			allow_custom_attributes:
 				typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true,
 			allowRename: false,
+			elementStyleId: styleId,
 		};
 	});
 
@@ -490,8 +483,36 @@ function closeOptionsPanel() {
 
 // Pseudo and css classes
 // Provide an API that can be used by the ElementStyles component
-inject('ElementOptionsPanelAPI', {
-	aaa: '',
+const cssClasses = useCSSClassesStore();
+const activeStyleElementId = ref('wrapper');
+const activeGlobalClass = ref(null);
+
+provide('ElementOptionsPanelAPI', {
+	setActiveStyleElementId: (id: string) => {
+		activeStyleElementId.value = id;
+	},
+	resetActiveSelectorConfig: () => {
+		activeStyleElementId.value = 'wrapper';
+	},
+});
+
+const activeClassStyles = computed({
+	get() {
+		return cssClasses.getClassConfig(activeGlobalClass.value);
+	},
+	set(newValue) {
+		cssClasses.updateCSSClass(activeGlobalClass.value, newValue);
+	},
+});
+
+const activeClassSchema = computed(() => {
+	return {
+		globalClass: {
+			type: 'element_styles',
+			allow_class_assignments: false,
+			is_layout: true,
+		},
+	};
 });
 </script>
 
@@ -794,5 +815,21 @@ inject('ElementOptionsPanelAPI', {
 .znpb-editor-panel--right.znpb-element-options__panel-wrapper--hidden {
 	margin-right: var(--optionsPanelWidth, -360px);
 	margin-left: 0;
+}
+
+.znpb-panel__content_wrapper .znpb-element-styles__media-wrapper {
+	flex-grow: 0;
+	margin: 20px;
+	flex-direction: column;
+}
+
+.znpb-panelElementOptionsGlobalClassForm {
+	position: relative;
+
+	& > .znpb-options-form-wrapper,
+	& .znpb-element-styles-option__options-wrapper,
+	& .znpb-options-breadcrumbs {
+		padding-top: 0;
+	}
 }
 </style>

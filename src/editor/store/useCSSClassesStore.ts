@@ -3,8 +3,20 @@ import { cloneDeep, merge } from 'lodash-es';
 
 const { generateUID } = window.zb.utils;
 
+type CssStyles = Record<string, unknown>;
+
+type CSSClass = {
+	id: string;
+	name: string;
+	uid: string;
+	styles: CssStyles;
+};
+
 export const useCSSClassesStore = defineStore('CSSClasses', {
-	state: () => {
+	state: (): {
+		CSSClasses: CSSClass[];
+		copiedStyles: CssStyles | null;
+	} => {
 		return {
 			CSSClasses: [],
 			copiedStyles: null,
@@ -12,7 +24,7 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 	},
 	getters: {
 		getClassesByFilter: state => {
-			return (keyword: string) => {
+			return (keyword: string): CSSClass[] => {
 				const keyToLower = keyword.toLowerCase();
 
 				return state.CSSClasses.filter(
@@ -69,10 +81,11 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 		setCSSClasses(newValue) {
 			this.CSSClasses = newValue;
 		},
-		copyClassStyles(styles) {
+		copyClassStyles(styles: CssStyles) {
+			console.log(styles);
 			this.copiedStyles = cloneDeep(styles);
 		},
-		pasteClassStyles(classId) {
+		pasteClassStyles(classId: string) {
 			const oldStyles = this.getStylesConfig(classId);
 			const mergedStyles = merge(oldStyles || {}, cloneDeep(this.copiedStyles));
 			this.updateCSSClass(classId, {

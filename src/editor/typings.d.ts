@@ -30,6 +30,7 @@ type ZionElement = {
 	toJSON(): ZionElementConfig;
 	getClone(): ZionElementConfig;
 	unHighlight(): void;
+	getOptionValue(path: string, defaultValue?: unknown): unknown;
 	elementDefinition: ZionElementDefinition;
 	updateOptionValue(path: string | null, newValues: Record<string, unknown>): void;
 	addChildren(elements: ZionElement[] | ZionElementConfig[], index = -1): ZionElement[];

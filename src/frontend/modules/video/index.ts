@@ -217,10 +217,12 @@ export default class Video {
 		const videoElement = document.createElement('video');
 
 		// Set video arguments
-		videoElement.setAttribute('muted', '');
-
 		if (this.options.autoplay) {
-			videoElement.setAttribute('autoplay', 'true');
+			videoElement.setAttribute('autoplay', '');
+		}
+
+		if (this.options.muted) {
+			videoElement.setAttribute('muted', '');
 		}
 
 		videoElement.setAttribute('loop', loop);

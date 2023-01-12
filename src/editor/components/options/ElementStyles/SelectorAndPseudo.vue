@@ -2,23 +2,25 @@
 	<div class="znpb-element-styles__media-wrapper">
 		<div class="znpb-element-styles__mediaInner">
 			<ClassSelectorDropdown
-				v-model="computedClasses"
-				v-model:activeClass="computedActiveClass"
-				:selector="selector"
-				:title="title"
-				:allow_class_assignments="allow_class_assignments"
-				:active-model-value="computedStyles"
-				@paste-style-model="onPasteToSelector"
+				v-model:active-global-class="computedActiveGlobalClass"
+				:name="computedTitle"
+				:element="element"
+				:allow-class-assignment="allowClassAssignment"
+				:assigned-classes="computedClasses"
+				:active-style-element-id="activeStyleElementId"
+				@add-class="onAddClass"
+				@remove-class="onRemoveClass"
 			/>
 
 			<PseudoSelectors v-model="computedStyles" />
 		</div>
+
 		<div v-if="computedClasses.length" class="znpb-element-styles__mediaActiveClasses">
 			<span
 				v-for="cssClass in computedClasses"
 				:key="cssClass"
 				class="znpb-element-styles__mediaActiveClass"
-				:class="{ 'znpb-element-styles__mediaActiveClass--active': cssClass === computedActiveClass }"
+				:class="{ 'znpb-element-styles__mediaActiveClass--active': cssClass === computedActiveGlobalClass }"
 				@click.prevent="toggleClass(cssClass)"
 			>
 				.{{ cssClass }}
@@ -27,7 +29,7 @@
 					v-znpb-tooltip="__('Remove class', 'zionbuilder')"
 					class="znpb-element-styles__mediaActiveClassRemove"
 					icon="close"
-					@click.stop.prevent="removeCssCLass(cssClass)"
+					@click.stop.prevent="onRemoveClass(cssClass)"
 				/>
 			</span>
 		</div>
@@ -37,105 +39,47 @@
 <script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
 import { computed } from 'vue';
-import { merge, cloneDeep } from 'lodash-es';
 import PseudoSelectors from './PseudoSelectors.vue';
 import ClassSelectorDropdown from './ClassSelectorDropdown.vue';
 import { useCSSClassesStore } from '/@/editor/store';
 
 const cssClasses = useCSSClassesStore();
 
-const props = withDefaults(
-	defineProps<{
-		modelValue: {
-			classes?: string[];
-		};
-		title: string;
-		selector: string;
-		// eslint-disable-next-line vue/prop-name-casing
-		allow_class_assignments: boolean;
-		activeClass: string;
-	}>(),
-	{
-		modelValue: () => ({}),
-		allow_class_assignments: true,
-	},
-);
+const props = defineProps<{
+	element: ZionElement;
+	activeStyleElementId: string;
+	activeGlobalClass: string | null;
+}>();
 
-const emit = defineEmits(['update:modelValue', 'update:activeClass']);
+const emit = defineEmits(['update:active-global-class']);
 
-const computedActiveClass = computed({
+const computedActiveGlobalClass = computed({
 	get() {
-		return props.activeClass;
+		return props.activeGlobalClass;
 	},
 	set(newValue) {
-		emit('update:activeClass', newValue);
-	},
-});
-
-// Computed
-const computedStyles = computed({
-	get() {
-		if (props.activeClass !== props.selector) {
-			const activeClassConfig = cssClasses.getClassConfig(props.activeClass);
-			if (activeClassConfig) {
-				return activeClassConfig.styles;
-			}
-
-			// eslint-disable-next-line
-			console.warn(`Class with id ${props.activeClass} not found`)
-			return {};
-		} else {
-			return props.modelValue.styles;
-		}
-	},
-	set(newValue) {
-		if (props.activeClass !== props.selector) {
-			const activeClassConfig = cssClasses.getClassConfig(props.activeClass);
-			if (activeClassConfig) {
-				activeClassConfig.styles = newValue;
-			}
-		} else {
-			updateValues('styles', newValue);
-		}
+		emit('update:active-global-class', newValue);
 	},
 });
 
 const computedClasses = computed({
 	get() {
-		return props.modelValue ? props.modelValue.classes || [] : [];
+		return props.element.getOptionValue(`_styles.${props.activeStyleElementId}.classes`, []) as string[];
 	},
 	set(newValue) {
-		emit('update:modelValue', {
-			...props.modelValue,
-			classes: newValue,
-		});
+		props.element.updateOptionValue(`_styles.${props.activeStyleElementId}.classes`, newValue);
 	},
 });
 
-function onPasteToSelector() {
-	const clonedCopiedStyles = cloneDeep(cssClasses.copiedStyles);
-	if (!props.modelValue.styles) {
-		if (clonedCopiedStyles !== null) {
-			updateValues('styles', clonedCopiedStyles);
-		}
+function toggleClass(cssClass: string) {
+	if (computedActiveGlobalClass.value === cssClass) {
+		computedActiveGlobalClass.value = null;
 	} else {
-		updateValues('styles', merge(props.modelValue.styles, clonedCopiedStyles));
+		computedActiveGlobalClass.value = cssClass;
 	}
 }
 
-function updateValues(type: string, newValue: Record<string, unknown>) {
-	const clonedValue = { ...props.modelValue };
-	if (newValue === null && typeof clonedValue[type]) {
-		// If this is used as layout, we need to delete the active pseudo selector
-		delete clonedValue[type];
-	} else {
-		clonedValue[type] = newValue;
-	}
-
-	emit('update:modelValue', clonedValue);
-}
-
-function removeCssCLass(cssClass: string) {
+function onRemoveClass(cssClass: string) {
 	const existingClasses = [...computedClasses.value];
 	const classIndex = existingClasses.indexOf(cssClass);
 
@@ -145,18 +89,73 @@ function removeCssCLass(cssClass: string) {
 
 	existingClasses.splice(classIndex, 1);
 
-	computedClasses.value = existingClasses;
 	// Check if the active class was the one deleted
-	if (props.activeClass === cssClass) {
-		computedActiveClass.value = props.selector;
+	if (computedActiveGlobalClass.value === cssClass) {
+		computedActiveGlobalClass.value = null;
 	}
+
+	computedClasses.value = existingClasses;
 }
 
-function toggleClass(cssClass: string) {
-	if (computedActiveClass.value === cssClass) {
-		computedActiveClass.value = props.selector;
+const allowClassAssignment = computed(() => {
+	return props.element.elementDefinition.style_elements[props.activeStyleElementId].allow_class_assignment;
+});
+
+// Computed
+const computedStyles = computed({
+	get() {
+		if (computedActiveGlobalClass.value) {
+			const activeClassConfig = cssClasses.getClassConfig(computedActiveGlobalClass.value);
+			if (activeClassConfig) {
+				return activeClassConfig.styles;
+			}
+
+			// eslint-disable-next-line
+			console.warn(`Class with id ${computedActiveGlobalClass.value} not found`)
+			return {};
+		} else {
+			return props.element.getOptionValue(`_styles.${props.activeStyleElementId}.styles`, {});
+		}
+	},
+	set(newValue) {
+		if (computedActiveGlobalClass.value) {
+			const activeClassConfig = cssClasses.getClassConfig(computedActiveGlobalClass.value);
+			if (activeClassConfig) {
+				activeClassConfig.styles = newValue;
+			}
+		} else {
+			props.element.updateOptionValue(`_styles.${props.activeStyleElementId}.styles`, newValue);
+		}
+	},
+});
+
+const computedTitle = computed(() => {
+	if (computedActiveGlobalClass.value) {
+		const activeClassConfig = cssClasses.getClassConfig(computedActiveGlobalClass.value);
+
+		if (activeClassConfig) {
+			return activeClassConfig.name;
+		}
+
+		// eslint-disable-next-line
+		console.warn(`Class with id ${computedActiveGlobalClass.value} not found`)
+		return '';
 	} else {
-		computedActiveClass.value = cssClass;
+		return props.element.elementDefinition.style_elements[props.activeStyleElementId].title;
+	}
+});
+
+function onAddClass(cssClass: string) {
+	// Check to see if the class already exists
+	if (computedClasses.value.includes(cssClass)) {
+		computedActiveGlobalClass.value = cssClass;
+		return;
+	} else {
+		const existingClasses = [...computedClasses.value];
+		existingClasses.push(cssClass);
+		computedClasses.value = existingClasses;
+
+		computedActiveGlobalClass.value = cssClass;
 	}
 }
 </script>
@@ -168,15 +167,18 @@ function toggleClass(cssClass: string) {
 	justify-content: space-between;
 	align-items: center;
 	flex-grow: 1;
+	width: 100%;
 }
 
 .znpb-element-styles__mediaActiveClasses {
 	margin-top: 10px;
+	width: 100%;
 }
 
 .znpb-element-styles__mediaActiveClass {
+	position: relative;
 	background: #3d44a7;
-	padding: 0 0 0 5px;
+	padding: 3px 5px;
 	font-size: 9px;
 	border-radius: 2px;
 	color: #fff;
@@ -184,27 +186,33 @@ function toggleClass(cssClass: string) {
 	align-items: center;
 	cursor: pointer;
 	margin-right: 4px;
-}
-
-.znpb-element-styles__mediaActiveClassRemove {
-	padding: 3px 5px;
-	cursor: pointer;
-	font-size: 9px;
-	background: #1d3d79;
-	margin-left: 4px;
-	border-radius: 0 2px 2px 0;
-
-	&:hover {
-		background: red;
-		border-radius: 0 2px 2px 0;
-	}
+	user-select: none;
 }
 
 .znpb-element-styles__mediaActiveClass--active {
 	background: #009500;
+}
 
-	.znpb-element-styles__mediaActiveClassRemove {
-		background: #026b02;
+.znpb-element-styles__mediaActiveClassRemove {
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	padding: 3px;
+	cursor: pointer;
+	font-size: 6px;
+	background: #000;
+	border-radius: 50%;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.2s;
+
+	&:hover {
+		background: red;
 	}
+}
+
+.znpb-element-styles__mediaActiveClass:hover .znpb-element-styles__mediaActiveClassRemove {
+	opacity: 1;
+	visibility: visible;
 }
 </style>

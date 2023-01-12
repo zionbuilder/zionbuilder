@@ -162,7 +162,7 @@ export default {
 		});
 
 		/**
-		 * emit the change of the pseudoselector
+		 * emit the change of the pseudo selector
 		 */
 		function onPseudoSelectorSelected(pseudoConfig) {
 			selectorIsOpen.value = false;

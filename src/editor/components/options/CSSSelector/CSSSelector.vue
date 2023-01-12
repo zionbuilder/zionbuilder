@@ -109,6 +109,7 @@ const props = withDefaults(
 		// eslint-disable-next-line vue/prop-name-casing
 		show_changes?: boolean;
 		allowRename?: boolean;
+		elementStyleId?: string;
 	}>(),
 	{
 		modelValue: () => ({}),
@@ -122,6 +123,7 @@ const props = withDefaults(
 		show_breadcrumbs: false,
 		show_changes: true,
 		allowRename: true,
+		elementStyleId: '',
 	},
 );
 
@@ -277,6 +279,7 @@ const schema = computed(() => {
 			selector: selector.value,
 			title: title.value,
 			allow_class_assignments: props.allow_class_assignments,
+			elementStyleId: props.elementStyleId,
 		},
 	};
 
@@ -343,7 +346,15 @@ function deleteItem() {
 }
 
 function resetChanges() {
-	emit('update:modelValue', null);
+	console.log({ value });
+	const clonedValue = cloneDeep(value.value);
+	delete clonedValue.styles;
+
+	if (Object.keys(clonedValue).length === 0) {
+		emit('update:modelValue', null);
+	} else {
+		emit('update:modelValue', clonedValue);
+	}
 }
 
 function onRenameItemClick(event) {

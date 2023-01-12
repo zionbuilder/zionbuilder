@@ -9,12 +9,6 @@
 			<span class="znpb-css-class-selector__item-name">
 				<span :title="name">{{ name }}</span>
 			</span>
-
-			<ChangesBullet
-				v-if="showChangesBullet"
-				:discard-changes-title="__('Remove additional classes', 'zionbuilder')"
-				@remove-styles="emit('remove-extra-classes')"
-			/>
 		</div>
 
 		<Icon
@@ -44,7 +38,7 @@
 			:class="{
 				'znpb-css-class-selector__item-close--disabled': !showDelete,
 			}"
-			@click.stop="handleDeleteClass"
+			@click.stop="emit('remove-class')"
 		/>
 	</div>
 </template>
@@ -53,17 +47,13 @@
 import { __ } from '@wordpress/i18n';
 import { useCSSClassesStore } from '/@/editor/store';
 
-const props = withDefaults(
+withDefaults(
 	defineProps<{
-		classConfig: {
-			selector: string;
-		};
 		name: string;
 		type: string;
 		isSelected?: boolean;
 		showDelete?: boolean;
 		showActions?: boolean;
-		showChangesBullet?: boolean;
 	}>(),
 	{
 		isSelected: false,
@@ -76,12 +66,6 @@ const props = withDefaults(
 const emit = defineEmits(['remove-class', 'copy-styles', 'paste-styles', 'remove-extra-classes']);
 
 const cssClasses = useCSSClassesStore();
-
-function handleDeleteClass() {
-	if (props.showDelete) {
-		emit('remove-class', props.classConfig.selector);
-	}
-}
 </script>
 
 <style lang="scss">
@@ -95,17 +79,6 @@ function handleDeleteClass() {
 		overflow: hidden;
 		width: 100%;
 		height: 100%;
-
-		&::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			right: 0;
-			z-index: 1;
-			width: 20px;
-			height: 100%;
-			background: linear-gradient(90deg, rgba(245, 245, 245, 0) 0%, var(--zb-input-faded-bg-color) 100%);
-		}
 
 		> span {
 			position: absolute;
@@ -181,7 +154,7 @@ function handleDeleteClass() {
 			background-color: var(--zb-secondary-color);
 		}
 
-		&--selector {
+		&--id {
 			background-color: var(--zb-column-color);
 		}
 	}

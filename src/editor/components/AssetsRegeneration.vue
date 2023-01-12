@@ -1,6 +1,6 @@
 <template>
 	<div v-if="AssetsStore.isLoading" class="znpb-assetsRegenerationWrapper">
-		{{ esc_html__('Regenerating assets', 'zionbuilder') }}
+		{{ __('Regenerating assets', 'zionbuilder') }}
 		<template v-if="AssetsStore.filesCount > 0">{{ AssetsStore.currentIndex }}/{{ AssetsStore.filesCount }} </template>
 	</div>
 </template>
