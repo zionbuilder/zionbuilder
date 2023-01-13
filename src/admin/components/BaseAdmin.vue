@@ -54,9 +54,8 @@
 				:error="error"
 				@close-notice="error.remove()"
 			/>
-
-			<OptionsSaveLoader />
 		</div>
+		<CornerLoader :is-loading="builderOptionsStore.isLoading" />
 	</div>
 </template>
 
@@ -71,7 +70,7 @@ import { useRouter } from 'vue-router';
 import { useBuilderOptionsStore, useGoogleFontsStore, useNotificationsStore, useEnvironmentStore } from '@zb/store';
 
 // Local components
-import OptionsSaveLoader from './OptionsSaveLoader.vue';
+import { CornerLoader } from '@zb/components';
 
 const router = useRouter();
 const builderOptionsStore = useBuilderOptionsStore();

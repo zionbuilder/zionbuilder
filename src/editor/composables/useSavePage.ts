@@ -42,14 +42,6 @@ export function useSavePage() {
 		return new Promise((resolve, reject) => {
 			savePageREST(pageData)
 				.then(response => {
-					if (status !== 'autosave') {
-						notificationsStore.add({
-							message: status === 'publish' ? __( 'This page was successfully saved and published', 'zionbuilder' ) : __( 'This page was successfully saved', 'zionbuilder' ),
-							delayClose: 5000,
-							type: 'success',
-						});
-					}
-
 					refreshPreviewWindow();
 
 					historyStore.isDirty = false;

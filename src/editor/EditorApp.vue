@@ -106,6 +106,8 @@
 		<div v-if="UIStore.mainBar.isDragging" class="znpb-editor-header__helper" :style="mainBarDraggingPlaceholderStyles">
 			<Icon icon="more" rotate="90" />
 		</div>
+
+		<CornerLoader :is-loading="isSavePageLoading" />
 	</div>
 	<!-- end znpb-main-wrapper -->
 </template>
@@ -133,6 +135,7 @@ import { AddElementPopup } from './components/AddElementPopup';
 import { ElementMenu } from './components/ElementMenu';
 import { useKeyBindings, useEditorData, useSavePage } from './composables';
 import { useUIStore, useCSSClassesStore, usePageSettingsStore, useHistoryStore } from './store';
+import { CornerLoader } from '@zb/components';
 import { serverRequest } from './api';
 
 // Common API
@@ -174,7 +177,7 @@ const mainBarDraggingPlaceholderStyles = computed(() => {
 
 // General functionality
 const historyStore = useHistoryStore();
-const { saveAutosave } = useSavePage();
+const { saveAutosave, isSavePageLoading } = useSavePage();
 let canAutosave = true;
 
 watch(
