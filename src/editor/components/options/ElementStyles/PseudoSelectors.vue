@@ -294,6 +294,7 @@ onBeforeUnmount(() => {
 	font-size: 13px;
 	font-weight: 500;
 	flex-grow: 1;
+	user-select: none;
 }
 .znpb-element-options__media-class-pseudo {
 	&-holder {
@@ -306,6 +307,10 @@ onBeforeUnmount(() => {
 		border: 2px solid var(--zb-input-border-color);
 		border-radius: 3px;
 		cursor: pointer;
+
+		// .znpb-theme-dark & {
+		// 	border: 2px solid var(--zb-surface-lighter-color);
+		// }
 	}
 
 	&-title {

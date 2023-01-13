@@ -637,7 +637,6 @@ watch(
 
 		.znpb-element-options__tabs-wrapper {
 			flex-grow: 1;
-			padding-top: 20px;
 			background-color: var(--zb-surface-darker-color);
 		}
 		.znpb-tabs {
@@ -836,14 +835,23 @@ watch(
 	margin-left: 0;
 }
 
-.znpb-panel__content_wrapper .znpb-element-styles__media-wrapper {
+.znpb-element-options__panel-wrapper .znpb-element-styles__media-wrapper {
 	flex-grow: 0;
-	margin: 20px;
+	padding: 20px;
 	flex-direction: column;
+	background: var(--zb-surface-darker-color);
+	margin: 0;
+}
+
+.znpb-element-options__panel-wrapper .znpb-class-selector,
+.znpb-element-options__panel-wrapper .znpb-element-options__media-class-pseudo-holder {
+	background: var(--zb-surface-color);
+	border: none;
 }
 
 .znpb-panelElementOptionsGlobalClassForm {
 	position: relative;
+	padding-top: 20px;
 
 	& > .znpb-options-form-wrapper,
 	& .znpb-element-styles-option__options-wrapper,

@@ -328,7 +328,6 @@ function closePanel(event: MouseEvent) {
 	flex: 6;
 	margin-right: 10px;
 	background: var(--zb-input-bg-color);
-	border: 2px solid var(--zb-input-border-color);
 	border-radius: 3px;
 	.selected-class {
 		.znpb-item {

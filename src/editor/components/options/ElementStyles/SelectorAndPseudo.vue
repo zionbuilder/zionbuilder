@@ -177,11 +177,11 @@ function onAddClass(cssClass: string) {
 
 .znpb-element-styles__mediaActiveClass {
 	position: relative;
-	background: #3d44a7;
+	background: var(--zb-surface-color);
 	padding: 3px 5px;
-	font-size: 9px;
+	font-size: 10px;
 	border-radius: 2px;
-	color: #fff;
+	color: var(--zb-surface-text-color);
 	display: inline-flex;
 	align-items: center;
 	cursor: pointer;
@@ -191,7 +191,8 @@ function onAddClass(cssClass: string) {
 }
 
 .znpb-element-styles__mediaActiveClass--active {
-	background: #009500;
+	background: var(--zb-secondary-color);
+	color: #fff;
 }
 
 .znpb-element-styles__mediaActiveClassRemove {
@@ -201,14 +202,15 @@ function onAddClass(cssClass: string) {
 	padding: 3px;
 	cursor: pointer;
 	font-size: 6px;
-	background: #000;
+	background: #909090;
 	border-radius: 50%;
 	opacity: 0;
 	visibility: hidden;
 	transition: all 0.2s;
+	color: #fff;
 
 	&:hover {
-		background: red;
+		background: #ff5757;
 	}
 }
 

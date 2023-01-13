@@ -115,6 +115,7 @@ function selectTab(tab: VNode) {
 			font-size: 13px;
 			font-weight: 500;
 			cursor: pointer;
+			user-select: none;
 		}
 
 		// Title position
