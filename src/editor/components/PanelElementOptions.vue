@@ -61,7 +61,7 @@
 			class="znpb-panelElementOptionsGlobalClassForm znpb-fancy-scrollbar"
 		>
 			<div class="znpb-options-breadcrumbs" @click="activeGlobalClass = null">
-				<Icon class="znpb-back-icon-breadcrumbs" icon="select" @click="onItemClicked(previousItem)" />
+				<Icon class="znpb-back-icon-breadcrumbs" icon="select" />
 
 				<span class="znpb-classEditBackName">{{ __('Back to', 'zionbuilder') }} {{ UIStore.editedElement.name }}</span>
 			</div>

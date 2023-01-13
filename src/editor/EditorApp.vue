@@ -200,17 +200,6 @@ provide('serverRequester', serverRequest);
 provide('masks', editorData.value.masks);
 provide('plugin_info', editorData.value.plugin_info);
 
-// Add notices
-const { add } = useNotificationsStore();
-add({
-	message: __(
-		'This is an autosave. Edit your page and when you\'re ready press the "Save and Publish Page" button.',
-		'zionbuilder',
-	),
-	type: 'info',
-	delayClose: 5000,
-});
-
 const showEditorButtonStyle = computed(() => {
 	let buttonStyle;
 
