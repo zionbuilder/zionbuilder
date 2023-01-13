@@ -98,7 +98,7 @@ withDefaults(
 		}
 	}
 
-	&-label {
+	& .znpb-label {
 		margin-bottom: 20px;
 		text-transform: uppercase;
 	}
