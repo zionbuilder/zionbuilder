@@ -23,82 +23,69 @@
 		</Tabs>
 	</div>
 </template>
-<script>
-import Icon from '../Icon/Icon.vue';
+
+<script lang="ts" setup>
+import { computed } from 'vue';
 import InputBorderRadius from './InputBorderRadius.vue';
 
-export default {
-	name: 'InputBorderRadiusTabs',
-	components: {
-		InputBorderRadius,
-		Icon,
-	},
-	props: {
+const props = withDefaults(
+	defineProps<{
 		/**
 		 * v-model/modelValue for border radius
 		 */
-		modelValue: {
-			default() {
-				return {};
-			},
-			type: Object,
-			required: false,
-		},
+		modelValue: Record<string, unknown>;
+	}>(),
+	{
+		modelValue: () => ({}),
 	},
-	data() {
-		return {
-			borderRadiusTabs: {
-				all: {
-					name: 'all borders',
-					icon: 'all-corners',
-					id: 'all-borders-radius',
-					description: 'All borders',
-				},
-				topLeft: {
-					name: 'top left',
-					icon: 't-l-corner',
-					id: 'border-top-left-radius',
-					description: 'Top Left Border',
-				},
-				topRight: {
-					name: 'top right',
-					icon: 't-r-corner',
-					id: 'border-top-right-radius',
-					description: 'Top Right Border',
-				},
-				bottomRight: {
-					name: 'bottom right',
-					icon: 'b-r-corner',
-					id: 'border-bottom-right-radius',
-					description: 'Bottom Right Border',
-				},
-				bottomLeft: {
-					name: 'bottom left',
-					icon: 't-l-corner',
-					id: 'border-bottom-left-radius',
-					description: 'Bottom Left Border',
-				},
-			},
-		};
-	},
+);
 
-	computed: {
-		computedValue() {
-			return this.modelValue || {};
-		},
+const emit = defineEmits(['update:modelValue']);
+
+const borderRadiusTabs = {
+	all: {
+		name: 'all borders',
+		icon: 'all-corners',
+		id: 'all-borders-radius',
+		description: 'All borders',
 	},
-	methods: {
-		onValueUpdated(position, newValue) {
-			/**
-			 * emits new object with new value of borders
-			 */
-			this.$emit('update:modelValue', {
-				...this.modelValue,
-				[position]: newValue,
-			});
-		},
+	topLeft: {
+		name: 'top left',
+		icon: 't-l-corner',
+		id: 'border-top-left-radius',
+		description: 'Top Left Border',
+	},
+	topRight: {
+		name: 'top right',
+		icon: 't-r-corner',
+		id: 'border-top-right-radius',
+		description: 'Top Right Border',
+	},
+	bottomRight: {
+		name: 'bottom right',
+		icon: 'b-r-corner',
+		id: 'border-bottom-right-radius',
+		description: 'Bottom Right Border',
+	},
+	bottomLeft: {
+		name: 'bottom left',
+		icon: 't-l-corner',
+		id: 'border-bottom-left-radius',
+		description: 'Bottom Left Border',
 	},
 };
+
+const computedValue = computed(() => props.modelValue || {});
+
+function onValueUpdated(position: string, newValue: string) {
+	/**
+	 * emits new object with new value of borders
+	 */
+	emit('update:modelValue', {
+		...props.modelValue,
+		[position]: newValue,
+	});
+}
 </script>
 <style lang="scss">
 .znpb-input-border-radius-tabs > .znpb-tabs__content {

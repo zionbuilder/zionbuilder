@@ -26,107 +26,82 @@
 	</vueDatePick>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { __ } from '@wordpress/i18n';
 import vueDatePick from './src/vueDatePick.vue';
 import BaseInput from '../BaseInput/BaseInput.vue';
 
-/**
- *   model - string
- */
-export default {
-	name: 'InputDatePicker',
-	components: {
-		vueDatePick,
-		BaseInput,
-	},
-	props: {
+const props = withDefaults(
+	defineProps<{
 		/**
 		 * Value for input
 		 */
-		modelValue: {
-			type: String,
-			required: true,
-		},
-		readonly: {
-			type: Boolean,
-			required: false,
-		},
-		pickTime: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		format: {
-			type: String,
-			required: false,
-		},
-		use12HourClock: {
-			type: Boolean,
-			required: false,
-		},
-		pastDisabled: {
-			type: Boolean,
-			required: false,
-		},
-		futureDisabled: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
+		modelValue: string;
+		readonly?: boolean;
+		pickTime?: boolean;
+		format?: string;
+		use12HourClock?: boolean;
+		pastDisabled?: boolean;
+		futureDisabled?: boolean;
+	}>(),
+	{
+		readonly: false,
+		pickTime: false,
+		pastDisabled: false,
+		futureDisabled: false,
+		use12HourClock: false,
+		format: 'YYYY-MM-DD',
 	},
-	data() {
-		return {
-			weekdaysStrings: [
-				__('Mon', 'zionbuilder'),
-				__('Tue', 'zionbuilder'),
-				__('Wed', 'zionbuilder'),
-				__('Thu', 'zionbuilder'),
-				__('Fri', 'zionbuilder'),
-				__('Sat', 'zionbuilder'),
-				__('Sun', 'zionbuilder'),
-			],
-			monthsStrings: [
-				__('January', 'zionbuilder'),
-				__('February', 'zionbuilder'),
-				__('March', 'zionbuilder'),
-				__('April', 'zionbuilder'),
-				__('May', 'zionbuilder'),
-				__('June', 'zionbuilder'),
-				__('July', 'zionbuilder'),
-				__('August', 'zionbuilder'),
-				__('September', 'zionbuilder'),
-				__('October', 'zionbuilder'),
-				__('November', 'zionbuilder'),
-				__('December', 'zionbuilder'),
-			],
-		};
-	},
-	computed: {
-		valueModel: {
-			get() {
-				return this.modelValue;
-			},
-			set(newValue) {
-				/**
-				 * It emits the new value
-				 */
-				this.$emit('update:modelValue', newValue);
-			},
-		},
-	},
-	methods: {
-		disableDate(date) {
-			const currentDate = new Date();
-			currentDate.setHours(0, 0, 0, 0);
+);
 
-			if (this.pastDisabled) {
-				return date < currentDate;
-			} else if (this.futureDisabled) {
-				return date > currentDate;
-			} else return false;
-		},
+const emit = defineEmits(['update:modelValue']);
+
+const weekdaysStrings = [
+	__('Mon', 'zionbuilder'),
+	__('Tue', 'zionbuilder'),
+	__('Wed', 'zionbuilder'),
+	__('Thu', 'zionbuilder'),
+	__('Fri', 'zionbuilder'),
+	__('Sat', 'zionbuilder'),
+	__('Sun', 'zionbuilder'),
+];
+
+const monthsStrings = [
+	__('January', 'zionbuilder'),
+	__('February', 'zionbuilder'),
+	__('March', 'zionbuilder'),
+	__('April', 'zionbuilder'),
+	__('May', 'zionbuilder'),
+	__('June', 'zionbuilder'),
+	__('July', 'zionbuilder'),
+	__('August', 'zionbuilder'),
+	__('September', 'zionbuilder'),
+	__('October', 'zionbuilder'),
+	__('November', 'zionbuilder'),
+	__('December', 'zionbuilder'),
+];
+
+const valueModel = computed({
+	get() {
+		return props.modelValue;
 	},
-};
+	set(newValue) {
+		/**
+		 * It emits the new value
+		 */
+		emit('update:modelValue', newValue);
+	},
+});
+
+function disableDate(date) {
+	const currentDate = new Date();
+	currentDate.setHours(0, 0, 0, 0);
+
+	if (props.pastDisabled) {
+		return date < currentDate;
+	} else if (props.futureDisabled) {
+		return date > currentDate;
+	} else return false;
+}
 </script>
-<style lang="scss"></style>
