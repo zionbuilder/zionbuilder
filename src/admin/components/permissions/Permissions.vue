@@ -40,7 +40,7 @@
 						<SingleUser
 							v-for="(permissions, userId) in userPermissions"
 							:key="userId"
-							:user-id="userId"
+							:user-id="parseInt(userId)"
 							:permissions="permissions"
 						/>
 					</div>

@@ -216,6 +216,7 @@ class Editor {
 			true
 		);
 
+		wp_set_script_translations( 'zb-editor', 'zionbuilder' );
 		wp_localize_script( 'zb-editor', 'ZnPbInitialData', $this->get_editor_initial_data() );
 
 		do_action( 'zionbuilder/editor/after_scripts' );

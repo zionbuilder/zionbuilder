@@ -4,12 +4,6 @@
 			<div class="znpb-admin__header-top">
 				<div class="znpb-admin__header-logo">
 					<img :src="EnvironmentStore.urls.logo" />
-					<Label
-						v-if="EnvironmentStore.plugin_pro.is_active"
-						:text="__('pro', 'zionbuilder')"
-						type="warning"
-						class="znpb-option__upgrade-to-pro-label"
-					/>
 					<span class="znpb-admin__header-logo-version">v{{ EnvironmentStore.plugin_free.version }}</span>
 				</div>
 				<div class="znpb-admin__header-actions">

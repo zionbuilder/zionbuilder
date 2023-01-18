@@ -97,6 +97,9 @@ class Gutenberg implements IBaseIntegration {
 			Plugin::instance()->get_version(),
 			true
 		);
+
+		wp_set_script_translations( 'zb-admin-gutenberg-integration', 'zionbuilder' );
+
 		wp_localize_script(
 			'zb-admin-gutenberg-integration',
 			'ZnPbEditPostData',

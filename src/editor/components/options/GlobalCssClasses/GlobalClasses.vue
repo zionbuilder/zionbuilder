@@ -1,5 +1,13 @@
 <template>
 	<div class="znpb-global-css-classes__wrapper">
+		<AddSelector type="class" @add-selector="onSelectorAdd">
+			<template #default="{ actions }">
+				<Button type="line" class="znpb-class-selectorAddButton" @click="actions.toggleModal()">
+					{{ __('Add CSS class', 'zionbuilder') }}
+				</Button>
+			</template>
+		</AddSelector>
+
 		<div class="znpb-global-css-classes__search">
 			<BaseInput
 				ref="input"
@@ -15,14 +23,6 @@
 			<OptionsForm v-model="value" :schema="schema" class="znpb-globalCSSClassesOptionsForm" />
 		</template>
 		<div v-else class="znpb-class-selector-noclass">{{ __('No class found', 'zionbuilder') }}</div>
-
-		<AddSelector type="class" @add-selector="onSelectorAdd">
-			<template #default="{ actions }">
-				<Button type="line" class="znpb-class-selectorAddButton" @click="actions.toggleModal()">
-					{{ __('Add CSS class', 'zionbuilder') }}
-				</Button>
-			</template>
-		</AddSelector>
 	</div>
 </template>
 
@@ -161,6 +161,6 @@ onBeforeUnmount(() => {
 
 .znpb-class-selectorAddButton {
 	width: 100%;
-	margin-top: 10px;
+	margin-bottom: 20px;
 }
 </style>

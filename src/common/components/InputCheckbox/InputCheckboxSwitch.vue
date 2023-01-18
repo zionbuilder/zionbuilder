@@ -18,139 +18,101 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { ref, computed, nextTick, inject } from 'vue';
 import { __ } from '@wordpress/i18n';
 
-/**
- * @deprecated This component no longer in use
- */
-export default {
-	name: 'InputCheckboxSwitch',
-	props: {
-		/**
-		 * label for checkbox
-		 */
-		label: {
-			type: String,
-			required: false,
-		},
-		showLabel: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-		/**
-		 * v-model/modelValue for checkbox
-		 */
-		modelValue: {
-			type: [String, Array, Boolean],
-			required: false,
-		},
-		/**
-		 * value for checkbox
-		 */
-		optionValue: {
-			type: [String, Boolean],
-			required: false,
-		},
-		/**
-		 * if disabled
-		 */
-		disabled: {
-			type: Boolean,
-			required: false,
-		},
-		/**
-		 * if checkbox checked
-		 */
-		checked: {
-			type: Boolean,
-			required: false,
-		},
-		rounded: {
-			type: Boolean,
-			required: false,
-		},
+const props = withDefaults(
+	defineProps<{
+		label?: string;
+		showLabel?: boolean;
+		modelValue?: string | Array<string> | boolean;
+		optionValue?: string | boolean;
+		disabled?: boolean;
+		checked?: boolean;
+		rounded?: boolean;
+	}>(),
+	{
+		label: '',
+		showLabel: true,
+		disabled: false,
+		checked: false,
+		rounded: false,
+		modelValue: '',
+		optionValue: '',
 	},
-	setup() {
-		return {
-			__,
-		};
-	},
-	data() {
-		return {
-			isLimitExceeded: false,
-		};
-	},
-	computed: {
-		model: {
-			get() {
-				return this.modelValue !== undefined ? this.modelValue : false;
-			},
-			set(newValue) {
-				this.isLimitExceeded = false;
-				const allowUnselect = this.parentGroup.allowUnselect;
+);
 
-				if (this.isInGroup) {
-					this.isLimitExceeded = false;
-					// Check if minimum limit is meet
-					if (this.parentGroup.min !== undefined && newValue.length < this.parentGroup.min) {
-						this.isLimitExceeded = true;
-					}
+const emit = defineEmits(['update:modelValue', 'change']);
 
-					// Check if maximum limit is meet
-					if (this.parentGroup.max !== undefined && newValue.length > this.parentGroup.max) {
-						this.isLimitExceeded = true;
-					}
+// Injections
+const checkboxGroup = inject('checkboxGroup', null);
 
-					if (this.isLimitExceeded === false) {
-						this.$emit('update:modelValue', newValue);
-					} else if (allowUnselect && this.isLimitExceeded === true) {
-						const clonedValues = [...newValue];
-						clonedValues.shift();
-						// Allows to change the option check state on nextThick
-						this.isLimitExceeded = false;
-						this.$emit('update:modelValue', clonedValues);
-					}
-				} else {
-					/**
-					 * when input model changed, it emits new value
-					 */
-					this.$emit('update:modelValue', newValue);
-				}
-			},
-		},
-		isInGroup() {
-			return this.$parent.$options.name === 'InputCheckboxGroup';
-		},
-		parentGroup() {
-			return this.isInGroup ? this.$parent : false;
-		},
+// Refs
+const isLimitExceeded = ref(false);
+
+// Computed data
+const model = computed({
+	get() {
+		return props.modelValue !== undefined ? props.modelValue : false;
 	},
-	created() {
-		this.checked && this.setInitialValue();
-	},
-	methods: {
-		setInitialValue() {
-			this.model = this.modelValue || true;
-		},
-		onChange(event) {
-			const checked = event.target.checked;
-			if (this.isLimitExceeded) {
-				this.$nextTick(() => {
-					event.target.checked = !checked;
-				});
+	set(newValue) {
+		if (checkboxGroup) {
+			isLimitExceeded.value = false;
+			const allowUnselect = checkboxGroup.props.allowUnselect;
 
-				return;
+			isLimitExceeded.value = false;
+			// Check if minimum limit is meet
+			if (checkboxGroup.props.min !== undefined && newValue.length < checkboxGroup.props.min) {
+				isLimitExceeded.value = true;
 			}
 
+			// Check if maximum limit is meet
+			if (checkboxGroup.props.max !== undefined && newValue.length > checkboxGroup.props.max) {
+				isLimitExceeded.value = true;
+			}
+
+			if (isLimitExceeded.value === false) {
+				emit('update:modelValue', newValue);
+			} else if (allowUnselect && isLimitExceeded.value === true) {
+				const clonedValues = [...newValue];
+				clonedValues.shift();
+				// Allows to change the option check state on nextThick
+				isLimitExceeded.value = false;
+				emit('update:modelValue', clonedValues);
+			}
+		} else {
 			/**
-			 * when input changed, it emits new value
+			 * when input model changed, it emits new value
 			 */
-			this.$emit('change', !!event.target.checked);
-		},
+			emit('update:modelValue', newValue);
+		}
 	},
-};
+});
+
+if (props.checked) {
+	setInitialValue();
+}
+
+function setInitialValue() {
+	model.value = props.modelValue || true;
+}
+
+function onChange(event) {
+	const checked = event.target.checked;
+	if (isLimitExceeded.value) {
+		nextTick(() => {
+			event.target.checked = !checked;
+		});
+
+		return;
+	}
+
+	/**
+	 * when input changed, it emits new value
+	 */
+	emit('change', !!event.target.checked);
+}
 </script>
 <style lang="scss">
 .znpb-checkbox-switch-wrapper {

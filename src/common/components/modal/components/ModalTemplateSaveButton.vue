@@ -9,33 +9,31 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
 import { Button } from '../../Button';
 import { computed } from 'vue';
 
-export default {
-	name: 'ModalTemplateSaveButton',
-	components: {
-		Button,
+const props = withDefaults(
+	defineProps<{
+		disabled?: boolean;
+	}>(),
+	{
+		disabled: false,
 	},
-	setup(props, { emit }) {
-		const buttonType = computed(() => {
-			return props.disabled ? 'gray' : 'secondary';
-		});
+);
 
-		function onButtonClick() {
-			if (!props.disabled) {
-				emit('save-modal');
-			}
-		}
+const emit = defineEmits(['save-modal']);
 
-		return {
-			buttonType,
-			onButtonClick,
-		};
-	},
-};
+const buttonType = computed(() => {
+	return props.disabled ? 'gray' : 'secondary';
+});
+
+function onButtonClick() {
+	if (!props.disabled) {
+		emit('save-modal');
+	}
+}
 </script>
 <style lang="scss">
 .znpb-modal-content-save-button {

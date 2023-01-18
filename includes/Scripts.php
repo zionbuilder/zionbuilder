@@ -140,6 +140,8 @@ class Scripts {
 			true
 		);
 
+		wp_set_script_translations( 'zb-common', 'zionbuilder' );
+
 		// Get info for zion builder plugins
 		$plugin_updates = get_site_transient( 'update_plugins' );
 		$free_plugin_update = null;
@@ -163,7 +165,6 @@ class Scripts {
 			apply_filters(
 				'zionbuilder/js/common/initial_data',
 				[
-					'i18n'        => Localization::get_strings(),
 					'rest'        => [
 						'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
 						'rest_root' => esc_url_raw( rest_url() ),

@@ -49,3 +49,4 @@ export * from './InputHTML';
 export * from './Tooltip';
 export * from './modal';
 export * from './sortable';
+export { default as IconPackGrid } from './IconPackGrid.vue';

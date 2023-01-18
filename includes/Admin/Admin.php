@@ -173,6 +173,8 @@ class Admin {
 				true
 			);
 
+			wp_set_script_translations( 'znpb-admin-post-script', 'zionbuilder' );
+
 			wp_localize_script(
 				'znpb-admin-post-script',
 				'ZnPbEditPostData',
@@ -220,7 +222,7 @@ class Admin {
 				true
 			);
 
-			wp_set_script_translations( 'znpb-admin-post-script', 'zionbuilder', Plugin::instance()->get_root_path() . '/languages' );
+			wp_set_script_translations( 'znpb-admin-post-script', 'zionbuilder' );
 
 			wp_localize_script(
 				'zb-admin',
