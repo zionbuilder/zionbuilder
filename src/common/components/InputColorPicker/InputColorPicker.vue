@@ -7,8 +7,8 @@
 			:show-library="showLibrary"
 			:placeholder="placeholder"
 			class="znpb-colorpicker-circle znpb-colorpicker-circle--trigger znpb-colorpicker-circle--opacity"
-			@open="$emit('open')"
-			@close="$emit('close')"
+			@open="emit('open')"
+			@close="emit('close')"
 		>
 			<template #trigger>
 				<span
@@ -41,8 +41,8 @@
 					:show-library="showLibrary"
 					class="znpb-colorpicker-circle znpb-colorpicker-circle--trigger znpb-colorpicker-circle--opacity"
 					:placeholder="placeholder"
-					@open="$emit('open')"
-					@close="$emit('close')"
+					@open="emit('open')"
+					@close="emit('close')"
 				>
 					<template #trigger>
 						<span>

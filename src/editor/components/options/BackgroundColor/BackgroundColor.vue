@@ -1,5 +1,5 @@
 <template>
-	<Color v-model="colorModel" @open="$emit('open')" @close="$emit('close')">
+	<Color v-model="colorModel" @open="emit('open')" @close="emit('close')">
 		<template #trigger>
 			<div class="znpb-style-background-color">
 				<EmptyList v-if="!modelValue && !placeholder" class="znpb-input-background-image__empty" :no-margin="true">

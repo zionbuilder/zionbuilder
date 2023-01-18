@@ -6,8 +6,8 @@
 				:show-library="false"
 				type="simple"
 				@update:modelValue="onColorChange"
-				@open="$emit('open-color-picker', true)"
-				@close="$emit('close-color-picker', false)"
+				@open="emit('open-color-picker', true)"
+				@close="emit('close-color-picker', false)"
 			/>
 		</div>
 	</div>
@@ -15,6 +15,9 @@
 
 <script lang="ts" setup>
 import { ref, inject, onMounted, onBeforeUnmount } from 'vue';
+
+// Emits
+const emit = defineEmits(['open-color-picker', 'close-color-picker']);
 
 const editor = inject('ZionInlineEditor');
 const color = ref(null);

@@ -3,22 +3,14 @@
 		class="znpb-radio-item"
 		:class="{
 			'znpb-radio-item--active': isSelected,
-			'znpb-radio-item--hidden-input': hideInput
+			'znpb-radio-item--hidden-input': hideInput,
 		}"
 	>
-		<input
-			v-model="radioButtonValue"
-			:modelValue="optionValue"
-			type="radio"
-			class="znpb-form__input-toggle"
-		>
+		<input v-model="radioButtonValue" :modelValue="optionValue" type="radio" class="znpb-form__input-toggle" />
 		<span class="znpb-radio-item-input"></span>
 		<!-- @slot Content such as Icon -->
 		<slot></slot>
-		<span
-			class="znpb-radio-item-label"
-			v-if="label"
-		>{{label}}</span>
+		<span v-if="label" class="znpb-radio-item-label">{{ label }}</span>
 	</label>
 </template>
 
@@ -31,21 +23,21 @@ export default {
 		 */
 		modelValue: {
 			type: String,
-			required: false
+			required: false,
 		},
 		/**
 		 * Label
 		 */
 		label: {
 			type: String,
-			required: false
+			required: false,
 		},
 		/**
 		 * Initial option
 		 */
 		optionValue: {
 			type: String,
-			required: true
+			required: true,
 		},
 		/**
 		 * If input should be hidden
@@ -53,34 +45,32 @@ export default {
 		hideInput: {
 			type: Boolean,
 			required: false,
-			default: false
-		}
+			default: false,
+		},
 	},
-	data () {
+	data() {
 		return {
-			checked: ''
-		}
+			checked: '',
+		};
 	},
 	computed: {
 		radioButtonValue: {
 			get: function () {
-				return this.modelValue
+				return this.modelValue;
 			},
 			set: function () {
 				/**
 				 * Emits new radio option
 				 */
-				this.$emit('update:modelValue', this.optionValue)
-			}
+				this.$emit('update:modelValue', this.optionValue);
+			},
 		},
-		isSelected () {
-			return this.modelValue === this.optionValue
-		}
+		isSelected() {
+			return this.modelValue === this.optionValue;
+		},
 	},
-	methods: {
-
-	}
-}
+	methods: {},
+};
 </script>
 <style lang="scss">
 .znpb-radio-item {
@@ -109,7 +99,7 @@ export default {
 		vertical-align: bottom;
 
 		&:before {
-			content: "";
+			content: '';
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -123,7 +113,7 @@ export default {
 	&--active &-input,
 	&:hover &-input {
 		&:before {
-			content: "";
+			content: '';
 			position: absolute;
 			top: 0;
 			left: 0;

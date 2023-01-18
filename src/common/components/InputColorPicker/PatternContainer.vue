@@ -9,7 +9,7 @@
 							:key="i"
 							class="znpb-colorpicker-circle znpb-colorpicker-circle-color"
 							:style="{ 'background-color': color }"
-							@click="$emit('color-updated', color)"
+							@click="emit('color-updated', color)"
 						>
 						</span>
 					</GridColor>
@@ -114,7 +114,7 @@ const activeTab = computed(() => {
 });
 
 function addGlobal(name: string) {
-	let globalColor = {
+	const globalColor = {
 		id: name.split(' ').join('_'),
 		color: props.model,
 		name: name,

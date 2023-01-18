@@ -697,6 +697,7 @@ class Element {
 				$this->element_base_path = trailingslashit( dirname( $filename ) );
 			}
 		}
+
 		return $this->element_base_path . wp_normalize_path( $path );
 	}
 

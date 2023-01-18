@@ -15,7 +15,7 @@
 				class="znpb-form-library-inner-action-icon"
 				@click.stop="(expand = !expand), (onstart = false)"
 			/>
-			<Icon v-if="icon" :icon="icon" class="znpb-form-library-inner-action-icon" @click.stop="$emit('close-library')" />
+			<Icon v-if="icon" :icon="icon" class="znpb-form-library-inner-action-icon" @click.stop="emit('close-library')" />
 		</template>
 		<slot></slot>
 	</div>
@@ -42,7 +42,7 @@ withDefaults(
 	},
 );
 
-defineEmits(['close-library']);
+const emit = defineEmits(['close-library']);
 
 const onstart = ref(true);
 const expand = ref(false);

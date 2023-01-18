@@ -24,7 +24,7 @@
 			<!-- eslint-disable-next-line vue/no-v-html -->
 			<span v-html="title"></span>
 			<ZionLabel v-if="label.text" :text="label.text" :type="label.type" />
-			<ChangesBullet v-if="showChanges && hasChanges" @remove-styles="$emit('update:modelValue', null)" />
+			<ChangesBullet v-if="showChanges && hasChanges" @remove-styles="emit('update:modelValue', null)" />
 		</template>
 
 		<template #actions>

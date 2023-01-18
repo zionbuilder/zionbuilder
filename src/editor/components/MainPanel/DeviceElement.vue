@@ -50,7 +50,7 @@
 						v-znpb-tooltip="__('Cancel', 'zionbuilder')"
 						icon="close"
 						class="znpb-device__item-action"
-						@click.stop="$emit('edit-breakpoint', null)"
+						@click.stop="emit('edit-breakpoint', null)"
 					/>
 				</template>
 				<template v-else>
@@ -59,7 +59,7 @@
 						v-znpb-tooltip="__('Edit breakpoint', 'zionbuilder')"
 						icon="edit"
 						class="znpb-device__item-action"
-						@click.stop="$emit('edit-breakpoint', deviceConfig)"
+						@click.stop="emit('edit-breakpoint', deviceConfig)"
 					/>
 					<Icon
 						v-if="!deviceConfig.builtIn"

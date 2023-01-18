@@ -132,12 +132,10 @@ class Utils {
 		$theme_base = wp_normalize_path( $theme_base );
 		$path       = wp_normalize_path( $path );
 
-		$is_theme       = preg_match( '#' . $theme_base . '#', $path );
-		$directory_uri  = ( $is_theme ) ? get_template_directory_uri() : plugins_url();
-		$directory_path = ( $is_theme ) ? $theme_base : \WP_PLUGIN_DIR;
+		$directory_path = WP_CONTENT_DIR;
 		$fw_basename    = str_replace( wp_normalize_path( $directory_path ), '', $path );
 
-		return $directory_uri . $fw_basename;
+		return content_url() . $fw_basename;
 	}
 
 	/**
