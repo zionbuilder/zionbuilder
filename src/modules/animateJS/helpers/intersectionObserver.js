@@ -9,16 +9,16 @@
  */
 const observe = function (elements, callback, options = {}) {
 	const optionsWithDefaults = {
-		...options
-	}
+		...options,
+	};
 
-	let observer = new IntersectionObserver(callback, optionsWithDefaults)
+	const observer = new IntersectionObserver(callback, optionsWithDefaults);
 
 	elements.forEach(element => {
 		observer.observe(element);
-	})
+	});
 
-	return observer
-}
+	return observer;
+};
 
-export default observe
+export default observe;

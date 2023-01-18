@@ -1,22 +1,23 @@
-import {
-	isMobile
-} from "../utils/index.js";
+import { isMobile } from '../utils/index.js';
 
-function applyTrigger(instance, options) {
+function applyTrigger(instance) {
 	let lastPosition = null,
-		newPosition, timer, delta = 0,
-		delay = 50,
-		lastScrollPosition = 0
+		newPosition,
+		timer,
+		delta = 0,
+		lastScrollPosition = 0;
+
+	const delay = 50;
 
 	function clear() {
-		lastPosition = null
-		delta = 0
+		lastPosition = null;
+		delta = 0;
 	}
 
 	if (isMobile()) {
-		document.addEventListener('scroll', exitIntentMobile)
+		document.addEventListener('scroll', exitIntentMobile);
 	} else {
-		document.addEventListener('mouseout', exitIntentDesktop)
+		document.addEventListener('mouseout', exitIntentDesktop);
 	}
 
 	function getScrollSpeed() {
@@ -24,19 +25,19 @@ function applyTrigger(instance, options) {
 			delta = newPosition - lastPosition;
 		}
 
-		lastPosition = newPosition
-		clearTimeout(timer)
-		timer = setTimeout(clear, delay)
-		return delta
+		lastPosition = newPosition;
+		clearTimeout(timer);
+		timer = setTimeout(clear, delay);
+		return delta;
 	}
 
-	function exitIntentMobile(e) {
-		const directionDown = window.scrollY > lastScrollPosition
-		newPosition = window.scrollY
-		lastScrollPosition = window.scrollY
+	function exitIntentMobile() {
+		const directionDown = window.scrollY > lastScrollPosition;
+		newPosition = window.scrollY;
+		lastScrollPosition = window.scrollY;
 
 		if (!directionDown && getScrollSpeed() <= -100) {
-			instance.open()
+			instance.open();
 			document.removeEventListener('scroll', exitIntentMobile);
 		}
 	}
@@ -45,7 +46,7 @@ function applyTrigger(instance, options) {
 		const shouldShowExitIntent = !e.toElement && !e.relatedTarget && e.clientY < 10;
 
 		if (shouldShowExitIntent) {
-			instance.open()
+			instance.open();
 			document.removeEventListener('mouseout', exitIntentDesktop);
 		}
 	}
@@ -53,5 +54,5 @@ function applyTrigger(instance, options) {
 
 export default {
 	name: 'exitIntent',
-	fn: applyTrigger
-}
+	fn: applyTrigger,
+};

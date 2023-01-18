@@ -1,10 +1,8 @@
-import Gallery from './Gallery.vue'
+import Gallery from './Gallery.vue';
 
 export default {
 	id: 'image_gallery',
-	component: Gallery
-}
+	component: Gallery,
+};
 
-export {
-	Gallery
-}
+export { Gallery };

@@ -1,1 +1,1 @@
-export { default as InputDatePicker } from './InputDatePicker.vue'
+export { default as InputDatePicker } from './InputDatePicker.vue';

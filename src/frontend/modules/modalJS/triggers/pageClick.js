@@ -1,23 +1,23 @@
 function applyTrigger(instance, options) {
 	const optionsWithDefaults = {
 		clicks: 1,
-		...options
-	}
+		...options,
+	};
 
-	let clicks = 1
+	let clicks = 1;
 
-	document.addEventListener('click', onPageLoad)
+	document.addEventListener('click', onPageLoad);
 
 	function onPageLoad() {
 		if (clicks >= optionsWithDefaults.clicks) {
-			instance.open()
-			document.removeEventListener('click', onPageLoad)
+			instance.open();
+			document.removeEventListener('click', onPageLoad);
 		}
-		clicks++
+		clicks++;
 	}
 }
 
 export default {
 	name: 'click',
-	fn: applyTrigger
-}
+	fn: applyTrigger,
+};

@@ -2,29 +2,29 @@ class EventBus {
 	/**
 	 * Initialize a new event bus instance.
 	 */
-	constructor () {
-		this.callbacks = {}
+	constructor() {
+		this.callbacks = {};
 	}
 
 	/**
 	 * Add an event listener.
 	 */
-	addEventListener (event, callback) {
+	addEventListener(event, callback) {
 		if (typeof this.callbacks[event] === 'undefined') {
-			this.callbacks[event] = []
+			this.callbacks[event] = [];
 		}
 
-		this.callbacks[event].push(callback)
+		this.callbacks[event].push(callback);
 	}
 
 	/**
 	 * Remove an event listener.
 	 */
-	removeEventListener (event, callback) {
+	removeEventListener(event, callback) {
 		if (typeof this.callbacks[event] !== 'undefined') {
-			const callbackIndex = this.callbacks[event].indexOf(callback)
+			const callbackIndex = this.callbacks[event].indexOf(callback);
 			if (callbackIndex !== -1) {
-				this.callbacks[event].splice(callbackIndex)
+				this.callbacks[event].splice(callbackIndex);
 			}
 		}
 	}
@@ -32,13 +32,13 @@ class EventBus {
 	/**
 	 * Dispatch an event.
 	 */
-	dispatchEvent (event, detail = {}) {
+	dispatchEvent(event, detail = {}) {
 		if (typeof this.callbacks[event] !== 'undefined') {
 			this.callbacks[event].forEach(callbackFunction => {
-				callbackFunction({ detail })
-			})
+				callbackFunction({ detail });
+			});
 		}
 	}
 }
 
-export default new EventBus()
+export default new EventBus();
