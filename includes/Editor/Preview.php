@@ -49,7 +49,21 @@ class Preview {
 		if ( $this->is_preview_mode() ) {
 			add_theme_support( 'admin-bar', [ 'callback' => '__return_false' ] );
 			add_filter( 'show_admin_bar', '__return_false' );
+			add_filter( 'style_loader_tag', [__CLASS__, 'add_cross_origin_to_google_fonts']);
 		}
+	}
+
+	/**
+	 * Adds crossorigin attribute to google fonts. This is needed for html-to-image to work
+	 *
+	 * @return string
+	 */
+	public static function add_cross_origin_to_google_fonts($html) {
+		if ( strpos($html, 'fonts.googleapis.com') !== false ) {
+			return str_replace( "media='all'", "media='all' crossorigin='anonymous'", $html );
+		}
+
+		return $html;
 	}
 
 	public function init() {

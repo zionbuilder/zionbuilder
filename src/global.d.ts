@@ -73,4 +73,25 @@ interface Window {
 			};
 		};
 	};
+
+	// Screenshot data
+	ZnPbScreenshotData: {
+		home_url: string;
+		is_debug: boolean;
+		nonce_key: string;
+		assets: {
+			placeholder_iframe: string[];
+		};
+		constants: {
+			PROXY_URL_ARGUMENT: string;
+			PROXY_URL_NONCE_KEY: string;
+			PROXY_ASSET_PARAM: string;
+		};
+	};
+
+	wp: {
+		i18n: {
+			__: (text: string, domain?: string) => string;
+		};
+	};
 }

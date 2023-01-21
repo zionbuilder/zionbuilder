@@ -116,6 +116,14 @@ class Scripts {
 			true
 		);
 
+		Plugin::instance()->scripts->register_script(
+			'zb-vue-router',
+			'vue-router',
+			[],
+			Plugin::instance()->get_version(),
+			true
+		);
+
 		Plugin::instance()->scripts->enqueue_script(
 			'zb-pinia',
 			'pinia',

@@ -19,12 +19,24 @@ fs.readdirSync('src/elements/').forEach(folder => {
 });
 
 export const filesMap = [
+  // {
+  //   input: 'src/tmp/index.ts',
+  //   format: 'iife',
+  //   output: 'tmp',
+  //   name: 'editPage',
+  // },
   // Global
   {
     input: 'src/common/vue.ts',
     format: 'iife',
     output: 'vue',
     name: 'vue',
+  },
+  {
+    input: 'src/common/vue-router.ts',
+    format: 'iife',
+    output: 'vue-router',
+    name: 'VueRouter',
   },
   {
     input: 'src/common/pinia.ts',
@@ -39,7 +51,7 @@ export const filesMap = [
     name: 'common',
   },
 
-  //   admin
+    admin
   {
     input: 'src/admin/edit-page.ts',
     format: 'iife',

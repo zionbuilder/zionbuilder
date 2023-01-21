@@ -56,7 +56,7 @@
 <script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
 import { ref, computed } from 'vue';
-import domtoimage from 'dom-to-image';
+import { toPng } from 'html-to-image';
 import { onMounted } from 'vue';
 import { useTreeViewItem } from '../useTreeViewItem';
 
@@ -95,14 +95,13 @@ onMounted(() => {
 			return true;
 		}
 
-		domtoimage
-			.toPng(domElement, {
-				style: {
-					width: '100%',
-					margin: 0,
-				},
-				filter: filter,
-			})
+		toPng(domElement, {
+			style: {
+				width: '100%',
+				margin: 0,
+			},
+			filter: filter,
+		})
 			.then(dataUrl => {
 				imageSrc.value = dataUrl;
 			})

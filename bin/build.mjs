@@ -2,7 +2,6 @@ import { build } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { filesMap } from './map.mjs';
 import path from 'path';
-import { minify } from 'rollup-plugin-esbuild';
 import { generateManifest } from './manifest.mjs';
 import fs from 'fs';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -19,6 +18,7 @@ filesMap.forEach(async script => {
         '/@': path.resolve('./src'),
         '/@zb/vue': path.resolve('./node_modules/vue'),
         '/@zb/pinia': path.resolve('./node_modules/pinia'),
+        '/@zb/vue-router': path.resolve('./node_modules/vue-router'),
       },
     },
     build: {
@@ -26,17 +26,6 @@ filesMap.forEach(async script => {
       cssCodeSplit: false,
       emptyOutDir: false,
       target: 'es2015',
-      //   lib: {
-      //     entry: {
-      //       [script.input]: script.output,
-      //     },
-
-      //     name: `zb.${script.name}`,
-      //     formats: ['iife'],
-      //     // the proper extensions will be added
-      //     fileName: () => script.output + '.js',
-      //   },
-
       rollupOptions: {
         input: {
           [script.output]: script.input,
@@ -44,15 +33,14 @@ filesMap.forEach(async script => {
         external: [
           'vue',
           'pinia',
-          '@zb/common',
-          '@zb/hooks',
-          '@zb/i18n',
-          '@zb/store',
-          '@wordpress/i18n',
-          '@zb/common',
-          '@zb/components',
-          '@zb/utils',
+          'vue-router',
           '@zb/api',
+          '@zb/components',
+          '@zb/composables',
+          '@zb/hooks',
+          '@zb/store',
+          '@zb/utils',
+          '@wordpress/i18n',
         ],
         output: {
           name: script.name,
@@ -66,14 +54,14 @@ filesMap.forEach(async script => {
           globals: {
             vue: 'zb.vue',
             pinia: 'zb.pinia',
-            '@zb/common': 'zb.common',
-            '@zb/hooks': 'zb.hooks',
-            '@zb/i18n': 'zb.i18n',
-            '@zb/store': 'zb.store',
-            '@wordpress/i18n': 'wp.i18n',
-            '@zb/components': 'zb.components',
-            '@zb/utils': 'zb.utils',
+            ['vue-router']: 'zb.VueRouter',
             '@zb/api': 'zb.api',
+            '@zb/components': 'zb.components',
+            '@zb/composables': 'zb.composables',
+            '@zb/hooks': 'zb.hooks',
+            '@zb/store': 'zb.store',
+            '@zb/utils': 'zb.utils',
+            '@wordpress/i18n': 'wp.i18n',
           },
         },
       },

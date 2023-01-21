@@ -16,16 +16,23 @@ function translate() {
 
   return new Promise((resolve, reject) => {
     try {
-      wpPot({
-        destFile: `./languages/${config.packageName}.pot`,
-        domain: config.domain,
-        package: config.package,
-        team: config.team,
-        bugReport: config.bugReport,
-        headers: {
-          'X-Domain': config.domain,
+      const aaa = wpPot({
+        src: '**/edit-page.js',
+        parser: 'js',
+        parserOptions: {
+          ecmaVersion: 14,
         },
+        destFile: `./languages/${config.packageName}.pot`,
+        // domain: config.domain,
+        // package: config.package,
+        // team: config.team,
+        // bugReport: config.bugReport,
+        // headers: {
+        //   'X-Domain': config.domain,
+        // },
       });
+
+      console.log(aaa);
 
       resolve();
     } catch (err) {

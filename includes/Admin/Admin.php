@@ -217,6 +217,7 @@ class Admin {
 				'admin-page',
 				[
 					'zb-common',
+					'zb-vue-router',
 				],
 				Plugin::$instance->get_version(),
 				true
