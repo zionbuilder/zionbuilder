@@ -50,8 +50,7 @@ export const filesMap = [
     output: 'common',
     name: 'common',
   },
-
-    admin
+  // admin
   {
     input: 'src/admin/edit-page.ts',
     format: 'iife',
@@ -70,14 +69,12 @@ export const filesMap = [
     output: 'admin-page',
     name: 'adminPage',
   },
-
   {
     input: 'src/admin/regenerateAssets.ts',
     format: 'iife',
     output: 'regenerate-assets-notice',
     name: 'regenerateAssetsNotice',
   },
-
   {
     input: 'src/modules/screenshot/index.ts',
     format: 'iife',
@@ -110,7 +107,6 @@ export const filesMap = [
     output: 'animateJS',
     name: 'animateJS',
   },
-
   // Frontend
   {
     input: 'src/frontend/modules/modalJS/index.ts',

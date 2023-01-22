@@ -1,716 +1,4101 @@
+# Copyright (C) 2023 zionbuilder.io
+# This file is distributed under the GPL3.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: Zion Builder 3.6.0-beta3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/zionbuilder\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-01-21T12:30:10+00:00\n"
+"POT-Creation-Date: 2023-01-22T10:59:20+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.0.1\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: zionbuilder\n"
 
-#: admin-page.js:2322
-msgid "With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features."
+#. Plugin Name of the plugin
+msgid "Zion Builder"
 msgstr ""
 
-#: admin-page.js:2713
-msgid "Settings"
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://zionbuilder.io/?utm_campaign=plugin-uri&utm_medium=wp-dashboard-plugins"
 msgstr ""
 
-#: admin-page.js:2724
-msgid "General Settings"
+#. Description of the plugin
+msgid "The page builder you always wanted. Create any design you want using live editor."
 msgstr ""
 
-#: admin-page.js:2731
-msgid "Allowed Post types"
+#. Author of the plugin
+msgid "zionbuilder.io"
 msgstr ""
 
-#: admin-page.js:2739
-msgid "Maintenance mode"
+#: includes/Admin/Admin.php:187
+#: includes/Integrations/Gutenberg.php:112
+msgid "WordPress Heartbeat is disabled. Zion builder requires it in order to function properly"
 msgstr ""
 
-#: admin-page.js:2747
-msgid "Appearance"
+#: includes/Admin/Admin.php:247
+msgid "Builder theme."
 msgstr ""
 
-#: admin-page.js:2758
-msgid "Font Options"
+#: includes/Admin/Admin.php:251
+msgid "light"
 msgstr ""
 
-#: admin-page.js:2767
-msgid "Google Fonts"
+#: includes/Admin/Admin.php:255
+msgid "dark"
 msgstr ""
 
-#: admin-page.js:2774
-msgid "With PRO you can upload your own sets of fonts and assign it to your page elements."
+#: includes/Admin/Admin.php:266
+msgid "Add css that will be applied to all pages."
 msgstr ""
 
-#: admin-page.js:2780
-#: admin-page.js:2798
-#: admin-page.js:2813
-#: admin-page.js:2867
-#: editor.js:6279
-#: editor.js:6280
-msgid "pro"
+#: includes/Admin/Admin.php:267
+msgid "Custom css"
 msgstr ""
 
-#: admin-page.js:2782
-msgid "Custom Fonts"
+#: includes/Admin/Admin.php:272
+msgid "Add scripts that will be placed just before the closing </head> tag."
 msgstr ""
 
-#: admin-page.js:2789
-msgid "With PRO you can use the Adobe fonts library to add your fonts along side Google fonts and custom fonts."
+#: includes/Admin/Admin.php:273
+msgid "Header scripts"
 msgstr ""
 
-#: admin-page.js:2800
-msgid "Adobe Fonts"
+#: includes/Admin/Admin.php:278
+msgid "Add scripts that will be placed just after the <body> opening tag."
 msgstr ""
 
-#: admin-page.js:2807
-msgid "Zion Builder PRO lets you share you templates library with multiple websites."
+#: includes/Admin/Admin.php:279
+msgid "Body scripts"
 msgstr ""
 
-#: admin-page.js:2815
-msgid "Custom Icons"
+#: includes/Admin/Admin.php:284
+msgid "Add scripts that will be placed just before the closing </body> tag."
 msgstr ""
 
-#: admin-page.js:2826
-msgid "Presets"
+#: includes/Admin/Admin.php:285
+msgid "Footer scripts"
 msgstr ""
 
-#: admin-page.js:2834
-msgid "Color Presets"
+#: includes/Admin/Admin.php:360
+msgid "Disable "
 msgstr ""
 
-#: admin-page.js:2842
-msgid "Gradients"
+#: includes/Admin/Admin.php:371
+#: includes/Admin/Admin.php:394
+msgid "Edit with "
 msgstr ""
 
-#: admin-page.js:2850
-msgid "Performance"
+#. translators: %s: ZionBuilder white label name
+#: includes/AdminBar.php:68
+msgid "Edit with %s"
 msgstr ""
 
-#: admin-page.js:2857
-msgid "With PRO you can upload your own icons in addition to the Font Awesome icons that everyone is using."
+#: includes/Api/RestControllers/Assets.php:95
+#: includes/Api/RestControllers/Breakpoints.php:81
+#: includes/Api/RestControllers/BulkActions.php:71
+#: includes/Api/RestControllers/DataSets.php:93
+#: includes/Api/RestControllers/DownloadArchive.php:76
+#: includes/Api/RestControllers/Elements.php:72
+#: includes/Api/RestControllers/GoogleFonts.php:67
+#: includes/Api/RestControllers/Library.php:252
+#: includes/Api/RestControllers/Media.php:65
+#: includes/Api/RestControllers/Options.php:71
+#: includes/Api/RestControllers/Pages.php:90
+#: includes/Api/RestControllers/ReplaceUrl.php:75
+#: includes/Api/RestControllers/SystemInfo.php:65
+#: includes/Api/RestControllers/Templates.php:275
+#: includes/Api/RestControllers/Templates.php:322
+msgid "You do not have permissions to view this resource."
 msgstr ""
 
-#: admin-page.js:2864
-#: editor.js:16273
-msgid "Library"
+#: includes/Api/RestControllers/BulkActions.php:43
+msgid "The list of actions we need to perform."
 msgstr ""
 
-#: admin-page.js:2875
-msgid "Permissions"
+#: includes/Api/RestControllers/DataSets.php:236
+msgid "Combined fonts list"
 msgstr ""
 
-#: admin-page.js:2887
-msgid "Templates"
+#: includes/Api/RestControllers/DownloadArchive.php:94
+msgid "Invalid nonce or filename"
 msgstr ""
 
-#: admin-page.js:2894
-msgid "Custom code"
+#: includes/Api/RestControllers/FileUpload.php:65
+#: includes/Api/RestControllers/Options.php:88
+#: includes/Api/RestControllers/Templates.php:292
+msgid "You do not have permissions to edit this resource."
 msgstr ""
 
-#: admin-page.js:2904
-msgid "Tools"
+#: includes/Api/RestControllers/FileUpload.php:85
+#: includes/Api/RestControllers/Library.php:566
+#: includes/Api/RestControllers/Templates.php:689
+msgid "Your file is empty or invalid"
 msgstr ""
 
-#: admin-page.js:2913
-msgid "General"
+#: includes/Api/RestControllers/FileUpload.php:93
+#: includes/ImportExport.php:364
+msgid "No file was uploaded"
 msgstr ""
 
-#: admin-page.js:2922
-msgid "Replace URL"
+#: includes/Api/RestControllers/FileUpload.php:96
+#: includes/ImportExport.php:367
+msgid "The uploaded file exceeds the MAX_FILE_SIZE"
 msgstr ""
 
-#: admin-page.js:2929
-msgid "System Info"
+#: includes/Api/RestControllers/FileUpload.php:124
+msgid "The file type is not supported"
 msgstr ""
 
-#: common.js:7854
-msgid "Discard changes"
+#: includes/Api/RestControllers/GoogleFonts.php:88
+msgid "Cannot extract Google fonts."
 msgstr ""
 
-#: common.js:13823
-msgid "Local"
+#: includes/Api/RestControllers/GoogleFonts.php:92
+msgid "No Google fonts found."
 msgstr ""
 
-#: common.js:13827
-msgid "Global"
+#: includes/Api/RestControllers/GoogleFonts.php:113
+msgid "Google font type"
 msgstr ""
 
-#: common.js:15387
-msgid "Search through"
+#: includes/Api/RestControllers/GoogleFonts.php:118
+msgid "Font family"
 msgstr ""
 
-#: common.js:15387
-msgid "icons"
+#: includes/Api/RestControllers/Library.php:297
+#: includes/Api/RestControllers/Library.php:315
+#: includes/Api/RestControllers/Library.php:332
+#: includes/Api/RestControllers/Library.php:349
+#: includes/Api/RestControllers/Library.php:359
+#: includes/Api/RestControllers/Library.php:395
+#: includes/Api/RestControllers/Library.php:415
+#: includes/Api/RestControllers/Library.php:476
+#: includes/Api/RestControllers/Library.php:500
+#: includes/Api/RestControllers/Library.php:560
+msgid "No library found that matches your request."
 msgstr ""
 
-#: common.js:17791
-msgid "Color"
+#: includes/Api/RestControllers/Library.php:424
+#: includes/Api/RestControllers/Templates.php:630
+#: includes/Api/RestControllers/Templates.php:728
+#: includes/Library/Sources/LocalSource.php:87
+#: includes/Library/Sources/LocalSource.php:155
+msgid "Could not return the post instance"
 msgstr ""
 
-#: common.js:18687
-msgid "Mon"
+#: includes/Api/RestControllers/Library.php:483
+#: includes/Api/RestControllers/Templates.php:531
+msgid "The template cannot be deleted."
 msgstr ""
 
-#: common.js:18688
-msgid "Tue"
+#: includes/Api/RestControllers/Library.php:533
+#: includes/Api/RestControllers/Library.php:581
+#: includes/Api/RestControllers/Templates.php:439
+#: includes/Api/RestControllers/Templates.php:495
+#: includes/Api/RestControllers/Templates.php:518
+#: includes/Api/RestControllers/Templates.php:576
+#: includes/Api/RestControllers/Templates.php:599
+#: includes/Api/RestControllers/Templates.php:704
+#: includes/Library/Sources/LocalSource.php:69
+#: includes/Library/Sources/LocalSource.php:137
+#: includes/Templates.php:333
+msgid "Your post id could not be found!"
 msgstr ""
 
-#: common.js:18689
-msgid "Wed"
+#: includes/Api/RestControllers/Pages.php:110
+msgid "Could not lock post for current user."
 msgstr ""
 
-#: common.js:18690
-msgid "Thu"
+#: includes/Api/RestControllers/Pages.php:117
+msgid "Post locked."
 msgstr ""
 
-#: common.js:18691
-msgid "Fri"
+#: includes/Api/RestControllers/ReplaceUrl.php:93
+msgid "Cannot replace URL's. They are the same."
 msgstr ""
 
-#: common.js:18692
-msgid "Sat"
+#: includes/Api/RestControllers/ReplaceUrl.php:98
+msgid "Provided URL's are not valid."
 msgstr ""
 
-#: common.js:18693
-msgid "Sun"
+#: includes/Api/RestControllers/ReplaceUrl.php:135
+msgid "URLs successfully replaced!"
 msgstr ""
 
-#: common.js:18696
-msgid "January"
+#: includes/Api/RestControllers/ReplaceUrl.php:161
+msgid "An error has occurred while updating the urls."
 msgstr ""
 
-#: common.js:18697
-msgid "February"
+#: includes/Api/RestControllers/ReplaceUrl.php:187
+msgid "An error has occurred while updating the urls from page builder options."
 msgstr ""
 
-#: common.js:18698
-msgid "March"
+#: includes/Api/RestControllers/SavePage.php:66
+#: includes/Api/RestControllers/UserController.php:65
+msgid "You do not have permissions to save this resource."
 msgstr ""
 
-#: common.js:18699
-msgid "April"
+#: includes/Api/RestControllers/SavePage.php:107
+msgid "There was a problem saving the page."
 msgstr ""
 
-#: common.js:18700
-msgid "May"
+#: includes/Api/RestControllers/SavePage.php:110
+msgid "Page successfully saved!"
 msgstr ""
 
-#: common.js:18701
-msgid "June"
+#: includes/Api/RestControllers/SystemInfo.php:75
+msgid "Server environment"
 msgstr ""
 
-#: common.js:18702
-msgid "July"
+#: includes/Api/RestControllers/SystemInfo.php:79
+msgid "operating system"
 msgstr ""
 
-#: common.js:18703
-msgid "August"
+#: includes/Api/RestControllers/SystemInfo.php:83
+msgid "software"
 msgstr ""
 
-#: common.js:18704
-msgid "September"
+#: includes/Api/RestControllers/SystemInfo.php:89
+msgid "php max input vars"
 msgstr ""
 
-#: common.js:18705
-msgid "October"
+#: includes/Api/RestControllers/SystemInfo.php:93
+msgid "php max post size"
 msgstr ""
 
-#: common.js:18706
-msgid "November"
+#: includes/Api/RestControllers/SystemInfo.php:103
+msgid "WordPress environment"
 msgstr ""
 
-#: common.js:18707
-msgid "December"
+#: includes/Api/RestControllers/SystemInfo.php:108
+msgid "site url"
 msgstr ""
 
-#: common.js:19274
-msgid "Top masks"
+#: includes/Api/RestControllers/SystemInfo.php:112
+msgid "home url"
 msgstr ""
 
-#: common.js:19278
-msgid "Bottom masks"
+#: includes/Api/RestControllers/SystemInfo.php:116
+msgid "wp multisite"
 msgstr ""
 
-#: common.js:19283
-msgid "Selected top mask"
+#: includes/Api/RestControllers/SystemInfo.php:117
+#: includes/Api/RestControllers/SystemInfo.php:221
+#: includes/Api/RestControllers/SystemInfo.php:245
+#: includes/Api/RestControllers/SystemInfo.php:427
+#: includes/Elements/Soundcloud/Soundcloud.php:123
+#: includes/Elements/Soundcloud/Soundcloud.php:145
+#: includes/Elements/Soundcloud/Soundcloud.php:174
+#: includes/Elements/Soundcloud/Soundcloud.php:203
+#: includes/Elements/Soundcloud/Soundcloud.php:225
+#: includes/Elements/Soundcloud/Soundcloud.php:247
+#: includes/Elements/Soundcloud/Soundcloud.php:269
+#: includes/Elements/Soundcloud/Soundcloud.php:291
+#: includes/Elements/Soundcloud/Soundcloud.php:313
+#: includes/MaintenanceMode.php:238
+msgid "Yes"
 msgstr ""
 
-#: common.js:19283
-msgid "Selected bottom mask"
+#: includes/Api/RestControllers/SystemInfo.php:117
+#: includes/Api/RestControllers/SystemInfo.php:224
+#: includes/Api/RestControllers/SystemInfo.php:248
+#: includes/Api/RestControllers/SystemInfo.php:427
+#: includes/Elements/Soundcloud/Soundcloud.php:127
+#: includes/Elements/Soundcloud/Soundcloud.php:149
+#: includes/Elements/Soundcloud/Soundcloud.php:178
+#: includes/Elements/Soundcloud/Soundcloud.php:207
+#: includes/Elements/Soundcloud/Soundcloud.php:229
+#: includes/Elements/Soundcloud/Soundcloud.php:251
+#: includes/Elements/Soundcloud/Soundcloud.php:273
+#: includes/Elements/Soundcloud/Soundcloud.php:295
+#: includes/Elements/Soundcloud/Soundcloud.php:317
+#: includes/MaintenanceMode.php:242
+msgid "No"
 msgstr ""
 
-#: common.js:19298
-msgid "Add a color to mask"
+#: includes/Api/RestControllers/SystemInfo.php:120
+msgid "max upload size"
 msgstr ""
 
-#: common.js:19303
-msgid "Add mask height"
+#: includes/Api/RestControllers/SystemInfo.php:126
+msgid "language"
 msgstr ""
 
-#: common.js:19316
-msgid "Flip mask horizontally"
+#: includes/Api/RestControllers/SystemInfo.php:131
+msgid "admin email"
 msgstr ""
 
-#: common.js:19521
-msgid "Align left"
+#: includes/Api/RestControllers/SystemInfo.php:135
+msgid "debug mode"
 msgstr ""
 
-#: common.js:19526
-msgid "Align center"
+#: includes/Api/RestControllers/SystemInfo.php:136
+msgid "Active"
 msgstr ""
 
-#: common.js:19531
-msgid "Align right"
+#: includes/Api/RestControllers/SystemInfo.php:136
+msgid "Inactive"
 msgstr ""
 
-#: common.js:19536
+#: includes/Api/RestControllers/SystemInfo.php:141
+msgid "Theme"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:145
+msgid "name"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:149
+#: includes/Api/RestControllers/SystemInfo.php:347
+msgid "version"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:153
+msgid "author"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:160
+msgid "Active plugins"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:181
+msgid "php version"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:185
+msgid "We recommend using php version 7.0.0 or higher. By using PHP version 7 or above, your site will increase in speed."
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:200
+msgid "mysql version"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:218
+msgid "gd installed"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:226
+msgid "The GD extension is not installed!"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:243
+msgid "zip installed"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:250
+msgid "The zip extension is not installed!"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:269
+msgid "WordPress root directory"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:271
+msgid "write permissions"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:276
+msgid "WordPress root uploads directory"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:288
+msgid ".htaccess file"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:298
+msgid "Not all right"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:300
+msgid "There are some writing permissions issues with the following directories/files: "
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:303
+msgid "All right"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:325
+msgid "Connected"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:328
+msgid "Disconnected"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:354
+msgid "We recommend you to use WordPress version 4.9.8 or higher"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:366
+msgid "memory limit"
+msgstr ""
+
+#. translators: 1: recommended memory, 2: Codex URL with details regarding how you can increase memory limit
+#: includes/Api/RestControllers/SystemInfo.php:374
+msgctxt "System Info"
+msgid "We recommend setting memory to at least %1$s. For more information, read about <a target=\"_blank\" href=\"%2$s\">how to Increase memory allocated to PHP</a>."
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:393
+msgid "permalink structure"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:397
+msgid "Plain"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:410
+msgid "timezone"
+msgstr ""
+
+#: includes/Api/RestControllers/SystemInfo.php:426
+msgid "child theme"
+msgstr ""
+
+#. translators: %s: Codex URL with child theme information
+#: includes/Api/RestControllers/SystemInfo.php:434
+msgctxt "System Info"
+msgid "If you want to modify the source code of your theme, we recommend using a <a target=\"_blank\" href=\"%s\">child theme</a>."
+msgstr ""
+
+#: includes/Api/RestControllers/Templates.php:184
+#: includes/Api/RestControllers/Templates.php:226
+#: includes/Api/RestControllers/Templates.php:245
+#: includes/Api/RestControllers/Templates.php:249
+msgid "Unique identifier for the object."
+msgstr ""
+
+#: includes/Api/RestControllers/Templates.php:212
+msgid "Whether to bypass trash and force deletion."
+msgstr ""
+
+#: includes/Api/RestControllers/Templates.php:307
+msgid "You do not have permissions to delete this resource."
+msgstr ""
+
+#: includes/Api/RestControllers/Templates.php:339
+msgid "You do not have permissions to export this template."
+msgstr ""
+
+#: includes/Api/RestControllers/Templates.php:734
+msgid "The template could not be inserted!"
+msgstr ""
+
+#: includes/Api/RestControllers/Templates.php:748
+msgid "Could not get the template zip file!"
+msgstr ""
+
+#: includes/Api/RestControllers/Templates.php:767
+#: includes/Library/Sources/ZionSource.php:86
+msgid "The uploaded template is not valid!"
+msgstr ""
+
+#: includes/Api/RestControllers/Templates.php:796
+#: includes/Api/RestControllers/Templates.php:853
+msgid "Post could not be cloned!"
+msgstr ""
+
+#: includes/Api/RestControllers/Templates.php:799
+#: includes/Api/RestControllers/Templates.php:800
+msgid "copy"
+msgstr ""
+
+#: includes/Api/RestControllers/UserController.php:87
+msgid "There was a problem saving the user data."
+msgstr ""
+
+#. translators: %s: The username who is locked from editing
+#: includes/Editor/Editor.php:245
+msgid "Post is locked by %s"
+msgstr ""
+
+#: includes/Elements/Accordions/AccordionItem.php:39
+#: includes/Elements/Accordions/Accordions.php:83
+#: includes/Elements/Accordions/Accordions.php:90
+#: includes/Elements/Accordions/Accordions.php:96
+#: includes/Elements/Accordions/Accordions.php:111
+msgid "Accordion"
+msgstr ""
+
+#: includes/Elements/Accordions/AccordionItem.php:69
+#: includes/Elements/Alert/Alert.php:102
+#: includes/Elements/IconBox/IconBox.php:145
+#: includes/Elements/ProgressBars/ProgressBars.php:100
+#: includes/Elements/Tabs/TabsItem.php:70
+msgid "Title"
+msgstr ""
+
+#: includes/Elements/Accordions/AccordionItem.php:70
+msgid "Accordion title"
+msgstr ""
+
+#: includes/Elements/Accordions/AccordionItem.php:81
+#: includes/Elements/Heading/Heading.php:77
+#: includes/Elements/IconList/IconList.php:187
+#: includes/Elements/Manager.php:209
+#: includes/Elements/Tabs/TabsItem.php:79
+#: includes/Elements/Text/Text.php:76
+msgid "Content"
+msgstr ""
+
+#: includes/Elements/Accordions/AccordionItem.php:82
+msgid "Accordion content"
+msgstr ""
+
+#: includes/Elements/Accordions/AccordionItem.php:92
+msgid "Active by default?"
+msgstr ""
+
+#: includes/Elements/Accordions/AccordionItem.php:100
+#: includes/Elements/Accordions/Accordions.php:131
+msgid "Select the HTML tag to use for the title. If you want to add a custom tag, make sure to only use letters and numbers"
+msgstr ""
+
+#: includes/Elements/Accordions/AccordionItem.php:101
+#: includes/Elements/Accordions/Accordions.php:132
+msgid "HTML tag for titles"
+msgstr ""
+
+#: includes/Elements/Accordions/Accordions.php:39
+#: includes/Elements/Accordions/Accordions.php:76
+msgid "Accordions"
+msgstr ""
+
+#: includes/Elements/Accordions/Accordions.php:107
+#: includes/Elements/Alert/Alert.php:69
+#: includes/Elements/Shortcode/Shortcode.php:81
+msgid "Type"
+msgstr ""
+
+#: includes/Elements/Accordions/Accordions.php:115
+msgid "Toggle"
+msgstr ""
+
+#: includes/Elements/Accordions/Accordions.php:182
+msgid "Single accordion wrapper"
+msgstr ""
+
+#: includes/Elements/Accordions/Accordions.php:192
+#: includes/Elements/IconBox/IconBox.php:232
+#: includes/Elements/ImageBox/ImageBox.php:244
+#: includes/Elements/PricingBox/PricingBox.php:255
+#: includes/Elements/ProgressBars/ProgressBars.php:264
+msgid "Title styles"
+msgstr ""
+
+#: includes/Elements/Accordions/Accordions.php:202
+msgid "Active accordion title styles"
+msgstr ""
+
+#: includes/Elements/Accordions/Accordions.php:212
+#: includes/Elements/Tabs/Tabs.php:164
+msgid "Content styles"
+msgstr ""
+
+#: includes/Elements/Alert/Alert.php:36
+msgid "Alert"
+msgstr ""
+
+#: includes/Elements/Alert/Alert.php:73
+#: includes/Elements/Button/Button.php:145
+msgid "Info"
+msgstr ""
+
+#: includes/Elements/Alert/Alert.php:77
+#: includes/Elements/Button/Button.php:133
+msgid "Success"
+msgstr ""
+
+#: includes/Elements/Alert/Alert.php:81
+#: includes/Elements/Button/Button.php:137
+msgid "Danger"
+msgstr ""
+
+#: includes/Elements/Alert/Alert.php:85
+#: includes/Elements/Button/Button.php:141
+msgid "Warning"
+msgstr ""
+
+#: includes/Elements/Alert/Alert.php:103
+msgid "This is an Alert"
+msgstr ""
+
+#: includes/Elements/Alert/Alert.php:112
+msgid "Title color"
+msgstr ""
+
+#: includes/Elements/Alert/Alert.php:127
+msgid "Title border color"
+msgstr ""
+
+#: includes/Elements/Alert/Alert.php:141
+msgid "Description"
+msgstr ""
+
+#: includes/Elements/Alert/Alert.php:142
+msgid "This is just a dummy text, edit the element options to set your own text"
+msgstr ""
+
+#: includes/Elements/Alert/Alert.php:152
+msgid "Show dismiss button?"
+msgstr ""
+
+#: includes/Elements/Alert/Alert.php:160
+msgid "Dismiss icon color"
+msgstr ""
+
+#: includes/Elements/AnchorPoint/AnchorPoint.php:39
+msgid "Anchor point"
+msgstr ""
+
+#: includes/Elements/AnchorPoint/AnchorPoint.php:76
+msgid "Id"
+msgstr ""
+
+#: includes/Elements/AnchorPoint/AnchorPoint.php:77
+msgid "Please enter an id for this anchor point. You can use this #id for an anchor href."
+msgstr ""
+
+#: includes/Elements/Button/Button.php:40
+msgid "Button"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:78
+msgid "Set the button text"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:79
+#: includes/Elements/PricingBox/PricingBox.php:171
+#: includes/Elements/PricingBox/PricingBox.php:173
+msgid "Button text"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:80
+msgid "Press me"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:91
+#: includes/Elements/Icon/Icon.php:40
+#: includes/Elements/Icon/Icon.php:78
+#: includes/Elements/IconBox/IconBox.php:77
+#: includes/Elements/IconList/IconList.php:176
+#: includes/Elements/Separator/Separator.php:282
+msgid "Icon"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:92
+#: includes/Elements/Icon/Icon.php:79
+#: includes/Elements/IconBox/IconBox.php:78
+#: includes/Elements/IconList/IconList.php:177
+#: includes/Elements/Separator/Separator.php:283
+msgid "Choose an icon"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:100
+#: includes/Elements/Icon/Icon.php:92
+msgid "Set the url"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:101
+#: includes/Elements/Button/Button.php:149
+#: includes/Elements/Column/Column.php:180
+#: includes/Elements/Container/Container.php:150
+#: includes/Elements/Heading/Heading.php:90
+#: includes/Elements/Icon/Icon.php:93
+#: includes/Elements/IconList/IconList.php:200
+#: includes/Elements/Image/Image.php:118
+msgid "Link"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:109
+msgid "Button type"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:113
+msgid "Primary"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:117
+msgid "Black"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:121
+msgid "Dark"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:125
+msgid "Gray"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:129
+msgid "White"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:167
+msgid "Button shape"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:173
+#: includes/Elements/Button/Button.php:209
+#: includes/Elements/GoogleMaps/GoogleMaps.php:165
+#: includes/Elements/Icon/Icon.php:216
+msgid "Normal"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:177
+msgid "Semi rounded"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:181
+#: includes/Elements/Icon/Icon.php:156
+#: includes/Elements/ProgressBars/ProgressBars.php:163
+msgid "Rounded"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:199
+msgid "Button size"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:205
+msgid "Small"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:213
+msgid "Medium"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:217
+msgid "Large"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:237
+msgid "Full width"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:252
+msgid "Button position"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:265
+#: includes/Elements/Button/Button.php:300
+#: includes/Elements/Counter/Counter.php:156
+#: includes/Elements/IconList/IconList.php:112
+msgid "right"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:290
+#: includes/Elements/IconBox/IconBox.php:91
+msgid "Icon position"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:304
+#: includes/Elements/IconList/IconList.php:116
+msgid "top"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:308
+#: includes/Elements/IconList/IconList.php:120
+msgid "bottom"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:335
+#: includes/Elements/PricingBox/PricingBox.php:279
+msgid "Button styles"
+msgstr ""
+
+#: includes/Elements/Button/Button.php:343
+#: includes/Elements/Icon/Icon.php:386
+#: includes/Elements/IconBox/IconBox.php:224
+#: includes/Elements/IconList/IconList.php:267
+#: includes/Elements/Separator/Separator.php:403
+msgid "Icon styles"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:40
+msgid "Column"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:105
+#: includes/Elements/Column/Column.php:122
+msgid "auto"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:141
+msgid "Choose the desired column width."
+msgstr ""
+
+#: includes/Elements/Column/Column.php:142
+msgid "Column width"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:160
+msgid "Choose the desired column offset."
+msgstr ""
+
+#: includes/Elements/Column/Column.php:161
+msgid "Column offset"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:189
+#: includes/Elements/Container/Container.php:108
+#: includes/Elements/Section/Section.php:215
+msgid "Select the HTML tag to use for this element. If you want to add a custom tag, make sure to only use letters and numbers"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:190
+#: includes/Elements/Container/Container.php:109
+#: includes/Elements/Heading/Heading.php:99
+#: includes/Elements/Section/Section.php:216
+msgid "HTML tag"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:230
+#: includes/Elements/Section/Section.php:256
+msgid "Select the desired content orientation."
+msgstr ""
+
+#: includes/Elements/Column/Column.php:231
+#: includes/Elements/Section/Section.php:257
+msgid "Content orientation"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:237
+#: includes/Elements/Container/Container.php:229
+#: includes/Elements/Section/Section.php:263
+msgid "vertical"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:241
+#: includes/Elements/Container/Container.php:233
+#: includes/Elements/Section/Section.php:267
+msgid "horizontal"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:252
+#: includes/Elements/Column/Column.php:340
+#: includes/Elements/Section/Section.php:278
+#: includes/Elements/Section/Section.php:366
+msgid "Inner content horizontal alignment layout"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:253
+#: includes/Elements/Column/Column.php:341
+#: includes/Elements/Section/Section.php:279
+#: includes/Elements/Section/Section.php:367
+msgid "Inner content horizontal alignment"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:258
+#: includes/Elements/Column/Column.php:346
+#: includes/Elements/Section/Section.php:284
+#: includes/Elements/Section/Section.php:372
+#: includes/Elements/Testimonial/Testimonial.php:175
+msgid "Left"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:263
+#: includes/Elements/Column/Column.php:308
+#: includes/Elements/Testimonial/Testimonial.php:179
+msgid "Center"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:268
+#: includes/Elements/Column/Column.php:356
+#: includes/Elements/Section/Section.php:294
+#: includes/Elements/Section/Section.php:382
+#: includes/Elements/Testimonial/Testimonial.php:183
+msgid "Right"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:273
+msgid "Stretch"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:278
+msgid "Baseline"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:296
+#: includes/Elements/Column/Column.php:384
+#: includes/Elements/Section/Section.php:322
+#: includes/Elements/Section/Section.php:410
+msgid "Inner content vertical alignment layout"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:297
+#: includes/Elements/Column/Column.php:385
+#: includes/Elements/Section/Section.php:323
+#: includes/Elements/Section/Section.php:411
+msgid "Inner content vertical alignment"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:303
+#: includes/Elements/Column/Column.php:391
+#: includes/Elements/Section/Section.php:329
+#: includes/Elements/Section/Section.php:417
+msgid "Top"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:313
+#: includes/Elements/Column/Column.php:401
+#: includes/Elements/Section/Section.php:339
+#: includes/Elements/Section/Section.php:427
+msgid "Bottom"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:318
+msgid "Space-between"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:323
+msgid "Space-around"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:351
+#: includes/Elements/Column/Column.php:396
+#: includes/Elements/Container/Container.php:272
+#: includes/Elements/Container/Container.php:310
+#: includes/Elements/Container/Container.php:374
+#: includes/Elements/Container/Container.php:462
+#: includes/Elements/Counter/Counter.php:152
+#: includes/Elements/Section/Section.php:289
+#: includes/Elements/Section/Section.php:334
+#: includes/Elements/Section/Section.php:377
+#: includes/Elements/Section/Section.php:422
+#: includes/Elements/Separator/Separator.php:120
+msgid "center"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:361
+#: includes/Elements/Container/Container.php:320
+#: includes/Elements/Container/Container.php:384
+#: includes/Elements/Section/Section.php:344
+#: includes/Elements/Section/Section.php:387
+msgid "space-between"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:366
+#: includes/Elements/Container/Container.php:325
+#: includes/Elements/Container/Container.php:389
+#: includes/Elements/Section/Section.php:349
+#: includes/Elements/Section/Section.php:392
+msgid "space-around"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:406
+#: includes/Elements/Container/Container.php:282
+#: includes/Elements/Container/Container.php:394
+#: includes/Elements/Container/Container.php:472
+#: includes/Elements/Section/Section.php:299
+#: includes/Elements/Section/Section.php:432
+msgid "stretch"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:411
+#: includes/Elements/Container/Container.php:287
+#: includes/Elements/Container/Container.php:477
+#: includes/Elements/Section/Section.php:304
+#: includes/Elements/Section/Section.php:437
+msgid "baseline"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:430
+msgid "Wrap content"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:431
+msgid "If you choose to wrap the content, all inner elements will be placed on a new line if there is no space for them on the same line."
+msgstr ""
+
+#: includes/Elements/Column/Column.php:434
+#: includes/Elements/Container/Container.php:343
+msgid "wrap"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:438
+#: includes/Elements/Container/Container.php:347
+msgid "nowrap"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:442
+#: includes/Elements/Container/Container.php:351
+msgid "wrap-reverse"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:455
+#: includes/Elements/Section/Section.php:455
+msgid "Shape Dividers"
+msgstr ""
+
+#: includes/Elements/Column/Column.php:464
+#: includes/Elements/Section/Section.php:464
+msgid "Add a mask to your element"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:40
+msgid "Container"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:158
+#: includes/Options/Schemas/StyleOptions.php:351
+msgid "Display"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:159
+msgid "Display css properties"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:166
+msgid "flex"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:170
+msgid "block"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:174
+msgid "inline"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:178
+msgid "inline-flex"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:182
+msgid "inline-block"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:186
+#: includes/Options/Schemas/Advanced.php:100
+msgid "none"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:200
+msgid "Flexbox container options"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:215
+msgid "Gap"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:216
+msgid "The gap option allows you to specify the gap between child elements on the main axis. Current browser support is 89.92%. In order to increase browser support, you can use margins."
+msgstr ""
+
+#: includes/Elements/Container/Container.php:237
+msgid "Flex direction"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:249
+msgid "flex-reverse"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:254
+msgid "Flex reverse"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:263
+msgid "Align items"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:264
+msgid "Set align items"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:267
+#: includes/Elements/Container/Container.php:305
+#: includes/Elements/Container/Container.php:369
+#: includes/Elements/Container/Container.php:457
+#: includes/Elements/Separator/Separator.php:115
+msgid "flex-start"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:277
+#: includes/Elements/Container/Container.php:315
+#: includes/Elements/Container/Container.php:379
+#: includes/Elements/Container/Container.php:467
+#: includes/Elements/Separator/Separator.php:125
+msgid "flex-end"
+msgstr ""
+
+#: includes/Elements/Container/Container.php:300
+#: dist/common.js:18995
 msgid "Justify"
 msgstr ""
 
-#: common.js:19639
-msgid "Search"
+#: includes/Elements/Container/Container.php:301
+msgid "Set float option for element"
 msgstr ""
 
-#: common.js:19797
-msgid "Add new"
+#: includes/Elements/Container/Container.php:339
+msgid "Wrap"
 msgstr ""
 
-#: common.js:20383
-msgid "Margin top"
+#: includes/Elements/Container/Container.php:340
+msgid "Set wrap for element"
 msgstr ""
 
-#: common.js:20393
-msgid "Margin right"
+#: includes/Elements/Container/Container.php:364
+msgid "Align content"
 msgstr ""
 
-#: common.js:20403
-msgid "Margin bottom"
+#: includes/Elements/Container/Container.php:365
+msgid "Set align content"
 msgstr ""
 
-#: common.js:20413
-msgid "Margin left"
+#: includes/Elements/Container/Container.php:407
+msgid "Flexbox child options"
 msgstr ""
 
-#: common.js:20425
-msgid "Padding top"
+#: includes/Elements/Container/Container.php:423
+msgid "Flex Grow"
 msgstr ""
 
-#: common.js:20435
-msgid "Padding right"
+#: includes/Elements/Container/Container.php:433
+msgid "Flex Shrink"
 msgstr ""
 
-#: common.js:20445
-msgid "Padding bottom"
+#: includes/Elements/Container/Container.php:443
+msgid "Flex Basis"
 msgstr ""
 
-#: common.js:20455
-msgid "Padding left"
+#: includes/Elements/Container/Container.php:452
+msgid "Align self"
 msgstr ""
 
-#: editor.js:3120
-msgid "New Window"
+#: includes/Elements/Container/Container.php:453
+msgid "Set align self"
 msgstr ""
 
-#: editor.js:3124
-msgid "Same Window"
+#: includes/Elements/Container/Container.php:489
+msgid "Order"
 msgstr ""
 
-#: editor.js:3820
-msgid "Root"
+#: includes/Elements/Container/Container.php:494
+msgid "first"
 msgstr ""
 
-#: editor.js:3830
-msgid "Invalid Element"
+#: includes/Elements/Container/Container.php:498
+msgid "last"
 msgstr ""
 
-#: editor.js:5216
-msgid "Editing started"
+#: includes/Elements/Container/Container.php:509
+msgid "Custom Order"
 msgstr ""
 
-#: editor.js:5859
-msgid "Selector nice name"
+#: includes/Elements/Container/Container.php:519
+#: includes/Options/Schemas/StyleOptions.php:186
+msgid "Spacing"
 msgstr ""
 
-#: editor.js:5859
-msgid "CSS class nice name"
+#: includes/Elements/Container/Container.php:529
+#: includes/Elements/Separator/Separator.php:201
+msgid "Padding"
 msgstr ""
 
-#: editor.js:5860
-msgid "Enter a name that will help you recognize this CSS class"
+#: includes/Elements/Container/Container.php:530
+#: includes/Elements/Separator/Separator.php:202
+msgid "Choose the desired padding for this element."
 msgstr ""
 
-#: editor.js:5864
-msgid "CSS selector"
+#: includes/Elements/Container/Container.php:562
+#: includes/Elements/Separator/Separator.php:236
+msgid "Margin"
 msgstr ""
 
-#: editor.js:5864
-msgid "CSS class"
+#: includes/Elements/Container/Container.php:563
+#: includes/Elements/Separator/Separator.php:237
+msgid "Choose the desired margin for this element."
 msgstr ""
 
-#: editor.js:5865
-msgid "Enter the css selector you want to style"
+#: includes/Elements/Container/Container.php:596
+#: includes/Options/Schemas/StyleOptions.php:203
+msgid "Sizing"
 msgstr ""
 
-#: editor.js:5865
-msgid "Enter the CSS class name without the leading dot"
+#: includes/Elements/Container/Container.php:605
+#: includes/Elements/Separator/Separator.php:154
+#: includes/Options/Schemas/BackgroundImage.php:171
+#: includes/Options/Schemas/StyleOptions.php:211
+msgid "Width"
 msgstr ""
 
-#: editor.js:5866
-msgid ".my-selector"
+#: includes/Elements/Container/Container.php:616
+#: includes/Options/Schemas/StyleOptions.php:221
+msgid "Min Width"
 msgstr ""
 
-#: editor.js:5866
-msgid "my-class-name"
+#: includes/Elements/Container/Container.php:627
+#: includes/Options/Schemas/StyleOptions.php:231
+msgid "Max Width"
 msgstr ""
 
-#: editor.js:5872
-msgid "Add child selector"
+#: includes/Elements/Container/Container.php:638
+#: includes/Options/Schemas/BackgroundImage.php:180
+#: includes/Options/Schemas/StyleOptions.php:241
+msgid "Height"
 msgstr ""
 
-#: editor.js:5872
-msgid "Add CSS class"
+#: includes/Elements/Container/Container.php:649
+#: includes/Options/Schemas/StyleOptions.php:251
+msgid "Min Height"
 msgstr ""
 
-#: editor.js:6161
-#: editor.js:12852
-msgid "Copy styles"
+#: includes/Elements/Container/Container.php:660
+#: includes/Options/Schemas/StyleOptions.php:261
+msgid "Max Height"
 msgstr ""
 
-#: editor.js:6168
-#: editor.js:12856
-#: editor.js:17832
-msgid "Paste styles"
+#: includes/Elements/Counter/Counter.php:39
+msgid "Counter"
 msgstr ""
 
-#: editor.js:6181
-msgid "Delete selector"
+#: includes/Elements/Counter/Counter.php:76
+msgid "Number: from"
 msgstr ""
 
-#: editor.js:6286
-msgid "Meet custom attributes"
+#: includes/Elements/Counter/Counter.php:77
+#: includes/Elements/Counter/Counter.php:94
+msgid "Set the desired starting number"
 msgstr ""
 
-#: editor.js:6287
-msgid "Generate custom attributes to every inner parts of the element"
+#: includes/Elements/Counter/Counter.php:93
+msgid "Number: to"
 msgstr ""
 
-#: editor.js:6288
+#: includes/Elements/Counter/Counter.php:110
+msgid "Speed"
+msgstr ""
+
+#: includes/Elements/Counter/Counter.php:111
+msgid "Set the desired speed for the animation"
+msgstr ""
+
+#: includes/Elements/Counter/Counter.php:127
+msgid "Text before"
+msgstr ""
+
+#: includes/Elements/Counter/Counter.php:135
+msgid "Text after"
+msgstr ""
+
+#: includes/Elements/Counter/Counter.php:143
+#: includes/Elements/Heading/Heading.php:146
+#: includes/Elements/Icon/Icon.php:101
+#: includes/Elements/IconBox/IconBox.php:122
+#: includes/Elements/Image/Image.php:106
+#: includes/Elements/ImageBox/ImageBox.php:133
+#: includes/Options/Schemas/Typography.php:30
+msgid "Align"
+msgstr ""
+
+#: includes/Elements/Counter/Counter.php:144
+#: includes/Elements/Heading/Heading.php:147
+#: includes/Elements/Icon/Icon.php:102
+#: includes/Elements/IconBox/IconBox.php:123
+#: includes/Elements/Image/Image.php:107
+#: includes/Elements/ImageBox/ImageBox.php:134
+msgid "Select the desired alignment."
+msgstr ""
+
+#: includes/Elements/Counter/Counter.php:148
+#: includes/Elements/IconList/IconList.php:108
+msgid "left"
+msgstr ""
+
+#: includes/Elements/Counter/Counter.php:184
+msgid "Before styles"
+msgstr ""
+
+#: includes/Elements/Counter/Counter.php:191
+msgid "After styles"
+msgstr ""
+
+#: includes/Elements/CustomCode/CustomCode.php:38
+msgid "Custom Code"
+msgstr ""
+
+#: includes/Elements/CustomCode/CustomCode.php:85
+msgid "Custom HTML/CSS/JavaScript"
+msgstr ""
+
+#: includes/Elements/CustomCode/CustomCode.php:93
+msgid "Using this option you can enter you own custom HTML code. If you plan on adding CSS or JavaScript, wrap the codes into <style type=\"text/css\">...</style> respectively <script>...</script> . Please make sure your JS code is fully functional as it might break the entire page!!"
+msgstr ""
+
+#: includes/Elements/CustomCode/CustomCode.php:94
+msgid "Custom html"
+msgstr ""
+
+#: includes/Elements/CustomCode/CustomCode.php:103
+msgid "Custom PHP"
+msgstr ""
+
+#: includes/Elements/CustomCode/CustomCode.php:111
+msgid "Meet Custom PHP"
+msgstr ""
+
+#: includes/Elements/CustomCode/CustomCode.php:112
+msgid "With custom PHP you can add additional logic to your page"
+msgstr ""
+
+#: includes/Elements/CustomCode/CustomCode.php:113
+#: includes/Options/Schemas/Advanced.php:583
+#: includes/Options/Schemas/PageOptions.php:131
+#: includes/Options/Schemas/PageOptions.php:150
+#: includes/Options/Schemas/StyleOptions.php:176
+#: includes/Options/Schemas/StyleOptions.php:570
+#: includes/Options/Schemas/StyleOptions.php:596
+#: includes/Options/Schemas/StyleOptions.php:622
+#: includes/Options/Schemas/StyleOptions.php:648
+#: includes/Permissions.php:76
+#: dist/editor.js:6260
 msgid "Click here to learn more about PRO."
 msgstr ""
 
-#: editor.js:7397
-msgid "Insert inside"
+#: includes/Elements/Element.php:587
+msgid "Wrapper"
 msgstr ""
 
-#: editor.js:7397
-msgid "Insert after"
+#: includes/Elements/Element.php:1523
+#: includes/Elements/Element.php:1550
+msgid "Heads up!"
 msgstr ""
 
-#: editor.js:11358
-msgid "oops, something went wrong!"
+#: includes/Elements/Gallery/Gallery.php:40
+#: includes/Elements/Gallery/Gallery.php:143
+msgid "Gallery"
 msgstr ""
 
-#: editor.js:12497
-msgid "Tree view"
+#: includes/Elements/Gallery/Gallery.php:87
+msgid "Columns"
 msgstr ""
 
-#: editor.js:12503
-msgid "Section view"
+#: includes/Elements/Gallery/Gallery.php:171
+msgid "Gallery item styles"
 msgstr ""
 
-#: editor.js:12509
-msgid "Wireframe"
+#: includes/Elements/Gallery/Gallery.php:236
+msgid "No images selected."
 msgstr ""
 
-#: editor.js:12623
-msgid "Global CSS classes"
+#: includes/Elements/GoogleMaps/GoogleMaps.php:39
+msgid "Google Maps"
 msgstr ""
 
-#: editor.js:12832
-msgid "Save changes"
+#: includes/Elements/GoogleMaps/GoogleMaps.php:87
+msgid "Map Location"
 msgstr ""
 
-#: editor.js:12836
-#: editor.js:17804
-msgid "Copy"
+#: includes/Elements/GoogleMaps/GoogleMaps.php:89
+msgid "Enter the desired location for this map"
 msgstr ""
 
-#: editor.js:12840
-#: editor.js:17822
-msgid "Paste"
+#: includes/Elements/GoogleMaps/GoogleMaps.php:98
+msgid "Zoom level"
 msgstr ""
 
-#: editor.js:12844
-#: editor.js:17813
-msgid "Cut"
+#: includes/Elements/GoogleMaps/GoogleMaps.php:110
+msgid "Map height"
 msgstr ""
 
-#: editor.js:12848
-#: editor.js:17795
-msgid "Duplicate"
+#: includes/Elements/GoogleMaps/GoogleMaps.php:160
+msgid "Map type"
 msgstr ""
 
-#: editor.js:12860
-msgid "Undo"
+#: includes/Elements/GoogleMaps/GoogleMaps.php:169
+msgid "Terrain"
 msgstr ""
 
-#: editor.js:12864
-#: editor.js:12868
-msgid "Redo"
+#: includes/Elements/Heading/Heading.php:39
+msgid "Heading"
 msgstr ""
 
-#: editor.js:12872
-msgid "Hide element"
+#: includes/Elements/Heading/Heading.php:78
+#: includes/Elements/Heading/Heading.php:185
+#: includes/Elements/IconBox/IconBox.php:206
+#: includes/Elements/ImageBox/ImageBox.php:217
+#: includes/Elements/Text/Text.php:78
+msgid "Just a sample text from heading element."
 msgstr ""
 
-#: editor.js:12876
-msgid "Toggle preview mode"
+#: includes/Elements/Heading/Heading.php:100
+msgid "Set the desired heading tag."
 msgstr ""
 
-#: editor.js:12880
-msgid "Toggle Tree View Panel"
+#: includes/Elements/Heading/Heading.php:103
+#: includes/Elements/IconBox/IconBox.php:162
+#: includes/Elements/ImageBox/ImageBox.php:173
+msgid "h1"
 msgstr ""
 
-#: editor.js:12884
-msgid "Toggle Library Panel"
+#: includes/Elements/Heading/Heading.php:107
+#: includes/Elements/IconBox/IconBox.php:166
+#: includes/Elements/ImageBox/ImageBox.php:177
+msgid "h2"
 msgstr ""
 
-#: editor.js:12888
-msgid "Toggle page options"
+#: includes/Elements/Heading/Heading.php:111
+#: includes/Elements/IconBox/IconBox.php:170
+#: includes/Elements/ImageBox/ImageBox.php:181
+msgid "h3"
 msgstr ""
 
-#: editor.js:12892
-msgid "Duplicate element in place"
+#: includes/Elements/Heading/Heading.php:115
+#: includes/Elements/IconBox/IconBox.php:174
+#: includes/Elements/ImageBox/ImageBox.php:185
+msgid "h4"
 msgstr ""
 
-#: editor.js:12893
-msgid "When dragging element"
+#: includes/Elements/Heading/Heading.php:119
+#: includes/Elements/IconBox/IconBox.php:178
+#: includes/Elements/ImageBox/ImageBox.php:189
+msgid "h5"
 msgstr ""
 
-#: editor.js:12897
-msgid "Set even values"
+#: includes/Elements/Heading/Heading.php:123
+#: includes/Elements/IconBox/IconBox.php:182
+#: includes/Elements/ImageBox/ImageBox.php:193
+msgid "h6"
 msgstr ""
 
-#: editor.js:12898
-msgid "When dragging toolbox"
+#: includes/Elements/Heading/Heading.php:127
+#: includes/Elements/IconBox/IconBox.php:186
+#: includes/Elements/ImageBox/ImageBox.php:197
+msgid "p"
 msgstr ""
 
-#: editor.js:12902
-msgid "Set even incremental value"
+#: includes/Elements/Heading/Heading.php:131
+#: includes/Elements/IconBox/IconBox.php:190
+#: includes/Elements/ImageBox/ImageBox.php:201
+msgid "span"
 msgstr ""
 
-#: editor.js:12906
-#: editor.js:13718
-msgid "Back to WP dashboard"
+#: includes/Elements/Heading/Heading.php:135
+#: includes/Elements/IconBox/IconBox.php:194
+#: includes/Elements/ImageBox/ImageBox.php:205
+msgid "div"
 msgstr ""
 
-#: editor.js:12910
-#: editor.js:12915
-msgid "Set incremental value"
+#: includes/Elements/Icon/Icon.php:112
+#: includes/Elements/Icon/Icon.php:142
+msgid "Select the desired icon style"
 msgstr ""
 
-#: editor.js:12911
-msgid "On input of type number"
+#: includes/Elements/Icon/Icon.php:113
+msgid "Style"
 msgstr ""
 
-#: editor.js:12920
-msgid "On input of type number with link option available"
+#: includes/Elements/Icon/Icon.php:118
+#: includes/Options/Schemas/PageOptions.php:31
+msgid "Default"
 msgstr ""
 
-#: editor.js:13123
-msgid "Discard changes for"
+#: includes/Elements/Icon/Icon.php:122
+msgid "Filled"
 msgstr ""
 
-#: editor.js:13700
-msgid "Start tour"
+#: includes/Elements/Icon/Icon.php:126
+msgid "Bordered"
 msgstr ""
 
-#: editor.js:13705
-msgid "Key shortcuts"
+#: includes/Elements/Icon/Icon.php:143
+msgid "Shape"
 msgstr ""
 
-#: editor.js:13709
-msgid "About"
+#: includes/Elements/Icon/Icon.php:148
+#: includes/Elements/ProgressBars/ProgressBars.php:159
+msgid "Square"
 msgstr ""
 
-#: editor.js:13714
-msgid "Builder settings"
+#: includes/Elements/Icon/Icon.php:152
+#: includes/Elements/ProgressBars/ProgressBars.php:167
+msgid "Circle"
 msgstr ""
 
-#: editor.js:13722
-msgid "Preview post"
+#: includes/Elements/Icon/Icon.php:179
+msgid "Border Radius"
 msgstr ""
 
-#: editor.js:13740
-msgid "Save Template"
+#: includes/Elements/Icon/Icon.php:201
+msgid "Icon Styles"
 msgstr ""
 
-#: editor.js:13745
-msgid "Save Page"
+#: includes/Elements/Icon/Icon.php:226
+msgid "Hover"
 msgstr ""
 
-#: editor.js:13750
-msgid "Save & Publish Page"
+#: includes/Elements/Icon/Icon.php:238
+#: includes/Elements/IconList/IconList.php:208
+#: includes/Elements/Separator/Separator.php:302
+msgid "Icon Color"
 msgstr ""
 
-#: editor.js:15033
-msgid "Start typing in the search field and the found options will appear here"
+#: includes/Elements/Icon/Icon.php:253
+msgid "Shape Color"
 msgstr ""
 
-#: editor.js:15198
-msgid "Advanced"
+#: includes/Elements/Icon/Icon.php:274
+#: includes/Elements/Separator/Separator.php:324
+msgid "Icon size"
 msgstr ""
 
-#: editor.js:15205
-msgid "Styles"
+#: includes/Elements/Icon/Icon.php:293
+msgid "Space around icon"
 msgstr ""
 
-#: editor.js:15737
-msgid "Edit template"
+#: includes/Elements/Icon/Icon.php:312
+msgid "Icon rotate"
 msgstr ""
 
-#: editor.js:15745
-msgid "Export template"
+#: includes/Elements/IconBox/IconBox.php:39
+msgid "Icon Box"
 msgstr ""
 
-#: editor.js:15752
-msgid "Regenerate screenshot"
+#: includes/Elements/IconBox/IconBox.php:92
+#: includes/Elements/ImageBox/ImageBox.php:104
+msgid "Set the desired timing function for the transition."
 msgstr ""
 
-#: editor.js:15760
-msgid "Delete template"
+#: includes/Elements/IconBox/IconBox.php:95
+msgid "Icon on top"
 msgstr ""
 
-#: editor.js:15895
-#: editor.js:17408
-msgid "All"
+#: includes/Elements/IconBox/IconBox.php:99
+msgid "Icon on left"
 msgstr ""
 
-#: editor.js:16271
-msgid "Import"
+#: includes/Elements/IconBox/IconBox.php:103
+msgid "Icon on right"
 msgstr ""
 
-#: editor.js:16495
-msgid "Could not lock current post"
+#: includes/Elements/IconBox/IconBox.php:146
+#: includes/Elements/ImageBox/ImageBox.php:157
+msgid "Just a sample title."
 msgstr ""
 
-#: editor.js:16668
-msgid "Choose a title"
+#: includes/Elements/IconBox/IconBox.php:158
+#: includes/Elements/ImageBox/ImageBox.php:169
+msgid "HTML title tag"
 msgstr ""
 
-#: editor.js:16669
-msgid "Write a suggestive name for your element"
+#: includes/Elements/IconBox/IconBox.php:159
+#: includes/Elements/ImageBox/ImageBox.php:170
+msgid "Set the desired HTML tag for the title."
 msgstr ""
 
-#: editor.js:16695
-msgid "The template was successfully added to library"
+#: includes/Elements/IconBox/IconBox.php:205
+#: includes/Elements/ImageBox/ImageBox.php:216
+msgid "Description text"
 msgstr ""
 
-#: editor.js:17414
-msgid "Favorites"
+#: includes/Elements/IconBox/IconBox.php:240
+#: includes/Elements/ImageBox/ImageBox.php:252
+#: includes/Elements/Testimonial/Testimonial.php:259
+msgid "Description styles"
 msgstr ""
 
-#: editor.js:17787
-msgid "Edit"
+#: includes/Elements/IconBox/IconBox.php:248
+msgid "Spacer styles"
 msgstr ""
 
-#: editor.js:17842
-msgid "Paste classes"
+#: includes/Elements/IconList/IconList.php:39
+msgid "Icon List"
 msgstr ""
 
-#: editor.js:17851
-msgid "Save Element "
+#: includes/Elements/IconList/IconList.php:81
+msgid "column"
 msgstr ""
 
-#: editor.js:17859
-msgid "Hide Element "
+#: includes/Elements/IconList/IconList.php:85
+msgid "row"
 msgstr ""
 
-#: editor.js:17859
-msgid "Show Element "
+#: includes/Elements/IconList/IconList.php:138
+msgid "List items"
 msgstr ""
 
-#: editor.js:17869
-msgid "Wrap with container"
+#: includes/Elements/IconList/IconList.php:139
+msgid "Add new list item"
 msgstr ""
 
-#: editor.js:17879
-msgid "Discard styles"
+#: includes/Elements/IconList/IconList.php:186
+#: includes/Elements/Text/Text.php:75
+msgid "Set the desired content for this element"
 msgstr ""
 
-#: editor.js:17888
-msgid "Delete Element"
+#: includes/Elements/IconList/IconList.php:188
+msgid "Enter item text"
 msgstr ""
 
-#: editor.js:18225
-#: editor.js:18824
-#: editor.js:18868
-msgid "added"
+#: includes/Elements/IconList/IconList.php:209
+msgid "Select the color of the icon"
 msgstr ""
 
-#: editor.js:18226
-msgid "deleted"
+#: includes/Elements/IconList/IconList.php:225
+msgid "Text Color"
 msgstr ""
 
-#: editor.js:18227
-msgid "renamed"
+#: includes/Elements/IconList/IconList.php:226
+msgid "Select the color of the text"
 msgstr ""
 
-#: editor.js:18228
-msgid "show"
+#: includes/Elements/IconList/IconList.php:251
+msgid "Item styles"
 msgstr ""
 
-#: editor.js:18229
-msgid "hide"
+#: includes/Elements/IconList/IconList.php:259
+msgid "Text styles"
 msgstr ""
 
-#: editor.js:18230
-msgid "duplicate"
+#: includes/Elements/Image/Image.php:41
+#: includes/Elements/Image/Image.php:91
+#: includes/Elements/ImageBox/ImageBox.php:90
+msgid "Image"
 msgstr ""
 
-#: editor.js:18231
-msgid "wrapped with container"
+#: includes/Elements/Image/Image.php:148
+msgid "Show caption"
 msgstr ""
 
-#: editor.js:18232
-msgid "copied"
+#: includes/Elements/Image/Image.php:156
+msgid "Caption Text"
 msgstr ""
 
-#: editor.js:18233
-msgid "moved"
+#: includes/Elements/Image/Image.php:157
+msgid "Image caption."
 msgstr ""
 
-#: editor.js:18234
-msgid "paste styles"
+#: includes/Elements/Image/Image.php:180
+msgid "Link styles"
 msgstr ""
 
-#: editor.js:18235
-msgid "paste css classes"
+#: includes/Elements/Image/Image.php:188
+#: includes/Elements/ImageBox/ImageBox.php:237
+#: includes/Elements/Testimonial/Testimonial.php:266
+msgid "Image styles"
 msgstr ""
 
-#: editor.js:18236
-msgid "discard styles"
+#: includes/Elements/ImageBox/ImageBox.php:40
+msgid "Image Box"
 msgstr ""
 
-#: editor.js:18408
-msgid "Page cleared"
+#: includes/Elements/ImageBox/ImageBox.php:103
+#: includes/Elements/Testimonial/Testimonial.php:140
+msgid "Image position"
 msgstr ""
 
-#: editor.js:18823
-msgid "Template"
+#: includes/Elements/ImageBox/ImageBox.php:107
+#: includes/Elements/Testimonial/Testimonial.php:144
+msgid "Image on top"
 msgstr ""
 
-#: editor.js:18867
+#: includes/Elements/ImageBox/ImageBox.php:111
+msgid "Image on left"
+msgstr ""
+
+#: includes/Elements/ImageBox/ImageBox.php:115
+msgid "Image on right"
+msgstr ""
+
+#: includes/Elements/ImageBox/ImageBox.php:155
+msgid "Set the desired title."
+msgstr ""
+
+#: includes/Elements/ImageBox/ImageBox.php:156
+msgid "Image box title"
+msgstr ""
+
+#: includes/Elements/ImageSlider/ImageSlider.php:42
+msgid "Image Slider"
+msgstr ""
+
+#: includes/Elements/ImageSlider/ImageSlider.php:90
+#: includes/Elements/ImageSlider/ImageSlider.php:91
+msgid "Select images."
+msgstr ""
+
+#: includes/Elements/ImageSlider/ImageSlider.php:92
+msgid "Gallery images."
+msgstr ""
+
+#: includes/Elements/ImageSlider/ImageSlider.php:112
+msgid "Show arrows"
+msgstr ""
+
+#: includes/Elements/ImageSlider/ImageSlider.php:122
+msgid "Show dots"
+msgstr ""
+
+#: includes/Elements/ImageSlider/ImageSlider.php:132
+msgid "Infinite"
+msgstr ""
+
+#: includes/Elements/ImageSlider/ImageSlider.php:133
+msgid "Set to yes to enable continuous loop mode. Please note that this is disabled in editor mode."
+msgstr ""
+
+#: includes/Elements/ImageSlider/ImageSlider.php:144
+msgid "Autoplay"
+msgstr ""
+
+#: includes/Elements/ImageSlider/ImageSlider.php:153
+msgid "Slides to show"
+msgstr ""
+
+#: includes/Elements/ImageSlider/ImageSlider.php:165
+msgid "Slides to scroll"
+msgstr ""
+
+#: includes/Elements/ImageSlider/ImageSlider.php:178
+msgid "Autoplay speed"
+msgstr ""
+
+#: includes/Elements/ImageSlider/ImageSlider.php:190
+msgid "Transition speed"
+msgstr ""
+
+#: includes/Elements/Manager.php:204
+#: includes/Elements/Tabs/Tabs.php:109
+#: dist/editor.js:18780
 msgid "Layout"
 msgstr ""
 
-#: editor.js:18912
+#: includes/Elements/Manager.php:214
+msgid "Media"
+msgstr ""
+
+#: includes/Elements/Manager.php:219
+msgid "External"
+msgstr ""
+
+#: includes/Elements/Manager.php:224
+msgid "WordPress Widgets"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:39
+msgid "Pricing Box"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:76
+msgid "Plan title"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:77
+#: includes/Elements/PricingBox/PricingBox.php:78
+msgid "Basic"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:89
+msgid "Plan description"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:90
+msgid "Pricing box description"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:91
+msgid "Price box description"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:103
+msgid "Heading color"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:122
+msgid "Heading background"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:137
+msgid "Price"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:138
+msgid "Choose price"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:139
+msgid "$999"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:148
+msgid "Period"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:149
+#: includes/Elements/PricingBox/PricingBox.php:150
+msgid "/month"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:158
+msgid "Features"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:159
+msgid "Please add each feature on a new line"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:160
+msgid "<p>20+ Proactively</p><p>facilitate 150+ Alternative</p><p>Vectors quality</p><p>Strategic themes</p><p>Brand</p><p>Intellectual capital</p><p>Proactive applications</p>"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:172
+msgid "Set the desired text for the button."
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:174
+msgid "Select this plan"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:185
+msgid "Add a link for the Button"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:186
+msgid "Button link"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:194
+msgid "Plan featured?"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:196
+msgid "Select 'YES' if you want this Plan to have a featured badge"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:216
+msgid "Borders color"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:247
+msgid "Featured Label styles"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:263
+msgid "Price styles"
+msgstr ""
+
+#: includes/Elements/PricingBox/PricingBox.php:271
+msgid "Features styles"
+msgstr ""
+
+#: includes/Elements/ProgressBars/ProgressBars.php:39
+msgid "Progress Bars"
+msgstr ""
+
+#: includes/Elements/ProgressBars/ProgressBars.php:76
+msgid "Add new progress bar"
+msgstr ""
+
+#: includes/Elements/ProgressBars/ProgressBars.php:81
+msgid "Bar 1"
+msgstr ""
+
+#: includes/Elements/ProgressBars/ProgressBars.php:85
+msgid "Bar 2"
+msgstr ""
+
+#: includes/Elements/ProgressBars/ProgressBars.php:90
+msgid "Progress Bar"
+msgstr ""
+
+#: includes/Elements/ProgressBars/ProgressBars.php:101
+msgid "Set the desired bar title"
+msgstr ""
+
+#: includes/Elements/ProgressBars/ProgressBars.php:112
+msgid "Fill percentage"
+msgstr ""
+
+#: includes/Elements/ProgressBars/ProgressBars.php:125
+#: includes/Elements/ProgressBars/ProgressBars.php:185
+msgid "Bar progress color"
+msgstr ""
+
+#: includes/Elements/ProgressBars/ProgressBars.php:140
+#: includes/Elements/ProgressBars/ProgressBars.php:201
+msgid "Bar background color"
+msgstr ""
+
+#: includes/Elements/ProgressBars/ProgressBars.php:155
+msgid "Select the desired bar style"
+msgstr ""
+
+#: includes/Elements/ProgressBars/ProgressBars.php:217
+msgid "Bars height"
+msgstr ""
+
+#: includes/Elements/ProgressBars/ProgressBars.php:236
+msgid "Items distance"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:39
+msgid "Section"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:98
+msgid "Select the desired inner content type"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:99
+#: includes/Elements/Section/Section.php:128
+msgid "Inner content width"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:104
+msgid "Boxed"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:108
+msgid "Full size"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:125
+msgid "Set the desired Inner Content width"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:171
+msgid "Set the desired columns gap. This will affect all inner columns."
+msgstr ""
+
+#: includes/Elements/Section/Section.php:172
+msgid "Columns gap"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:178
+msgid "Default (15px)"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:182
+msgid "Extra small (5px)"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:186
+msgid "Small (10px)"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:190
+msgid "Large (25px)"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:194
+msgid "Extra Large (40px)"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:198
+msgid "No gap"
+msgstr ""
+
+#: includes/Elements/Section/Section.php:481
+msgid "Inner Content"
+msgstr ""
+
+#: includes/Elements/Separator/Separator.php:40
+msgid "Separator"
+msgstr ""
+
+#: includes/Elements/Separator/Separator.php:77
+msgid "Separator Type"
+msgstr ""
+
+#: includes/Elements/Separator/Separator.php:110
+msgid "Alignment"
+msgstr ""
+
+#: includes/Elements/Separator/Separator.php:138
+msgid "Line color"
+msgstr ""
+
+#: includes/Elements/Separator/Separator.php:155
+msgid "Set separator width."
+msgstr ""
+
+#: includes/Elements/Separator/Separator.php:186
+msgid "Line thickness"
+msgstr ""
+
+#: includes/Elements/Separator/Separator.php:187
+msgid "Set stroke width."
+msgstr ""
+
+#: includes/Elements/Separator/Separator.php:273
+msgid "Use icon"
+msgstr ""
+
+#: includes/Elements/Shortcode/Shortcode.php:37
+msgid "Shortcode"
+msgstr ""
+
+#: includes/Elements/Sidebar/Sidebar.php:37
+msgid "Sidebar"
+msgstr ""
+
+#: includes/Elements/Sidebar/Sidebar.php:85
+#: includes/Elements/Sidebar/Sidebar.php:86
+msgid "Select sidebar"
+msgstr ""
+
+#: includes/Elements/Sidebar/Sidebar.php:105
+msgid "No sidebars registered"
+msgstr ""
+
+#: includes/Elements/Sidebar/Sidebar.php:129
+msgid "No sidebar selected"
+msgstr ""
+
+#: includes/Elements/Soundcloud/Soundcloud.php:37
+msgid "Soundcloud"
+msgstr ""
+
+#: includes/Elements/Soundcloud/Soundcloud.php:85
+msgid "Audio URL"
+msgstr ""
+
+#: includes/Elements/Soundcloud/Soundcloud.php:95
+msgid "Player type"
+msgstr ""
+
+#: includes/Elements/Soundcloud/Soundcloud.php:116
+msgid "Autoplay audio?"
+msgstr ""
+
+#: includes/Elements/Soundcloud/Soundcloud.php:138
+msgid "Show artwork?"
+msgstr ""
+
+#: includes/Elements/Soundcloud/Soundcloud.php:167
+msgid "Show play count?"
+msgstr ""
+
+#: includes/Elements/Soundcloud/Soundcloud.php:196
+msgid "Show related"
+msgstr ""
+
+#: includes/Elements/Soundcloud/Soundcloud.php:218
+msgid "Show user?"
+msgstr ""
+
+#: includes/Elements/Soundcloud/Soundcloud.php:240
+msgid "Show Like button?"
+msgstr ""
+
+#: includes/Elements/Soundcloud/Soundcloud.php:262
+msgid "Show buy button?"
+msgstr ""
+
+#: includes/Elements/Soundcloud/Soundcloud.php:284
+msgid "Show share button?"
+msgstr ""
+
+#: includes/Elements/Soundcloud/Soundcloud.php:306
+msgid "Show download button?"
+msgstr ""
+
+#: includes/Elements/Soundcloud/Soundcloud.php:328
+msgid "Buttons color"
+msgstr ""
+
+#: includes/Elements/Tabs/Tabs.php:40
+#: includes/Elements/Tabs/Tabs.php:77
+msgid "Tabs"
+msgstr ""
+
+#: includes/Elements/Tabs/Tabs.php:84
+#: includes/Elements/Tabs/Tabs.php:91
+#: includes/Elements/Tabs/Tabs.php:97
+msgid "Tab"
+msgstr ""
+
+#: includes/Elements/Tabs/Tabs.php:112
+msgid "Horizontal"
+msgstr ""
+
+#: includes/Elements/Tabs/Tabs.php:116
+msgid "Vertical"
+msgstr ""
+
+#: includes/Elements/Tabs/Tabs.php:120
+msgid "Stacked"
+msgstr ""
+
+#: includes/Elements/Tabs/Tabs.php:146
+msgid "Tab title styles"
+msgstr ""
+
+#: includes/Elements/Tabs/Tabs.php:154
+msgid "Active tab title styles"
+msgstr ""
+
+#: includes/Elements/Tabs/TabsItem.php:51
+msgid "Tab Item"
+msgstr ""
+
+#: includes/Elements/Tabs/TabsItem.php:71
+msgid "Tab title"
+msgstr ""
+
+#: includes/Elements/Tabs/TabsItem.php:80
+msgid "Tab content"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:40
+msgid "Testimonial"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:88
+msgid "Testimonial content"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:89
+msgid "Edit the element options to change it"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:100
+#: includes/Elements/Testimonial/Testimonial.php:102
+msgid "User name"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:101
+msgid "Set the desired user name."
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:103
+msgid "John Dow"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:114
+msgid "Client description"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:115
+msgid "Set the client description."
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:116
+msgid "description"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:117
+msgid "I'm Awesome"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:129
+msgid "User Photo"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:141
+msgid "Set where the image should be"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:148
+msgid "Image to the left"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:152
+msgid "Image to the right"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:171
+msgid "Content alignment"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:172
+msgid "Set how elements to be aligned"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:201
+msgid "Stars"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:205
+msgid "Do not show stars"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:209
+msgid "1 star"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:213
+msgid "2 stars"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:217
+msgid "3 stars"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:221
+msgid "4 stars"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:225
+msgid "5 stars"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:245
+msgid "Testimonial styles"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:252
+msgid "Name styles"
+msgstr ""
+
+#: includes/Elements/Testimonial/Testimonial.php:273
+msgid "Stars styles"
+msgstr ""
+
+#: includes/Elements/Text/Text.php:38
+msgid "Text"
+msgstr ""
+
+#: includes/Elements/Text/Text.php:77
+msgid "Enter text"
+msgstr ""
+
+#: includes/Elements/Video/Video.php:40
+msgid "Video"
+msgstr ""
+
+#: includes/Elements/Video/Video.php:102
+msgid "Use image overlay?"
+msgstr ""
+
+#: includes/Elements/Video/Video.php:111
+msgid "Image overlay"
+msgstr ""
+
+#: includes/Elements/Video/Video.php:131
+msgid "Show play icon"
+msgstr ""
+
+#: includes/FileSystem.php:56
+msgid "The zip file could not be extracted!"
+msgstr ""
+
+#: includes/FontsManager/FontsManager.php:35
+msgid "get_id must be implemented by the font provider"
+msgstr ""
+
+#: includes/ImportExport.php:113
+msgid "The template data is empty or invalid. Export aborted."
+msgstr ""
+
+#: includes/ImportExport.php:146
+msgid "ZipArchive class is not installed on your server."
+msgstr ""
+
+#. translators: %s: The export path for templates
+#: includes/ImportExport.php:163
+msgid "Could not create the export file in %s"
+msgstr ""
+
+#: includes/ImportExport.php:177
+msgid "Archive created successfully."
+msgstr ""
+
+#: includes/ImportExport.php:356
+msgid "Empty import resource"
+msgstr ""
+
+#: includes/ImportExport.php:379
+msgid "My Template"
+msgstr ""
+
+#: includes/ImportExport.php:384
+msgid "The newly template was not created."
+msgstr ""
+
+#: includes/ImportExport.php:423
+msgid "No configuration file found inside uploaded zip."
+msgstr ""
+
+#: includes/ImportExport.php:433
+msgid "The template configuration file is empty. There are no elements found."
+msgstr ""
+
+#: includes/Integrations.php:105
+msgid "The integration must implement IBaseIntegration"
+msgstr ""
+
+#: includes/Library/Library.php:47
+msgid "Local library"
+msgstr ""
+
+#: includes/Library/Library.php:56
+msgid "Zion Builder library"
+msgstr ""
+
+#: includes/Library/Sources/LocalSource.php:116
+#: includes/Templates.php:127
+#: dist/editor.js:18736
+msgid "Template"
+msgstr ""
+
+#: includes/Library/Sources/LocalSource.php:161
+msgid "The builder data for this item could not be retrieved!"
+msgstr ""
+
+#: includes/Library/Sources/ZionSource.php:65
+msgid "The template archive could not be found!"
+msgstr ""
+
+#: includes/MaintenanceMode.php:178
+msgid "Select mode"
+msgstr ""
+
+#: includes/MaintenanceMode.php:179
+msgid "Depending on the mode selected, your website will return a HTTP 200 response ( coming soon ) or a HTTP 503 mode ( maintenance mode )"
+msgstr ""
+
+#: includes/MaintenanceMode.php:183
+msgid "Disabled"
+msgstr ""
+
+#: includes/MaintenanceMode.php:187
+msgid "Coming Soon"
+msgstr ""
+
+#: includes/MaintenanceMode.php:191
+#: dist/admin-page.js:2739
+msgid "Maintenance mode"
+msgstr ""
+
+#: includes/MaintenanceMode.php:217
+#: includes/MaintenanceMode.php:219
+msgid "Select template"
+msgstr ""
+
+#: includes/MaintenanceMode.php:218
+msgid "Choose the template you want to use as your maintenance/coming soon page."
+msgstr ""
+
+#: includes/MaintenanceMode.php:234
+msgid "Allow logged in users to view the website"
+msgstr ""
+
+#: includes/MaintenanceMode.php:270
+msgid "Allow specific user roles to view the website"
+msgstr ""
+
+#: includes/MaintenanceMode.php:273
+msgid "Select user roles"
+msgstr ""
+
+#: includes/MaintenanceMode.php:287
+msgid "Allow specific IP's to access the website"
+msgstr ""
+
+#: includes/MaintenanceMode.php:288
+msgid "Enter a list of ip's separated by a comma"
+msgstr ""
+
+#: includes/MaintenanceMode.php:289
+msgid "192.168.1.1, 127.0.0.1"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:29
+msgid "General options"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:38
+msgid "Element name"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:49
+msgid "Element unique id"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:60
+msgid "Element visibility"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:64
+#: dist/editor.js:15818
+#: dist/editor.js:17331
+msgid "All"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:68
+msgid "Logged in users"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:72
+msgid "Logged out users"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:83
+msgid "Animations options"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:93
+msgid "Appear animation"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:97
+msgid "Search animation"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:105
+msgid "bounce"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:110
+msgid "flash"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:115
+msgid "pulse"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:120
+msgid "rubber Band"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:125
+msgid "shake"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:130
+msgid "head Shake"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:135
+msgid "swing"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:140
+msgid "tada"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:145
+msgid "wobble"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:150
+msgid "jello"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:155
+msgid "heart Beat"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:160
+msgid "bounce In"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:165
+msgid "bounce In Down"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:170
+msgid "bounce In Left"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:175
+msgid "bounce In Right"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:180
+msgid "bounce In Up"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:185
+msgid "bounce Out"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:190
+msgid "bounce Out Down"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:195
+msgid "bounce Out Left"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:200
+msgid "bounce Out Right"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:205
+msgid "bounce Out Up"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:210
+msgid "fade In"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:215
+msgid "fade In Down"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:220
+msgid "fade In Down Big"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:225
+msgid "fade In Left"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:230
+msgid "fade In Right"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:235
+msgid "fade In Left Big"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:240
+msgid "fade In Up"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:245
+msgid "fade In Up Big"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:250
+msgid "fade Out"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:255
+msgid "fade Out Down"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:260
+msgid "fade Out Down Big"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:265
+msgid "fade Out Left"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:270
+msgid "fade Out Left Big"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:275
+msgid "fade Out Right"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:280
+msgid "fade Out Right Big"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:285
+msgid "fade Out Up"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:290
+msgid "fade Out Up Big"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:295
+msgid "flip"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:300
+msgid "flip In X"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:305
+msgid "flip In Y"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:310
+msgid "flip Out X"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:315
+msgid "flip Out Y"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:320
+msgid "light Speed In"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:325
+msgid "light Speed Out"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:330
+msgid "rotate In"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:335
+msgid "rotate In Down Left"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:340
+msgid "rotate In Down Right"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:345
+msgid "rotate In Up Left"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:350
+msgid "rotate In Up Right"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:355
+msgid "rotate Out"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:360
+msgid "rotate Out Down Left"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:365
+msgid "rotate Out Down Right"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:370
+msgid "rotate Out Up Left"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:375
+msgid "rotate Out Up Right"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:380
+msgid "hinge"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:385
+msgid "jack In The Box"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:390
+msgid "roll In"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:395
+msgid "roll Out"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:400
+msgid "zoom In"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:405
+msgid "zoom In Down"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:410
+msgid "zoom In Left"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:415
+msgid "zoom In Right"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:420
+msgid "zoom In Up"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:425
+msgid "zoom Out"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:430
+msgid "zoom Out Down"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:435
+msgid "zoom Out Left"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:440
+msgid "zoomOutRight"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:445
+msgid "zoom Out Up"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:450
+msgid "slide In Down"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:455
+msgid "Slide In Left"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:460
+msgid "slide In Right"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:465
+msgid "slide In Up"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:470
+msgid "slide Out Down"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:475
+msgid "slide Out Left"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:480
+msgid "slide Out Right"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:485
+msgid "slide Out Up"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:504
+msgid "Appear duration"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:538
+msgid "Set the desired appear animation delay (in milliseconds)."
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:539
+msgid "Appear delay"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:572
+#: includes/Options/Schemas/PageOptions.php:120
+msgid "Custom CSS"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:581
+#: includes/Options/Schemas/PageOptions.php:129
+msgid "Meet Custom CSS"
+msgstr ""
+
+#: includes/Options/Schemas/Advanced.php:582
+msgid "With custom CSS you can fine tune the styling of your elements."
+msgstr ""
+
+#: includes/Options/Schemas/BackgroundImage.php:28
+msgid "Background repeat"
+msgstr ""
+
+#: includes/Options/Schemas/BackgroundImage.php:72
+msgid "Background attachment"
+msgstr ""
+
+#: includes/Options/Schemas/BackgroundImage.php:104
+msgid "Horizontal position"
+msgstr ""
+
+#: includes/Options/Schemas/BackgroundImage.php:113
+msgid "Vertical position"
+msgstr ""
+
+#: includes/Options/Schemas/BackgroundImage.php:122
+msgid "Background size"
+msgstr ""
+
+#: includes/Options/Schemas/BackgroundImage.php:157
+msgid "Background Size Units"
+msgstr ""
+
+#: includes/Options/Schemas/BackgroundImage.php:190
+msgid "Background Clip"
+msgstr ""
+
+#: includes/Options/Schemas/BackgroundImage.php:218
+msgid "Background blend mode"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:47
+msgid "Page options"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:57
+msgid "Enter the desired page title"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:58
+msgid "Page title"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:59
+msgid "Enter page title"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:68
+msgid "Select the page status."
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:69
+msgid "Page status"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:74
+msgid "Publish"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:78
+msgid "Draft"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:82
+msgid "Private"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:86
+msgid "Pending Review"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:96
+msgid "Select the desired page layout."
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:97
+msgid "Page layout"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:110
+msgid "Choose the desired page featured image."
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:111
+msgid "Page featured image"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:130
+msgid "With custom CSS you can add CSS to your page."
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:139
+msgid "Custom JavaScript"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:148
+msgid "Meet Custom JavaScript"
+msgstr ""
+
+#: includes/Options/Schemas/PageOptions.php:149
+msgid "With custom JavaScript you can add JavaScript code to this page."
+msgstr ""
+
+#: includes/Options/Schemas/Performance.php:31
+#: includes/Options/Schemas/Performance.php:35
+msgid "Load Google fonts locally"
+msgstr ""
+
+#: includes/Options/Schemas/Performance.php:32
+msgid "If enabled, Google fonts used by the builder will be downloaded and served from your server."
+msgstr ""
+
+#: includes/Options/Schemas/Performance.php:39
+msgid "Load Google fonts from Google servers"
+msgstr ""
+
+#: includes/Options/Schemas/Performance.php:51
+msgid "Font display"
+msgstr ""
+
+#: includes/Options/Schemas/Performance.php:83
+#: includes/Options/Schemas/Performance.php:87
+msgid "Disable Normalize.css"
+msgstr ""
+
+#: includes/Options/Schemas/Performance.php:84
+msgid "This option allows you do unload normalize.css script that is loaded by the builder. If your theme already loads this script, it is recommended to disable it from here."
+msgstr ""
+
+#: includes/Options/Schemas/Performance.php:91
+#: includes/Options/Schemas/Performance.php:111
+#: includes/Options/Schemas/Performance.php:131
+#: includes/Options/Schemas/Performance.php:150
+msgid "no"
+msgstr ""
+
+#: includes/Options/Schemas/Performance.php:104
+#: includes/Options/Schemas/Performance.php:107
+msgid "Disable jQuery migrate"
+msgstr ""
+
+#: includes/Options/Schemas/Performance.php:124
+#: includes/Options/Schemas/Performance.php:127
+msgid "Disable WordPress emojis"
+msgstr ""
+
+#: includes/Options/Schemas/Performance.php:143
+msgid "Disable area wrappers"
+msgstr ""
+
+#: includes/Options/Schemas/Performance.php:146
+msgid "Disable builder areas wrapper div"
+msgstr ""
+
+#: includes/Options/Schemas/Shadow.php:33
+msgid "Horizontal distance"
+msgstr ""
+
+#: includes/Options/Schemas/Shadow.php:47
+msgid "Vertical distance"
+msgstr ""
+
+#: includes/Options/Schemas/Shadow.php:61
+msgid "Blur"
+msgstr ""
+
+#: includes/Options/Schemas/Shadow.php:75
+msgid "Spread"
+msgstr ""
+
+#: includes/Options/Schemas/Shadow.php:86
+msgid "Shadow color"
+msgstr ""
+
+#: includes/Options/Schemas/Shadow.php:98
+msgid "Inset?"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:58
+msgid "Font"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:79
+#: includes/Options/Schemas/StyleOptions.php:89
+msgid "Text Shadow"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:90
+msgid "Set the desired text shadow"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:101
+#: includes/Options/Schemas/StyleOptions.php:108
+#: includes/Options/Schemas/StyleOptions.php:126
+msgid "Border"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:109
+msgid "Choose the desired border style."
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:118
+msgid "Border radius"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:127
+msgid "Choose the desired border radius style."
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:159
+msgid "Box shadow options"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:160
+#: includes/Options/Schemas/StyleOptions.php:296
+#: includes/Options/Schemas/StyleOptions.php:310
+#: includes/Options/Schemas/StyleOptions.php:323
+#: includes/Options/Schemas/StyleOptions.php:337
+#: includes/Options/Schemas/StyleOptions.php:352
+#: includes/Options/Schemas/StyleOptions.php:580
+#: includes/Options/Schemas/StyleOptions.php:606
+#: includes/Options/Schemas/StyleOptions.php:632
+msgid "Styling"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:164
+#: includes/Options/Schemas/StyleOptions.php:584
+#: includes/Options/Schemas/StyleOptions.php:610
+#: includes/Options/Schemas/StyleOptions.php:636
+msgid "PRO"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:174
+msgid "Meet Box Shadow"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:175
+msgid "With box shadow, you can create impressive 3d effects and designs"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:194
+msgid "Margin & padding"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:195
+msgid "Choose the desired margin and padding for this element."
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:295
+msgid "Background"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:309
+msgid "Typography"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:324
+msgid "Borders & Shadows"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:338
+msgid "Size & Spacing"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:362
+msgid "Z-index options"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:371
+msgid "Z-index"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:372
+msgid "Choose Z-index for element"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:380
+msgid "Display options"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:388
+msgid "Direction"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:389
+msgid "Set the text direction"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:394
+msgid "ltr"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:398
+msgid "rtl"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:409
+msgid "Cursor"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:410
+msgid "Set the cursor style"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:568
+msgid "Want additional display options?"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:569
+msgid "With ZionBuilder PRO you have access to additional options like display, flex, position, overflow and many more."
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:579
+msgid "Transitions"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:594
+msgid "Meet Transitions"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:595
+msgid "With transitions you can bring your elements to life by animating them to suit your needs."
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:605
+msgid "Transform"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:620
+msgid "Meet Transform"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:621
+msgid "With Zion Builder PRO you have access to transform options such as translate, scale, rotate, skew and perspective."
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:631
+msgid "Filters"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:646
+msgid "Meet Filters"
+msgstr ""
+
+#: includes/Options/Schemas/StyleOptions.php:647
+msgid "With filter options you can chang the element hue, saturate, opacity, contrast and box shadow."
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:31
+msgid "Select the desired text align."
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:53
+msgid "Font Family"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:64
+msgid "Font Weight"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:65
+msgid "Font weight allows you to set the text thickness."
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:108
+msgid "Bolder"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:112
+msgid "Lighter"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:116
+msgid "Inherit"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:120
+msgid "Initial"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:124
+msgid "Unset"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:133
+msgid "Font Color"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:142
+msgid "Font size"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:143
+msgid "The font size option sets the size of the font in various units"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:153
+msgid "Line height"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:154
+msgid "Line height sets the distance between lines of text."
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:164
+msgid "Letter Spacing"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:165
+msgid "Letter spacings sets the width between letters."
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:205
+msgid "uppercase"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:210
+msgid "lowercase"
+msgstr ""
+
+#: includes/Options/Schemas/Typography.php:215
+msgid "capitalize"
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:28
+msgid "Video source"
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:33
+#: dist/common.js:13322
+msgid "Local"
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:37
+msgid "Vimeo"
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:41
+msgid "Youtube"
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:48
+msgid "Local source"
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:49
+msgid "Select the video to use."
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:60
+msgid "Vimeo video url"
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:61
+msgid "Enter Vimeo url."
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:71
+msgid "Youtube video url"
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:72
+msgid "Enter the Youtube video url."
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:83
+msgid "Background type"
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:105
+msgid "Show controls"
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:117
+msgid "Controls position"
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:143
+msgid "Autoplay video?"
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:150
+msgid "Start muted?"
+msgstr ""
+
+#: includes/Options/Stack.php:30
+msgid "The child class must implement the get_stack() method returning a reference to an array"
+msgstr ""
+
+#: includes/Options/Stack.php:53
+msgid "Second argument of add_option must be an array or an instance of ZionBuilder\\Options\\Option"
+msgstr ""
+
+#: includes/Permissions.php:54
+msgid "Allow access to editor"
+msgstr ""
+
+#: includes/Permissions.php:74
+msgid "Meet Advanced permissions"
+msgstr ""
+
+#: includes/Permissions.php:75
+msgid "With advanced permissions you can give your users fine grained control over the builder."
+msgstr ""
+
+#: includes/Responsive.php:34
+msgid "Desktop"
+msgstr ""
+
+#: includes/Responsive.php:41
+msgid "Laptop"
+msgstr ""
+
+#: includes/Responsive.php:49
+msgid "Tablet"
+msgstr ""
+
+#: includes/Responsive.php:57
+msgid "Mobile"
+msgstr ""
+
+#: includes/Shortcodes.php:36
+msgid "Template id missing"
+msgstr ""
+
+#: includes/Shortcodes.php:42
+msgid "Template not found"
+msgstr ""
+
+#. translators: %s is the whitelabel plugin name
+#: includes/Shortcodes.php:48
+msgid "Template was not built with %s"
+msgstr ""
+
+#: includes/Templates.php:126
+#: dist/admin-page.js:2887
+msgid "Templates"
+msgstr ""
+
+#: includes/Templates.php:131
+msgid "Blocks"
+msgstr ""
+
+#: includes/Templates.php:132
+msgid "Block"
+msgstr ""
+
+#: includes/Templates.php:181
+msgid "The template type already exists."
+msgstr ""
+
+#: includes/Templates.php:221
+#: includes/Templates.php:232
+msgctxt "Zion Template Library"
+msgid "Zion Templates"
+msgstr ""
+
+#: includes/Templates.php:222
+msgctxt "Zion Template Library"
+msgid "Template"
+msgstr ""
+
+#: includes/Templates.php:223
+msgctxt "Zion Template Library"
+msgid "Add New"
+msgstr ""
+
+#: includes/Templates.php:224
+msgctxt "Zion Template Library"
+msgid "Add New Template"
+msgstr ""
+
+#: includes/Templates.php:225
+msgctxt "Zion Template Library"
+msgid "Edit Template"
+msgstr ""
+
+#: includes/Templates.php:226
+msgctxt "Zion Template Library"
+msgid "New Template"
+msgstr ""
+
+#: includes/Templates.php:227
+msgctxt "Zion Template Library"
+msgid "All Templates"
+msgstr ""
+
+#: includes/Templates.php:228
+msgctxt "Zion Template Library"
+msgid "View Template"
+msgstr ""
+
+#: includes/Templates.php:229
+msgctxt "Zion Template Library"
+msgid "Search Template"
+msgstr ""
+
+#: includes/Templates.php:230
+msgctxt "Zion Template Library"
+msgid "No Templates found"
+msgstr ""
+
+#: includes/Templates.php:231
+msgctxt "Zion Template Library"
+msgid "No Templates found in Trash"
+msgstr ""
+
+#: includes/Templates.php:304
+msgid "template"
+msgstr ""
+
+#: includes/Templates.php:313
+msgid "Missing template type"
+msgstr ""
+
+#: includes/User.php:33
+#: includes/User.php:53
+msgid "no active user found"
+msgstr ""
+
+#: includes/WPMedia.php:38
+msgid "image url missing"
+msgstr ""
+
+#: includes/WPMedia.php:45
+msgid "Could not retrieve the image id"
+msgstr ""
+
+#: includes/WPMedia.php:65
+msgid "Could not retrieve the image src for given image id"
+msgstr ""
+
+#: includes/WPMedia.php:300
+msgid "The image could not be retrieved"
+msgstr ""
+
+#. translators: %s Minimum PHP version
+#: zionbuilder.php:93
+msgid "Zion Builder requires at least PHP version %s. Please contact your hosting provider and ask them to update the PHP version used on your server. Zion builder will not be activated until the minimum PHP version is installed."
+msgstr ""
+
+#: zionbuilder.php:120
+msgid "Update WordPress"
+msgstr ""
+
+#. translators: %s: Minimum WordPress version
+#: zionbuilder.php:124
+msgid "Zion Builder requires at least WordPress version %s. Please update WordPress to the latest version. Zion Builder will not be activated until the minimum WordPress version is installed."
+msgstr ""
+
+#: dist/admin-page.js:2322
+msgid "With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features."
+msgstr ""
+
+#: dist/admin-page.js:2409
+msgid ""
+"<strong>Important:</strong> It is strongly recommended that you\n"
+"\t\t\t\t\t<a href=\"https://zionbuilder.io/documentation/replace-url-s/\" target=\"_blank\">backup your database</a> before using Replace\n"
+"\t\t\t\t\tURL."
+msgstr ""
+
+#: dist/admin-page.js:2713
+msgid "Settings"
+msgstr ""
+
+#: dist/admin-page.js:2724
+msgid "General Settings"
+msgstr ""
+
+#: dist/admin-page.js:2731
+msgid "Allowed Post types"
+msgstr ""
+
+#: dist/admin-page.js:2747
+msgid "Appearance"
+msgstr ""
+
+#: dist/admin-page.js:2758
+msgid "Font Options"
+msgstr ""
+
+#: dist/admin-page.js:2767
+msgid "Google Fonts"
+msgstr ""
+
+#: dist/admin-page.js:2774
+msgid "With PRO you can upload your own sets of fonts and assign it to your page elements."
+msgstr ""
+
+#: dist/admin-page.js:2780
+#: dist/admin-page.js:2798
+#: dist/admin-page.js:2813
+#: dist/admin-page.js:2867
+#: dist/editor.js:6251
+#: dist/editor.js:6252
+msgid "pro"
+msgstr ""
+
+#: dist/admin-page.js:2782
+msgid "Custom Fonts"
+msgstr ""
+
+#: dist/admin-page.js:2789
+msgid "With PRO you can use the Adobe fonts library to add your fonts along side Google fonts and custom fonts."
+msgstr ""
+
+#: dist/admin-page.js:2800
+msgid "Adobe Fonts"
+msgstr ""
+
+#: dist/admin-page.js:2807
+msgid "Zion Builder PRO lets you share you templates library with multiple websites."
+msgstr ""
+
+#: dist/admin-page.js:2815
+msgid "Custom Icons"
+msgstr ""
+
+#: dist/admin-page.js:2826
+msgid "Presets"
+msgstr ""
+
+#: dist/admin-page.js:2834
+msgid "Color Presets"
+msgstr ""
+
+#: dist/admin-page.js:2842
+msgid "Gradients"
+msgstr ""
+
+#: dist/admin-page.js:2850
+msgid "Performance"
+msgstr ""
+
+#: dist/admin-page.js:2857
+msgid "With PRO you can upload your own icons in addition to the Font Awesome icons that everyone is using."
+msgstr ""
+
+#: dist/admin-page.js:2864
+#: dist/editor.js:16196
+msgid "Library"
+msgstr ""
+
+#: dist/admin-page.js:2875
+msgid "Permissions"
+msgstr ""
+
+#: dist/admin-page.js:2894
+msgid "Custom code"
+msgstr ""
+
+#: dist/admin-page.js:2904
+msgid "Tools"
+msgstr ""
+
+#: dist/admin-page.js:2913
+msgid "General"
+msgstr ""
+
+#: dist/admin-page.js:2922
+msgid "Replace URL"
+msgstr ""
+
+#: dist/admin-page.js:2929
+msgid "System Info"
+msgstr ""
+
+#: dist/common.js:7448
+msgid "Discard changes"
+msgstr ""
+
+#: dist/common.js:13326
+msgid "Global"
+msgstr ""
+
+#: dist/common.js:14880
+msgid "Search through"
+msgstr ""
+
+#: dist/common.js:14880
+msgid "icons"
+msgstr ""
+
+#: dist/common.js:17274
+msgid "Color"
+msgstr ""
+
+#: dist/common.js:18170
+msgid "Mon"
+msgstr ""
+
+#: dist/common.js:18171
+msgid "Tue"
+msgstr ""
+
+#: dist/common.js:18172
+msgid "Wed"
+msgstr ""
+
+#: dist/common.js:18173
+msgid "Thu"
+msgstr ""
+
+#: dist/common.js:18174
+msgid "Fri"
+msgstr ""
+
+#: dist/common.js:18175
+msgid "Sat"
+msgstr ""
+
+#: dist/common.js:18176
+msgid "Sun"
+msgstr ""
+
+#: dist/common.js:18179
+msgid "January"
+msgstr ""
+
+#: dist/common.js:18180
+msgid "February"
+msgstr ""
+
+#: dist/common.js:18181
+msgid "March"
+msgstr ""
+
+#: dist/common.js:18182
+msgid "April"
+msgstr ""
+
+#: dist/common.js:18183
+msgid "May"
+msgstr ""
+
+#: dist/common.js:18184
+msgid "June"
+msgstr ""
+
+#: dist/common.js:18185
+msgid "July"
+msgstr ""
+
+#: dist/common.js:18186
+msgid "August"
+msgstr ""
+
+#: dist/common.js:18187
+msgid "September"
+msgstr ""
+
+#: dist/common.js:18188
+msgid "October"
+msgstr ""
+
+#: dist/common.js:18189
+msgid "November"
+msgstr ""
+
+#: dist/common.js:18190
+msgid "December"
+msgstr ""
+
+#: dist/common.js:18733
+msgid "Top masks"
+msgstr ""
+
+#: dist/common.js:18737
+msgid "Bottom masks"
+msgstr ""
+
+#: dist/common.js:18742
+msgid "Selected top mask"
+msgstr ""
+
+#: dist/common.js:18742
+msgid "Selected bottom mask"
+msgstr ""
+
+#: dist/common.js:18757
+msgid "Add a color to mask"
+msgstr ""
+
+#: dist/common.js:18762
+msgid "Add mask height"
+msgstr ""
+
+#: dist/common.js:18775
+msgid "Flip mask horizontally"
+msgstr ""
+
+#: dist/common.js:18980
+msgid "Align left"
+msgstr ""
+
+#: dist/common.js:18985
+msgid "Align center"
+msgstr ""
+
+#: dist/common.js:18990
+msgid "Align right"
+msgstr ""
+
+#: dist/common.js:19098
+msgid "Search"
+msgstr ""
+
+#: dist/common.js:19256
+msgid "Add new"
+msgstr ""
+
+#: dist/common.js:19827
+msgid "Margin top"
+msgstr ""
+
+#: dist/common.js:19837
+msgid "Margin right"
+msgstr ""
+
+#: dist/common.js:19847
+msgid "Margin bottom"
+msgstr ""
+
+#: dist/common.js:19857
+msgid "Margin left"
+msgstr ""
+
+#: dist/common.js:19869
+msgid "Padding top"
+msgstr ""
+
+#: dist/common.js:19879
+msgid "Padding right"
+msgstr ""
+
+#: dist/common.js:19889
+msgid "Padding bottom"
+msgstr ""
+
+#: dist/common.js:19899
+msgid "Padding left"
+msgstr ""
+
+#: dist/editor.js:3111
+msgid "New Window"
+msgstr ""
+
+#: dist/editor.js:3115
+msgid "Same Window"
+msgstr ""
+
+#: dist/editor.js:3810
+msgid "Root"
+msgstr ""
+
+#: dist/editor.js:3820
+msgid "Invalid Element"
+msgstr ""
+
+#: dist/editor.js:5189
+msgid "Editing started"
+msgstr ""
+
+#: dist/editor.js:5831
+msgid "Selector nice name"
+msgstr ""
+
+#: dist/editor.js:5831
+msgid "CSS class nice name"
+msgstr ""
+
+#: dist/editor.js:5832
+msgid "Enter a name that will help you recognize this CSS class"
+msgstr ""
+
+#: dist/editor.js:5836
+msgid "CSS selector"
+msgstr ""
+
+#: dist/editor.js:5836
+msgid "CSS class"
+msgstr ""
+
+#: dist/editor.js:5837
+msgid "Enter the css selector you want to style"
+msgstr ""
+
+#: dist/editor.js:5837
+msgid "Enter the CSS class name without the leading dot"
+msgstr ""
+
+#: dist/editor.js:5838
+msgid ".my-selector"
+msgstr ""
+
+#: dist/editor.js:5838
+msgid "my-class-name"
+msgstr ""
+
+#: dist/editor.js:5844
+msgid "Add child selector"
+msgstr ""
+
+#: dist/editor.js:5844
+msgid "Add CSS class"
+msgstr ""
+
+#: dist/editor.js:6133
+#: dist/editor.js:12785
+msgid "Copy styles"
+msgstr ""
+
+#: dist/editor.js:6140
+#: dist/editor.js:12789
+#: dist/editor.js:17755
+msgid "Paste styles"
+msgstr ""
+
+#: dist/editor.js:6153
+msgid "Delete selector"
+msgstr ""
+
+#: dist/editor.js:6258
+msgid "Meet custom attributes"
+msgstr ""
+
+#: dist/editor.js:6259
+msgid "Generate custom attributes to every inner parts of the element"
+msgstr ""
+
+#: dist/editor.js:7368
+msgid "Insert inside"
+msgstr ""
+
+#: dist/editor.js:7368
+msgid "Insert after"
+msgstr ""
+
+#: dist/editor.js:11305
+msgid "oops, something went wrong!"
+msgstr ""
+
+#: dist/editor.js:12430
+msgid "Tree view"
+msgstr ""
+
+#: dist/editor.js:12436
+msgid "Section view"
+msgstr ""
+
+#: dist/editor.js:12442
+msgid "Wireframe"
+msgstr ""
+
+#: dist/editor.js:12556
+msgid "Global CSS classes"
+msgstr ""
+
+#: dist/editor.js:12765
+msgid "Save changes"
+msgstr ""
+
+#: dist/editor.js:12769
+#: dist/editor.js:17727
+msgid "Copy"
+msgstr ""
+
+#: dist/editor.js:12773
+#: dist/editor.js:17745
+msgid "Paste"
+msgstr ""
+
+#: dist/editor.js:12777
+#: dist/editor.js:17736
+msgid "Cut"
+msgstr ""
+
+#: dist/editor.js:12781
+#: dist/editor.js:17718
+msgid "Duplicate"
+msgstr ""
+
+#: dist/editor.js:12793
+msgid "Undo"
+msgstr ""
+
+#: dist/editor.js:12797
+#: dist/editor.js:12801
+msgid "Redo"
+msgstr ""
+
+#: dist/editor.js:12805
+msgid "Hide element"
+msgstr ""
+
+#: dist/editor.js:12809
+msgid "Toggle preview mode"
+msgstr ""
+
+#: dist/editor.js:12813
+msgid "Toggle Tree View Panel"
+msgstr ""
+
+#: dist/editor.js:12817
+msgid "Toggle Library Panel"
+msgstr ""
+
+#: dist/editor.js:12821
+msgid "Toggle page options"
+msgstr ""
+
+#: dist/editor.js:12825
+msgid "Duplicate element in place"
+msgstr ""
+
+#: dist/editor.js:12826
+msgid "When dragging element"
+msgstr ""
+
+#: dist/editor.js:12830
+msgid "Set even values"
+msgstr ""
+
+#: dist/editor.js:12831
+msgid "When dragging toolbox"
+msgstr ""
+
+#: dist/editor.js:12835
+msgid "Set even incremental value"
+msgstr ""
+
+#: dist/editor.js:12839
+#: dist/editor.js:13651
+msgid "Back to WP dashboard"
+msgstr ""
+
+#: dist/editor.js:12843
+#: dist/editor.js:12848
+msgid "Set incremental value"
+msgstr ""
+
+#: dist/editor.js:12844
+msgid "On input of type number"
+msgstr ""
+
+#: dist/editor.js:12853
+msgid "On input of type number with link option available"
+msgstr ""
+
+#: dist/editor.js:13056
+msgid "Discard changes for"
+msgstr ""
+
+#: dist/editor.js:13633
+msgid "Start tour"
+msgstr ""
+
+#: dist/editor.js:13638
+msgid "Key shortcuts"
+msgstr ""
+
+#: dist/editor.js:13642
+msgid "About"
+msgstr ""
+
+#: dist/editor.js:13647
+msgid "Builder settings"
+msgstr ""
+
+#: dist/editor.js:13655
+msgid "Preview post"
+msgstr ""
+
+#: dist/editor.js:13673
+msgid "Save Template"
+msgstr ""
+
+#: dist/editor.js:13678
+msgid "Save Page"
+msgstr ""
+
+#: dist/editor.js:13683
+msgid "Save & Publish Page"
+msgstr ""
+
+#: dist/editor.js:14956
+msgid "Start typing in the search field and the found options will appear here"
+msgstr ""
+
+#: dist/editor.js:15121
+msgid "Advanced"
+msgstr ""
+
+#: dist/editor.js:15128
+msgid "Styles"
+msgstr ""
+
+#: dist/editor.js:15660
+msgid "Edit template"
+msgstr ""
+
+#: dist/editor.js:15668
+msgid "Export template"
+msgstr ""
+
+#: dist/editor.js:15675
+msgid "Regenerate screenshot"
+msgstr ""
+
+#: dist/editor.js:15683
+msgid "Delete template"
+msgstr ""
+
+#: dist/editor.js:16194
+msgid "Import"
+msgstr ""
+
+#: dist/editor.js:16418
+msgid "Could not lock current post"
+msgstr ""
+
+#: dist/editor.js:16591
+msgid "Choose a title"
+msgstr ""
+
+#: dist/editor.js:16592
+msgid "Write a suggestive name for your element"
+msgstr ""
+
+#: dist/editor.js:16618
+msgid "The template was successfully added to library"
+msgstr ""
+
+#: dist/editor.js:17337
+msgid "Favorites"
+msgstr ""
+
+#: dist/editor.js:17710
+msgid "Edit"
+msgstr ""
+
+#: dist/editor.js:17765
+msgid "Paste classes"
+msgstr ""
+
+#: dist/editor.js:17774
+msgid "Save Element "
+msgstr ""
+
+#: dist/editor.js:17782
+msgid "Hide Element "
+msgstr ""
+
+#: dist/editor.js:17782
+msgid "Show Element "
+msgstr ""
+
+#: dist/editor.js:17792
+msgid "Wrap with container"
+msgstr ""
+
+#: dist/editor.js:17802
+msgid "Discard styles"
+msgstr ""
+
+#: dist/editor.js:17811
+msgid "Delete Element"
+msgstr ""
+
+#: dist/editor.js:18148
+#: dist/editor.js:18737
+#: dist/editor.js:18781
+msgid "added"
+msgstr ""
+
+#: dist/editor.js:18149
+msgid "deleted"
+msgstr ""
+
+#: dist/editor.js:18150
+msgid "renamed"
+msgstr ""
+
+#: dist/editor.js:18151
+msgid "show"
+msgstr ""
+
+#: dist/editor.js:18152
+msgid "hide"
+msgstr ""
+
+#: dist/editor.js:18153
+msgid "duplicate"
+msgstr ""
+
+#: dist/editor.js:18154
+msgid "wrapped with container"
+msgstr ""
+
+#: dist/editor.js:18155
+msgid "copied"
+msgstr ""
+
+#: dist/editor.js:18156
+msgid "moved"
+msgstr ""
+
+#: dist/editor.js:18157
+msgid "paste styles"
+msgstr ""
+
+#: dist/editor.js:18158
+msgid "paste css classes"
+msgstr ""
+
+#: dist/editor.js:18159
+msgid "discard styles"
+msgstr ""
+
+#: dist/editor.js:18321
+msgid "Page cleared"
+msgstr ""
+
+#: dist/editor.js:18825
 msgid "Edited"
 msgstr ""

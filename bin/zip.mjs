@@ -43,28 +43,4 @@ function createZip() {
     });
 }
 
-//   return new Promise(async (resolve, reject) => {
-//     console.log('Building files...');
-
-//     try {
-//       // Build CSS and JS
-//     //   await buildCommand();
-//     //   console.log('Build files!');
-
-//     //   // Dump auto-load
-//     //   exec('composer dump-autoload --no-dev --optimize');
-//     //   console.log('Dumped autoload with no dev argument!');
-
-//     //   // Generate translation files
-//     //   await translateCommand();
-//     //   console.log('Generated localization strings!');
-
-//       // Create the zip file
-//       createZip();
-//     } catch (error) {
-//       reject(error);
-//     }
-//   });
-// }
-
 createZip();

@@ -11,7 +11,7 @@
     "translate": "composer run-script makepot",
     "dev": "node ./bin/dev.mjs",
     "build": "node ./bin/build.mjs",
-    "zip": "node ./bin/build.mjs && node ./bin/translate.mjs && composer dump-autoload --no-dev --optimize && node ./bin/zip.mjs",
+    "zip": "node ./bin/build.mjs && composer run-script makepot && composer dump-autoload --no-dev --optimize && node ./bin/zip.mjs",
     "publish": "yarn run publish:packages",
     "build:types": "tsc --build",
     "postinstall": "composer install",

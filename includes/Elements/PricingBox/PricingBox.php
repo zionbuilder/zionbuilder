@@ -276,7 +276,7 @@ class PricingBox extends Element {
 		$this->register_style_options_element(
 			'button_styles',
 			[
-				'title'      => esc_html__( 'Buton styles', 'zionbuilder' ),
+				'title'      => esc_html__( 'Button styles', 'zionbuilder' ),
 				'selector'   => '{{ELEMENT}} .zb-el-pricingBox-action',
 				'render_tag' => 'link',
 			]

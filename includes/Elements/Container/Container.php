@@ -391,7 +391,7 @@ class Container extends Element {
 						'icon' => 'content-space-around',
 					],
 					[
-						'name' => __( 'strech', 'zionbuilder' ),
+						'name' => __( 'stretch', 'zionbuilder' ),
 						'id'   => 'stretch',
 						'icon' => 'content-stretch',
 					],
