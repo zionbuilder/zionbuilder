@@ -1,7 +1,7 @@
 <template>
 	<BasePanel
 		ref="basePanel"
-		:panel-name="__('Tree view panel', 'zionbuilder')"
+		:panel-name="i18n.__('Tree view panel', 'zionbuilder')"
 		panel-id="panel-tree"
 		:css-class="activeTreeViewPanel.basePanelCssClass"
 		:expanded="activeTreeViewPanel.expandMainPanel"
@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { type Component, ref, computed, watch } from 'vue';
 import { useUIStore, useContentStore } from '/@/editor/store';
 import SectionView from './sectionView/SectionViewPanel.vue';
@@ -65,19 +65,19 @@ type TreeViewPanel = {
 // Tree view types
 const treeViewTypes: TreeViewPanel[] = [
 	{
-		name: __('Tree view', 'zionbuilder'),
+		name: i18n.__('Tree view', 'zionbuilder'),
 		id: 'TreeView',
 		component: TreeView,
 		icon: 'treeview',
 	},
 	{
-		name: __('Section view', 'zionbuilder'),
+		name: i18n.__('Section view', 'zionbuilder'),
 		id: 'SectionView',
 		component: SectionView,
 		icon: 'structure',
 	},
 	{
-		name: __('Wireframe', 'zionbuilder'),
+		name: i18n.__('Wireframe', 'zionbuilder'),
 		id: 'WireframeView',
 		component: WireframeView,
 		icon: 'layout',

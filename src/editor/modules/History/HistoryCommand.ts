@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { BaseCommand } from '/@/editor/modules/Commands/BaseCommand';
 import { useHistoryStore } from '/@/editor/store';
 
@@ -13,18 +13,18 @@ export class HistoryCommand extends BaseCommand {
 
 	getActionName(action: string) {
 		const actions: Record<string, string> = {
-			added: __( 'added', 'zionbuilder' ),
-			deleted: __( 'deleted', 'zionbuilder' ),
-			renamed: __( 'renamed', 'zionbuilder' ),
-			show: __( 'show', 'zionbuilder' ),
-			hide: __( 'hide', 'zionbuilder' ),
-			duplicate: __( 'duplicate', 'zionbuilder' ),
-			wrapped_with_container: __( 'wrapped with container', 'zionbuilder' ),
-			copied: __( 'copied', 'zionbuilder' ),
-			moved: __( 'moved', 'zionbuilder' ),
-			pasteStyles: __( 'paste styles', 'zionbuilder' ),
-			pasteCSSClasses: __( 'paste css classes', 'zionbuilder' ),
-			discardStyles: __( 'discard styles', 'zionbuilder' ),
+			added: i18n.__( 'added', 'zionbuilder' ),
+			deleted: i18n.__( 'deleted', 'zionbuilder' ),
+			renamed: i18n.__( 'renamed', 'zionbuilder' ),
+			show: i18n.__( 'show', 'zionbuilder' ),
+			hide: i18n.__( 'hide', 'zionbuilder' ),
+			duplicate: i18n.__( 'duplicate', 'zionbuilder' ),
+			wrapped_with_container: i18n.__( 'wrapped with container', 'zionbuilder' ),
+			copied: i18n.__( 'copied', 'zionbuilder' ),
+			moved: i18n.__( 'moved', 'zionbuilder' ),
+			pasteStyles: i18n.__( 'paste styles', 'zionbuilder' ),
+			pasteCSSClasses: i18n.__( 'paste css classes', 'zionbuilder' ),
+			discardStyles: i18n.__( 'discard styles', 'zionbuilder' ),
 		};
 
 		return actions[action] || 'Invalid action';

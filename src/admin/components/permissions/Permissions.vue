@@ -6,14 +6,14 @@
 				<Loader v-if="loading" />
 				<template v-else>
 					<div class="znpb-admin-role-manager-wrapper">
-						<h3>{{ __('Role manager', 'zionbuilder') }}</h3>
+						<h3>{{ i18n.__('Role manager', 'zionbuilder') }}</h3>
 						<SingleRole v-for="(role, i) in dataSets.user_roles" :key="i" :role="role" />
 					</div>
 				</template>
 				<template #right>
 					<p class="znpb-admin-info-p">
 						{{
-							__(
+							i18n.__(
 								'Manage the permissions by selecting which users are allowed to use the page builder. Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder.',
 								'zionbuilder',
 							)
@@ -26,15 +26,15 @@
 				<UpgradeToPro
 					v-if="!is_pro_active"
 					:info-text="proLink"
-					:message_title="__('specific users control', 'zionbuilder')"
-					:message_description="__('Want to give control to specific users?', 'zionbuilder')"
+					:message_title="i18n.__('specific users control', 'zionbuilder')"
+					:message_description="i18n.__('Want to give control to specific users?', 'zionbuilder')"
 				/>
 				<template v-else-if="!loading">
 					<div class="znpb-admin-user-specific-wrapper">
-						<h3>{{ __('User specific permissions', 'zionbuilder') }}</h3>
+						<h3>{{ i18n.__('User specific permissions', 'zionbuilder') }}</h3>
 
 						<EmptyList v-if="Object.entries(userPermissions).length === 0" @click="showModal = true">{{
-							__('no user added yet', 'zionbuilder')
+							i18n.__('no user added yet', 'zionbuilder')
 						}}</EmptyList>
 
 						<SingleUser
@@ -47,13 +47,13 @@
 					<div class="znpb-admin-user-specific-actions">
 						<Button type="secondary" @click="showModal = true">
 							<span class="znpb-add-element-icon"></span>
-							{{ __('Add a User', 'zionbuilder') }}
+							{{ i18n.__('Add a User', 'zionbuilder') }}
 						</Button>
 						<Modal
 							v-model:show="showModal"
 							class="znpb-admin-permissions-modal"
 							:width="560"
-							:title="__('Add a User', 'zionbuilder')"
+							:title="i18n.__('Add a User', 'zionbuilder')"
 							:show-backdrop="false"
 						>
 							<AddUserModalContent @close-modal="showModal = false" />
@@ -63,7 +63,7 @@
 				<template #right>
 					<p class="znpb-admin-info-p">
 						{{
-							__(
+							i18n.__(
 								'Manage your wordpress users permissions. Adding a new user will allow the basic permissions which can be edited afterwards.',
 								'zionbuilder',
 							)
@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useEnvironmentStore } from '@zb/store';

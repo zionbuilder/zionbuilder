@@ -26,7 +26,7 @@
 				.{{ cssClass }}
 
 				<Icon
-					v-znpb-tooltip="__('Remove class', 'zionbuilder')"
+					v-znpb-tooltip="i18n.__('Remove class', 'zionbuilder')"
 					class="znpb-element-styles__mediaActiveClassRemove"
 					icon="close"
 					@click.stop.prevent="onRemoveClass(cssClass)"
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed } from 'vue';
 import PseudoSelectors from './PseudoSelectors.vue';
 import ClassSelectorDropdown from './ClassSelectorDropdown.vue';

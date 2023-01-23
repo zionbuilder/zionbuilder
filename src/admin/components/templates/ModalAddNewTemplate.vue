@@ -1,26 +1,26 @@
 <template>
 	<ModalTemplateSaveButton :disabled="!canAdd" @save-modal="emit('save-template', localTemplate)">
 		<div class="znpb-admin-title-block znpb-admin-title-block--heading">
-			<h4 class="znpb-admin-modal-title-block__title">{{ __('Shortcode', 'zionbuilder') }}</h4>
+			<h4 class="znpb-admin-modal-title-block__title">{{ i18n.__('Shortcode', 'zionbuilder') }}</h4>
 			<p class="znpb-admin-modal-title-block__desc">
-				{{ __('Create a new template by choosing the template type and adding a name', 'zionbuilder') }}
+				{{ i18n.__('Create a new template by choosing the template type and adding a name', 'zionbuilder') }}
 			</p>
 		</div>
-		<ModalTwoColTemplate :title="__('Template type', 'zionbuilder')" :desc="__('Select a template', 'zionbuilder')">
+		<ModalTwoColTemplate :title="i18n.__('Template type', 'zionbuilder')" :desc="i18n.__('Select a template', 'zionbuilder')">
 			<InputSelect
 				v-model="localTemplate.template_type"
-				:placeholder="__('Select type', 'zionbuilder')"
+				:placeholder="i18n.__('Select type', 'zionbuilder')"
 				:options="templates"
 				class="znpb-admin-add-template-select"
 			/>
 		</ModalTwoColTemplate>
 		<ModalTwoColTemplate
-			:title="__('Template Name', 'zionbuilder')"
-			:desc="__('Type a name for the new template', 'zionbuilder')"
+			:title="i18n.__('Template Name', 'zionbuilder')"
+			:desc="i18n.__('Type a name for the new template', 'zionbuilder')"
 		>
 			<BaseInput
 				v-model="localTemplate.title"
-				:placeholder="__('Enter a name for this template', 'zionbuilder')"
+				:placeholder="i18n.__('Enter a name for this template', 'zionbuilder')"
 				class="znpb-admin-add-template-input"
 			/>
 		</ModalTwoColTemplate>
@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 
 const props = withDefaults(

@@ -4,11 +4,11 @@
 		:class="{ 'znpb-about-modal__version-card--active': !EnvironmentStore.plugin_pro.is_active || isProActive }"
 	>
 		<Icon icon="zion-icon-logo" />
-		<div v-if="isPro" class="znpb-pro-item">{{ __('pro', 'zionbuilder') }}</div>
+		<div v-if="isPro" class="znpb-pro-item">{{ i18n.__('pro', 'zionbuilder') }}</div>
 		<span class="znpb-about-modal__plugin-title"
 			>{{ EnvironmentStore.plugin_name }}
-			<span v-if="isPro">{{ __('pro', 'zionbuilder') }}</span>
-			<span v-else>{{ __('FREE', 'zionbuilder') }}</span>
+			<span v-if="isPro">{{ i18n.__('pro', 'zionbuilder') }}</span>
+			<span v-else>{{ i18n.__('FREE', 'zionbuilder') }}</span>
 		</span>
 		<div class="znpb-about-modal-text-wrapper">
 			<template v-if="!isPro">
@@ -19,13 +19,13 @@
 						target="_blank"
 						title="changelog"
 						class="znpb-about-modal__help"
-						>{{ __('View changelog', 'zionbuilder') }}</a
+						>{{ i18n.__('View changelog', 'zionbuilder') }}</a
 					>
 				</template>
 			</template>
 			<template v-else>
 				<span v-if="!isProActive && isPro">
-					{{ __('Not installed!', 'zionbuilder') }}
+					{{ i18n.__('Not installed!', 'zionbuilder') }}
 				</span>
 				<template v-if="version !== null && updateVersion !== null">
 					<span>{{ version }}</span>
@@ -34,7 +34,7 @@
 						target="_blank"
 						title="changelog"
 						class="znpb-about-modal__help"
-						>{{ __('View changelog', 'zionbuilder') }}</a
+						>{{ i18n.__('View changelog', 'zionbuilder') }}</a
 					>
 				</template>
 			</template>
@@ -45,10 +45,10 @@
 				:href="EnvironmentStore.urls.updates_page"
 				target="_blank"
 				class="znpb-button znpb-about-modal__version-card-button"
-				>{{ __('Update to', 'zionbuilder') }} {{ updateVersion }}
+				>{{ i18n.__('Update to', 'zionbuilder') }} {{ updateVersion }}
 			</a>
 			<span v-else class="znpb-about-modal-text-wrapper__up-to-date">
-				{{ __('You are up to date!', 'zionbuilder') }}
+				{{ i18n.__('You are up to date!', 'zionbuilder') }}
 			</span>
 		</template>
 		<template v-else>
@@ -58,14 +58,14 @@
 				target="_blank"
 				title="purchase"
 				class="znpb-button znpb-button--secondary"
-				>{{ __('Buy Pro', 'zionbuilder') }}
+				>{{ i18n.__('Buy Pro', 'zionbuilder') }}
 			</a>
 			<template v-else>
 				<span
 					v-if="updateVersion === undefined || version === null || updateVersion === version"
 					class="znpb-about-modal-text-wrapper__up-to-date"
 				>
-					{{ __('You are up to date!', 'zionbuilder') }}
+					{{ i18n.__('You are up to date!', 'zionbuilder') }}
 				</span>
 				<a
 					v-else
@@ -73,7 +73,7 @@
 					title="updates"
 					target="_blank"
 					class="znpb-button znpb-about-modal__version-card-button"
-					>{{ __('Update to version', 'zionbuilder') }} {{ updateVersion }}
+					>{{ i18n.__('Update to version', 'zionbuilder') }} {{ updateVersion }}
 				</a>
 			</template>
 		</template>
@@ -81,7 +81,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 
 import { useEnvironmentStore } from '@zb/store';
 

@@ -13,7 +13,7 @@
 			v-model:show="showModal"
 			class="znpb-admin-permissions-modal"
 			:width="560"
-			:title="userData.name + ' ' + __('Permissions', 'zionbuilder')"
+			:title="userData.name + ' ' + i18n.__('Permissions', 'zionbuilder')"
 			:show-backdrop="false"
 		>
 			<UserModalContent :permissions="permissions" @edit-role="editUserPermission(userId, $event)" />
@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed, ref } from 'vue';
 
 // Components

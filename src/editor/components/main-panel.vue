@@ -14,7 +14,7 @@
 		<div class="znpb-editor-header__first">
 			<!-- treeview -->
 			<div
-				v-znpb-tooltip:[tooltipsPosition]="__('Tree view', 'zionbuilder')"
+				v-znpb-tooltip:[tooltipsPosition]="i18n.__('Tree view', 'zionbuilder')"
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--treeview"
 				:class="{
 					active: UIStore.openPanelsIDs.includes('panel-tree'),
@@ -26,7 +26,7 @@
 			<!-- library -->
 			<div
 				v-if="!userStore.permissions.only_content"
-				v-znpb-tooltip:[tooltipsPosition]="__('Library', 'zionbuilder')"
+				v-znpb-tooltip:[tooltipsPosition]="i18n.__('Library', 'zionbuilder')"
 				:class="{
 					active: UIStore.isLibraryOpen,
 				}"
@@ -37,7 +37,7 @@
 			</div>
 			<!-- history -->
 			<div
-				v-znpb-tooltip:[tooltipsPosition]="__('History', 'zionbuilder')"
+				v-znpb-tooltip:[tooltipsPosition]="i18n.__('History', 'zionbuilder')"
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--history"
 				:class="{
 					active: UIStore.openPanelsIDs.includes('panel-history'),
@@ -56,7 +56,7 @@
 			<!-- options -->
 			<div
 				v-if="!userStore.permissions.only_content"
-				v-znpb-tooltip:[tooltipsPosition]="__('Page options', 'zionbuilder')"
+				v-znpb-tooltip:[tooltipsPosition]="i18n.__('Page options', 'zionbuilder')"
 				class="znpb-editor-header__menu_button"
 				:class="{
 					active: UIStore.openPanelsIDs.includes('panel-global-settings'),
@@ -87,7 +87,7 @@
 				v-if="showGettingStartedVideo && gettingStartedVideoURL"
 				v-model:show="showGettingStartedVideo"
 				:width="840"
-				:title="__('Getting started', 'zionbuilder')"
+				:title="i18n.__('Getting started', 'zionbuilder')"
 				append-to="#znpb-main-wrapper"
 				class="znpb-helpmodal-wrapper"
 			>
@@ -105,7 +105,7 @@
 				v-if="shortcutsModalVisibility"
 				v-model:show="shortcutsModalVisibility"
 				:width="560"
-				:title="__('Key shortcuts', 'zionbuilder')"
+				:title="i18n.__('Key shortcuts', 'zionbuilder')"
 				append-to="#znpb-main-wrapper"
 			>
 				<keyShortcuts />
@@ -115,7 +115,7 @@
 				v-if="aboutModalVisibility"
 				v-model:show="aboutModalVisibility"
 				:width="580"
-				:title="__('About', 'zionbuilder')"
+				:title="i18n.__('About', 'zionbuilder')"
 				:show-maximize="false"
 				append-to="#znpb-main-wrapper"
 			>
@@ -145,7 +145,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed, onBeforeUnmount } from 'vue';
 import keyShortcuts from './key-shortcuts/keyShortcuts.vue';
 import aboutModal from './aboutModal.vue';
@@ -203,29 +203,29 @@ const hasWhiteLabel = computed(() => {
 const helpMenuItems = computed(() => {
 	const helpArray = [
 		{
-			title: __('Start tour', 'zionbuilder'),
+			title: i18n.__('Start tour', 'zionbuilder'),
 			action: doShowGettingStartedVideo,
 			canShow: isPro && gettingStartedVideoURL.length > 0,
 		},
 		{
-			title: __('Key shortcuts', 'zionbuilder'),
+			title: i18n.__('Key shortcuts', 'zionbuilder'),
 			action: () => (shortcutsModalVisibility.value = true),
 		},
 		{
-			title: __('About', 'zionbuilder'),
+			title: i18n.__('About', 'zionbuilder'),
 			action: () => (aboutModalVisibility.value = true),
 			canShow: !hasWhiteLabel.value,
 		},
 		{
-			title: __('Builder settings', 'zionbuilder'),
+			title: i18n.__('Builder settings', 'zionbuilder'),
 			url: editorData.value.urls.zion_admin,
 		},
 		{
-			title: __('Back to WP dashboard', 'zionbuilder'),
+			title: i18n.__('Back to WP dashboard', 'zionbuilder'),
 			url: editorData.value.urls.edit_page,
 		},
 		{
-			title: __('Preview post', 'zionbuilder'),
+			title: i18n.__('Preview post', 'zionbuilder'),
 			action: openPreviewPage,
 		},
 	];
@@ -247,17 +247,17 @@ function saveTemplate() {
 const saveActions = [
 	{
 		icon: 'save-template',
-		title: __('Save Template', 'zionbuilder'),
+		title: i18n.__('Save Template', 'zionbuilder'),
 		action: saveTemplate,
 	},
 	{
 		icon: 'save-draft',
-		title: __('Save Page', 'zionbuilder'),
+		title: i18n.__('Save Page', 'zionbuilder'),
 		action: saveDraft,
 	},
 	{
 		icon: 'save-page',
-		title: __('Save & Publish Page', 'zionbuilder'),
+		title: i18n.__('Save & Publish Page', 'zionbuilder'),
 		action: savePage,
 	},
 ];

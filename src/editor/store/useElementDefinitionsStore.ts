@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { markRaw } from 'vue';
 import { defineStore } from 'pinia';
 import { find } from 'lodash-es';
@@ -21,7 +21,7 @@ export const useElementDefinitionsStore = defineStore('elementDefinitions', {
 					element_type: 'contentRoot',
 					wrapper: true,
 					show_in_ui: false,
-					name: __( 'Root', 'zionbuilder' ),
+					name: i18n.__( 'Root', 'zionbuilder' ),
 				}),
 			],
 			categories: [],
@@ -33,7 +33,7 @@ export const useElementDefinitionsStore = defineStore('elementDefinitions', {
 			find(state.elementsDefinition, { element_type: elementType }) ||
 			new ElementType({
 				element_type: 'invalid',
-				name: __( 'Invalid Element', 'zionbuilder' ),
+				name: i18n.__( 'Invalid Element', 'zionbuilder' ),
 			}),
 		getElementIcon() {
 			return (elementType: string) => {

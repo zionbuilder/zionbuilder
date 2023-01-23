@@ -4,7 +4,7 @@
 
 		<Tooltip
 			v-if="userPermissionsExists"
-			:content="__('This user already has permissions. Click to remove', 'zionbuilder')"
+			:content="i18n.__('This user already has permissions. Click to remove', 'zionbuilder')"
 		>
 			<Icon icon="delete" @click.stop="deletePermission" />
 		</Tooltip>
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 
 const props = defineProps({

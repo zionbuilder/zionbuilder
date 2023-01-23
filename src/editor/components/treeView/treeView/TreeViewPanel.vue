@@ -4,12 +4,12 @@
 			<ModalConfirm
 				v-if="showModalConfirm"
 				:width="530"
-				:confirm-text="__('Yes, delete elements', 'zionbuilder')"
-				:cancel-text="__('Cancel', 'zionbuilder')"
+				:confirm-text="i18n.__('Yes, delete elements', 'zionbuilder')"
+				:cancel-text="i18n.__('Cancel', 'zionbuilder')"
 				@confirm="removeAllElements"
 				@cancel="showModalConfirm = false"
 			>
-				{{ __('Are you sure you want to remove all elements from page?', 'zionbuilder') }}
+				{{ i18n.__('Are you sure you want to remove all elements from page?', 'zionbuilder') }}
 			</ModalConfirm>
 
 			<a
@@ -21,17 +21,17 @@
 				}"
 				@click="showModalConfirm = true"
 			>
-				{{ __('Remove all', 'zionbuilder') }}
+				{{ i18n.__('Remove all', 'zionbuilder') }}
 				<Icon icon="delete" :size="10" />
 			</a>
 
 			<a href="#" @click="(treeViewExpanded = !treeViewExpanded), (expandedItems = [])">
 				<template v-if="!treeViewExpanded">
-					{{ __('Expand all', 'zionbuilder') }}
+					{{ i18n.__('Expand all', 'zionbuilder') }}
 					<Icon icon="long-arrow-down" :size="10" />
 				</template>
 				<template v-else>
-					{{ __('Collapse all', 'zionbuilder') }}
+					{{ i18n.__('Collapse all', 'zionbuilder') }}
 					<Icon icon="long-arrow-up" :size="10" />
 				</template>
 			</a>
@@ -43,7 +43,7 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, Ref, computed, provide, watch } from 'vue';
 
 // components

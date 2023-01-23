@@ -1,7 +1,7 @@
 <template>
 	<Modal
 		v-if="activeSaveElement.type"
-		:title="__('Save to library', 'zionbuilder')"
+		:title="i18n.__('Save to library', 'zionbuilder')"
 		append-to="body"
 		:width="560"
 		:show-maximize="false"
@@ -14,10 +14,10 @@
 
 			<div class="znpb-modal-content-save-buttons">
 				<Button class="znpb-button--secondary" @click="saveElement">
-					<span>{{ __('Save', 'zionbuilder') }}</span>
+					<span>{{ i18n.__('Save', 'zionbuilder') }}</span>
 				</Button>
 				<Button class="znpb-button--line" @click="downloadElement">
-					{{ __('Download', 'zionbuilder') }}
+					{{ i18n.__('Download', 'zionbuilder') }}
 				</Button>
 			</div>
 			<p
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed, onBeforeUnmount } from 'vue';
 import { saveAs } from 'file-saver';
 
@@ -66,8 +66,8 @@ const optionsSchema = computed(() => {
 	return {
 		title: {
 			type: 'text',
-			title: __('Choose a title', 'zionbuilder'),
-			description: __('Write a suggestive name for your element', 'zionbuilder'),
+			title: i18n.__('Choose a title', 'zionbuilder'),
+			description: i18n.__('Write a suggestive name for your element', 'zionbuilder'),
 		},
 	};
 });
@@ -105,7 +105,7 @@ function saveElement() {
 			template_data: compiledElementData,
 		})
 		.then(response => {
-			loadingMessage.value = __('The template was successfully added to library', 'zionbuilder');
+			loadingMessage.value = i18n.__('The template was successfully added to library', 'zionbuilder');
 		})
 		.catch(error => {
 			if (error.response !== undefined) {

@@ -38,7 +38,7 @@
 
 					<ChangesBullet
 						v-if="show_changes && hasChanges"
-						:content="__('Discard changes', 'zionbuilder')"
+						:content="i18n.__('Discard changes', 'zionbuilder')"
 						@remove-styles="resetChanges"
 					/>
 
@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
 import { merge, cloneDeep } from 'lodash-es';
 
@@ -148,14 +148,14 @@ const uid = generateUID();
 const classActions = computed(() => {
 	return [
 		{
-			title: __('Copy styles', 'zionbuilder'),
+			title: i18n.__('Copy styles', 'zionbuilder'),
 			action: () => {
 				cssClassesStore.copyClassStyles(value.value.styles);
 			},
 			icon: 'copy',
 		},
 		{
-			title: __('Paste styles', 'zionbuilder'),
+			title: i18n.__('Paste styles', 'zionbuilder'),
 			action: () => {
 				const clonedCopiedStyles = cloneDeep(cssClassesStore.copiedStyles);
 				if (!value.value.styles) {
@@ -168,7 +168,7 @@ const classActions = computed(() => {
 			icon: 'paste',
 		},
 		{
-			title: __('Delete selector', 'zionbuilder'),
+			title: i18n.__('Delete selector', 'zionbuilder'),
 			action: deleteItem,
 			icon: 'delete',
 		},
@@ -294,16 +294,16 @@ const schema = computed(() => {
 			icon: 'tags-attributes',
 			is_layout: true,
 			label: {
-				type: __('pro', 'zionbuilder'),
-				text: __('pro', 'zionbuilder'),
+				type: i18n.__('pro', 'zionbuilder'),
+				text: i18n.__('pro', 'zionbuilder'),
 			},
 			show_title: false,
 			child_options: {
 				upgrade_message: {
 					type: 'upgrade_to_pro',
-					message_title: __('Meet custom attributes', 'zionbuilder'),
-					message_description: __('Generate custom attributes to every inner parts of the element', 'zionbuilder'),
-					info_text: __('Click here to learn more about PRO.', 'zionbuilder'),
+					message_title: i18n.__('Meet custom attributes', 'zionbuilder'),
+					message_description: i18n.__('Generate custom attributes to every inner parts of the element', 'zionbuilder'),
+					info_text: i18n.__('Click here to learn more about PRO.', 'zionbuilder'),
 				},
 			},
 		});

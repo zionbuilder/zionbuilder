@@ -4,11 +4,11 @@
 			<slot></slot>
 		</h3>
 		<div class="znpb-single-role__permission">
-			<h4 class="znpb-single-role-permission-subtitle">{{ permission }} {{ __('Permissions', 'zionbuilder') }}</h4>
+			<h4 class="znpb-single-role-permission-subtitle">{{ permission }} {{ i18n.__('Permissions', 'zionbuilder') }}</h4>
 		</div>
 		<div class="znpb-single-role__actions">
 			<Icon
-				v-znpb-tooltip="__('Customize the permissions for this user', 'zionbuilder')"
+				v-znpb-tooltip="i18n.__('Customize the permissions for this user', 'zionbuilder')"
 				class="znpb-edit-icon-pop"
 				icon="edit"
 				@click="emit('edit-permission')"
@@ -16,7 +16,7 @@
 
 			<Icon
 				v-if="hasDelete"
-				v-znpb-tooltip="__('Delete permissions for this user', 'zionbuilder')"
+				v-znpb-tooltip="i18n.__('Delete permissions for this user', 'zionbuilder')"
 				icon="delete"
 				@click="emit('delete-permission')"
 			/>
@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 
 withDefaults(
 	defineProps<{

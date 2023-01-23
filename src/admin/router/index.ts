@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import Routes from './Routes';
 import 'vue-router';
 
@@ -70,7 +70,7 @@ export const initRoutes = function () {
 		},
 		component: PageContent,
 		meta: {
-			title: __('Settings', 'zionbuilder'),
+			title: i18n.__('Settings', 'zionbuilder'),
 		},
 	});
 
@@ -82,7 +82,7 @@ export const initRoutes = function () {
 		component: SettingsPage,
 		name: 'general-settings',
 		meta: {
-			title: __('General Settings', 'zionbuilder'),
+			title: i18n.__('General Settings', 'zionbuilder'),
 		},
 	});
 
@@ -90,7 +90,7 @@ export const initRoutes = function () {
 		path: 'allowed-post-types',
 		name: 'allowed-post-types',
 		meta: {
-			title: __('Allowed Post types', 'zionbuilder'),
+			title: i18n.__('Allowed Post types', 'zionbuilder'),
 		},
 		component: PageAllowedPostTypes,
 	});
@@ -99,7 +99,7 @@ export const initRoutes = function () {
 		path: 'maintenance-mode',
 		name: 'maintenance-mode',
 		meta: {
-			title: __('Maintenance mode', 'zionbuilder'),
+			title: i18n.__('Maintenance mode', 'zionbuilder'),
 		},
 		component: MaintenanceMode,
 	});
@@ -108,7 +108,7 @@ export const initRoutes = function () {
 		path: 'appearance',
 		name: 'appearance',
 		meta: {
-			title: __('Appearance', 'zionbuilder'),
+			title: i18n.__('Appearance', 'zionbuilder'),
 		},
 
 		component: Appearance,
@@ -121,7 +121,7 @@ export const initRoutes = function () {
 			name: 'google_fonts',
 		},
 		meta: {
-			title: __('Font Options', 'zionbuilder'),
+			title: i18n.__('Font Options', 'zionbuilder'),
 		},
 
 		component: SettingsPage,
@@ -132,7 +132,7 @@ export const initRoutes = function () {
 		name: 'google_fonts',
 		component: GoogleFonts,
 		meta: {
-			title: __('Google Fonts', 'zionbuilder'),
+			title: i18n.__('Google Fonts', 'zionbuilder'),
 		},
 	});
 
@@ -140,15 +140,15 @@ export const initRoutes = function () {
 		path: 'custom-fonts',
 		name: 'custom_fonts',
 		props: {
-			message: __('With PRO you can upload your own sets of fonts and assign it to your page elements.', 'zionbuilder'),
+			message: i18n.__('With PRO you can upload your own sets of fonts and assign it to your page elements.', 'zionbuilder'),
 		},
 		component: GetPro,
 		meta: {
 			label: {
 				type: 'warning',
-				text: __('pro', 'zionbuilder'),
+				text: i18n.__('pro', 'zionbuilder'),
 			},
-			title: __('Custom Fonts', 'zionbuilder'),
+			title: i18n.__('Custom Fonts', 'zionbuilder'),
 		},
 	});
 
@@ -156,7 +156,7 @@ export const initRoutes = function () {
 		path: 'adobe-fonts',
 		name: 'adobe_fonts',
 		props: {
-			message: __(
+			message: i18n.__(
 				'With PRO you can use the Adobe fonts library to add your fonts along side Google fonts and custom fonts.',
 				'zionbuilder',
 			),
@@ -165,9 +165,9 @@ export const initRoutes = function () {
 		meta: {
 			label: {
 				type: 'warning',
-				text: __('pro', 'zionbuilder'),
+				text: i18n.__('pro', 'zionbuilder'),
 			},
-			title: __('Adobe Fonts', 'zionbuilder'),
+			title: i18n.__('Adobe Fonts', 'zionbuilder'),
 		},
 	});
 
@@ -175,15 +175,15 @@ export const initRoutes = function () {
 		path: 'custom-icons',
 		name: 'icons',
 		props: {
-			message: __('Zion Builder PRO lets you share you templates library with multiple websites.', 'zionbuilder'),
+			message: i18n.__('Zion Builder PRO lets you share you templates library with multiple websites.', 'zionbuilder'),
 		},
 		component: GetPro,
 		meta: {
 			label: {
 				type: 'warning',
-				text: __('pro', 'zionbuilder'),
+				text: i18n.__('pro', 'zionbuilder'),
 			},
-			title: __('Custom Icons', 'zionbuilder'),
+			title: i18n.__('Custom Icons', 'zionbuilder'),
 		},
 	});
 
@@ -195,7 +195,7 @@ export const initRoutes = function () {
 		},
 		name: 'presets',
 		meta: {
-			title: __('Presets', 'zionbuilder'),
+			title: i18n.__('Presets', 'zionbuilder'),
 		},
 	});
 
@@ -204,7 +204,7 @@ export const initRoutes = function () {
 		name: 'color_presets',
 		component: Colors,
 		meta: {
-			title: __('Color Presets', 'zionbuilder'),
+			title: i18n.__('Color Presets', 'zionbuilder'),
 		},
 	});
 
@@ -213,7 +213,7 @@ export const initRoutes = function () {
 		name: 'gradients_presets',
 		component: Gradients,
 		meta: {
-			title: __('Gradients', 'zionbuilder'),
+			title: i18n.__('Gradients', 'zionbuilder'),
 		},
 	});
 
@@ -222,7 +222,7 @@ export const initRoutes = function () {
 		name: 'performance',
 		component: Performance,
 		meta: {
-			title: __('Performance', 'zionbuilder'),
+			title: i18n.__('Performance', 'zionbuilder'),
 		},
 	});
 
@@ -230,17 +230,17 @@ export const initRoutes = function () {
 		path: 'library',
 		name: 'library',
 		props: {
-			message: __(
+			message: i18n.__(
 				'With PRO you can upload your own icons in addition to the Font Awesome icons that everyone is using.',
 				'zionbuilder',
 			),
 		},
 		component: GetPro,
 		meta: {
-			title: __('Library', 'zionbuilder'),
+			title: i18n.__('Library', 'zionbuilder'),
 			label: {
 				type: 'warning',
-				text: __('pro', 'zionbuilder'),
+				text: i18n.__('pro', 'zionbuilder'),
 			},
 		},
 	});
@@ -249,7 +249,7 @@ export const initRoutes = function () {
 		path: '/permissions',
 		component: Permissions,
 		meta: {
-			title: __('Permissions', 'zionbuilder'),
+			title: i18n.__('Permissions', 'zionbuilder'),
 		},
 	});
 
@@ -262,7 +262,7 @@ export const initRoutes = function () {
 		},
 		children: getTemplateChildren(),
 		meta: {
-			title: __('Templates', 'zionbuilder'),
+			title: i18n.__('Templates', 'zionbuilder'),
 		},
 	});
 
@@ -270,7 +270,7 @@ export const initRoutes = function () {
 		path: '/custom-code',
 		component: CustomCode,
 		meta: {
-			title: __('Custom code', 'zionbuilder'),
+			title: i18n.__('Custom code', 'zionbuilder'),
 		},
 	});
 
@@ -281,7 +281,7 @@ export const initRoutes = function () {
 			name: 'tools-page',
 		},
 		meta: {
-			title: __('Tools', 'zionbuilder'),
+			title: i18n.__('Tools', 'zionbuilder'),
 		},
 	});
 
@@ -291,7 +291,7 @@ export const initRoutes = function () {
 		props: { templateType: 'tools' },
 		component: ToolsPage,
 		meta: {
-			title: __('General', 'zionbuilder'),
+			title: i18n.__('General', 'zionbuilder'),
 		},
 	});
 
@@ -301,7 +301,7 @@ export const initRoutes = function () {
 		props: { templateType: 'replace-url' },
 		component: ReplaceUrl,
 		meta: {
-			title: __('Replace URL', 'zionbuilder'),
+			title: i18n.__('Replace URL', 'zionbuilder'),
 		},
 	});
 
@@ -309,7 +309,7 @@ export const initRoutes = function () {
 		path: '/system-info',
 		component: SystemInfo,
 		meta: {
-			title: __('System Info', 'zionbuilder'),
+			title: i18n.__('System Info', 'zionbuilder'),
 		},
 	});
 

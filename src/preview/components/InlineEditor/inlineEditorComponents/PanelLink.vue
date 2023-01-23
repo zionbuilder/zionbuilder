@@ -1,7 +1,7 @@
 <template>
 	<PopOver icon="ite-link" :full-size="true">
 		<div class="zion-inline-editor-link-wrapper">
-			<InputWrapper :title="__('Add a link', 'zionbuilder')">
+			<InputWrapper :title="i18n.__('Add a link', 'zionbuilder')">
 				<BaseInput v-model="linkUrl" :clearable="true" placeholder="www.address.com" @keyup.enter="addLink">
 					<template #prepend>
 						<Icon icon="link" />
@@ -9,14 +9,14 @@
 				</BaseInput>
 			</InputWrapper>
 			<div class="zion-inline-editor-popover__link-title">
-				<InputWrapper :title="__('Target', 'zionbuilder')">
+				<InputWrapper :title="i18n.__('Target', 'zionbuilder')">
 					<InputSelect
 						v-model="linkTarget"
 						:options="selectOptions"
-						:placeholder="__('Select target', 'zionbuilder')"
+						:placeholder="i18n.__('Select target', 'zionbuilder')"
 					/>
 				</InputWrapper>
-				<InputWrapper :title="__('Title', 'zionbuilder')">
+				<InputWrapper :title="i18n.__('Title', 'zionbuilder')">
 					<BaseInput v-model="linkTitle" placeholder="link_title" :clearable="true" @keyup.enter="addLink" />
 				</InputWrapper>
 			</div>
@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { inject, computed, ref, onMounted, onBeforeUnmount } from 'vue';
 
 // Components

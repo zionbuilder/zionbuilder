@@ -5,7 +5,7 @@
 				{{ title }}
 				<ChangesBullet
 					v-if="hasChanges"
-					:content="__('Discard changes', 'zionbuilder')"
+					:content="i18n.__('Discard changes', 'zionbuilder')"
 					@remove-styles="emit('discard-changes')"
 				/>
 			</div>
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 
 import { ref, computed } from 'vue';
 

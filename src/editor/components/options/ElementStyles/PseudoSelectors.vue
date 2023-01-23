@@ -10,7 +10,7 @@
 
 		<Icon
 			v-if="hasContent"
-			v-znpb-tooltip="__('Click to add content for pseudo selector.', 'zionbuilder')"
+			v-znpb-tooltip="i18n.__('Click to add content for pseudo selector.', 'zionbuilder')"
 			icon="edit"
 			:size="12"
 			class="znpb-pseudo-selector__edit"
@@ -70,7 +70,7 @@
 				ref="pseudoNameInputRef"
 				v-model="newPseudoModel"
 				:clearable="true"
-				:placeholder="__('Add new pseudo-selector ex: :hover::before ', 'zionbuilder')"
+				:placeholder="i18n.__('Add new pseudo-selector ex: :hover::before ', 'zionbuilder')"
 				@keypress.enter="createNewPseudoSelector"
 			/>
 		</div>
@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed, ref, onBeforeUnmount, watch, nextTick } from 'vue';
 import { cloneDeep, set, find } from 'lodash-es';
 

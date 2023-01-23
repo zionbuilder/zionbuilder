@@ -12,7 +12,7 @@
 				ref="searchInputEl"
 				v-model="computedSearchKeyword"
 				class="znpb-columns-templates__search-wrapper znpb-add-elements__filter-search"
-				:placeholder="__('Search elements', 'zionbuilder')"
+				:placeholder="i18n.__('Search elements', 'zionbuilder')"
 				:clearable="true"
 				icon="search"
 				autocomplete="off"
@@ -37,14 +37,14 @@
 			</template>
 
 			<div v-if="!activeElements.length" style="text-align: center">
-				{{ __('No elements found matching the search criteria', 'zionbuilder') }}
+				{{ i18n.__('No elements found matching the search criteria', 'zionbuilder') }}
 			</div>
 		</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed, onMounted, watch, nextTick, onBeforeUnmount } from 'vue';
 import { useUserData } from '/@/editor/composables';
 import { useElementDefinitionsStore, useUIStore } from '/@/editor/store';
@@ -88,14 +88,14 @@ const elementCategories = computed(() => {
 	const categoriesToReturn = [
 		{
 			id: 'all',
-			name: __('All', 'zionbuilder'),
+			name: i18n.__('All', 'zionbuilder'),
 		},
 	];
 
 	if (getUserData('favorite_elements', []).length > 0) {
 		categoriesToReturn.push({
 			id: 'favorites',
-			name: __('Favorites', 'zionbuilder'),
+			name: i18n.__('Favorites', 'zionbuilder'),
 			priority: 1,
 		});
 	}

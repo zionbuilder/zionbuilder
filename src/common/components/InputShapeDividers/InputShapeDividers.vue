@@ -13,7 +13,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed, ref } from 'vue';
 import { get } from 'lodash-es';
 import { InputCustomSelector } from '../InputCustomSelector';
@@ -44,11 +44,11 @@ const emit = defineEmits<{
 const maskPosOptions = ref([
 	{
 		id: 'top',
-		name: __('Top masks', 'zionbuilder'),
+		name: i18n.__('Top masks', 'zionbuilder'),
 	},
 	{
 		id: 'bottom',
-		name: __('Bottom masks', 'zionbuilder'),
+		name: i18n.__('Bottom masks', 'zionbuilder'),
 	},
 ]);
 
@@ -56,8 +56,8 @@ const activeMaskPosition = ref<Position>('top');
 
 const computedTitle = computed(() => {
 	return activeMaskPosition.value === 'top'
-		? __('Selected top mask', 'zionbuilder')
-		: __('Selected bottom mask', 'zionbuilder');
+		? i18n.__('Selected top mask', 'zionbuilder')
+		: i18n.__('Selected bottom mask', 'zionbuilder');
 });
 
 const schema = computed(() => {
@@ -73,12 +73,12 @@ const schema = computed(() => {
 			type: 'colorpicker',
 			id: 'color',
 			width: '100',
-			title: __('Add a color to mask', 'zionbuilder'),
+			title: i18n.__('Add a color to mask', 'zionbuilder'),
 		},
 		height: {
 			type: 'dynamic_slider',
 			id: 'height',
-			title: __('Add mask height', 'zionbuilder'),
+			title: i18n.__('Add mask height', 'zionbuilder'),
 			width: '100',
 			responsive_options: true,
 			options: [
@@ -91,7 +91,7 @@ const schema = computed(() => {
 		flip: {
 			type: 'checkbox_switch',
 			id: 'flip',
-			title: __('Flip mask horizontally', 'zionbuilder'),
+			title: i18n.__('Flip mask horizontally', 'zionbuilder'),
 			width: '100',
 			layout: 'inline',
 		},

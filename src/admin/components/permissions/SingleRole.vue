@@ -8,7 +8,7 @@
 			v-model:show="showModal"
 			class="znpb-admin-permissions-modal"
 			:width="560"
-			:title="role.name + ' ' + __('Permissions', 'zionbuilder')"
+			:title="role.name + ' ' + i18n.__('Permissions', 'zionbuilder')"
 			:show-backdrop="false"
 		>
 			<UserModalContent :permissions="permissionConfig" @edit-role="editRolePermission(role.id, $event)" />
@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 
 // Components

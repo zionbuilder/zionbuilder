@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-element-styles__wrapper">
 		<div v-if="showPseudoSelector" class="znpb-elementStylesStateWrapper">
-			<span class="znpb-elementStylesStateTitle">{{ __('State:', 'zionbuilder') }}</span>
+			<span class="znpb-elementStylesStateTitle">{{ i18n.__('State:', 'zionbuilder') }}</span>
 
 			<PseudoSelectors v-model="computedStyles" />
 		</div>
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed, inject, onMounted, onBeforeUnmount } from 'vue';
 import PseudoSelectors from './PseudoSelectors.vue';
 

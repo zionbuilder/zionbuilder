@@ -2,9 +2,9 @@
 	<vueDatePick
 		v-model="valueModel"
 		class="znpb-input-date"
-		:next-month-caption="__('Next Month', 'zionbuilder')"
-		:previous-month-caption="__('Previous month', 'zionbuilder')"
-		:set-time-caption="__('Set time', 'zionbuilder')"
+		:next-month-caption="i18n.__('Next Month', 'zionbuilder')"
+		:previous-month-caption="i18n.__('Previous month', 'zionbuilder')"
+		:set-time-caption="i18n.__('Set time', 'zionbuilder')"
 		:weekdays="weekdaysStrings"
 		:months="monthsStrings"
 		:pick-time="pickTime"
@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import vueDatePick from './src/vueDatePick.vue';
 import BaseInput from '../BaseInput/BaseInput.vue';
 
@@ -58,28 +58,28 @@ const props = withDefaults(
 const emit = defineEmits(['update:modelValue']);
 
 const weekdaysStrings = [
-	__('Mon', 'zionbuilder'),
-	__('Tue', 'zionbuilder'),
-	__('Wed', 'zionbuilder'),
-	__('Thu', 'zionbuilder'),
-	__('Fri', 'zionbuilder'),
-	__('Sat', 'zionbuilder'),
-	__('Sun', 'zionbuilder'),
+	i18n.__('Mon', 'zionbuilder'),
+	i18n.__('Tue', 'zionbuilder'),
+	i18n.__('Wed', 'zionbuilder'),
+	i18n.__('Thu', 'zionbuilder'),
+	i18n.__('Fri', 'zionbuilder'),
+	i18n.__('Sat', 'zionbuilder'),
+	i18n.__('Sun', 'zionbuilder'),
 ];
 
 const monthsStrings = [
-	__('January', 'zionbuilder'),
-	__('February', 'zionbuilder'),
-	__('March', 'zionbuilder'),
-	__('April', 'zionbuilder'),
-	__('May', 'zionbuilder'),
-	__('June', 'zionbuilder'),
-	__('July', 'zionbuilder'),
-	__('August', 'zionbuilder'),
-	__('September', 'zionbuilder'),
-	__('October', 'zionbuilder'),
-	__('November', 'zionbuilder'),
-	__('December', 'zionbuilder'),
+	i18n.__('January', 'zionbuilder'),
+	i18n.__('February', 'zionbuilder'),
+	i18n.__('March', 'zionbuilder'),
+	i18n.__('April', 'zionbuilder'),
+	i18n.__('May', 'zionbuilder'),
+	i18n.__('June', 'zionbuilder'),
+	i18n.__('July', 'zionbuilder'),
+	i18n.__('August', 'zionbuilder'),
+	i18n.__('September', 'zionbuilder'),
+	i18n.__('October', 'zionbuilder'),
+	i18n.__('November', 'zionbuilder'),
+	i18n.__('December', 'zionbuilder'),
 ];
 
 const valueModel = computed({

@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed } from 'vue';
 import { generateUID } from '@zb/utils';
 import { Sortable } from '@zb/components';

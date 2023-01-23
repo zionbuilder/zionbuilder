@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 const { useBuilderOptionsStore, useDataSetsStore } = window.zb.store;

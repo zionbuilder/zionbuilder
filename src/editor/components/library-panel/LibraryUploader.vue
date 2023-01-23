@@ -10,17 +10,17 @@
 				<template v-if="isInitial && !isSaving">
 					<Icon icon="import-big-icon" />
 					<p class="znpb-editor-library-upload__text">
-						{{ __('Drag and drop your exported item here or just click to ', 'zionbuilder') }}
-						<span class="">{{ __('browse', 'zionbuilder') }}</span>
-						{{ __('for files', 'zionbuilder') }}
+						{{ i18n.__('Drag and drop your exported item here or just click to ', 'zionbuilder') }}
+						<span class="">{{ i18n.__('browse', 'zionbuilder') }}</span>
+						{{ i18n.__('for files', 'zionbuilder') }}
 					</p>
 				</template>
 				<div v-if="!isInitial && !isSaving" class="znpb-library-uploading-wrapper">
 					<Icon icon="long-arrow-right" :bg-size="68" bg-color="#06bee1" :rounded="true" color="#fff" :size="21" />
 					<p class="znpb-library-uploading-wrapper__text">
-						<b>{{ __('Drop your files', 'zionbuilder') }}</b
+						<b>{{ i18n.__('Drop your files', 'zionbuilder') }}</b
 						><br />
-						{{ __('to upload', 'zionbuilder') }}
+						{{ i18n.__('to upload', 'zionbuilder') }}
 					</p>
 				</div>
 
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref } from 'vue';
 import { onBeforeUnmount, onMounted } from 'vue';
 const { useLibrary } = window.zb.composables;

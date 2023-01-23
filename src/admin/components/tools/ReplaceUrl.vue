@@ -1,20 +1,20 @@
 <template>
 	<PageTemplate>
-		<h3>{{ __('Replace URL', 'zionbuilder') }}</h3>
+		<h3>{{ i18n.__('Replace URL', 'zionbuilder') }}</h3>
 
 		<div class="znpb-admin-replace">
 			<h4 class="znpb-admin-replace__title">
-				{{ __('Update Site Address (URL)', 'zionbuilder') }}
+				{{ i18n.__('Update Site Address (URL)', 'zionbuilder') }}
 			</h4>
-			<BaseInput v-model="oldUrl" :placeholder="__('Old URL', 'zionbuilder')" size="narrow"> </BaseInput>
+			<BaseInput v-model="oldUrl" :placeholder="i18n.__('Old URL', 'zionbuilder')" size="narrow"> </BaseInput>
 			<Icon icon="long-arrow-right" class="znpb-admin-replace__icon" />
-			<BaseInput v-model="newUrl" :placeholder="__('New URL', 'zionbuilder')" size="narrow"> </BaseInput>
+			<BaseInput v-model="newUrl" :placeholder="i18n.__('New URL', 'zionbuilder')" size="narrow"> </BaseInput>
 		</div>
 		<div class="znpb-admin-replace__actions">
 			<Button :type="disabled ? 'disabled' : 'line'" class="znpb-admin-replace-button" @click="callReplaceUrl">
 				<transition name="fade" mode="out-in">
 					<Loader v-if="loading" :size="13" />
-					<span v-else>{{ __('Update URL', 'zionbuilder') }}</span>
+					<span v-else>{{ i18n.__('Update URL', 'zionbuilder') }}</span>
 				</transition>
 			</Button>
 
@@ -25,7 +25,7 @@
 			<div>
 				<p class="znpb-admin-info-p">
 					{{
-						__(
+						i18n.__(
 							'Enter your old and new URLs for your WordPress installation, to update all references (Relevant for domain transfers or move to "HTTPS").',
 							'zionbuilder',
 						)
@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 import { replaceUrl } from '@zb/api';
 
@@ -53,7 +53,7 @@ const disabled = computed(() => {
 	return !(oldUrl.value.length > 0 && newUrl.value.length > 0);
 });
 
-const panelInfo = __(
+const panelInfo = i18n.__(
 	`<strong>Important:</strong> It is strongly recommended that you
 					<a href="https://zionbuilder.io/documentation/replace-url-s/" target="_blank">backup your database</a> before using Replace
 					URL.`,

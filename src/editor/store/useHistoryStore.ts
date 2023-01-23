@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { defineStore } from 'pinia';
 import { debounce } from 'lodash-es';
 
@@ -35,7 +35,7 @@ export const useHistoryStore = defineStore('history', {
 		addHistoryItem(item: HistoryItem) {
 			if (this.state.length === 0) {
 				this.state.push({
-					title: __( 'Editing started', 'zionbuilder' ),
+					title: i18n.__( 'Editing started', 'zionbuilder' ),
 				});
 				this.activeHistoryIndex++;
 			}

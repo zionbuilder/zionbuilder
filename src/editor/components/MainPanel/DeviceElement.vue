@@ -10,10 +10,10 @@
 			<span class="znpb-device__item-name">
 				<template v-if="deviceConfig.name"> {{ deviceConfig.name }} - </template>
 
-				<template v-if="deviceConfig.id === 'default'"> ({{ __('all devices', 'zionbuilder') }}) </template>
+				<template v-if="deviceConfig.id === 'default'"> ({{ i18n.__('all devices', 'zionbuilder') }}) </template>
 
 				<template v-else>
-					{{ __('max', 'zionbuilder') }}
+					{{ i18n.__('max', 'zionbuilder') }}
 					<span class="znpb-device__itemValue">
 						<template v-if="isEdited">
 							<span class="znpb-device__itemValue-inner">
@@ -41,13 +41,13 @@
 			<div v-if="allowEdit" class="znpb-device__item-actions">
 				<template v-if="isEdited">
 					<Icon
-						v-znpb-tooltip="__('Save', 'zionbuilder')"
+						v-znpb-tooltip="i18n.__('Save', 'zionbuilder')"
 						icon="check"
 						class="znpb-device__item-action"
 						@click.stop="updateWidth"
 					/>
 					<Icon
-						v-znpb-tooltip="__('Cancel', 'zionbuilder')"
+						v-znpb-tooltip="i18n.__('Cancel', 'zionbuilder')"
 						icon="close"
 						class="znpb-device__item-action"
 						@click.stop="emit('edit-breakpoint', null)"
@@ -56,14 +56,14 @@
 				<template v-else>
 					<Icon
 						v-if="!deviceConfig.isDefault"
-						v-znpb-tooltip="__('Edit breakpoint', 'zionbuilder')"
+						v-znpb-tooltip="i18n.__('Edit breakpoint', 'zionbuilder')"
 						icon="edit"
 						class="znpb-device__item-action"
 						@click.stop="emit('edit-breakpoint', deviceConfig)"
 					/>
 					<Icon
 						v-if="!deviceConfig.builtIn"
-						v-znpb-tooltip="__('Delete breakpoint', 'zionbuilder')"
+						v-znpb-tooltip="i18n.__('Delete breakpoint', 'zionbuilder')"
 						icon="delete"
 						class="znpb-device__item-action"
 						@click.stop="deleteBreakpoint(deviceConfig.id)"
@@ -75,7 +75,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed, ref, nextTick, watch } from 'vue';
 
 // Common API
@@ -112,7 +112,7 @@ const isEdited = computed(() => {
 const widthInput = ref<HTMLInputElement | null>(null);
 
 const discardChangesTitle = computed(() => {
-	return __('Discard changes for', 'zionbuilder') + ' ' + props.deviceConfig.name;
+	return i18n.__('Discard changes for', 'zionbuilder') + ' ' + props.deviceConfig.name;
 });
 
 const isActiveDevice = computed(() => {

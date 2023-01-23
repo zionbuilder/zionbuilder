@@ -29,7 +29,7 @@
 					:is="linkURLComponent"
 					ref="urlInput"
 					v-model="linkModel"
-					:placeholder="__('Add an URL', 'zionbuilder')"
+					:placeholder="i18n.__('Add an URL', 'zionbuilder')"
 					spellcheck="false"
 				>
 					<template #prepend>
@@ -48,7 +48,7 @@
 						>
 							<template #content>
 								<div class="znpb-link-options">
-									<div class="znpb-link-options-title">{{ __('Link attributes', 'zionbuilder') }}</div>
+									<div class="znpb-link-options-title">{{ i18n.__('Link attributes', 'zionbuilder') }}</div>
 									<div class="znpb-link-optionsAttributes">
 										<LinkAttributeForm
 											v-for="(attribute, index) in linkAttributes"
@@ -59,13 +59,13 @@
 										/>
 
 										<div class="znpb-link-optionsAttributesAdd" @click="addLinkAttribute">
-											<Icon icon="plus" /> <span>{{ __('Add custom link attribute', 'zionbuilder') }}</span>
+											<Icon icon="plus" /> <span>{{ i18n.__('Add custom link attribute', 'zionbuilder') }}</span>
 										</div>
 									</div>
 								</div>
 							</template>
 
-							<Icon v-znpb-tooltip="__('Edit link attributes', 'zionbuilder')" icon="tags-attributes"></Icon>
+							<Icon v-znpb-tooltip="i18n.__('Edit link attributes', 'zionbuilder')" icon="tags-attributes"></Icon>
 						</Tooltip>
 
 						<!-- Injection point -->
@@ -78,13 +78,13 @@
 			<InputSelect v-model="targetModel" :options="targetOptions"></InputSelect>
 		</InputWrapper>
 		<InputWrapper v-if="show_title" layout="inline" :schema="{ width: 50 }">
-			<BaseInput v-model="titleModel" :clearable="false" :placeholder="__('Set a title', 'zionbuilder')" />
+			<BaseInput v-model="titleModel" :clearable="false" :placeholder="i18n.__('Set a title', 'zionbuilder')" />
 		</InputWrapper>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { BaseInput } from '@zb/components';
 import { computed, ref, watchEffect, watch, Ref } from 'vue';
 import { get, debounce } from 'lodash-es';
@@ -133,11 +133,11 @@ const emit = defineEmits(['update:modelValue']);
 const targetOptions = [
 	{
 		id: '_blank',
-		name: __('New Window', 'zionbuilder'),
+		name: i18n.__('New Window', 'zionbuilder'),
 	},
 	{
 		id: '_self',
-		name: __('Same Window', 'zionbuilder'),
+		name: i18n.__('Same Window', 'zionbuilder'),
 	},
 ];
 

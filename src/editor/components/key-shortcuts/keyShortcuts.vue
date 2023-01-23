@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import keyShortcutsItem from './keyShortcutsItem.vue';
 
 const { Environment } = window.zb.utils;
@@ -23,95 +23,95 @@ const controlKey = Environment.isMac ? '⌘' : '⌃';
 const schemaDescriptionFirst = [
 	{
 		shortcutKey: [controlKey, 'S'],
-		description: __('Save changes', 'zionbuilder'),
+		description: i18n.__('Save changes', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, 'C'],
-		description: __('Copy', 'zionbuilder'),
+		description: i18n.__('Copy', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, 'V'],
-		description: __('Paste', 'zionbuilder'),
+		description: i18n.__('Paste', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, 'X'],
-		description: __('Cut', 'zionbuilder'),
+		description: i18n.__('Cut', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, 'D'],
-		description: __('Duplicate', 'zionbuilder'),
+		description: i18n.__('Duplicate', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, '⇧', 'C'],
-		description: __('Copy styles', 'zionbuilder'),
+		description: i18n.__('Copy styles', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, '⇧', 'V'],
-		description: __('Paste styles', 'zionbuilder'),
+		description: i18n.__('Paste styles', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, 'Z'],
-		description: __('Undo', 'zionbuilder'),
+		description: i18n.__('Undo', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, 'Y'],
-		description: __('Redo', 'zionbuilder'),
+		description: i18n.__('Redo', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, '⇧', 'Y'],
-		description: __('Redo', 'zionbuilder'),
+		description: i18n.__('Redo', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, 'H'],
-		description: __('Hide element', 'zionbuilder'),
+		description: i18n.__('Hide element', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, 'P'],
-		description: __('Toggle preview mode', 'zionbuilder'),
+		description: i18n.__('Toggle preview mode', 'zionbuilder'),
 	},
 	{
 		shortcutKey: ['⇧', 'T'],
-		description: __('Toggle Tree View Panel', 'zionbuilder'),
+		description: i18n.__('Toggle Tree View Panel', 'zionbuilder'),
 	},
 	{
 		shortcutKey: ['⇧', 'L'],
-		description: __('Toggle Library Panel', 'zionbuilder'),
+		description: i18n.__('Toggle Library Panel', 'zionbuilder'),
 	},
 	{
 		shortcutKey: ['⇧', 'O'],
-		description: __('Toggle page options', 'zionbuilder'),
+		description: i18n.__('Toggle page options', 'zionbuilder'),
 	},
 	{
 		shortcutKey: ['DRAG', controlKey],
-		description: __('Duplicate element in place', 'zionbuilder'),
-		details: __('When dragging element', 'zionbuilder'),
+		description: i18n.__('Duplicate element in place', 'zionbuilder'),
+		details: i18n.__('When dragging element', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, 'DRAG'],
-		description: __('Set even values', 'zionbuilder'),
-		details: __('When dragging toolbox', 'zionbuilder'),
+		description: i18n.__('Set even values', 'zionbuilder'),
+		details: i18n.__('When dragging toolbox', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, '⇧', 'DRAG'],
-		description: __('Set even incremental value', 'zionbuilder'),
+		description: i18n.__('Set even incremental value', 'zionbuilder'),
 	},
 	{
 		shortcutKey: [controlKey, '⇧', 'D'],
-		description: __('Back to WP dashboard', 'zionbuilder'),
+		description: i18n.__('Back to WP dashboard', 'zionbuilder'),
 	},
 	{
 		shortcutKey: ['⇧', 'DRAG'],
-		description: __('Set incremental value', 'zionbuilder'),
-		details: __('On input of type number', 'zionbuilder'),
+		description: i18n.__('Set incremental value', 'zionbuilder'),
+		details: i18n.__('On input of type number', 'zionbuilder'),
 	},
 	{
 		shortcutKey: ['⇧', 'ARROWS'],
-		description: __('Set incremental value', 'zionbuilder'),
+		description: i18n.__('Set incremental value', 'zionbuilder'),
 	},
 	{
 		shortcutKey: ['ALT'],
 		description: 'Toggle Link',
-		details: __('On input of type number with link option available', 'zionbuilder'),
+		details: i18n.__('On input of type number with link option available', 'zionbuilder'),
 	},
 ];
 </script>

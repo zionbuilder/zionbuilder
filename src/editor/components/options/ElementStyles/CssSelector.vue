@@ -13,7 +13,7 @@
 
 		<Icon
 			v-if="showActions"
-			v-znpb-tooltip="__('Copy styles', 'zionbuilder')"
+			v-znpb-tooltip="i18n.__('Copy styles', 'zionbuilder')"
 			icon="copy"
 			class="znpb-css-class-selector__item-copy"
 			@click.stop="emit('copy-styles')"
@@ -21,7 +21,7 @@
 
 		<Icon
 			v-if="showActions"
-			v-znpb-tooltip="__('Paste styles', 'zionbuilder')"
+			v-znpb-tooltip="i18n.__('Paste styles', 'zionbuilder')"
 			icon="paste"
 			class="znpb-css-class-selector__item-paste"
 			:class="{
@@ -32,7 +32,7 @@
 
 		<Icon
 			v-if="showActions"
-			v-znpb-tooltip="__('Remove class from element.', 'zionbuilder')"
+			v-znpb-tooltip="i18n.__('Remove class from element.', 'zionbuilder')"
 			icon="close"
 			class="znpb-css-class-selector__item-close"
 			:class="{
@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { useCSSClassesStore } from '/@/editor/store';
 
 withDefaults(

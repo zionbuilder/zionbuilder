@@ -19,7 +19,7 @@
 		</div>
 		<div class="znpb-admin__google-font-tab-actions">
 			<Icon
-				v-znpb-tooltip="__('Delete font?', 'zionbuilder')"
+				v-znpb-tooltip="i18n.__('Delete font?', 'zionbuilder')"
 				class="znpb-edit-icon-pop"
 				icon="delete"
 				@click="showModalConfirm = true"
@@ -28,19 +28,19 @@
 		<ModalConfirm
 			v-if="showModalConfirm"
 			:width="530"
-			:confirm-text="__('Yes, delete the font', 'zionbuilder')"
-			:cancel-text="__('No, keep the font', 'zionbuilder')"
+			:confirm-text="i18n.__('Yes, delete the font', 'zionbuilder')"
+			:cancel-text="i18n.__('No, keep the font', 'zionbuilder')"
 			@confirm="$emit('delete', font), (showModalConfirm = false)"
 			@cancel="showModalConfirm = false"
 		>
-			{{ __('Are you sure you want to delete this font?', 'zionbuilder') }}
+			{{ i18n.__('Are you sure you want to delete this font?', 'zionbuilder') }}
 		</ModalConfirm>
 	</div>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { useGoogleFontsStore } from '@zb/store';
 
 // Components

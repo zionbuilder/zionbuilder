@@ -1,8 +1,8 @@
 <template>
 	<div class="znpb-system-list-wrapper">
-		<h2 class="znpb-system-title">{{ __('Copy and paste info', 'zionbuilder') }}</h2>
+		<h2 class="znpb-system-title">{{ i18n.__('Copy and paste info', 'zionbuilder') }}</h2>
 		<h5 class="znpb-system-subtitle">
-			{{ __('You can copy the below info as simple text with Ctrl+C / Ctrl+V:', 'zionbuilder') }}
+			{{ i18n.__('You can copy the below info as simple text with Ctrl+C / Ctrl+V:', 'zionbuilder') }}
 		</h5>
 
 		<BaseInput
@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed } from 'vue';
 
 type ServerCategory = {

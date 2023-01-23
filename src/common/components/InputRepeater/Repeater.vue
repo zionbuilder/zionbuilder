@@ -36,7 +36,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed } from 'vue';
 import RepeaterOption from './RepeaterOption.vue';
 
@@ -58,7 +58,7 @@ const props = withDefaults(
 		deletable: true,
 		clonable: true,
 		add_button_text: () => {
-			return __('Add new', 'zionbuilder');
+			return i18n.__('Add new', 'zionbuilder');
 		},
 	},
 );

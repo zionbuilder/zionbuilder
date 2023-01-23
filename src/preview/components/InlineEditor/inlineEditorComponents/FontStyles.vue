@@ -2,10 +2,10 @@
 	<PopOver icon="ite-font" :full-size="true">
 		<div class="zion-inline-editor-group">
 			<Tabs tab-style="minimal">
-				<Tab :name="__('family', 'zionbuilder')">
+				<Tab :name="i18n.__('family', 'zionbuilder')">
 					<FontList />
 				</Tab>
-				<Tab :name="__('Heading', 'zionbuilder')" class="zion-inline-editor-group__heading">
+				<Tab :name="i18n.__('Heading', 'zionbuilder')" class="zion-inline-editor-group__heading">
 					<div>
 						<Button formatter="h1" buttontext="H1" />
 						<Button formatter="h2" buttontext="H2" />
@@ -15,15 +15,15 @@
 						<Button formatter="h6" buttontext="H6" />
 					</div>
 				</Tab>
-				<Tab :name="__('Size', 'zionbuilder')">
+				<Tab :name="i18n.__('Size', 'zionbuilder')">
 					<FontSize />
 				</Tab>
 
-				<Tab :name="__('Height', 'zionbuilder')">
+				<Tab :name="i18n.__('Height', 'zionbuilder')">
 					<LineHeight />
 				</Tab>
 
-				<Tab :name="__('Spacing', 'zionbuilder')">
+				<Tab :name="i18n.__('Spacing', 'zionbuilder')">
 					<LetterSpacing />
 				</Tab>
 			</Tabs>
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref } from 'vue';
 
 // Components

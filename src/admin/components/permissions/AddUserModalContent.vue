@@ -1,13 +1,13 @@
 <template>
 	<div class="znpb-add-specific-permissions-wrapper znpb-fancy-scrollbar">
 		<p class="znpb-add-specific-description">
-			{{ __('Type in the search below to find an user and press enter to add it.', 'zionbuilder') }}
+			{{ i18n.__('Type in the search below to find an user and press enter to add it.', 'zionbuilder') }}
 		</p>
 		<div class="znpb-admin__google-fonts-modal-search">
 			<BaseInput
 				ref="searchInput"
 				v-model="keyword"
-				:placeholder="__('Search for users', 'zionbuilder')"
+				:placeholder="i18n.__('Search for users', 'zionbuilder')"
 				:icon="!loading ? 'search' : null"
 				size="big"
 			>
@@ -21,14 +21,14 @@
 			</ul>
 
 			<span v-if="!loading && users.length === 0 && keyword.length > 2" class="znpb-not-found-message">{{
-				__('No results', 'zionbuilder')
+				i18n.__('No results', 'zionbuilder')
 			}}</span>
 		</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { nextTick, watch, ref, Ref } from 'vue';
 import { searchUser } from '@zb/api';
 

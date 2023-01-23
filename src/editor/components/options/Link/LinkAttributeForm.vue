@@ -3,7 +3,7 @@
 		<div class="znpb-link-optionsAttributeInput znpb-link-optionsAttributeField">
 			<BaseInput
 				type="text"
-				:placeholder="__('Attribute key', 'zionbuilder')"
+				:placeholder="i18n.__('Attribute key', 'zionbuilder')"
 				:modelValue="attributeConfig.key"
 				:spellcheck="false"
 				@update:modelValue="updateValue('key', $event)"
@@ -12,7 +12,7 @@
 		<div class="znpb-link-optionsAttributeInput znpb-link-optionsAttributeField">
 			<BaseInput
 				type="text"
-				:placeholder="__('Attribute value', 'zionbuilder')"
+				:placeholder="i18n.__('Attribute value', 'zionbuilder')"
 				:modelValue="attributeConfig.value"
 				:spellcheck="false"
 				@update:modelValue="updateValue('value', $event)"
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 
 const props = withDefaults(
 	defineProps<{

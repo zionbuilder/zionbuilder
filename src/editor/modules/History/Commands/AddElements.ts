@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { HistoryCommand } from '../HistoryCommand';
 import { useContentStore } from '/@/editor/store';
 import { regenerateUIDsForContent } from '/@/editor/utils';
@@ -45,8 +45,8 @@ export class AddElements extends HistoryCommand {
 					index,
 					addedElementsUIDs: addedElements.map(el => el.uid),
 				},
-				title: __( 'Layout', 'zionbuilder' ),
-				action: __( 'added', 'zionbuilder' ),
+				title: i18n.__( 'Layout', 'zionbuilder' ),
+				action: i18n.__( 'added', 'zionbuilder' ),
 			});
 		}
 	}

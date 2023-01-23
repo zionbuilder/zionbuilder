@@ -3,7 +3,7 @@
 		<div class="znpb-admin__google-fonts-modal-search">
 			<BaseInput
 				v-model="keyword"
-				:placeholder="__('Search for fonts...', 'zionbuilder')"
+				:placeholder="i18n.__('Search for fonts...', 'zionbuilder')"
 				:clearable="true"
 				icon="search"
 				size="big"
@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed, watch } from 'vue';
 import { useGoogleFontsStore } from '@zb/store';
 

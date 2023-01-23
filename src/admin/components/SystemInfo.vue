@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref } from 'vue';
 import SystemList from './system-components/SystemList.vue';
 import SystemPlugins from './system-components/SystemPlugins.vue';

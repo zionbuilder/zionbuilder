@@ -6,7 +6,7 @@
 			<div class="znpb-admin-single-template__shortcode">
 				<BaseInput
 					ref="templateInputRef"
-					v-znpb-tooltip="isCopied ? __('Copied', 'zionbuilder') : __('Copy', 'zionbuilder')"
+					v-znpb-tooltip="isCopied ? i18n.__('Copied', 'zionbuilder') : i18n.__('Copy', 'zionbuilder')"
 					:modelValue="template.shortcode"
 					readonly
 					spellcheck="false"
@@ -22,28 +22,28 @@
 			<div class="znpb-admin-single-template__actions">
 				<template v-if="!template.loading">
 					<Icon
-						v-znpb-tooltip="__('Edit template', 'zionbuilder')"
+						v-znpb-tooltip="i18n.__('Edit template', 'zionbuilder')"
 						icon="edit"
 						class="znpb-admin-single-template__action znpb-delete-icon-pop"
 						@click="editUrl"
 					/>
 
 					<Icon
-						v-znpb-tooltip="__('Delete template', 'zionbuilder')"
+						v-znpb-tooltip="i18n.__('Delete template', 'zionbuilder')"
 						icon="delete"
 						class="znpb-admin-single-template__action znpb-delete-icon-pop"
 						@click="emit('delete-template', template)"
 					/>
 
 					<Icon
-						v-znpb-tooltip="__('Export template', 'zionbuilder')"
+						v-znpb-tooltip="i18n.__('Export template', 'zionbuilder')"
 						icon="export"
 						class="znpb-admin-single-template__action znpb-export-icon-pop"
 						@click="() => template.export()"
 					/>
 
 					<Icon
-						v-znpb-tooltip="__('Preview template', 'zionbuilder')"
+						v-znpb-tooltip="i18n.__('Preview template', 'zionbuilder')"
 						icon="eye"
 						class="znpb-admin-single-template__action znpb-preview-icon-pop"
 						@click="emit('show-modal-preview', true)"
@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, watch, Ref } from 'vue';
 import { BaseInput } from '@zb/components';
 

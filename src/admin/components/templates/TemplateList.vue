@@ -2,14 +2,14 @@
 	<div class="znpb-template-list__wrapper">
 		<div class="znpb-admin-templates-titles">
 			<h5 class="znpb-admin-templates-titles__heading znpb-admin-templates-titles__heading--title">
-				{{ __('Title', 'zionbuilder') }}
+				{{ i18n.__('Title', 'zionbuilder') }}
 			</h5>
-			<h5 class="znpb-admin-templates-titles__heading">{{ __('Author', 'zionbuilder') }}</h5>
+			<h5 class="znpb-admin-templates-titles__heading">{{ i18n.__('Author', 'zionbuilder') }}</h5>
 			<h5 class="znpb-admin-templates-titles__heading znpb-admin-templates-titles__heading--shortcode">
-				{{ __('Shortcode', 'zionbuilder') }}
+				{{ i18n.__('Shortcode', 'zionbuilder') }}
 			</h5>
 			<h5 class="znpb-admin-templates-titles__heading znpb-admin-templates-titles__heading--actions">
-				{{ __('actions', 'zionbuilder') }}
+				{{ i18n.__('actions', 'zionbuilder') }}
 			</h5>
 		</div>
 
@@ -25,11 +25,11 @@
 			@insert="emit('insert', $event)"
 		/>
 
-		<EmptyList v-if="templates.length === 0">{{ __('No template', 'zionbuilder') }}</EmptyList>
+		<EmptyList v-if="templates.length === 0">{{ i18n.__('No template', 'zionbuilder') }}</EmptyList>
 
 		<Modal
 			v-model:show="showModalPreview"
-			:title="`${templateTitle} ${__('preview', 'zionbuilder')}`"
+			:title="`${templateTitle} ${i18n.__('preview', 'zionbuilder')}`"
 			append-to="body"
 			class="znpb-admin-preview-template-modal"
 		>
@@ -38,18 +38,18 @@
 		<ModalConfirm
 			v-if="showModalConfirm"
 			:width="530"
-			:confirm-text="__('Yes, delete template', 'zionbuilder')"
-			:cancel-text="__('No, keep template', 'zionbuilder')"
+			:confirm-text="i18n.__('Yes, delete template', 'zionbuilder')"
+			:cancel-text="i18n.__('No, keep template', 'zionbuilder')"
 			@confirm="onTemplateDelete"
 			@cancel="showModalConfirm = false"
 		>
-			{{ __('Are you sure you want to delete this template?', 'zionbuilder') }}
+			{{ i18n.__('Are you sure you want to delete this template?', 'zionbuilder') }}
 		</ModalConfirm>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 
 // Components

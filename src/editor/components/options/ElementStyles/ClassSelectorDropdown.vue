@@ -15,7 +15,7 @@
 
 		<div v-if="dropdownState" ref="dropDownWrapperRef" class="hg-popper znpb-class-selector__popper">
 			<div v-if="!allowClassAssignment">
-				{{ __('Class assignments not allowed', 'zionbuilder') }}
+				{{ i18n.__('Class assignments not allowed', 'zionbuilder') }}
 			</div>
 			<div
 				v-else
@@ -33,12 +33,12 @@
 						:modelValue="keyword"
 						:filterable="true"
 						:clearable="true"
-						:placeholder="__('Enter class name', 'zionbuilder')"
+						:placeholder="i18n.__('Enter class name', 'zionbuilder')"
 						@update:modelValue="handleClassInput($event as string)"
 						@keydown.enter.stop="addNewCssClass"
 					></BaseInput>
 					<Button type="line" class="znpb-class-selector__add-class-button" @click="addNewCssClass">
-						{{ __('Add Class', 'zionbuilder') }}
+						{{ i18n.__('Add Class', 'zionbuilder') }}
 					</Button>
 				</div>
 
@@ -58,7 +58,7 @@
 				</template>
 				<div v-if="errorMessage.length === 0 && filteredClasses.length === 0" class="znpb-class-selector-noClass">
 					{{
-						__('No class found. Press "Add class" to create a new class and assign it to the element.', 'zionbuilder')
+						i18n.__('No class found. Press "Add class" to create a new class and assign it to the element.', 'zionbuilder')
 					}}
 				</div>
 				<div v-if="invalidClass" class="znpb-class-selector-validator">{{ errorMessage }}</div>
@@ -68,7 +68,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed, ref, watch, nextTick, onBeforeUnmount, Ref } from 'vue';
 import CssSelector from './CssSelector.vue';
 import { useCSSClassesStore } from '/@/editor/store';

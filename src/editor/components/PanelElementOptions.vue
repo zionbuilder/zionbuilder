@@ -42,7 +42,7 @@
 					@mouseenter="showBreadcrumbs = true"
 					@mouseleave="showBreadcrumbs = false"
 				>
-					{{ `${contentStore.getElementName(UIStore.editedElement)} ${__('Options', 'zionbuilder')}` }}
+					{{ `${contentStore.getElementName(UIStore.editedElement)} ${i18n.__('Options', 'zionbuilder')}` }}
 					<Icon icon="select" />
 					<BreadcrumbsWrapper v-if="showBreadcrumbs" :element="UIStore.editedElement" />
 				</h4>
@@ -63,7 +63,7 @@
 			<div class="znpb-options-breadcrumbs" @click="activeGlobalClass = null">
 				<Icon class="znpb-back-icon-breadcrumbs" icon="select" />
 
-				<span class="znpb-classEditBackName">{{ __('Back to', 'zionbuilder') }} {{ UIStore.editedElement.name }}</span>
+				<span class="znpb-classEditBackName">{{ i18n.__('Back to', 'zionbuilder') }} {{ UIStore.editedElement.name }}</span>
 			</div>
 
 			<OptionsForm v-model="activeClassStyles" :schema="activeClassSchema" />
@@ -88,7 +88,7 @@
 					/>
 
 					<p v-else class="znpb-element-options-no-option-message">
-						{{ __('Element has no specific options', 'zionbuilder') }}
+						{{ i18n.__('Element has no specific options', 'zionbuilder') }}
 					</p>
 				</Tab>
 				<Tab v-if="UserStore.userCanEditContent" name="Styling">
@@ -128,7 +128,7 @@
 						v-if="optionsFilterKeyword.length > 2 && Object.keys(filteredOptions).length === 0"
 						class="znpb-element-options-default-message"
 					>
-						{{ __('No options found', 'zionbuilder') }}
+						{{ i18n.__('No options found', 'zionbuilder') }}
 					</p>
 					<p v-if="optionsFilterKeyword.length < 3" class="znpb-element-options-no-option-message">
 						{{ defaultMessage }}
@@ -146,7 +146,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, Ref, watch, provide, computed, onBeforeUnmount, nextTick } from 'vue';
 import { useElementProvide } from '../composables';
 import { useUIStore, useContentStore, useElementDefinitionsStore, useUserStore, useCSSClassesStore } from '../store';
@@ -174,7 +174,7 @@ const searchInput: Ref<HTMLElement | null> = ref(null);
 const showBreadcrumbs = ref(false);
 const lastTab = ref(null);
 const defaultMessage = ref(
-	__('Start typing in the search field and the found options will appear here', 'zionbuilder'),
+	i18n.__('Start typing in the search field and the found options will appear here', 'zionbuilder'),
 );
 
 const { provideElement } = useElementProvide();
@@ -375,7 +375,7 @@ function filterOptions(keyword, optionsSchema, currentId, currentName) {
 			}
 
 			if (optionId === 'animation-group' || optionId === 'custom-css-group' || optionId === 'general-group') {
-				syncValueName.push(__('Advanced', 'zionbuilder'));
+				syncValueName.push(i18n.__('Advanced', 'zionbuilder'));
 			}
 
 			if (!optionConfig.is_layout) {
@@ -384,7 +384,7 @@ function filterOptions(keyword, optionsSchema, currentId, currentName) {
 
 			if (optionConfig.type === 'element_styles' || optionConfig.type === 'css_selector') {
 				syncValue.push('styles');
-				syncValueName.push(__('Styles', 'zionbuilder'), optionConfig.name);
+				syncValueName.push(i18n.__('Styles', 'zionbuilder'), optionConfig.name);
 			}
 
 			if (optionConfig.type === 'responsive_group') {

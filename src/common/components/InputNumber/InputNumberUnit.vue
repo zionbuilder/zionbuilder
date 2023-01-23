@@ -45,7 +45,7 @@
 								}"
 								@click.stop="changeUnit('')"
 							>
-								{{ __('custom', 'zionbuilder') }}
+								{{ i18n.__('custom', 'zionbuilder') }}
 							</div>
 						</div>
 					</template>
@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed, onMounted, ref, watch, Ref, nextTick, onBeforeUnmount } from 'vue';
 import rafSchd from 'raf-schd';
 

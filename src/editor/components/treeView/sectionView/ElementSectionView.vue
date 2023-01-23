@@ -13,7 +13,7 @@
 	>
 		<div v-if="loading || error">
 			<Loader :size="16" />
-			<span v-if="error">{{ __('Preview not available', 'zionbuilder') }}</span>
+			<span v-if="error">{{ i18n.__('Preview not available', 'zionbuilder') }}</span>
 		</div>
 
 		<img :src="imageSrc" />
@@ -24,13 +24,13 @@
 			<div class="znpb-section-view-item__header-left">
 				<span
 					v-if="element.isRepeaterProvider"
-					v-znpb-tooltip="__('repeater provider', 'zionbuilder')"
+					v-znpb-tooltip="i18n.__('repeater provider', 'zionbuilder')"
 					class="znpb-tree-view__itemLooperIcon"
 					>P</span
 				>
 				<span
 					v-if="element.isRepeaterConsumer"
-					v-znpb-tooltip="__('repeater consumer', 'zionbuilder')"
+					v-znpb-tooltip="i18n.__('repeater consumer', 'zionbuilder')"
 					class="znpb-tree-view__itemLooperIcon"
 					>C</span
 				>
@@ -40,7 +40,7 @@
 
 			<Icon
 				v-if="!element.isVisible"
-				v-znpb-tooltip="__('The element is hidden. Click to enable it.', 'zionbuilder')"
+				v-znpb-tooltip="i18n.__('The element is hidden. Click to enable it.', 'zionbuilder')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
 				@click.stop="element.isVisible = !element.isVisible"
@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 import { toPng } from 'html-to-image';
 import { onMounted } from 'vue';
@@ -108,7 +108,7 @@ onMounted(() => {
 			.catch(error => {
 				error = true;
 				// eslint-disable-next-line
-				console.error(__('oops, something went wrong!', 'zionbuilder'), error);
+				console.error(i18n.__('oops, something went wrong!', 'zionbuilder'), error);
 			})
 			.finally(() => {
 				loading.value = false;

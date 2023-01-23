@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-forms-image-custom-size__wrapper">
 		<InputWrapper
-			:title="__('Custom Width', 'zionbuilder')"
+			:title="i18n.__('Custom Width', 'zionbuilder')"
 			align="center"
 			class="znpb-forms-image-custom-size__option-wrapper"
 		>
@@ -11,7 +11,7 @@
 			<Icon icon="close" :size="10" />
 		</div>
 		<InputWrapper
-			:title="__('Custom Height', 'zionbuilder')"
+			:title="i18n.__('Custom Height', 'zionbuilder')"
 			align="center"
 			class="znpb-forms-image-custom-size__option-wrapper"
 		>
@@ -22,7 +22,7 @@
 				class="znpb-button znpb-button--line znpb-forms-image-custom-size__apply-button"
 				@click="onCustomSizeClick"
 			>
-				{{ __('Apply', 'zionbuilder') }}
+				{{ i18n.__('Apply', 'zionbuilder') }}
 			</button>
 		</div>
 	</div>
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref } from 'vue';
 import { Icon } from '../Icon';
 import BaseInput from '../BaseInput/BaseInput.vue';

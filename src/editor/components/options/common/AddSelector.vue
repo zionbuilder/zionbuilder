@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 
 const props = withDefaults(defineProps<{ type?: string }>(), {
@@ -49,27 +49,27 @@ const schema = computed(() => {
 		title: {
 			type: 'text',
 			title:
-				props.type === 'selector' ? __('Selector nice name', 'zionbuilder') : __('CSS class nice name', 'zionbuilder'),
+				props.type === 'selector' ? i18n.__('Selector nice name', 'zionbuilder') : i18n.__('CSS class nice name', 'zionbuilder'),
 			description:
 				props.type === 'selector'
-					? __('Enter a name that will help you recognize this CSS class', 'zionbuilder')
-					: __('Enter a name that will help you recognize this CSS class', 'zionbuilder'),
+					? i18n.__('Enter a name that will help you recognize this CSS class', 'zionbuilder')
+					: i18n.__('Enter a name that will help you recognize this CSS class', 'zionbuilder'),
 		},
 		selector: {
 			type: 'text',
-			title: props.type === 'selector' ? __('CSS selector', 'zionbuilder') : __('CSS class', 'zionbuilder'),
+			title: props.type === 'selector' ? i18n.__('CSS selector', 'zionbuilder') : i18n.__('CSS class', 'zionbuilder'),
 			description:
 				props.type === 'selector'
-					? __('Enter the css selector you want to style', 'zionbuilder')
-					: __('Enter the CSS class name without the leading dot', 'zionbuilder'),
-			placeholder: props.type === 'selector' ? __('.my-selector', 'zionbuilder') : __('my-class-name', 'zionbuilder'),
+					? i18n.__('Enter the css selector you want to style', 'zionbuilder')
+					: i18n.__('Enter the CSS class name without the leading dot', 'zionbuilder'),
+			placeholder: props.type === 'selector' ? i18n.__('.my-selector', 'zionbuilder') : i18n.__('my-class-name', 'zionbuilder'),
 			error: props.type === 'class' && hasError.value ? true : false,
 		},
 	};
 });
 
 const buttonTitle = computed(() => {
-	return props.type == 'selector' ? __('Add child selector', 'zionbuilder') : __('Add CSS class', 'zionbuilder');
+	return props.type == 'selector' ? i18n.__('Add child selector', 'zionbuilder') : i18n.__('Add CSS class', 'zionbuilder');
 });
 
 const formModel = ref({});

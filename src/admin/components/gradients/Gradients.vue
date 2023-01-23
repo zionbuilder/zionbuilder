@@ -1,6 +1,6 @@
 <template>
 	<PageTemplate class="znpb-admin-gradients__wrapper">
-		<h3>{{ __('Gradients', 'zionbuilder') }}</h3>
+		<h3>{{ i18n.__('Gradients', 'zionbuilder') }}</h3>
 		<Tabs tab-style="minimal" @changed-tab="(activeLibrary = $event), (activeGradient.value = {})">
 			<Tab name="Local">
 				<div class="znpb-admin-gradient__container">
@@ -18,9 +18,9 @@
 			<Tab name="Global">
 				<UpgradeToPro
 					v-if="!isPro"
-					:message_title="__('Meet Global Gradients', 'zionbuilder')"
+					:message_title="i18n.__('Meet Global Gradients', 'zionbuilder')"
 					:message_description="
-						__(
+						i18n.__(
 							'Global gradients allows you to define a gradient configuration that you can use in builder, and every time this gradient configuration changes it will be updated automatically in all locations where it was used. ',
 							'zionbuilder',
 						)
@@ -50,14 +50,14 @@
 
 		<template #right>
 			<p class="znpb-admin-info-p">
-				{{ __('Create Astonishing Gradients that you will use in all the pages of your website', 'zionbuilder') }}
+				{{ i18n.__('Create Astonishing Gradients that you will use in all the pages of your website', 'zionbuilder') }}
 			</p>
 		</template>
 	</PageTemplate>
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref } from 'vue';
 
 // Components

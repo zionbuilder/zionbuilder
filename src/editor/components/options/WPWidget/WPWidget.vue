@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-element-form__wp_widget">
 		<div v-if="loading" class="znpb-element-form__wp_widget-loading">
-			{{ __('Loading', 'zionbuilder') }}
+			{{ i18n.__('Loading', 'zionbuilder') }}
 		</div>
 
 		<form v-else ref="form" v-html="optionsFormContent"></form>
@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, nextTick } from 'vue';
 import { serialize } from 'dom-form-serializer';
 import { useUIStore } from '/@/editor/store';

@@ -11,7 +11,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed } from 'vue';
 import { InputCustomSelector } from '../InputCustomSelector';
 
@@ -28,22 +28,22 @@ const textAlignOptions = [
 	{
 		icon: 'align--left',
 		id: 'left',
-		name: __('Align left', 'zionbuilder'),
+		name: i18n.__('Align left', 'zionbuilder'),
 	},
 	{
 		icon: 'align--center',
 		id: 'center',
-		name: __('Align center', 'zionbuilder'),
+		name: i18n.__('Align center', 'zionbuilder'),
 	},
 	{
 		icon: 'align--right',
 		id: 'right',
-		name: __('Align right', 'zionbuilder'),
+		name: i18n.__('Align right', 'zionbuilder'),
 	},
 	{
 		icon: 'align--justify',
 		id: 'justify',
-		name: __('Justify', 'zionbuilder'),
+		name: i18n.__('Justify', 'zionbuilder'),
 	},
 ];
 

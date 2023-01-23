@@ -33,7 +33,6 @@ export const installCommonAPP = (app: App) => {
 window.zb = window.zb || {};
 Object.assign(window.zb, {
 	hooks,
-	i18n,
 	api,
 	utils,
 	composables,

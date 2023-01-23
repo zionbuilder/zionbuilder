@@ -1,18 +1,18 @@
 <template>
 	<PageTemplate>
-		<h3>{{ __('Google Fonts', 'zionbuilder') }}</h3>
+		<h3>{{ i18n.__('Google Fonts', 'zionbuilder') }}</h3>
 		<div v-if="googleFonts.length > 0" class="znpb-admin__google-font-tab znpb-admin__google-font-tab--titles">
-			<div class="znpb-admin__google-font-tab-title">{{ __('Font name', 'zionbuilder') }}</div>
-			<div class="znpb-admin__google-font-tab-variants">{{ __('variants', 'zionbuilder') }}</div>
-			<div class="znpb-admin__google-font-tab-subset">{{ __('subsets', 'zionbuilder') }}</div>
-			<div class="znpb-admin__google-font-tab-actions">{{ __('actions', 'zionbuilder') }}</div>
+			<div class="znpb-admin__google-font-tab-title">{{ i18n.__('Font name', 'zionbuilder') }}</div>
+			<div class="znpb-admin__google-font-tab-variants">{{ i18n.__('variants', 'zionbuilder') }}</div>
+			<div class="znpb-admin__google-font-tab-subset">{{ i18n.__('subsets', 'zionbuilder') }}</div>
+			<div class="znpb-admin__google-font-tab-actions">{{ i18n.__('actions', 'zionbuilder') }}</div>
 		</div>
 
 		<EmptyList
 			v-if="googleFonts.length === 0"
-			v-znpb-tooltip="__('Click Me or the Blue button to add a Font', 'zionbuilder')"
+			v-znpb-tooltip="i18n.__('Click Me or the Blue button to add a Font', 'zionbuilder')"
 			@click="showModal = true"
-			>{{ __('No Google fonts added', 'zionbuilder') }}</EmptyList
+			>{{ i18n.__('No Google fonts added', 'zionbuilder') }}</EmptyList
 		>
 
 		<div v-if="googleFonts.length > 0" class="znpb-admin-google-fonts-wrapper">
@@ -37,7 +37,7 @@
 			v-model:show="showModal"
 			:width="570"
 			class="znpb-modal-google-fonts"
-			:title="__('Google Fonts', 'zionbuilder')"
+			:title="i18n.__('Google Fonts', 'zionbuilder')"
 			:show-backdrop="false"
 		>
 			<GoogleFontsModalContent
@@ -50,21 +50,21 @@
 		<div class="znpb-admin-google-fonts-actions">
 			<Button type="line" @click="showModal = true">
 				<Icon icon="plus" />
-				{{ __('Add Font', 'zionbuilder') }}
+				{{ i18n.__('Add Font', 'zionbuilder') }}
 			</Button>
 		</div>
 		<template #right>
 			<p class="znpb-admin-info-p">
-				{{ __('Setting up', 'zionbuilder') }}
-				<a href="https://fonts.google.com/">{{ __('Google web fonts', 'zionbuilder') }} </a>
-				{{ __("has never been easier. Choose which ones to use for your website's stylish typography", 'zionbuilder') }}
+				{{ i18n.__('Setting up', 'zionbuilder') }}
+				<a href="https://fonts.google.com/">{{ i18n.__('Google web fonts', 'zionbuilder') }} </a>
+				{{ i18n.__("has never been easier. Choose which ones to use for your website's stylish typography", 'zionbuilder') }}
 			</p>
 		</template>
 	</PageTemplate>
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed, ref } from 'vue';
 import { useBuilderOptionsStore } from '@zb/store';
 

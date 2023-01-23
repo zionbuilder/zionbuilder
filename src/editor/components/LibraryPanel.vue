@@ -8,7 +8,7 @@
 					v-model="searchKeyword"
 					icon="search"
 					:clearable="true"
-					:placeholder="__('Search in this library', 'zionbuilder')"
+					:placeholder="i18n.__('Search in this library', 'zionbuilder')"
 				/>
 			</div>
 
@@ -26,7 +26,7 @@
 				</div>
 				<div class="znpb-editor-library-modal-subheader__right">
 					<div class="znpb-editor-library-modal-subheader__action-title" @click="sortAscending = !sortAscending">
-						<Icon icon="reverse-y" />{{ __('Sort', 'zionbuilder') }}
+						<Icon icon="reverse-y" />{{ i18n.__('Sort', 'zionbuilder') }}
 					</div>
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 				</ul>
 
 				<p v-if="searchKeyword.length > 0 && filteredItems.length === 0" class="znpb-editor-library-modal-no-more">
-					{{ __('No more to show :(', 'zionbuilder') }}
+					{{ i18n.__('No more to show :(', 'zionbuilder') }}
 				</p>
 			</div>
 		</div>
@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed, watchEffect, watch, nextTick, Ref } from 'vue';
 import { uniq } from 'lodash-es';
 import { BaseInput } from '@zb/components';
@@ -81,7 +81,7 @@ const emit = defineEmits(['activate-preview']);
 
 // NormalVars
 const allCategoriesConfig: LibraryCategory = {
-	name: __('All', 'zionbuilder'),
+	name: i18n.__('All', 'zionbuilder'),
 	slug: 'zion-category-all',
 	term_id: 3211329987745,
 	isActive: true,

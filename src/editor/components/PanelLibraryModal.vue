@@ -16,7 +16,7 @@
 					@click.stop="closeBody"
 				>
 					<Icon icon="long-arrow-right" rotate="180" />
-					{{ __('Go Back', 'zionbuilder') }}
+					{{ i18n.__('Go Back', 'zionbuilder') }}
 				</span>
 				<div v-if="previewOpen || importActive" class="znpb-library-modal-header-preview">
 					<h2 class="znpb-library-modal-header-preview__title" v-html="computedTitle"></h2>
@@ -39,25 +39,25 @@
 							class="znpb-button znpb-button--line"
 							target="_blank"
 							:href="dashboardURL"
-							>{{ __('Activate PRO', 'zionbuilder') }}
+							>{{ i18n.__('Activate PRO', 'zionbuilder') }}
 						</a>
 						<a
 							v-else-if="!isProInstalled && activeItem.pro"
 							class="znpb-button znpb-button--line znpb-button-buy-pro"
 							:href="purchaseURL"
 							target="_blank"
-							>{{ __('Buy Pro', 'zionbuilder') }}
+							>{{ i18n.__('Buy Pro', 'zionbuilder') }}
 						</a>
 
 						<Button
 							v-else
-							v-znpb-tooltip="__('Insert this item into page', 'zionbuilder')"
+							v-znpb-tooltip="i18n.__('Insert this item into page', 'zionbuilder')"
 							type="secondary"
 							class="znpb-library-modal-header__insert-button"
 							@click.stop="insertLibraryItem"
 						>
 							<span v-if="!insertItemLoading">
-								{{ __('Insert', 'zionbuilder') }}
+								{{ i18n.__('Insert', 'zionbuilder') }}
 							</span>
 							<Loader v-else :size="13" />
 						</Button>
@@ -66,11 +66,11 @@
 					<template v-else>
 						<Button type="secondary" @click="(importActive = !importActive), (templateUploaded = !templateUploaded)">
 							<Icon icon="import" />
-							{{ __('Import', 'zionbuilder') }}
+							{{ i18n.__('Import', 'zionbuilder') }}
 						</Button>
 
 						<Icon
-							v-znpb-tooltip="__('Refresh data from the server ', 'zionbuilder')"
+							v-znpb-tooltip="i18n.__('Refresh data from the server ', 'zionbuilder')"
 							icon="refresh"
 							:size="14"
 							class="znpb-modal__header-button znpb-modal__header-button--library-refresh znpb-button znpb-button--line"
@@ -106,7 +106,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed, watchEffect, provide, onMounted, onBeforeMount, onBeforeUnmount } from 'vue';
 import { regenerateUIDsForContent } from '../utils';
 import { useEditorData, useLocalStorage } from '../composables';
@@ -143,10 +143,10 @@ const computedTitle = computed(() => {
 	}
 
 	if (importActive.value) {
-		return __('Import', 'zionbuilder');
+		return i18n.__('Import', 'zionbuilder');
 	}
 
-	return __('Library', 'zionbuilder');
+	return i18n.__('Library', 'zionbuilder');
 });
 
 provide('Library', {

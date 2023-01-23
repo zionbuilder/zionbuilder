@@ -31,7 +31,7 @@
 				</li>
 
 				<li v-if="useSearch && visibleItems.length === 0" class="znpb-radio-image-search--noItems">
-					{{ __('No items found', 'zionbuilder') }}
+					{{ i18n.__('No items found', 'zionbuilder') }}
 				</li>
 			</ul>
 		</div>
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 import Icon from '../Icon/Icon.vue';
 
@@ -61,7 +61,7 @@ const props = withDefaults(
 		useSearch: true,
 		columns: 3,
 		searchText: () => {
-			return __('Search', 'zionbuilder') as unknown as string;
+			return i18n.__('Search', 'zionbuilder') as unknown as string;
 		},
 	},
 );

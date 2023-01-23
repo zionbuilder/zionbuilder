@@ -89,7 +89,7 @@
 
 		<div v-if="UIStore.isPreviewLoading" class="znpb-loading-wrapper-gif">
 			<img :src="editorData.urls.loader" />
-			<div class="znpb-loading-wrapper-gif__text">{{ __('Generating preview...', 'zionbuilder') }}</div>
+			<div class="znpb-loading-wrapper-gif__text">{{ i18n.__('Generating preview...', 'zionbuilder') }}</div>
 		</div>
 
 		<!-- Add Elements Popup -->
@@ -113,7 +113,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, provide, computed, onBeforeUnmount, onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 

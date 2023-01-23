@@ -11,13 +11,13 @@
 		<div class="znpb-admin-templates-actions">
 			<Button type="line" @click="showModal = true">
 				<span class="znpb-add-element-icon"></span>
-				{{ __('Add new template', 'zionbuilder') }}
+				{{ i18n.__('Add new template', 'zionbuilder') }}
 			</Button>
 		</div>
 		<Modal
 			v-model:show="showModal"
 			:show-maximize="false"
-			:title="__('Add new template', 'zionbuilder')"
+			:title="i18n.__('Add new template', 'zionbuilder')"
 			:width="560"
 			append-to="#znpb-admin"
 		>
@@ -26,14 +26,14 @@
 
 		<template #right>
 			<p class="znpb-admin-info-p">
-				{{ __('Templates allow you to easily build a WordPress page', 'zionbuilder') }}
+				{{ i18n.__('Templates allow you to easily build a WordPress page', 'zionbuilder') }}
 			</p>
 		</template>
 	</PageTemplate>
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed, ref } from 'vue';
 
 // Components

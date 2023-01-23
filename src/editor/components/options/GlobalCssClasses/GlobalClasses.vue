@@ -3,7 +3,7 @@
 		<AddSelector type="class" @add-selector="onSelectorAdd">
 			<template #default="{ actions }">
 				<Button type="line" class="znpb-class-selectorAddButton" @click="actions.toggleModal()">
-					{{ __('Add CSS class', 'zionbuilder') }}
+					{{ i18n.__('Add CSS class', 'zionbuilder') }}
 				</Button>
 			</template>
 		</AddSelector>
@@ -22,12 +22,12 @@
 		<template v-if="filteredClasses.length">
 			<OptionsForm v-model="value" :schema="schema" class="znpb-globalCSSClassesOptionsForm" />
 		</template>
-		<div v-else class="znpb-class-selector-noclass">{{ __('No class found', 'zionbuilder') }}</div>
+		<div v-else class="znpb-class-selector-noclass">{{ i18n.__('No class found', 'zionbuilder') }}</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed, inject, onBeforeUnmount } from 'vue';
 import { useCSSClassesStore } from '/@/editor/store';
 import AddSelector from '../common/AddSelector.vue';

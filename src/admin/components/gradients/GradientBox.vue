@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-admin-gradient-preset-box" @mouseover="showLink = true" @mouseleave="showLink = false">
 		<Icon
-			v-znpb-tooltip="__('Delete this gradient from your preset', 'zionbuilder')"
+			v-znpb-tooltip="i18n.__('Delete this gradient from your preset', 'zionbuilder')"
 			icon="close"
 			class="znpb-admin-gradient-preset-box__delete"
 			@click.stop="$emit('delete-gradient')"
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref } from 'vue';
 
 withDefaults(

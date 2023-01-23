@@ -1,9 +1,9 @@
 <template>
 	<div class="znpb-gradient-options-wrapper">
-		<InputWrapper :title="__('Gradient type', 'zionbuilder')" class="znpb-gradient__type">
+		<InputWrapper :title="i18n.__('Gradient type', 'zionbuilder')" class="znpb-gradient__type">
 			<Tabs tab-style="minimal" :active-tab="computedValue.type" @changed-tab="onTabChange">
 				<Tab name="Linear">
-					<InputWrapper :title="__('Gradient angle', 'zionbuilder')" class="znpb-gradient__angle">
+					<InputWrapper :title="i18n.__('Gradient angle', 'zionbuilder')" class="znpb-gradient__angle">
 						<InputRange v-model="computedAngle" :min="0" :max="360" :step="1">deg</InputRange>
 					</InputWrapper>
 				</Tab>
@@ -20,7 +20,7 @@
 			</Tabs>
 		</InputWrapper>
 
-		<InputWrapper :title="__('Gradient bar', 'zionbuilder')">
+		<InputWrapper :title="i18n.__('Gradient bar', 'zionbuilder')">
 			<GradientBar v-model="computedValue" class="znpb-gradient__bar" />
 		</InputWrapper>
 	</div>
@@ -33,7 +33,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed } from 'vue';
 import GradientBar from './GradientBar.vue';
 import { InputWrapper } from '../InputWrapper';

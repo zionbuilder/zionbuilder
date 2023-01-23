@@ -3,7 +3,7 @@
 		<label
 			class="znpb-checkbox-switch-wrapper__label"
 			:class="{ [`znpb-checkbox-switch--${model ? 'checked' : 'unchecked'}`]: true }"
-			:content="model ? __('Yes', 'zionbuilder') : __('No', 'zionbuilder')"
+			:content="model ? i18n.__('Yes', 'zionbuilder') : i18n.__('No', 'zionbuilder')"
 		>
 			<input
 				v-model="model"
@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, nextTick, inject } from 'vue';
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 
 const props = withDefaults(
 	defineProps<{

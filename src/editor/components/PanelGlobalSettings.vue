@@ -1,6 +1,6 @@
 <template>
 	<BasePanel
-		:panel-name="__('Options', 'zionbuilder')"
+		:panel-name="i18n.__('Options', 'zionbuilder')"
 		panel-id="panel-global-settings"
 		class="znpb-general-options-panel-wrapper"
 	>
@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed } from 'vue';
 import BasePanel from './BasePanel.vue';
 import { useUIStore, usePageSettingsStore } from '../store';
@@ -31,7 +31,7 @@ const savedValues = computed({
 const cssClassesSchema = {
 	global_css: {
 		type: 'accordion_menu',
-		title: __('Global CSS classes', 'zionbuilder'),
+		title: i18n.__('Global CSS classes', 'zionbuilder'),
 		child_options: {
 			global_css_classes: {
 				type: 'global_css_classes',

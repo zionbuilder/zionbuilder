@@ -22,7 +22,7 @@
 				/>
 			</div>
 
-			<div v-if="item.pro" class="znpb-editor-library-modal__item-pro">{{ __('pro', 'zionbuilder') }}</div>
+			<div v-if="item.pro" class="znpb-editor-library-modal__item-pro">{{ i18n.__('pro', 'zionbuilder') }}</div>
 
 			<div class="znpb-editor-library-modal__item-bottom">
 				<h4 class="znpb-editor-library-modal__item-title" :title="item.name">{{ item.name }}</h4>
@@ -33,7 +33,7 @@
 						target="_blank"
 						:href="dashboardURL"
 					>
-						{{ __('Activate PRO', 'zionbuilder') }}
+						{{ i18n.__('Activate PRO', 'zionbuilder') }}
 					</a>
 
 					<a
@@ -41,19 +41,19 @@
 						class="znpb-button znpb-button--line"
 						:href="EnvironmentStore.urls.purchase_url"
 						target="_blank"
-						>{{ __('Buy Pro', 'zionbuilder') }}
+						>{{ i18n.__('Buy Pro', 'zionbuilder') }}
 					</a>
 
 					<span
 						v-else
-						v-znpb-tooltip="__('Insert this item into page', 'zionbuilder')"
+						v-znpb-tooltip="i18n.__('Insert this item into page', 'zionbuilder')"
 						class="znpb-button znpb-button--line znpb-editor-library-modal__item-action"
 						@click.stop="insertLibraryItem"
-						>{{ __('Insert', 'zionbuilder') }}</span
+						>{{ i18n.__('Insert', 'zionbuilder') }}</span
 					>
 
 					<Icon
-						v-znpb-tooltip="__('Click to preview this item', 'zionbuilder')"
+						v-znpb-tooltip="i18n.__('Click to preview this item', 'zionbuilder')"
 						icon="eye"
 						class="znpb-editor-library-modal__item-action"
 						@click="emit('activate-item', item)"
@@ -73,7 +73,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, inject, onMounted, onBeforeUnmount, computed, watch, Ref } from 'vue';
 import { useThumbnailGeneration } from './composables/useThumbnailGeneration';
 import { useEnvironmentStore } from '@zb/store';
@@ -161,21 +161,21 @@ const itemMenuActions = computed(() => {
 
 	return [
 		{
-			title: __('Edit template', 'zionbuilder'),
+			title: i18n.__('Edit template', 'zionbuilder'),
 			action: () => {
 				return window.open(props.item.urls.edit_url, '_blank')?.focus();
 			},
 			icon: 'edit',
 		},
 		{
-			title: __('Export template', 'zionbuilder'),
+			title: i18n.__('Export template', 'zionbuilder'),
 			action: () => {
 				props.item.export();
 			},
 			icon: 'export',
 		},
 		{
-			title: __('Regenerate screenshot', 'zionbuilder'),
+			title: i18n.__('Regenerate screenshot', 'zionbuilder'),
 			action: () => {
 				const { generateScreenshot } = useThumbnailGeneration();
 
@@ -184,7 +184,7 @@ const itemMenuActions = computed(() => {
 			icon: 'export',
 		},
 		{
-			title: __('Delete template', 'zionbuilder'),
+			title: i18n.__('Delete template', 'zionbuilder'),
 			action: () => {
 				props.item.delete();
 			},

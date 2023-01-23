@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { DebouncedHistoryCommand } from '../DebouncedHistoryCommand';
 import { useContentStore } from '/@/editor/store';
 
@@ -29,7 +29,7 @@ export class UpdateElementOptions extends DebouncedHistoryCommand {
 					path,
 				},
 				title: element.name,
-				action: __('Edited', 'zionbuilder'),
+				action: i18n.__('Edited', 'zionbuilder'),
 			});
 		}
 	}

@@ -4,7 +4,7 @@
 			<p
 				class="znpb-about-modal__description"
 				v-html="
-					__(
+					i18n.__(
 						'Producing <b>smashing design</b> is now possible with Zion Builder. <br/>Complex elements, library system, responsive building design, multilingual adaptability, speed and performance, control not only over the actions but also over the whole website, and powerful blog options are barely few of the features for this <b> blue-chip </b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active.',
 						'zionbuilder',
 					)
@@ -31,14 +31,14 @@
 				class="znpb-about-modal__help"
 				target="_blank"
 				title="documentation"
-				>{{ __('Do you need help?', 'zionbuilder') }}</a
+				>{{ i18n.__('Do you need help?', 'zionbuilder') }}</a
 			>
 		</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import pluginCard from './about-modal/pluginCard.vue';
 import { useEnvironmentStore } from '@zb/store';
 

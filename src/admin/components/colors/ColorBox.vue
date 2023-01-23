@@ -15,7 +15,7 @@
 			</template>
 			<div v-if="type == 'addcolor'" class="znpb-admin-color-preset-box__empty" @click.stop="showColorPicker = true">
 				<Icon icon="plus" />
-				<div>{{ i18n.'Add color', 'zionbuilder') }}</div>
+				<div>{{ i18n.__('Add color', 'zionbuilder') }}</div>
 			</div>
 			<div v-else class="znpb-admin-color-preset-box__color" @click.stop="showColorPicker = true">
 				<Icon
@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, watchEffect } from 'vue';
 
 const props = withDefaults(

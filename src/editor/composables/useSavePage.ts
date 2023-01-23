@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, Ref } from 'vue';
 import { usePageSettingsStore, useCSSClassesStore, useContentStore, useHistoryStore } from '../store';
 import { useEditorData } from './useEditorData';

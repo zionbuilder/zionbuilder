@@ -28,7 +28,7 @@
 
 				<span
 					v-if="!modelValue"
-					v-znpb-tooltip="__('No color chosen', 'zionbuilder')"
+					v-znpb-tooltip="i18n.__('No color chosen', 'zionbuilder')"
 					class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"
 				></span>
 			</template>
@@ -48,7 +48,7 @@
 						<span>
 							<Tooltip
 								v-if="!modelValue || modelValue === undefined"
-								:content="__('No color chosen', 'zionbuilder')"
+								:content="i18n.__('No color chosen', 'zionbuilder')"
 								tag="span"
 							>
 								<span
@@ -87,7 +87,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 import BaseInput from '../BaseInput/BaseInput.vue';
 import Color from './Color.vue';
@@ -117,7 +117,7 @@ const emit = defineEmits<{
 const color = ref<InstanceType<typeof Color> | null>(null);
 
 const computedPlaceholder = computed(() => {
-	return props.placeholder || __('Color', 'zionbuilder');
+	return props.placeholder || i18n.__('Color', 'zionbuilder');
 });
 
 const colorModel = computed({

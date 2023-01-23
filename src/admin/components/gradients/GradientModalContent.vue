@@ -2,7 +2,7 @@
 	<Modal
 		v-model:show="showModal"
 		:width="360"
-		:title="__('Gradients', 'zionbuilder')"
+		:title="i18n.__('Gradients', 'zionbuilder')"
 		append-to="#znpb-admin"
 		@close-modal="onModalClose"
 	>
@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 
 const props = withDefaults(

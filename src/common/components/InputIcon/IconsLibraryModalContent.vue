@@ -32,7 +32,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { storeToRefs } from 'pinia';
 import { ref, computed, Ref } from 'vue';
 import { useDataSetsStore, type DataSets, type Icons } from '../../store';
@@ -82,7 +82,7 @@ const filteredList = computed(() => {
 });
 
 const getPlaceholder = computed(() => {
-	return `${__('Search through', 'zionbuilder')} ${getIconNumber.value} ${__('icons', 'zionbuilder')}`;
+	return `${i18n.__('Search through', 'zionbuilder')} ${getIconNumber.value} ${i18n.__('icons', 'zionbuilder')}`;
 });
 
 const getIconNumber = computed(() => {

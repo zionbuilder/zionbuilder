@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-option__image-gallery">
 		<EmptyList v-if="!sortableModel.length" @click="openMediaModal">
-			{{ __('No images selected', 'zionbuilder') }}
+			{{ i18n.__('No images selected', 'zionbuilder') }}
 		</EmptyList>
 
 		<Sortable v-else v-model="sortableModel" class="znpb-option__image-gallery__images-wrapper">
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed } from 'vue';
 
 const { wp } = window;

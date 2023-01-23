@@ -19,7 +19,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { ref } from 'vue';
 
 withDefaults(
@@ -27,7 +27,7 @@ withDefaults(
 		discardChangesTitle?: string;
 	}>(),
 	{
-		discardChangesTitle: (() => __('Discard changes', 'zionbuilder')) as unknown as string,
+		discardChangesTitle: (() => i18n.__('Discard changes', 'zionbuilder')) as unknown as string,
 	},
 );
 
