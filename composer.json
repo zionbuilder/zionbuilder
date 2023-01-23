@@ -35,7 +35,7 @@
   },
   "scripts": {
     "makepot-audit": [
-      "wp --allow-root i18n make-pot ./ languages/zionbuilder.pot --exclude=\".github,vendor,node-modules,bin,node_modules,tests\" --slug=zionbuilder"
+      "wp --allow-root i18n make-pot . languages/zionbuilder.pot --exclude=\".github,vendor,node-modules,bin,node_modules,tests\" --slug=zionbuilder"
     ],
     "makepot": [
       "@makepot-audit --skip-audit"
