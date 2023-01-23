@@ -112,7 +112,7 @@ class Accordions extends Element {
 						'id'   => 'accordion',
 					],
 					[
-						'name' => __( 'Toogle', 'zionbuilder' ),
+						'name' => __( 'Toggle', 'zionbuilder' ),
 						'id'   => 'toggle',
 					],
 				],

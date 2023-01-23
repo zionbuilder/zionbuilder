@@ -6,7 +6,7 @@
 			:label="title"
 			class="znpb-typography-group-item znpb-typography-group-item-font-weight"
 		>
-			<InputNumberUnit v-model="computedValue" :min="0" :max="999" default_unit="px" :step="1" default-unit="px" />
+			<InputNumberUnit v-model="computedValue" :min="0" :max="999" :step="1" default-unit="px" />
 		</InputLabel>
 	</div>
 </template>

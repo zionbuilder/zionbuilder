@@ -24,7 +24,7 @@ export const ScriptsLoader = window => {
 	}
 
 	const getAvailableStyles = () => {
-		let styles = {};
+		const styles = {};
 		const allStyles = window.document.getElementsByTagName('link');
 
 		Array.from(allStyles).forEach(domNode => {

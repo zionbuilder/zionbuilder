@@ -23,177 +23,159 @@
 		</Tabs>
 	</div>
 </template>
-<script>
+
+<script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { get } from 'lodash-es';
 import { getLayoutConfigs } from './layouts.js';
-import { useWindows } from '../../composables';
-import { useUIStore, useElementDefinitionsStore } from '../../store';
-import { isEditable } from '/@/common/utils';
+import { useWindows } from '/@/editor/composables';
+import { useUIStore, useElementDefinitionsStore } from '/@/editor/store';
 
 // Components
 import ElementsTab from './ElementsTab.vue';
 
-export default {
-	name: 'ColumnTemplates',
-	components: {
-		ElementsTab,
-	},
-	props: {
-		element: {
-			type: Object,
-			required: true,
-		},
-	},
-	setup(props, { emit }) {
-		const UIStore = useUIStore();
-		const defaultTab = props.element.element_type === 'zion_column' ? 'elements' : 'layouts';
-		const active = ref(defaultTab);
-		const { addEventListener, removeEventListener } = useWindows();
-		const searchKeyword = ref('');
+const props = defineProps<{
+	element: ZionElement;
+}>();
 
-		const spanElements = {
-			full: 1,
-			'one-of-two': 2,
-			'one-of-three': 3,
-			'one-of-four': 4,
-			'one-of-five': 5,
-			'one-of-six': 6,
-			'4-8': 2,
-			'8-4': 2,
-			'3-9': 2,
-			'9-3': 2,
-			'3-6-3': 3,
-			'3-3-6': 3,
-			'6-3-3': 3,
-			'6-3-3-3-3': 5,
-			'3-3-3-3-6': 5,
-			'3-3-6-3-3': 5,
-		};
+const emit = defineEmits(['close']);
 
-		const layouts = getLayoutConfigs();
+const { isEditable } = window.zb.utils;
 
-		const getSpanNumber = id => {
-			return spanElements[id];
-		};
+const UIStore = useUIStore();
+const defaultTab = props.element.element_type === 'zion_column' ? 'elements' : 'layouts';
+const active = ref(defaultTab);
+const { addEventListener, removeEventListener } = useWindows();
+const searchKeyword = ref('');
 
-		const wrapColumn = config => {
-			return [
-				{
-					element_type: 'zion_column',
-					content: config,
-					options: {
-						_styles: {
-							wrapper: {
-								styles: {
-									default: {
-										default: {
-											'flex-direction': 'row',
-										},
-									},
+const spanElements: Record<string, number> = {
+	full: 1,
+	'one-of-two': 2,
+	'one-of-three': 3,
+	'one-of-four': 4,
+	'one-of-five': 5,
+	'one-of-six': 6,
+	'4-8': 2,
+	'8-4': 2,
+	'3-9': 2,
+	'9-3': 2,
+	'3-6-3': 3,
+	'3-3-6': 3,
+	'6-3-3': 3,
+	'6-3-3-3-3': 5,
+	'3-3-3-3-6': 5,
+	'3-3-6-3-3': 5,
+};
+
+const layouts = getLayoutConfigs();
+
+const getSpanNumber = (id: string) => {
+	return spanElements[id];
+};
+
+const wrapColumn = config => {
+	return [
+		{
+			element_type: 'zion_column',
+			content: config,
+			options: {
+				_styles: {
+					wrapper: {
+						styles: {
+							default: {
+								default: {
+									'flex-direction': 'row',
 								},
 							},
 						},
 					},
 				},
-			];
-		};
-
-		function getOrientation(element) {
-			const elementsDefinitionsStore = useElementDefinitionsStore();
-			let orientation = 'horizontal';
-
-			if (element.element_type === 'contentRoot') {
-				return 'vertical';
-			}
-
-			const elementType = elementsDefinitionsStore.getElementDefinition(element);
-
-			if (elementType) {
-				orientation = elementType.content_orientation;
-			}
-
-			// Check columns and section direction
-			if (element.options.inner_content_layout) {
-				orientation = element.options.inner_content_layout;
-			}
-
-			// Check media settings
-			const mediaOrientation = get(element.options, '_styles.wrapper.styles.default.default.flex-direction');
-
-			if (mediaOrientation) {
-				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical';
-			}
-
-			return orientation;
-		}
-
-		const addElements = config => {
-			const elementType = UIStore.activeAddElementPopup.element.element_type;
-
-			// Add a section if this will be inserted on root
-			if (elementType === 'contentRoot') {
-				config = [
-					{
-						element_type: 'zion_section',
-						content: config,
-					},
-				];
-			} else {
-				if (getOrientation(UIStore.activeAddElementPopup.element) === 'vertical') {
-					config = wrapColumn(config);
-				}
-			}
-
-			// Insert element
-			window.zb.run('editor/elements/add-elements', {
-				elements: config,
-				elementUID: UIStore.activeAddElementPopup.element.uid,
-				index: UIStore.activeAddElementPopup.index,
-			});
-
-			// Send close event
-			emit('close');
-		};
-
-		const openLibrary = () => {
-			UIStore.openLibrary(UIStore.activeAddElementPopup);
-
-			emit('close');
-		};
-
-		function onKeyDown(event) {
-			if (!isEditable(event.target)) {
-				searchKeyword.value = searchKeyword.value + event.key;
-			}
-
-			if (active.value !== 'elements') {
-				active.value = 'elements';
-			}
-		}
-
-		function onTabChange(tab) {
-			if (tab === 'library') {
-				openLibrary();
-			}
-		}
-
-		onMounted(() => addEventListener('keypress', onKeyDown));
-		onUnmounted(() => removeEventListener('keypress', onKeyDown));
-
-		return {
-			layouts,
-			active,
-			spanElements,
-			// methods
-			getSpanNumber,
-			addElements,
-			searchKeyword,
-			openLibrary,
-			onTabChange,
-		};
-	},
+			},
+		},
+	];
 };
+
+function getOrientation(element) {
+	const elementsDefinitionsStore = useElementDefinitionsStore();
+	let orientation = 'horizontal';
+
+	if (element.element_type === 'contentRoot') {
+		return 'vertical';
+	}
+
+	const elementType = elementsDefinitionsStore.getElementDefinition(element);
+
+	if (elementType) {
+		orientation = elementType.content_orientation;
+	}
+
+	// Check columns and section direction
+	if (element.options.inner_content_layout) {
+		orientation = element.options.inner_content_layout;
+	}
+
+	// Check media settings
+	const mediaOrientation = get(element.options, '_styles.wrapper.styles.default.default.flex-direction');
+
+	if (mediaOrientation) {
+		orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical';
+	}
+
+	return orientation;
+}
+
+const addElements = config => {
+	const elementType = UIStore.activeAddElementPopup.element.element_type;
+
+	// Add a section if this will be inserted on root
+	if (elementType === 'contentRoot') {
+		config = [
+			{
+				element_type: 'zion_section',
+				content: config,
+			},
+		];
+	} else {
+		if (getOrientation(UIStore.activeAddElementPopup.element) === 'vertical') {
+			config = wrapColumn(config);
+		}
+	}
+
+	// Insert element
+	window.zb.run('editor/elements/add-elements', {
+		elements: config,
+		elementUID: UIStore.activeAddElementPopup.element.uid,
+		index: UIStore.activeAddElementPopup.index,
+	});
+
+	// Send close event
+	emit('close');
+};
+
+const openLibrary = () => {
+	UIStore.openLibrary(UIStore.activeAddElementPopup);
+
+	emit('close');
+};
+
+function onKeyDown(event) {
+	if (!isEditable(event.target)) {
+		searchKeyword.value = searchKeyword.value + event.key;
+	}
+
+	if (active.value !== 'elements') {
+		active.value = 'elements';
+	}
+}
+
+function onTabChange(tab) {
+	if (tab === 'library') {
+		openLibrary();
+	}
+}
+
+onMounted(() => addEventListener('keypress', onKeyDown));
+onUnmounted(() => removeEventListener('keypress', onKeyDown));
 </script>
 
 <style lang="scss">

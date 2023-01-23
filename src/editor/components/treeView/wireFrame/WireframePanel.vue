@@ -7,21 +7,13 @@
 		<WireframeList :element="element" :show-add="false" />
 	</div>
 </template>
-<script>
+
+<script lang="ts" setup>
 import WireframeList from './WireframeList.vue';
 
-export default {
-	name: 'WireframePanel',
-	components: {
-		WireframeList,
-	},
-	props: {
-		element: {
-			type: Object,
-			required: true,
-		},
-	},
-};
+defineProps<{
+	element: ZionElement;
+}>();
 </script>
 <style lang="scss">
 // style panel when wireframe active

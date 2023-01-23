@@ -9,7 +9,7 @@
 				:no-margin="true"
 				@click="openMediaModal"
 			>
-				{{ $translate('no_video_selected') }}
+				{{ i18n.__('No video Selected', 'zionbuilder') }}
 			</EmptyList>
 
 			<Icon
@@ -32,6 +32,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { computed, onMounted, ref, Ref, watch, nextTick } from 'vue';
 import { Icon } from '../Icon';
 import { EmptyList } from '../EmptyList';

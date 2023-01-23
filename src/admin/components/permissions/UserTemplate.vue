@@ -4,43 +4,44 @@
 			<slot></slot>
 		</h3>
 		<div class="znpb-single-role__permission">
-			<h4 class="znpb-single-role-permission-subtitle">{{ permission }} {{ $translate('permissions') }}</h4>
+			<h4 class="znpb-single-role-permission-subtitle">{{ permission }} {{ i18n.__('Permissions', 'zionbuilder') }}</h4>
 		</div>
 		<div class="znpb-single-role__actions">
 			<Icon
-				v-znpb-tooltip="$translate('customize_permissions_for_user')"
+				v-znpb-tooltip="i18n.__('Customize the permissions for this user', 'zionbuilder')"
 				class="znpb-edit-icon-pop"
 				icon="edit"
-				@click="$emit('edit-permission')"
+				@click="emit('edit-permission')"
 			/>
 
 			<Icon
 				v-if="hasDelete"
-				v-znpb-tooltip="$translate('delete_permissions_for_user')"
+				v-znpb-tooltip="i18n.__('Delete permissions for this user', 'zionbuilder')"
 				icon="delete"
-				@click="$emit('delete-permission')"
+				@click="emit('delete-permission')"
 			/>
 		</div>
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'UserTemplate',
-	props: {
-		permission: {
-			type: Number,
-			required: true,
-		},
-		hasDelete: {
-			type: Boolean,
-			required: false,
-		},
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+
+withDefaults(
+	defineProps<{
+		permission: number;
+		hasDelete?: boolean;
+	}>(),
+	{
+		hasDelete: false,
 	},
-};
+);
+
+const emit = defineEmits(['edit-permission', 'delete-permission']);
 </script>
+
 <style lang="scss">
-@import "/@/common/scss/_mixins.scss";
+@import '/@/common/scss/_mixins.scss';
 .znpb-admin__wrapper {
 	.znpb-single-role {
 		@extend %list-item-helper;
@@ -50,7 +51,8 @@ export default {
 			flex-direction: column;
 			align-items: flex-start;
 
-			&__item, &__permission {
+			&__item,
+			&__permission {
 				margin-bottom: 10px !important;
 			}
 		}

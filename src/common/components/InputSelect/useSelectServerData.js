@@ -5,7 +5,7 @@ import { get, unionBy } from 'lodash-es';
 
 const cache = ref({});
 
-export function useSelectServerData(config) {
+export function useSelectServerData() {
 	let requester = inject('serverRequester', null);
 
 	const items = ref([]);
@@ -41,9 +41,6 @@ export function useSelectServerData(config) {
 						// Save the new items
 						saveItems(saveItemsCache, response.data);
 
-						// add items to cache
-						// addToCache(cacheKey, response.data)
-
 						// Send back the response in case it is needed
 						resolve(response.data);
 					},
@@ -76,7 +73,7 @@ export function useSelectServerData(config) {
 	}
 
 	function generateCacheKey(data) {
-		const { server_callback_method, server_callback_args, page, searchKeyword, ...remainingProperties } = data;
+		const { server_callback_method, server_callback_args, page, searchKeyword } = data;
 
 		return hash({
 			server_callback_method,
@@ -89,10 +86,6 @@ export function useSelectServerData(config) {
 	function saveItems(key, newItems) {
 		const existingItems = get(items.value, key, []);
 		items.value[key] = unionBy(existingItems, newItems, 'id');
-	}
-
-	function addToCache(cacheKey, cacheData) {
-		cache[cacheKey] = cacheData;
 	}
 
 	return {

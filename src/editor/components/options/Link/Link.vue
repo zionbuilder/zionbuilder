@@ -1,324 +1,299 @@
 <template>
-	<div class="znpb-link-wrapper">
+	<div ref="rootRef" class="znpb-link-wrapper">
 		<InputWrapper layout="full">
-			<component
-				:is="linkURLComponent"
-				ref="urlInput"
-				v-model="linkModel"
-				:placeholder="$translate('add_an_url')"
-				spellcheck="false"
+			<Tooltip
+				v-model:show="showResults"
+				placement="bottom"
+				:show-arrows="false"
+				:trigger="null"
+				:close-on-outside-click="true"
+				tooltip-class="hg-popper--no-padding"
+				class="znpb-optionLinkTooltip"
 			>
-				<template #prepend>
+				<template #content>
 					<Loader v-if="isSearchLoading" :size="14" />
-					<Icon v-else icon="link"></Icon>
+
+					<ul v-else class="znpb-menuList znpb-mh-200 znpb-fancy-scrollbar">
+						<li
+							v-for="(post, index) in searchResults"
+							:key="index"
+							class="znpb-menuListItem"
+							@click="onSearchItemClick(post.url)"
+						>
+							{{ post.post_title }}
+						</li>
+					</ul>
 				</template>
 
-				<template #append>
-					<Tooltip
-						trigger="click"
-						:close-on-outside-click="true"
-						append-to="body"
-						tooltip-class="znpb-link-optionsTooltip"
-						placement="bottom-end"
-						class="znpb-flex znpb-flex--vcenter"
-					>
-						<template #content>
-							<div class="znpb-link-options">
-								<div class="znpb-link-options-title">{{ $translate('link_attributes') }}</div>
-								<div class="znpb-link-optionsAttributes">
-									<LinkAttributeForm
-										v-for="(attribute, index) in linkAttributes"
-										:key="index"
-										:attribute-config="attribute"
-										:can-delete="canDeleteAttributes"
-										@update-attribute="onAttributeUpdate(index, $event)"
-										@delete="deleteAttribute(index)"
-									/>
+				<component
+					:is="linkURLComponent"
+					ref="urlInput"
+					v-model="linkModel"
+					:placeholder="i18n.__('Add an URL', 'zionbuilder')"
+					spellcheck="false"
+				>
+					<template #prepend>
+						<Loader v-if="isSearchLoading" :size="14" />
+						<Icon v-else icon="link"></Icon>
+					</template>
 
-									<div class="znpb-link-optionsAttributesAdd" @click="addLinkAttribute">
-										<Icon icon="plus" /> <span>{{ $translate('add_custom_link_attribute') }}</span>
+					<template #append>
+						<Tooltip
+							trigger="click"
+							:close-on-outside-click="true"
+							append-to="body"
+							tooltip-class="znpb-link-optionsTooltip"
+							placement="bottom-end"
+							class="znpb-flex znpb-flex--vcenter"
+						>
+							<template #content>
+								<div class="znpb-link-options">
+									<div class="znpb-link-options-title">{{ i18n.__('Link attributes', 'zionbuilder') }}</div>
+									<div class="znpb-link-optionsAttributes">
+										<LinkAttributeForm
+											v-for="(attribute, index) in linkAttributes"
+											:key="index"
+											:attribute-config="attribute"
+											@update-attribute="onAttributeUpdate(index, $event)"
+											@delete="deleteAttribute(index)"
+										/>
+
+										<div class="znpb-link-optionsAttributesAdd" @click="addLinkAttribute">
+											<Icon icon="plus" /> <span>{{ i18n.__('Add custom link attribute', 'zionbuilder') }}</span>
+										</div>
 									</div>
 								</div>
-							</div>
-						</template>
+							</template>
 
-						<Icon v-znpb-tooltip="$translate('edit_link_attributes')" icon="tags-attributes"></Icon>
-					</Tooltip>
+							<Icon v-znpb-tooltip="i18n.__('Edit link attributes', 'zionbuilder')" icon="tags-attributes"></Icon>
+						</Tooltip>
 
-					<!-- Injection point -->
-					<Injection location="options/link/append" />
-				</template>
-			</component>
+						<!-- Injection point -->
+						<Injection location="options/link/append" />
+					</template>
+				</component>
+			</Tooltip>
 		</InputWrapper>
 		<InputWrapper v-if="show_target" layout="inline" :schema="{ width: 50 }">
 			<InputSelect v-model="targetModel" :options="targetOptions"></InputSelect>
 		</InputWrapper>
 		<InputWrapper v-if="show_title" layout="inline" :schema="{ width: 50 }">
-			<BaseInput v-model="titleModel" :clearable="false" :placeholder="$translate('set_a_title')" />
+			<BaseInput v-model="titleModel" :clearable="false" :placeholder="i18n.__('Set a title', 'zionbuilder')" />
 		</InputWrapper>
-
-		<Tooltip
-			v-if="canShowSearchTooltip && popperRef"
-			v-model:show="showResults"
-			:popper-ref="popperRef"
-			placement="bottom"
-			:show-arrows="false"
-			:tooltip-style="{ width: tooltipWidth + 'px' }"
-			trigger="click"
-			:close-on-outside-click="true"
-			tooltip-class="hg-popper--no-padding"
-			@show="onModalShow"
-		>
-			<template #content>
-				<Loader v-if="isSearchLoading" :size="14" />
-
-				<ul v-else class="znpb-menuList znpb-mh-200 znpb-fancy-scrollbar">
-					<li
-						v-for="(post, index) in searchResults"
-						:key="index"
-						class="znpb-menuListItem"
-						@click="onSearchItemClick(post.url)"
-					>
-						{{ post.post_title }}
-					</li>
-				</ul>
-			</template>
-		</Tooltip>
 	</div>
 </template>
 
-<script>
-import { computed, ref, watchEffect, watch } from 'vue';
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+import { BaseInput } from '@zb/components';
+import { computed, ref, watchEffect, watch, Ref } from 'vue';
 import { get, debounce } from 'lodash-es';
-import { Injection, Tooltip } from '/@/common';
-import { applyFilters } from '/@/common/modules/hooks';
+
 import LinkAttributeForm from './LinkAttributeForm.vue';
 
-export default {
-	name: 'Link',
-	components: {
-		Injection,
-		Tooltip,
-		LinkAttributeForm,
+// Common API
+const { applyFilters } = window.zb.hooks;
+
+interface Post {
+	post_title: string;
+	url: string;
+}
+
+interface Attribute {
+	name: string;
+	value: string;
+}
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: {
+			link?: string;
+			target?: string;
+			title?: string;
+			attributes?: Record<string, string>;
+		};
+		title?: string;
+		// eslint-disable-next-line vue/prop-name-casing
+		show_title?: boolean;
+		// eslint-disable-next-line vue/prop-name-casing
+		show_target?: boolean;
+	}>(),
+	{
+		show_title: true,
+		show_target: true,
+		title: '',
+		modelValue: () => {
+			return {};
+		},
 	},
-	props: {
-		modelValue: {
-			default() {
-				return {};
-			},
-		},
-		title: {},
-		show_title: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-		show_target: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
+);
+
+const emit = defineEmits(['update:modelValue']);
+
+const targetOptions = [
+	{
+		id: '_blank',
+		name: i18n.__('New Window', 'zionbuilder'),
 	},
-	setup(props, { emit }) {
-		const urlInput = ref(false);
-		const canShowSearchTooltip = ref(false);
-		const popperRef = ref(false);
-		const isSearchLoading = ref(false);
-		const showResults = ref(false);
-		const tooltipWidth = ref(null);
-		const searchResults = ref([]);
+	{
+		id: '_self',
+		name: i18n.__('Same Window', 'zionbuilder'),
+	},
+];
 
-		const linkURLComponent = computed(() => {
-			return applyFilters('zionbuilder/options/link/url_component', 'BaseInput', props.modelValue);
+const rootRef = ref(null);
+const urlInput = ref(null);
+const canShowSearchTooltip = ref(false);
+const popperRef = ref(false);
+const isSearchLoading = ref(false);
+const showResults = ref(false);
+const searchResults: Ref<Post[]> = ref([]);
+
+const linkURLComponent = computed(() => {
+	return applyFilters('zionbuilder/options/link/url_component', 'BaseInput', props.modelValue);
+});
+
+const linkModel = computed({
+	get() {
+		return props.modelValue && props.modelValue.link ? props.modelValue.link : '';
+	},
+	set(newValue) {
+		emit('update:modelValue', {
+			...props.modelValue,
+			link: newValue,
 		});
+	},
+});
 
-		const linkModel = computed({
-			get() {
-				return props.modelValue && props.modelValue['link'] ? props.modelValue['link'] : '';
-			},
-			set(newValue) {
-				emit('update:modelValue', {
-					...props.modelValue,
-					link: newValue,
-				});
-			},
+const targetModel = computed({
+	get() {
+		return props.modelValue && props.modelValue['target'] ? props.modelValue['target'] : '_self';
+	},
+	set(newValue) {
+		emit('update:modelValue', {
+			...props.modelValue,
+			target: newValue,
 		});
+	},
+});
 
-		const targetModel = computed({
-			get() {
-				return props.modelValue && props.modelValue['target'] ? props.modelValue['target'] : '_self';
-			},
-			set(newValue) {
-				emit('update:modelValue', {
-					...props.modelValue,
-					target: newValue,
-				});
-			},
+const titleModel = computed({
+	get() {
+		return props.modelValue && props.modelValue['title'] ? props.modelValue['title'] : '';
+	},
+	set(newValue) {
+		emit('update:modelValue', {
+			...props.modelValue,
+			title: newValue,
 		});
+	},
+});
 
-		const titleModel = computed({
-			get() {
-				return props.modelValue && props.modelValue['title'] ? props.modelValue['title'] : '';
-			},
-			set(newValue) {
-				emit('update:modelValue', {
-					...props.modelValue,
-					title: newValue,
-				});
-			},
-		});
-
-		const linkAttributes = computed({
-			get() {
-				let attributes = get(props.modelValue, 'attributes');
-				if (Array.isArray(attributes) && attributes.length > 0) {
-					return attributes;
-				} else {
-					return [
-						{
-							key: '',
-							value: '',
-						},
-					];
-				}
-			},
-			set(newValue) {
-				emit('update:modelValue', {
-					...props.modelValue,
-					attributes: newValue,
-				});
-			},
-		});
-
-		const canDeleteAttributes = computed(() => linkAttributes.value.length > 1);
-
-		function addLinkAttribute() {
-			linkAttributes.value = [
-				...linkAttributes.value,
+const linkAttributes = computed({
+	get() {
+		const attributes = get(props.modelValue, 'attributes');
+		if (Array.isArray(attributes) && attributes.length > 0) {
+			return attributes;
+		} else {
+			return [
 				{
 					key: '',
 					value: '',
 				},
 			];
 		}
-
-		function deleteAttribute(index) {
-			const clone = [...linkAttributes.value];
-
-			clone.splice(index, 1);
-			linkAttributes.value = clone;
-		}
-
-		function onAttributeUpdate(index, attribute) {
-			const clone = [...linkAttributes.value];
-
-			clone.splice(index, 1, attribute);
-
-			linkAttributes.value = clone;
-		}
-
-		// Post/page search
-		watchEffect(
-			() => {
-				canShowSearchTooltip.value = linkURLComponent.value === 'BaseInput';
-				popperRef.value = urlInput.value.$el;
-			},
-			{
-				flush: 'post',
-			},
-		);
-
-		watch(linkModel, newValue => {
-			// Perform the search only if we don't have a link already
-			if (newValue.length > 2 && newValue.indexOf('htt') === -1 && newValue.indexOf('#') !== 0) {
-				searchPostDebounced();
-			}
-
-			if (newValue.length === 0) {
-				showResults.value = false;
-			}
+	},
+	set(newValue) {
+		emit('update:modelValue', {
+			...props.modelValue,
+			attributes: newValue,
 		});
-
-		const searchPostDebounced = debounce(() => {
-			searchPost();
-		}, 300);
-
-		function searchPost() {
-			const keyword = linkModel.value;
-			const requester = window.zb.editor.serverRequest;
-
-			isSearchLoading.value = true;
-
-			requester.request(
-				{
-					type: 'search_posts',
-					config: {
-						keyword,
-					},
-				},
-				response => {
-					isSearchLoading.value = false;
-					showResults.value = true;
-
-					// response.data
-					searchResults.value = response.data;
-				},
-				function (message) {
-					console.error(message);
-				},
-			);
-		}
-
-		function onModalShow() {
-			// Set the tooltip width
-			if (urlInput.value) {
-				tooltipWidth.value = urlInput.value.$el.getBoundingClientRect().width;
-			}
-		}
-
-		function onSearchItemClick(url) {
-			linkModel.value = url;
-			showResults.value = false;
-		}
-
-		return {
-			// Model
-			titleModel,
-			targetModel,
-			linkModel,
-			linkURLComponent,
-			addLinkAttribute,
-			linkAttributes,
-			deleteAttribute,
-			onAttributeUpdate,
-			canDeleteAttributes,
-			// Link search
-			urlInput,
-			popperRef,
-			canShowSearchTooltip,
-			isSearchLoading,
-			showResults,
-			onModalShow,
-			onSearchItemClick,
-			tooltipWidth,
-			searchResults,
-		};
 	},
-	data() {
-		return {
-			targetOptions: [
-				{
-					id: '_blank',
-					name: this.$translate('link_new_window'),
-				},
-				{
-					id: '_self',
-					name: this.$translate('link_blank'),
-				},
-			],
-		};
+});
+
+function addLinkAttribute() {
+	linkAttributes.value = [
+		...linkAttributes.value,
+		{
+			key: '',
+			value: '',
+		},
+	];
+}
+
+function deleteAttribute(index: number) {
+	const clone = [...linkAttributes.value];
+
+	clone.splice(index, 1);
+	linkAttributes.value = clone;
+}
+
+function onAttributeUpdate(index: number, attribute: Attribute) {
+	const clone = [...linkAttributes.value];
+
+	clone.splice(index, 1, attribute);
+
+	linkAttributes.value = clone;
+}
+
+// Post/page search
+watchEffect(
+	() => {
+		canShowSearchTooltip.value = linkURLComponent.value === 'BaseInput';
+		if (urlInput.value) {
+			popperRef.value = (urlInput.value as typeof BaseInput).input;
+		}
 	},
-};
+	{
+		flush: 'post',
+	},
+);
+
+watch(linkModel, newValue => {
+	// Perform the search only if we don't have a link already
+	if (newValue.length > 2 && newValue.indexOf('htt') === -1 && newValue.indexOf('#') !== 0) {
+		searchPostDebounced();
+	}
+
+	if (newValue.length === 0) {
+		showResults.value = false;
+	}
+});
+
+const searchPostDebounced = debounce(() => {
+	searchPost();
+}, 300);
+
+function searchPost() {
+	const keyword = linkModel.value;
+	const requester = window.zb.editor.serverRequest;
+
+	isSearchLoading.value = true;
+
+	requester.request(
+		{
+			type: 'search_posts',
+			config: {
+				keyword,
+			},
+		},
+		response => {
+			isSearchLoading.value = false;
+			showResults.value = true;
+
+			// response.data
+			searchResults.value = response.data;
+		},
+		function (message) {
+			console.error(message);
+		},
+	);
+}
+
+function onSearchItemClick(url: string) {
+	linkModel.value = url;
+	showResults.value = false;
+}
 </script>
 
 <style lang="scss">
@@ -396,5 +371,9 @@ export default {
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 14px;
+}
+
+.znpb-optionLinkTooltip {
+	width: 100%;
 }
 </style>

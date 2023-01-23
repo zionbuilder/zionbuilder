@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-element-form__wp_widget">
 		<div v-if="loading" class="znpb-element-form__wp_widget-loading">
-			{{ translate('loading') }}
+			{{ i18n.__('Loading', 'zionbuilder') }}
 		</div>
 
 		<form v-else ref="form" v-html="optionsFormContent"></form>
@@ -9,11 +9,13 @@
 </template>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { ref, nextTick } from 'vue';
-import { getOptionsForm } from '/@/common/api';
 import { serialize } from 'dom-form-serializer';
-import { translate } from '/@/common/modules/i18n';
 import { useUIStore } from '/@/editor/store';
+
+// Common API
+const { getOptionsForm } = window.zb.api;
 
 const props = withDefaults(
 	defineProps<{
@@ -44,7 +46,7 @@ getOptionsForm(UIStore.editedElement).then(response => {
 
 	nextTick(() => {
 		if (wp.textWidgets) {
-			let widgetContainer = jQuery(form.value);
+			const widgetContainer = jQuery(form.value);
 			const event = new jQuery.Event('widget-added');
 
 			widgetContainer.addClass('open');

@@ -33,12 +33,12 @@
 						v-if="allow_childs"
 						:child-selectors="childSelectors"
 						@add-selector="onChildAdded"
-						@toggle-view-children="showChilds = !showChilds"
+						@toggle-view-children="showChildren = !showChildren"
 					/>
 
 					<ChangesBullet
 						v-if="show_changes && hasChanges"
-						:content="$translate('discard_changes')"
+						:content="i18n.__('Discard changes', 'zionbuilder')"
 						@remove-styles="resetChanges"
 					/>
 
@@ -48,7 +48,7 @@
 				<OptionsForm v-model="value" :schema="schema" class="znpb-option-cssSelectorForm" />
 			</AccordionMenu>
 		</div>
-		<div v-if="showChilds && childSelectors.length > 0">
+		<div v-if="showChildren && childSelectors.length > 0">
 			<Sortable
 				v-model="childSelectors"
 				class="znpb-admin-colors__container"
@@ -76,313 +76,295 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
 import { merge, cloneDeep } from 'lodash-es';
-import { applyFilters } from '/@/common/modules/hooks';
-import { translate } from '/@/common/modules/i18n';
-import { generateUID } from '/@/common/utils';
 
 // Components
 import AddChildActions from './AddChildActions.vue';
 import PseudoSelector from './PseudoSelector.vue';
-import { useCSSClassesStore } from '../../../store';
+import { useCSSClassesStore } from '/@/editor/store';
 
-export default {
-	name: 'CSSSelector',
-	components: {
-		AccordionMenu: defineAsyncComponent(() => import('../AccordionMenu/AccordionMenu.vue')),
-		AddChildActions,
-		PseudoSelector,
+// Common API
+const { generateUID } = window.zb.utils;
+const { applyFilters } = window.zb.hooks;
+
+const props = withDefaults(
+	defineProps<{
+		modelValue: Record<string, unknown>;
+		// eslint-disable-next-line vue/prop-name-casing
+		allow_delete?: boolean;
+		// eslint-disable-next-line vue/prop-name-casing
+		allow_childs?: boolean;
+		isChild?: boolean;
+		// eslint-disable-next-line vue/prop-name-casing
+		allow_class_assignments?: boolean;
+		// eslint-disable-next-line vue/prop-name-casing
+		allow_custom_attributes?: boolean;
+		selector?: string;
+		name?: string;
+		// eslint-disable-next-line vue/prop-name-casing
+		show_breadcrumbs?: boolean;
+		// eslint-disable-next-line vue/prop-name-casing
+		show_changes?: boolean;
+		allowRename?: boolean;
+		elementStyleId?: string;
+		showPseudoSelector?: boolean;
+	}>(),
+	{
+		modelValue: () => ({}),
+		allow_delete: true,
+		allow_childs: true,
+		isChild: false,
+		allow_class_assignments: true,
+		allow_custom_attributes: true,
+		selector: '',
+		name: '',
+		show_breadcrumbs: false,
+		show_changes: true,
+		allowRename: true,
+		elementStyleId: '',
+		showPseudoSelector: false,
 	},
-	props: {
-		modelValue: {
-			type: Object,
-			default: {},
-		},
-		allow_delete: {
-			type: Boolean,
-			default: true,
-		},
-		allow_childs: {
-			type: Boolean,
-			default: true,
-		},
-		isChild: {
-			type: Boolean,
-			default: false,
-		},
-		allow_class_assignments: {
-			type: Boolean,
-			default: true,
-		},
-		allow_custom_attributes: {
-			type: Boolean,
-			default: true,
-		},
-		selector: {
-			type: String,
-			required: false,
-		},
-		name: {
-			type: String,
-			required: false,
-		},
-		show_breadcrumbs: {
-			type: Boolean,
-			default: false,
-		},
-		show_changes: {
-			type: Boolean,
-			default: true,
-		},
-		allowRename: {
-			type: Boolean,
-			default: true,
-		},
-	},
-	setup(props, { emit }) {
-		const cssClassesStore = useCSSClassesStore();
-		const showChilds = ref(false);
-		const uid = generateUID();
-		const canShow = ref(false);
-		const showClassMenu = ref(false);
-		const classMenuIcon = ref(null);
+);
 
-		// Computed
-		const classActions = computed(() => {
-			return [
-				{
-					title: translate('copy_element_styles'),
-					action: () => {
-						cssClassesStore.copyClassStyles(value.value.styles);
-					},
-					icon: 'copy',
-				},
-				{
-					title: translate('paste_element_styles'),
-					action: () => {
-						const clonedCopiedStyles = cloneDeep(cssClassesStore.copiedStyles);
-						if (!value.value.styles) {
-							value.value.styles = clonedCopiedStyles;
-						} else {
-							value.value.styles = merge(value.value.styles, clonedCopiedStyles);
-						}
-					},
-					show: !!cssClassesStore.copiedStyles,
-					icon: 'paste',
-				},
-				{
-					title: translate('delete_selector'),
-					action: deleteItem,
-					icon: 'delete',
-				},
-			];
-		});
+const emit = defineEmits([
+	'update:modelValue',
+	'delete',
+	'rename',
+	'add-selector',
+	'update-selector',
+	'toggle-view-children',
+]);
 
-		const title = computed({
-			get() {
-				return (
-					props.name ||
-					props.modelValue.name ||
-					props.modelValue.title ||
-					props.modelValue.id ||
-					props.selector ||
-					'New item'
-				);
+const AccordionMenu = defineAsyncComponent(() => import('../AccordionMenu/AccordionMenu.vue'));
+
+const cssClassesStore = useCSSClassesStore();
+const showChildren = ref(false);
+const uid = generateUID();
+
+// Computed
+const classActions = computed(() => {
+	return [
+		{
+			title: i18n.__('Copy styles', 'zionbuilder'),
+			action: () => {
+				cssClassesStore.copyClassStyles(value.value.styles);
 			},
-			set(newValue) {
-				value.value = {
-					...value.value,
-					name: newValue,
-				};
-			},
-		});
-
-		const selector = computed(() => {
-			if (props.selector) {
-				return props.selector;
-			} else if (props.modelValue.id) {
-				return `.${props.modelValue.id}`;
-			} else if (props.modelValue.selector) {
-				return props.modelValue.selector;
-			}
-		});
-
-		function onMouseOver() {
-			const iframe = window.frames['znpb-editor-iframe'];
-
-			if (!iframe) {
-				return;
-			}
-
-			const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
-
-			if (domElements.length) {
-				domElements.forEach(element => {
-					element.style.outline = '2px solid #14ae5c';
-				});
-			}
-		}
-
-		function onMouseOut() {
-			const iframe = window.frames['znpb-editor-iframe'];
-
-			if (!iframe) {
-				return;
-			}
-
-			const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
-
-			if (domElements.length) {
-				domElements.forEach(element => {
-					element.style.outline = null;
-				});
-			}
-		}
-
-		// Cleanup before unmount
-		onBeforeUnmount(() => onMouseOut());
-
-		const childSelectors = computed({
-			get() {
-				return props.modelValue.child_styles || [];
-			},
-			set(newValue) {
-				if (null === newValue || newValue.length === 0) {
-					delete value.value.child_styles;
+			icon: 'copy',
+		},
+		{
+			title: i18n.__('Paste styles', 'zionbuilder'),
+			action: () => {
+				const clonedCopiedStyles = cloneDeep(cssClassesStore.copiedStyles);
+				if (!value.value.styles) {
+					value.value.styles = clonedCopiedStyles;
 				} else {
-					value.value = {
-						...value.value,
-						child_styles: newValue,
-					};
+					value.value.styles = merge(value.value.styles, clonedCopiedStyles);
 				}
 			},
-		});
+			show: !!cssClassesStore.copiedStyles,
+			icon: 'paste',
+		},
+		{
+			title: i18n.__('Delete selector', 'zionbuilder'),
+			action: deleteItem,
+			icon: 'delete',
+		},
+	];
+});
 
-		const pseudoState = computed({
-			get() {
-				return value.value.states || ['default'];
-			},
-			set(newStateValue) {
-				value.value.states = newStateValue;
-			},
-		});
-
-		const schema = computed(() => {
-			const schema = {
-				styles: {
-					type: 'element_styles',
-					id: 'styles',
-					is_layout: true,
-					selector: selector.value,
-					title: title.value,
-					allow_class_assignments: props.allow_class_assignments,
-				},
-			};
-
-			// attach the attribute options
-			if (props.allow_custom_attributes) {
-				schema.attributes = applyFilters('zionbuilder/options/attributes', {
-					type: 'accordion_menu',
-					title: 'custom attributes',
-					icon: 'tags-attributes',
-					is_layout: true,
-					label: {
-						type: translate('pro'),
-						text: translate('pro'),
-					},
-					show_title: false,
-					child_options: {
-						upgrade_message: {
-							type: 'upgrade_to_pro',
-							message_title: translate('meet_custom_attributes'),
-							message_description: translate('meet_custom_attributes_desc'),
-							info_text: translate('meet_custom_attributes_link'),
-						},
-					},
-				});
-			}
-
-			return schema;
-		});
-
-		const hasChanges = computed(
-			() => Object.keys(value.value.styles || {}).length > 0 || Object.keys(value.value.attributes || {}).length > 0,
+const title = computed({
+	get() {
+		return (
+			props.name ||
+			props.modelValue.name ||
+			props.modelValue.title ||
+			props.modelValue.id ||
+			props.selector ||
+			'New item'
 		);
-
-		const value = computed({
-			get() {
-				return props.modelValue || {};
-			},
-			set(newValue) {
-				emit('update:modelValue', newValue);
-			},
-		});
-
-		function onChildAdded(childData) {
-			childSelectors.value = [...childSelectors.value, childData];
-
-			showChilds.value = true;
-		}
-
-		function onChildUpdate(child, newValue) {
-			const value = childSelectors.value.slice();
-			const childIndex = childSelectors.value.indexOf(child);
-
-			if (newValue === null) {
-				value.splice(childIndex, 1);
-			} else {
-				value.splice(childIndex, 1, newValue);
-			}
-
-			childSelectors.value = value;
-		}
-
-		function deleteItem() {
-			emit('update:modelValue', null);
-		}
-
-		function resetChanges() {
-			emit('update:modelValue', null);
-		}
-
-		function onRenameItemClick(event) {
-			if (props.allowRename) {
-				event.stopPropagation();
-			}
-		}
-
-		return {
-			// Refs
-			showClassMenu,
-			classMenuIcon,
-			canShow,
-
-			// Computed
-			classActions,
-
-			onChildAdded,
-			showChilds,
-			title,
-			selector,
-			childSelectors,
-			deleteItem,
-			schema,
-			value,
-			onChildUpdate,
-			pseudoState,
-			hasChanges,
-			resetChanges,
-			uid,
-
-			// Methods
-			onRenameItemClick,
-			onMouseOver,
-			onMouseOut,
+	},
+	set(newValue) {
+		value.value = {
+			...value.value,
+			name: newValue,
 		};
 	},
-};
+});
+
+const selector = computed(() => {
+	if (props.selector) {
+		return props.selector;
+	} else if (props.modelValue.id) {
+		return `.${props.modelValue.id}`;
+	} else if (props.modelValue.selector) {
+		return props.modelValue.selector;
+	}
+});
+
+function onMouseOver() {
+	const iframe = window.document.getElementById('znpb-editor-iframe');
+
+	if (!iframe) {
+		return;
+	}
+
+	try {
+		const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
+
+		if (domElements.length) {
+			domElements.forEach(element => {
+				element.style.outline = '2px solid #14ae5c';
+			});
+		}
+	} catch (error) {
+		// console.log(error);
+	}
+}
+
+function onMouseOut() {
+	const iframe = window.document.getElementById('znpb-editor-iframe');
+
+	if (!iframe) {
+		return;
+	}
+
+	try {
+		const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
+
+		if (domElements.length) {
+			domElements.forEach(element => {
+				element.style.outline = null;
+			});
+		}
+	} catch (error) {
+		// console.log(error);
+	}
+}
+
+// Cleanup before unmount
+onBeforeUnmount(() => onMouseOut());
+
+const childSelectors = computed({
+	get() {
+		return props.modelValue.child_styles || [];
+	},
+	set(newValue) {
+		if (null === newValue || newValue.length === 0) {
+			delete value.value.child_styles;
+		} else {
+			value.value = {
+				...value.value,
+				child_styles: newValue,
+			};
+		}
+	},
+});
+
+const pseudoState = computed({
+	get() {
+		return value.value.states || ['default'];
+	},
+	set(newStateValue) {
+		value.value.states = newStateValue;
+	},
+});
+
+const schema = computed(() => {
+	const schema = {
+		styles: {
+			type: 'element_styles',
+			id: 'styles',
+			is_layout: true,
+			selector: selector.value,
+			title: title.value,
+			allow_class_assignments: props.allow_class_assignments,
+			elementStyleId: props.elementStyleId,
+			showPseudoSelector: props.showPseudoSelector,
+		},
+	};
+
+	// attach the attribute options
+	if (props.allow_custom_attributes) {
+		schema.attributes = applyFilters('zionbuilder/options/attributes', {
+			type: 'accordion_menu',
+			title: 'custom attributes',
+			icon: 'tags-attributes',
+			is_layout: true,
+			label: {
+				type: i18n.__('pro', 'zionbuilder'),
+				text: i18n.__('pro', 'zionbuilder'),
+			},
+			show_title: false,
+			child_options: {
+				upgrade_message: {
+					type: 'upgrade_to_pro',
+					message_title: i18n.__('Meet custom attributes', 'zionbuilder'),
+					message_description: i18n.__('Generate custom attributes to every inner parts of the element', 'zionbuilder'),
+					info_text: i18n.__('Click here to learn more about PRO.', 'zionbuilder'),
+				},
+			},
+		});
+	}
+
+	return schema;
+});
+
+const hasChanges = computed(
+	() => Object.keys(value.value.styles || {}).length > 0 || Object.keys(value.value.attributes || {}).length > 0,
+);
+
+const value = computed({
+	get() {
+		return props.modelValue || {};
+	},
+	set(newValue) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+function onChildAdded(childData) {
+	childSelectors.value = [...childSelectors.value, childData];
+
+	showChildren.value = true;
+}
+
+function onChildUpdate(child, newValue) {
+	const value = childSelectors.value.slice();
+	const childIndex = childSelectors.value.indexOf(child);
+
+	if (newValue === null) {
+		value.splice(childIndex, 1);
+	} else {
+		value.splice(childIndex, 1, newValue);
+	}
+
+	childSelectors.value = value;
+}
+
+function deleteItem() {
+	emit('update:modelValue', null);
+}
+
+function resetChanges() {
+	console.log({ value });
+	const clonedValue = cloneDeep(value.value);
+	delete clonedValue.styles;
+
+	if (Object.keys(clonedValue).length === 0) {
+		emit('update:modelValue', null);
+	} else {
+		emit('update:modelValue', clonedValue);
+	}
+}
+
+function onRenameItemClick(event) {
+	if (props.allowRename) {
+		event.stopPropagation();
+	}
+}
 </script>
 
 <style lang="scss">

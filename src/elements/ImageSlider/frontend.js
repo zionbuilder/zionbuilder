@@ -29,7 +29,7 @@ function useSwiper() {
 
 		// Slides to show and breakpoints
 		let slidesPerView = 1;
-		let slidesToShow = elementConfig.slides_to_show || 1;
+		const slidesToShow = elementConfig.slides_to_show || 1;
 		const breakpoints = {};
 
 		if (typeof slidesToShow === 'number') {
@@ -56,7 +56,7 @@ function useSwiper() {
 
 		// Slides per group and breakpoints
 		let slidesPerGroup = 1;
-		let slidesToScroll = elementConfig.slides_to_scroll || 1;
+		const slidesToScroll = elementConfig.slides_to_scroll || 1;
 
 		if (typeof slidesToScroll === 'number') {
 			slidesPerGroup = slidesToScroll;

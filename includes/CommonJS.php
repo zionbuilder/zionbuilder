@@ -9,7 +9,6 @@ use ZionBuilder\Options\Schemas\Advanced;
 use ZionBuilder\Options\Schemas\Video;
 use ZionBuilder\Options\Schemas\BackgroundImage;
 use ZionBuilder\Options\Schemas\Shadow;
-use ZionBuilder\Localization;
 use ZionBuilder\Utils;
 
 // Prevent direct access
@@ -82,12 +81,6 @@ class CommonJS {
 			false
 		);
 
-		wp_localize_script(
-			'zb-i18n',
-			'ZnI18NStrings',
-			Localization::get_strings()
-		);
-
 		Plugin::instance()->scripts->register_script(
 			'zb-components',
 			'components',
@@ -112,32 +105,6 @@ class CommonJS {
 				'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
 				'rest_root' => esc_url_raw( rest_url() ),
 			]
-		);
-
-		wp_localize_script(
-			$handle,
-			'ZnPbComponentsData',
-			[
-				'schemas'       => apply_filters(
-					'zionbuilder/commonjs/schemas',
-					[
-						'styles'           => StyleOptions::get_schema(),
-						'element_advanced' => Advanced::get_schema(),
-						'typography'       => Typography::get_schema(),
-						'video'            => Video::get_schema(),
-						'background_image' => BackgroundImage::get_schema(),
-						'shadow'           => Shadow::get_schema(),
-					]
-				),
-				'breakpoints'   => Responsive::get_breakpoints(),
-				'is_pro_active' => Utils::is_pro_active(),
-			]
-		);
-
-		wp_localize_script(
-			$handle,
-			'ZnI18NStrings',
-			Localization::get_strings()
 		);
 	}
 

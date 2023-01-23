@@ -1,6 +1,18 @@
 import { defineStore } from 'pinia';
 import { getGoogleFonts } from '../api';
 
+export type GoogleFont = {
+	family: string;
+	variants: string[];
+	subsets: string[];
+	version: string;
+	lastModified: string;
+	files: {
+		[key: string]: string;
+	};
+	category: string;
+};
+
 export const useGoogleFontsStore = defineStore('googleFonts', {
 	state: () => {
 		return {
@@ -11,8 +23,8 @@ export const useGoogleFontsStore = defineStore('googleFonts', {
 		};
 	},
 	getters: {
-		getFontData: state => {
-			return (family: string) => state.fonts.find(font => font['family'] == family);
+		getFontData: (state) => {
+			return (family: string): GoogleFont | undefined => state.fonts.find(font => font['family'] == family);
 		},
 	},
 	actions: {

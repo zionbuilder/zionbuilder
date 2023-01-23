@@ -1,6 +1,6 @@
 import { getService } from './ZionService';
 
-export function saveBreakpoints(breakpoints) {
+export function saveBreakpoints(breakpoints: Breakpoint[]) {
 	return getService().post('breakpoints', breakpoints);
 }
 

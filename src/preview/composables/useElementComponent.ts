@@ -1,10 +1,11 @@
 import { Ref, shallowRef } from 'vue';
 import ServerComponent from '../components/ServerComponent.vue';
 import InvalidElement from '../components/InvalidElement.vue';
-import { applyFilters } from '/@/common/modules/hooks';
 
 import { ScriptsLoader } from '../modules/ScriptsLoader';
 import { useElementDefinitionsStore } from '/@/editor/store';
+
+const { applyFilters } = window.zb.hooks;
 
 export function useElementComponent(element: ZionElement) {
 	const elementComponent: Ref = shallowRef(null);
@@ -28,7 +29,9 @@ export function useElementComponent(element: ZionElement) {
 	};
 
 	const loadElementAssets = () => {
-		const { loadScript } = ScriptsLoader(window.frames[0]);
+		const { loadScript } = ScriptsLoader(
+			(window.document.getElementById('znpb-editor-iframe') as HTMLIFrameElement).contentWindow,
+		);
 
 		return Promise.all([
 			...Object.keys(elementType.scripts).map(scriptHandle => {

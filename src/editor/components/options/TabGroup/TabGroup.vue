@@ -1,73 +1,54 @@
 <template>
-
-	<Tabs
-		tab-style="group"
-		class="znpb-options__tab"
-		v-model:activeTab="activeTab"
-	>
-		<Tab
-			:name="tabConfig.title"
-			v-for="(tabConfig, tabId) in child_options"
-			:key="tabId"
-			:id="tabId"
-		>
-			<OptionsForm
-				:schema="child_options[tabId].child_options"
-				v-model="valueModel"
-			/>
-
+	<Tabs v-model:activeTab="activeTab" tab-style="group" class="znpb-options__tab">
+		<Tab v-for="(tabConfig, tabId) in child_options" :id="tabId" :key="tabId" :name="tabConfig.title">
+			<OptionsForm v-model="valueModel" :schema="child_options[tabId].child_options" />
 		</Tab>
 	</Tabs>
-
 </template>
-<script>
-import { ref, computed } from 'vue'
-export default {
-	name: 'TabGroup',
-	props: {
-		/**
-		 * v-model/value
-		 */
-		modelValue: {
-			type: Object,
-			required: false
+
+<script lang="ts" setup>
+import { ref, computed, Ref } from 'vue';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: Record<string, unknown>;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any, vue/prop-name-casing
+		child_options: Record<string, any>;
+	}>(),
+	{
+		modelValue: () => {
+			return {};
 		},
-		child_options: {
-			type: Object
-		}
 	},
-	setup (props, { emit }) {
+);
 
-		let activeTab = ref(null)
+const emit = defineEmits(['update:modelValue']);
 
-		const keys = Object.keys(props.child_options)
-		activeTab.value = keys[0]
+const activeTab: Ref<string> = ref('');
 
-		const valueModel = computed({
-			get: () => {
-				return typeof (props.modelValue || {})[activeTab.value] !== 'undefined' ? (props.modelValue || {})[activeTab.value] || {} : {}
-			},
-			set: (newValue) => {
-				// Check if we actually need to delete the option
-				const newValues = {
-					...props.modelValue,
-					[activeTab.value]: newValue
-				}
+const keys = Object.keys(props.child_options);
+activeTab.value = keys[0];
 
-				if (null === newValue) {
-					delete newValues[activeTab.value]
-				}
+const valueModel = computed({
+	get: () => {
+		return typeof (props.modelValue || {})[activeTab.value] !== 'undefined'
+			? (props.modelValue || {})[activeTab.value] || {}
+			: {};
+	},
+	set: newValue => {
+		// Check if we actually need to delete the option
+		const newValues = {
+			...props.modelValue,
+			[activeTab.value]: newValue,
+		};
 
-				emit('update:modelValue', newValues)
-			}
-		})
-
-		return {
-			activeTab,
-			valueModel
+		if (null === newValue) {
+			delete newValues[activeTab.value];
 		}
-	}
-}
+
+		emit('update:modelValue', newValues);
+	},
+});
 </script>
 <style lang="scss">
 .znpb-options__tab {

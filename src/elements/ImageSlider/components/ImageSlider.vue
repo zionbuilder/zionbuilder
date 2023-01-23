@@ -31,6 +31,7 @@ export default {
 
 <script lang="ts" setup>
 import { onMounted, watch, computed, onBeforeUnmount, nextTick, ref } from 'vue';
+import { useResponsiveDevices } from '@zb/composables';
 
 interface IProps {
 	/**
@@ -44,7 +45,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const { mobileFirstResponsiveDevices } = window.zb.editor.useResponsiveDevices();
+const { mobileFirstResponsiveDevices } = useResponsiveDevices();
 
 // Vars
 let slider = null;

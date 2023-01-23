@@ -19,13 +19,13 @@
 
 				<span
 					v-if="element.isRepeaterProvider"
-					v-znpb-tooltip="$translate('repeater_provider')"
+					v-znpb-tooltip="i18n.__('repeater provider', 'zionbuilder')"
 					class="znpb-tree-view__itemLooperIcon"
 					>P</span
 				>
 				<span
 					v-if="element.isRepeaterConsumer"
-					v-znpb-tooltip="$translate('repeater_consumer')"
+					v-znpb-tooltip="i18n.__('repeater consumer', 'zionbuilder')"
 					class="znpb-tree-view__itemLooperIcon"
 					>C</span
 				>
@@ -34,7 +34,7 @@
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--right">
 				<Icon
 					v-if="!element.isVisible"
-					v-znpb-tooltip="translate('enable_hidden_element')"
+					v-znpb-tooltip="i18n.__('The element is hidden. Click to enable it.', 'zionbuilder')"
 					icon="visibility-hidden"
 					class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible znpb-wireframe-item__header-area--visibility-icon"
 					@click.stop="element.isVisible = !element.isVisible"
@@ -55,11 +55,11 @@
 	</li>
 </template>
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { computed, ref } from 'vue';
 import { get } from 'lodash-es';
 import { useTreeViewItem } from '../useTreeViewItem';
 import { useElementDefinitionsStore } from '/@/editor/store';
-import { translate } from '/@/common/modules/i18n';
 import WireframeList from './WireframeList.vue';
 
 const props = defineProps<{

@@ -1,10 +1,12 @@
-import { savePage as savePageREST } from '/@/common/api';
+import * as i18n from '@wordpress/i18n';
 import { ref, Ref } from 'vue';
 import { usePageSettingsStore, useCSSClassesStore, useContentStore, useHistoryStore } from '../store';
 import { useEditorData } from './useEditorData';
-import { translate } from '/@/common/modules/i18n';
-import { useNotificationsStore } from '/@/common/store';
-import { useResponsiveDevices } from '/@/common/composables';
+
+// Common API
+const { useNotificationsStore } = window.zb.store;
+const { useResponsiveDevices } = window.zb.composables;
+const { savePage: savePageREST } = window.zb.api;
 
 const isSavePageLoading: Ref<boolean> = ref(false);
 let previewWindow: Window | null = null;
@@ -40,14 +42,6 @@ export function useSavePage() {
 		return new Promise((resolve, reject) => {
 			savePageREST(pageData)
 				.then(response => {
-					if (status !== 'autosave') {
-						notificationsStore.add({
-							message: status === 'publish' ? translate('page_saved_publish') : translate('page_saved'),
-							delayClose: 5000,
-							type: 'success',
-						});
-					}
-
 					refreshPreviewWindow();
 
 					historyStore.isDirty = false;

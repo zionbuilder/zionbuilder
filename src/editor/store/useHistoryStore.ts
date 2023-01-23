@@ -1,6 +1,6 @@
+import * as i18n from '@wordpress/i18n';
 import { defineStore } from 'pinia';
 import { debounce } from 'lodash-es';
-import { translate } from '/@/common/modules/i18n';
 
 type HistoryItem = {
 	undo: Function;
@@ -35,7 +35,7 @@ export const useHistoryStore = defineStore('history', {
 		addHistoryItem(item: HistoryItem) {
 			if (this.state.length === 0) {
 				this.state.push({
-					title: translate('editing_started'),
+					title: i18n.__( 'Editing started', 'zionbuilder' ),
 				});
 				this.activeHistoryIndex++;
 			}

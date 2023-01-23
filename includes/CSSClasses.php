@@ -50,7 +50,7 @@ class CSSClasses {
 	public static function get_classes() {
 		if ( null === self::$cached_css_classes ) {
 			$saved_css_classes = get_option( self::CLASSES_OPTION_KEY );
-			// phpcs:ignore Universal.Operators.DisallowShortTernary.Found
+			// phpcs:ignore WordPress.PHP.DisallowShortTernary
 			self::$cached_css_classes = json_decode( $saved_css_classes, true ) ?: [];
 		}
 
@@ -80,5 +80,25 @@ class CSSClasses {
 		}
 
 		return $css;
+	}
+
+	/**
+	 * Returns the css class string based on the provided id|class config
+	 *
+	 * @param string | array $id
+	 *
+	 * @return string
+	 */
+	public static function get_css_class( $id ) {
+		$css_classes = self::get_classes();
+		if ( is_array( $css_classes ) ) {
+			foreach ( $css_classes as $class_config ) {
+				if ( isset( $class_config['id'] ) && $class_config['id'] === $id ) {
+					return $class_config['id'];
+				}
+			}
+		}
+
+		return $id;
 	}
 }

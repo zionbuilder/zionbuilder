@@ -2,9 +2,9 @@ import { build } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { filesMap } from './map.mjs';
 import path from 'path';
-import { minify } from 'rollup-plugin-esbuild';
 import { generateManifest } from './manifest.mjs';
 import fs from 'fs';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // Clear the dist folder
 const dist = path.resolve('./dist');
@@ -17,6 +17,8 @@ filesMap.forEach(async script => {
       alias: {
         '/@': path.resolve('./src'),
         '/@zb/vue': path.resolve('./node_modules/vue'),
+        '/@zb/pinia': path.resolve('./node_modules/pinia'),
+        '/@zb/vue-router': path.resolve('./node_modules/vue-router'),
       },
     },
     build: {
@@ -28,7 +30,18 @@ filesMap.forEach(async script => {
         input: {
           [script.output]: script.input,
         },
-        external: ['vue'],
+        external: [
+          'vue',
+          'pinia',
+          'vue-router',
+          '@zb/api',
+          '@zb/components',
+          '@zb/composables',
+          '@zb/hooks',
+          '@zb/store',
+          '@zb/utils',
+          '@wordpress/i18n',
+        ],
         output: {
           name: script.name,
           entryFileNames: `[name].js`,
@@ -37,14 +50,29 @@ filesMap.forEach(async script => {
             if (assetInfo.name == 'style.css') return `${script.output}.css`;
             return `[name].[ext]`;
           },
-          format: 'iife',
+          format: script.format ?? 'iife',
           globals: {
             vue: 'zb.vue',
+            pinia: 'zb.pinia',
+            ['vue-router']: 'zb.VueRouter',
+            '@zb/api': 'zb.api',
+            '@zb/components': 'zb.components',
+            '@zb/composables': 'zb.composables',
+            '@zb/hooks': 'zb.hooks',
+            '@zb/store': 'zb.store',
+            '@zb/utils': 'zb.utils',
+            '@wordpress/i18n': 'wp.i18n',
           },
         },
       },
     },
-    plugins: [vue()],
+    plugins: [
+      vue(),
+      visualizer({
+        filename: `./stats/${script.input}.html`,
+        open: false,
+      }),
+    ],
   });
 });
 

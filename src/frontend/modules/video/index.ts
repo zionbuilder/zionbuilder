@@ -1,4 +1,4 @@
-import { createHooksInstance } from '/@/common/modules/hooks';
+import { createHooksInstance } from '/@/common/modules/hooks/hooks';
 import reframe from 'reframe.js';
 
 declare global {
@@ -24,6 +24,7 @@ export interface VideoOptions {
 	mp4?: string;
 	youtubeURL?: string;
 	vimeoURL?: string;
+	playsInline?: boolean | null;
 }
 
 let YoutubeApiLoadedState = 0;
@@ -57,6 +58,7 @@ export default class Video {
 			controlsPosition: 'bottom-left',
 			videoSource: 'local',
 			responsive: true,
+			playsInline: null,
 			...options,
 		};
 
@@ -142,9 +144,8 @@ export default class Video {
 			const firstScriptTag = document.getElementsByTagName('script')[0];
 			firstScriptTag.parentNode.insertBefore(youtubeTag, firstScriptTag);
 
-			const self = this;
-			window.onYouTubeIframeAPIReady = function () {
-				self.enableYoutube();
+			window.onYouTubeIframeAPIReady = () => {
+				this.enableYoutube();
 				// trigger event
 				globalEventBus.doAction('youtube_api_ready');
 				YoutubeApiLoadedState = 2;
@@ -211,19 +212,27 @@ export default class Video {
 	}
 
 	setupLocal() {
-		const autoplay = this.options.autoplay ? 'autoplay' : '';
-		const muted = this.options.muted ? 'muted' : '';
 		const loop = this.options.loop ? 'loop' : '';
 
 		const videoElement = document.createElement('video');
 
 		// Set video arguments
-		videoElement.muted = muted;
-		videoElement.autoplay = autoplay;
-		videoElement.loop = loop;
+		if (this.options.autoplay) {
+			videoElement.setAttribute('autoplay', '');
+		}
+
+		if (this.options.muted) {
+			videoElement.setAttribute('muted', '');
+		}
+
+		videoElement.setAttribute('loop', loop);
 
 		if (this.options.controls) {
 			videoElement.controls = true;
+		}
+
+		if (typeof this.options.playsInline !== 'undefined' && this.options.playsInline !== null) {
+			videoElement.setAttribute('playsInline', '' + this.options.playsInline);
 		}
 
 		if (this.options.mp4) {

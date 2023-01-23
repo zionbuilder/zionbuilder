@@ -1,57 +1,44 @@
 <template>
 	<div class="znpb-admin__google-fonts-modal-item">
 		<div class="znpb-admin__google-fonts-modal-item-header">
-			<div>{{font.family}}</div>
-			<div
-				v-if="! isActive"
-				@click="$emit('font-selected', font)"
-				class="znpb-circle-icon-line"
-			>
+			<div>{{ font.family }}</div>
+			<div v-if="!isActive" class="znpb-circle-icon-line" @click="$emit('font-selected', font)">
 				<Icon icon="plus"></Icon>
 			</div>
-			<div
-				v-if="isActive"
-				@click="$emit('font-removed', font.family)"
-				class="znpb-circle-icon-line znpb-circle-delete"
-			>
+			<div v-if="isActive" class="znpb-circle-icon-line znpb-circle-delete" @click="$emit('font-removed', font.family)">
 				<Icon icon="minus"></Icon>
 			</div>
 		</div>
-		<div
-			class="znpb-admin__google-fonts-modal-item-preview"
-			contenteditable="true"
-			:style="fontStyle"
-		>{{font.family}}</div>
+		<div class="znpb-admin__google-fonts-modal-item-preview" contenteditable="true" :style="fontStyle">
+			{{ font.family }}
+		</div>
 	</div>
 </template>
 
-<script>
-import { computed } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue';
 
-export default {
-	name: 'GoogleFontModalElement',
-	props: {
-		font: {
-			type: Object,
-			required: true
-		},
-		isActive: {
-			type: Boolean,
-			required: true
-		}
-	},
-	setup (props) {
-		const fontStyle = computed(() => {
-			return {
-				'font-family': props.font.family
-			}
-		})
+const props = defineProps<{
+	font: {
+		family: string;
+		variants: string[];
+		subsets: string[];
+		version: string;
+		lastModified: string;
+		files: {
+			[key: string]: string;
+		};
+	};
+	isActive: boolean;
+}>();
 
-		return {
-			fontStyle
-		}
-	}
-}
+defineEmits(['font-selected', 'font-removed']);
+
+const fontStyle = computed(() => {
+	return {
+		'font-family': props.font.family,
+	};
+});
 </script>
 
 <style lang="scss">

@@ -13,7 +13,7 @@
 	>
 		<div v-if="loading || error">
 			<Loader :size="16" />
-			<span v-if="error">{{ $translate('preview_not_available') }}</span>
+			<span v-if="error">{{ i18n.__('Preview not available', 'zionbuilder') }}</span>
 		</div>
 
 		<img :src="imageSrc" />
@@ -24,13 +24,13 @@
 			<div class="znpb-section-view-item__header-left">
 				<span
 					v-if="element.isRepeaterProvider"
-					v-znpb-tooltip="$translate('repeater_provider')"
+					v-znpb-tooltip="i18n.__('repeater provider', 'zionbuilder')"
 					class="znpb-tree-view__itemLooperIcon"
 					>P</span
 				>
 				<span
 					v-if="element.isRepeaterConsumer"
-					v-znpb-tooltip="$translate('repeater_consumer')"
+					v-znpb-tooltip="i18n.__('repeater consumer', 'zionbuilder')"
 					class="znpb-tree-view__itemLooperIcon"
 					>C</span
 				>
@@ -40,7 +40,7 @@
 
 			<Icon
 				v-if="!element.isVisible"
-				v-znpb-tooltip="$translate('enable_hidden_element')"
+				v-znpb-tooltip="i18n.__('The element is hidden. Click to enable it.', 'zionbuilder')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
 				@click.stop="element.isVisible = !element.isVisible"
@@ -52,11 +52,12 @@
 		</div>
 	</li>
 </template>
+
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
-import domtoimage from 'dom-to-image';
+import { toPng } from 'html-to-image';
 import { onMounted } from 'vue';
-import { translate } from '/@/common/modules/i18n';
 import { useTreeViewItem } from '../useTreeViewItem';
 
 const props = defineProps<{
@@ -72,7 +73,9 @@ const loading = ref(true);
 onMounted(() => {
 	// Wait 100ms. This is needed so we can make sure the element is actually rendered on the page
 	setTimeout(() => {
-		const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(props.element.elementCssId);
+		const domElement = (
+			window.document.getElementById('znpb-editor-iframe') as HTMLIFrameElement
+		)?.contentWindow?.document?.getElementById(props.element.elementCssId);
 
 		if (!domElement) {
 			console.warn(`Element with id "${props.element.elementCssId}" could not be found in page`);
@@ -92,21 +95,20 @@ onMounted(() => {
 			return true;
 		}
 
-		domtoimage
-			.toPng(domElement, {
-				style: {
-					width: '100%',
-					margin: 0,
-				},
-				filter: filter,
-			})
+		toPng(domElement, {
+			style: {
+				width: '100%',
+				margin: 0,
+			},
+			filter: filter,
+		})
 			.then(dataUrl => {
 				imageSrc.value = dataUrl;
 			})
 			.catch(error => {
 				error = true;
 				// eslint-disable-next-line
-				console.error(translate("oops_something_wrong"), error);
+				console.error(i18n.__('oops, something went wrong!', 'zionbuilder'), error);
 			})
 			.finally(() => {
 				loading.value = false;

@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia';
 import { filter, get } from 'lodash-es';
 import { useUserData } from '../composables/useUserData';
-import { useResponsiveDevices } from '/@/common/composables';
 import { useContentStore } from './useContentStore';
+
+const { useResponsiveDevices } = window.zb.composables;
+
 interface Panel {
 	id: string;
 	component: string;
@@ -201,7 +203,7 @@ export const useUIStore = defineStore('ui', {
 
 			// Check to see if the event is from iframe
 			if (event.view !== window) {
-				const iframe = window.frames['znpb-editor-iframe'];
+				const iframe = window.document.getElementById('znpb-editor-iframe') as HTMLIFrameElement;
 
 				if (iframe) {
 					const { left, top } = iframe.getBoundingClientRect();
@@ -355,7 +357,7 @@ export const useUIStore = defineStore('ui', {
 
 			// Check to see if the event is from iframe
 			if (event.view !== window) {
-				const iframe = window.frames['znpb-editor-iframe'];
+				const iframe = window.document.getElementById('znpb-editor-iframe') as HTMLIFrameElement;
 
 				if (iframe) {
 					const { left, top } = iframe.getBoundingClientRect();

@@ -15,40 +15,27 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { useUIStore } from '/@/editor/store';
 
-export default {
-	name: 'SingleChild',
-	props: {
-		element: {
-			type: Object,
-			required: true,
-		},
-		itemOptionName: {
-			type: String,
-			required: false,
-		},
-		showDelete: {
-			type: Boolean,
-			default: true,
-		},
+const props = withDefaults(
+	defineProps<{
+		element: ZionElement;
+		itemOptionName?: string;
+		showDelete: boolean;
+	}>(),
+	{
+		itemOptionName: '',
 	},
-	setup(props) {
-		const UIStore = useUIStore();
+);
 
-		function onDelete() {
-			if (props.showDelete) {
-				props.element.delete();
-			}
-		}
+const UIStore = useUIStore();
 
-		return {
-			UIStore,
-			onDelete,
-		};
-	},
-};
+function onDelete() {
+	if (props.showDelete) {
+		props.element.delete();
+	}
+}
 </script>
 <style lang="scss">
 .znpb-options-children__element {

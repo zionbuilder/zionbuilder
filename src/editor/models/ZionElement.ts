@@ -1,10 +1,12 @@
 import { useContentStore, useElementDefinitionsStore } from '../store';
-import { generateUID } from '/@/common/utils';
 import { regenerateUIDs, removeElementID } from '/@/editor/utils';
-import { applyFilters } from '/@/common/modules/hooks';
 import { update, get, isPlainObject, each, pull } from 'lodash-es';
 import { type ElementType } from '../models/ElementType';
 import { serverRequest } from '../api';
+
+// Common API
+const { applyFilters } = window.zb.hooks;
+const { generateUID } = window.zb.utils;
 
 export class ZionElement {
 	// Element data for DB

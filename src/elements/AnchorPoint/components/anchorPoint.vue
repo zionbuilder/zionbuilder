@@ -2,26 +2,29 @@
 	<div class="zb-anchorPoint">
 		<slot name="start" />
 
+		<!-- eslint-disable-next-line vue/no-v-html -->
 		<span v-html="`#${getCssID}`"></span>
-		<Icon
-			icon="element-anchor-point"
-			:size="30"
-			color="#B2B2B2"
-		/>
+		<Icon icon="element-anchor-point" :size="30" color="#B2B2B2" />
 		<slot name="end" />
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'anchor_point',
-	props: ['options', 'element', 'api'],
-	computed: {
-		getCssID () {
-			return (this.options._advanced_options || {})._element_id || this.element.uid
-		}
-	}
-}
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const props = defineProps<{
+	options: {
+		_advanced_options: {
+			_element_id: string;
+		};
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
+
+const getCssID = computed(() => {
+	return (props.options._advanced_options || {})._element_id || props.element.uid;
+});
 </script>
 <style lang="scss">
 .zb-anchorPoint {
@@ -41,4 +44,3 @@ export default {
 	}
 }
 </style>
-

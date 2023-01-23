@@ -1,15 +1,16 @@
 <template>
 	<PageTemplate>
-		<h3>{{ $translate('maintenance_mode') }}</h3>
+		<h3>{{ i18n.__('Maintenance mode', 'zionbuilder') }}</h3>
 
 		<OptionsForm v-model="computedModel" :schema="schema" class="znpb-maintenanceModeForm" />
 	</PageTemplate>
 </template>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { computed } from 'vue';
-import { useBuilderOptionsStore } from '/@/common/store';
 
+const { useBuilderOptionsStore } = window.zb.store;
 const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
 
 const computedModel = computed({

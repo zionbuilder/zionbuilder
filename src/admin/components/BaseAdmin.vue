@@ -3,23 +3,26 @@
 		<div class="znpb-admin__header">
 			<div class="znpb-admin__header-top">
 				<div class="znpb-admin__header-logo">
-					<img :src="logoUrl" />
-					<Label v-if="isPro" :text="$translate('pro')" type="warning" class="znpb-option__upgrade-to-pro-label" />
-					<span class="znpb-admin__header-logo-version">v{{ version }}</span>
+					<img :src="EnvironmentStore.urls.logo" />
+					<span class="znpb-admin__header-logo-version">v{{ EnvironmentStore.plugin_free.version }}</span>
 				</div>
 				<div class="znpb-admin__header-actions">
-					<router-link v-if="!isPro" to="/get-pro" class="znpb-button znpb-button--secondary">
+					<router-link
+						v-if="!EnvironmentStore.plugin_pro.is_active"
+						to="/get-pro"
+						class="znpb-button znpb-button--secondary"
+					>
 						<Icon icon="quality"></Icon>
-						{{ $translate('upgrade_to_pro') }}
+						{{ i18n.__('Upgrade to PRO', 'zionbuilder') }}
 					</router-link>
 
 					<a
 						v-if="documentationLink && documentationLink.length"
 						:href="documentationLink"
-						:title="$translate('documentation')"
+						:title="i18n.__('Documentation', 'zionbuilder')"
 						target="_blank"
 						class="znpb-button znpb-button--line"
-						>{{ $translate('documentation') }}</a
+						>{{ i18n.__('Documentation', 'zionbuilder') }}</a
 					>
 				</div>
 			</div>
@@ -30,7 +33,7 @@
 						:key="key"
 						:to="`${menuItem.path}`"
 						class="znpb-admin__header-menu-item"
-						>{{ menuItem.title }}</router-link
+						>{{ menuItem.meta.title }}</router-link
 					>
 				</div>
 			</div>
@@ -45,42 +48,38 @@
 				:error="error"
 				@close-notice="error.remove()"
 			/>
-
-			<OptionsSaveLoader />
 		</div>
+		<CornerLoader :is-loading="builderOptionsStore.isLoading" />
 	</div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+
+// Globals
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import OptionsSaveLoader from './OptionsSaveLoader.vue';
-import { useBuilderOptionsStore, useGoogleFontsStore, useNotificationsStore } from '/@/common/store';
+
+// Internal globals
+import { useBuilderOptionsStore, useGoogleFontsStore, useNotificationsStore, useEnvironmentStore } from '@zb/store';
+
+// Local components
+import { CornerLoader } from '@zb/components';
 
 const router = useRouter();
 const builderOptionsStore = useBuilderOptionsStore();
 const googleFontsStore = useGoogleFontsStore();
 const notificationsStore = useNotificationsStore();
+const EnvironmentStore = useEnvironmentStore();
 
 const loaded = ref(false);
 const hasError = ref(false);
-const logoUrl = window.ZnPbAdminPageData.urls.logo;
-const version = window.ZnPbAdminPageData.plugin_version;
-const isPro = window.ZnPbAdminPageData.is_pro_active;
 
+/**
+ * Get the menu items
+ */
 const menuItems = computed(() => {
-	var routes = [];
-	for (var i in router.options.routes) {
-		if (!router.options.routes.hasOwnProperty(i)) {
-			continue;
-		}
-		var route = router.options.routes[i];
-		if (route.hasOwnProperty('title')) {
-			routes.push(route);
-		}
-	}
-
-	return routes;
+	return router.options.routes.map(rawRoute => router.resolve(rawRoute)).filter(route => route.meta.title);
 });
 
 const documentationLink = computed(() => {
@@ -99,7 +98,7 @@ Promise.all([googleFontsStore.fetchGoogleFonts()])
 	.catch(error => {
 		hasError.value = true;
 		// eslint-disable-next-line
-			console.error(error)
+		console.error(error);
 	})
 	.finally(() => {
 		loaded.value = true;
@@ -149,10 +148,12 @@ Promise.all([googleFontsStore.fetchGoogleFonts()])
 
 		-moz-appearance: textfield;
 	}
+
 	b,
 	strong {
 		font-weight: 700;
 	}
+
 	h2,
 	h3,
 	h4,
@@ -168,6 +169,7 @@ Promise.all([googleFontsStore.fetchGoogleFonts()])
 		font-weight: 500;
 		line-height: 1.4;
 	}
+
 	p {
 		font-size: 12px;
 		line-height: 1.8;
@@ -176,6 +178,7 @@ Promise.all([googleFontsStore.fetchGoogleFonts()])
 	& * {
 		box-sizing: border-box;
 	}
+
 	input[type='checkbox']:checked:before,
 	input[type='radio']:checked:before {
 		display: none;
@@ -187,6 +190,7 @@ Promise.all([googleFontsStore.fetchGoogleFonts()])
 	&__title {
 		color: var(--zb-surface-text-active-color);
 	}
+
 	&__desc {
 		color: var(--zb-surface-text-color);
 	}
@@ -233,6 +237,7 @@ Promise.all([googleFontsStore.fetchGoogleFonts()])
 				height: 36px;
 				margin-right: 10px;
 			}
+
 			span {
 				margin-right: 5px;
 				margin-bottom: 0;
@@ -260,11 +265,13 @@ Promise.all([googleFontsStore.fetchGoogleFonts()])
 			display: flex;
 			flex-direction: row;
 			align-items: center;
+
 			.znpb-button--secondary {
 				padding-top: 13px;
 				padding-bottom: 13px;
 				margin-right: 10px;
 			}
+
 			.znpb-editor-icon-wrapper {
 				position: relative;
 				top: 1px;
@@ -275,16 +282,20 @@ Promise.all([googleFontsStore.fetchGoogleFonts()])
 					width: auto;
 				}
 			}
+
 			.router-link-active {
 				.zion-quality {
 					color: var(--zb-pro-color);
 				}
 			}
+
 			a:visited {
 				color: #fff;
 			}
+
 			a:last-child {
 				color: var(--zb-surface-text-active-color);
+
 				&:visited {
 					color: var(--zb-surface-text-active-color);
 				}

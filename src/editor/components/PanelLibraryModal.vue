@@ -16,7 +16,7 @@
 					@click.stop="closeBody"
 				>
 					<Icon icon="long-arrow-right" rotate="180" />
-					{{ $translate('go_back') }}
+					{{ i18n.__('Go Back', 'zionbuilder') }}
 				</span>
 				<div v-if="previewOpen || importActive" class="znpb-library-modal-header-preview">
 					<h2 class="znpb-library-modal-header-preview__title" v-html="computedTitle"></h2>
@@ -33,31 +33,31 @@
 					</h2>
 				</template>
 				<div class="znpb-library-modal-header__actions">
-					<template v-if="previewOpen">
+					<template v-if="previewOpen && activeItem">
 						<a
 							v-if="isProInstalled && !isProActive && activeItem.pro"
 							class="znpb-button znpb-button--line"
 							target="_blank"
 							:href="dashboardURL"
-							>{{ $translate('activate_pro') }}
+							>{{ i18n.__('Activate PRO', 'zionbuilder') }}
 						</a>
 						<a
 							v-else-if="!isProInstalled && activeItem.pro"
 							class="znpb-button znpb-button--line znpb-button-buy-pro"
 							:href="purchaseURL"
 							target="_blank"
-							>{{ $translate('buy_pro') }}
+							>{{ i18n.__('Buy Pro', 'zionbuilder') }}
 						</a>
 
 						<Button
 							v-else
-							v-znpb-tooltip="$translate('library_insert_tooltip')"
+							v-znpb-tooltip="i18n.__('Insert this item into page', 'zionbuilder')"
 							type="secondary"
 							class="znpb-library-modal-header__insert-button"
 							@click.stop="insertLibraryItem"
 						>
 							<span v-if="!insertItemLoading">
-								{{ $translate('library_insert') }}
+								{{ i18n.__('Insert', 'zionbuilder') }}
 							</span>
 							<Loader v-else :size="13" />
 						</Button>
@@ -66,11 +66,11 @@
 					<template v-else>
 						<Button type="secondary" @click="(importActive = !importActive), (templateUploaded = !templateUploaded)">
 							<Icon icon="import" />
-							{{ $translate('import') }}
+							{{ i18n.__('Import', 'zionbuilder') }}
 						</Button>
 
 						<Icon
-							v-znpb-tooltip="$translate('refresh_tooltip')"
+							v-znpb-tooltip="i18n.__('Refresh data from the server ', 'zionbuilder')"
 							icon="refresh"
 							:size="14"
 							class="znpb-modal__header-button znpb-modal__header-button--library-refresh znpb-button znpb-button--line"
@@ -105,163 +105,131 @@
 	</Modal>
 </template>
 
-<script>
-import { ref, computed, watchEffect } from 'vue';
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+import { ref, computed, watchEffect, provide, onMounted, onBeforeMount, onBeforeUnmount } from 'vue';
 import { regenerateUIDsForContent } from '../utils';
 import { useEditorData, useLocalStorage } from '../composables';
-import { useLibrary } from '/@/common/composables';
 import { useUIStore } from '../store';
 
 // Components
 import LibraryPanel from './LibraryPanel.vue';
 import LibraryUploader from './library-panel/LibraryUploader.vue';
 
-export default {
-	name: 'LibraryModal',
-	components: {
-		LibraryPanel,
-		LibraryUploader,
-	},
-	provide() {
-		return {
-			Library: this,
-		};
-	},
-	setup() {
-		const { addData, getData } = useLocalStorage();
-		const UIStore = useUIStore();
-		const { librarySources, getSource } = useLibrary();
+const { useLibrary } = window.zb.composables;
 
-		const activeLibraryTab = ref(getData('libraryActiveSource', 'local_library'));
+const importActive = ref(false);
+const fullSize = ref(false);
+const insertItemLoading = ref(false);
+const templateUploaded = ref(false);
 
-		const { editorData } = useEditorData();
-		const isProActive = editorData.value.plugin_info.is_pro_active;
-		const isProInstalled = editorData.value.plugin_info.is_pro_installed;
-		const purchaseURL = ref(editorData.value.urls.purchase_url);
-		const previewOpen = ref(false);
-		const activeItem = ref(null);
-		const dashboardURL = `${editorData.value.urls.zion_admin}#/pro-license`;
+const { addData, getData } = useLocalStorage();
+const UIStore = useUIStore();
+const { librarySources, getSource } = useLibrary();
 
-		function setActiveSource(source, save = true) {
-			activeLibraryTab.value = source;
+const activeLibraryTab = ref(getData('libraryActiveSource', 'local_library'));
 
-			if (save) {
-				addData('libraryActiveSource', source);
-			}
-		}
+const { editorData } = useEditorData();
+const isProActive = editorData.value.plugin_info.is_pro_active;
+const isProInstalled = editorData.value.plugin_info.is_pro_installed;
+const purchaseURL = ref(editorData.value.urls.purchase_url);
+const previewOpen = ref(false);
+const activeItem = ref(null);
+const dashboardURL = `${editorData.value.urls.zion_admin}#/pro-license`;
 
-		const activeLibraryConfig = computed(() => {
-			return getSource(activeLibraryTab.value) || getSource('local_library');
-		});
+const computedTitle = computed(() => {
+	if (previewOpen.value) {
+		return activeItem.value.post_title;
+	}
 
-		watchEffect(() => {
-			if (UIStore.isLibraryOpen) {
-				activeLibraryConfig.value.getData();
-			}
-		});
+	if (importActive.value) {
+		return i18n.__('Import', 'zionbuilder');
+	}
 
-		function onRefresh() {
-			activeLibraryConfig.value.getData(false);
-		}
+	return i18n.__('Library', 'zionbuilder');
+});
 
-		function activatePreview(item) {
-			activeItem.value = item;
-			previewOpen.value = true;
-		}
+provide('Library', {
+	insertItem,
+});
 
-		return {
-			// refs
-			activeLibraryTab,
-			previewOpen,
-			activeItem,
-			dashboardURL,
+function setActiveSource(source, save = true) {
+	activeLibraryTab.value = source;
 
-			// computed
-			librarySources,
-			activeLibraryConfig,
+	if (save) {
+		addData('libraryActiveSource', source);
+	}
+}
 
-			// methods
-			UIStore,
-			editorData,
-			isProActive,
-			isProInstalled,
-			purchaseURL,
-			setActiveSource,
-			onRefresh,
-			activatePreview,
-		};
-	},
-	data() {
-		return {
-			importActive: false,
-			fullSize: false,
-			insertItemLoading: false,
-			templateUploaded: false,
-		};
-	},
+const activeLibraryConfig = computed(() => {
+	return getSource(activeLibraryTab.value) || getSource('local_library');
+});
 
-	computed: {
-		computedTitle() {
-			return this.previewOpen ? this.activeItem.post_title : this.$translate('import');
-		},
-	},
-	mounted() {
-		document.getElementById('znpb-editor-iframe').contentWindow.document.body.style.overflow = 'hidden';
-	},
-	beforeUnmount() {
-		document.getElementById('znpb-editor-iframe').contentWindow.document.body.style.overflow = null;
-	},
-	methods: {
-		onTemplateUpload() {
-			this.importActive = false;
-			this.setActiveSource('local');
-			this.templateUploaded = true;
-		},
-		insertLibraryItem(item) {
-			this.insertItemLoading = true;
-			this.insertItem(this.activeItem).then(() => {
-				this.insertItemLoading = false;
+watchEffect(() => {
+	if (UIStore.isLibraryOpen) {
+		activeLibraryConfig.value.getData();
+	}
+});
+
+function onRefresh() {
+	activeLibraryConfig.value.getData(false);
+}
+
+function activatePreview(item) {
+	activeItem.value = item;
+	previewOpen.value = true;
+}
+
+onMounted(() => {
+	document.getElementById('znpb-editor-iframe').contentWindow.document.body.style.overflow = 'hidden';
+});
+
+onBeforeUnmount(() => {
+	document.getElementById('znpb-editor-iframe').contentWindow.document.body.style.overflow = null;
+});
+
+function onTemplateUpload() {
+	importActive.value = false;
+	setActiveSource('local');
+	templateUploaded.value = true;
+}
+
+function insertLibraryItem(item) {
+	insertItemLoading.value = true;
+	insertItem(activeItem.value).then(() => {
+		insertItemLoading.value = false;
+	});
+}
+
+function closeBody() {
+	previewOpen.value = false;
+	importActive.value = false;
+}
+
+function insertItem(item) {
+	return new Promise((resolve, reject) => {
+		item
+			.getBuilderData()
+			.then(response => {
+				const { template_data: templateData } = response.data;
+
+				// Check to see if this is a single element or a group of elements
+				const compiledTemplateData = templateData.element_type ? [templateData] : templateData;
+				const newElement = regenerateUIDsForContent(compiledTemplateData);
+
+				window.zb.run('editor/elements/add-template', {
+					templateContent: newElement,
+				});
+
+				UIStore.toggleLibrary();
+
+				resolve(true);
+			})
+			.catch(error => {
+				reject(error);
 			});
-		},
-		closeBody() {
-			this.previewOpen = false;
-			this.importActive = false;
-		},
-
-		/**
-		 * Insert item
-		 *
-		 * Handles template insertion
-		 * Will generate new UIDs for elements
-		 * Will add the page custom css and js
-		 * Will add the custom css classes used for element
-		 */
-		insertItem(item) {
-			return new Promise((resolve, reject) => {
-				item
-					.getBuilderData()
-					.then(response => {
-						const { template_data: templateData } = response.data;
-
-						// Check to see if this is a single element or a group of elements
-						let compiledTemplateData = templateData.element_type ? [templateData] : templateData;
-						const newElement = regenerateUIDsForContent(compiledTemplateData);
-
-						window.zb.run('editor/elements/add-template', {
-							templateContent: newElement,
-						});
-
-						this.UIStore.toggleLibrary();
-
-						resolve(true);
-					})
-					.catch(error => {
-						reject(error);
-					});
-			});
-		},
-	},
-};
+	});
+}
 </script>
 <style lang="scss">
 .znpb-library-modal {

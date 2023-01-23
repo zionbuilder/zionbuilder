@@ -2,7 +2,7 @@
 	<div class="znpb-preset-input-wrapper">
 		<BaseInput
 			v-model="presetName"
-			:placeholder="isGradient ? $translate('save_gradient_title') : $translate('add_preset_title')"
+			:placeholder="isGradient ? i18n.__('name', 'zionbuilder') : i18n.__('Global color name', 'zionbuilder')"
 			:class="{ 'znpb-backgroundGradient__nameInput': isGradient }"
 			:error="hasError"
 		>
@@ -36,6 +36,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { ref, watch } from 'vue';
 import { Icon } from '../Icon';
 import { BaseInput } from '../BaseInput';
@@ -57,15 +58,14 @@ const emit = defineEmits<{
 const presetName = ref('');
 const gradientType = ref('local');
 const hasError = ref(false);
-const { translate } = window.zb.i18n;
 const gradientTypes = ref([
 	{
 		id: 'local',
-		name: translate('local'),
+		name: i18n.__('Local', 'zionbuilder'),
 	},
 	{
 		id: 'global',
-		name: translate('global'),
+		name: i18n.__('Global', 'zionbuilder'),
 	},
 ]);
 

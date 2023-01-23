@@ -2,61 +2,54 @@
 	<OptionsForm v-model="valueModel" :schema="computedSchema" class="znpb-option__typography-wrapper" />
 </template>
 
-<script>
-import { useOptionsSchemas } from '/@/common/composables';
+<script lang="ts" setup>
 import { computed } from 'vue';
 
-export default {
-	name: 'Typography',
-	props: {
-		modelValue: {
-			type: Object,
-			default() {
-				return {};
-			},
+const props = withDefaults(
+	defineProps<{
+		modelValue?: Record<string, unknown>;
+		placeholder?: Record<string, unknown> | null;
+	}>(),
+	{
+		modelValue: () => {
+			return {};
 		},
-		placeholder: {
-			type: Object,
-			required: false,
-			default: null,
-		},
+		placeholder: null,
 	},
-	setup(props) {
-		const computedSchema = computed(() => {
-			const { getSchema } = useOptionsSchemas();
-			const schema = getSchema('typography');
+);
 
-			if (props.placeholder) {
-				const newSchema = {};
-				Object.keys(schema).forEach(optionID => {
-					const childSchema = schema[optionID];
-					if (typeof props.placeholder[optionID] !== 'undefined') {
-						childSchema.placeholder = props.placeholder[optionID];
-					}
+const emit = defineEmits(['update:modelValue']);
 
-					newSchema[optionID] = childSchema;
-				});
-				return newSchema;
-			} else {
-				return schema;
+const { useOptionsSchemas } = window.zb.composables;
+
+const valueModel = computed({
+	get() {
+		return props.modelValue || {};
+	},
+	set(newValue) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+const computedSchema = computed(() => {
+	const { getSchema } = useOptionsSchemas();
+	const schema = getSchema('typography');
+
+	if (props.placeholder) {
+		const newSchema: Record<string, unknown> = {};
+		Object.keys(schema).forEach(optionID => {
+			const childSchema = schema[optionID];
+			if (props.placeholder && typeof props.placeholder[optionID] !== 'undefined') {
+				childSchema.placeholder = props.placeholder[optionID];
 			}
-		});
 
-		return {
-			computedSchema,
-		};
-	},
-	computed: {
-		valueModel: {
-			get() {
-				return this.modelValue || {};
-			},
-			set(newValue) {
-				this.$emit('update:modelValue', newValue);
-			},
-		},
-	},
-};
+			newSchema[optionID] = childSchema;
+		});
+		return newSchema;
+	} else {
+		return schema;
+	}
+});
 </script>
 
 <style lang="scss">

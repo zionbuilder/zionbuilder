@@ -28,7 +28,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { Comment, computed, useSlots } from 'vue';
+import { Comment, computed, useSlots, provide } from 'vue';
 import { Icon } from '../Icon';
 import InputCheckbox from './InputCheckbox.vue';
 
@@ -97,6 +97,12 @@ const hasSlots = computed(() => {
 	}
 
 	return normalNodes.length > 0;
+});
+
+// Provide the API for the InputCheckbox component
+provide('checkboxGroup', {
+	model,
+	props,
 });
 </script>
 

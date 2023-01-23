@@ -1,19 +1,19 @@
 function applyTrigger(instance, options) {
 	const optionsWithDefaults = {
 		delay: 0,
-		...options
-	}
+		...options,
+	};
 
-	window.addEventListener('load', onPageLoad)
+	window.addEventListener('load', onPageLoad);
 
 	function onPageLoad() {
 		setTimeout(() => {
-			instance.open()
+			instance.open();
 		}, optionsWithDefaults.delay);
 	}
 }
 
 export default {
 	name: 'pageLoad',
-	fn: applyTrigger
-}
+	fn: applyTrigger,
+};

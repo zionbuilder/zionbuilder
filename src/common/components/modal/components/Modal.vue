@@ -166,7 +166,7 @@ export default {
 			return this.fullSize ? 'minimize' : 'maximize';
 		},
 		modalContentStyle() {
-			let modalStyle = {};
+			const modalStyle = {};
 
 			if (this.width) {
 				modalStyle['max-width'] = this.width + 'px';
@@ -300,7 +300,7 @@ export default {
 		appendModal() {
 			if (!this.appendToElement) {
 				// eslint-disable-next-line
-				console.warn(`${this.$translate('no_html_matching')} ${this.appendTo}`)
+				console.warn(`No HTMLElement was found matching ${this.appendTo}`);
 				return;
 			}
 			this.appendToElement.appendChild(this.$el);

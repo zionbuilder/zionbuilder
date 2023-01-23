@@ -6,52 +6,30 @@
 		</div>
 
 		<div class="znpb-modal__confirm-buttons-wrapper">
-			<Button v-if="confirmText" type="danger" @click="$emit('confirm')">{{ confirmText }}</Button>
-			<Button v-if="cancelText" type="gray" @click="$emit('cancel')">{{ cancelText }}</Button>
+			<Button v-if="confirmText" type="danger" @click="emit('confirm')">{{ confirmText }}</Button>
+			<Button v-if="cancelText" type="gray" @click="emit('cancel')">{{ cancelText }}</Button>
 		</div>
 	</Modal>
 </template>
 
-<script>
+<script lang="ts" setup>
 import Modal from './Modal.vue';
 import { Button } from '../../Button';
 
-export default {
-	name: 'ModalConfirm',
-	components: {
-		Modal,
-		Button,
+withDefaults(
+	defineProps<{
+		confirmText?: string;
+		cancelText?: string;
+		width?: number;
+	}>(),
+	{
+		confirmText: 'confirm',
+		cancelText: 'cancel',
+		width: 470,
 	},
-	props: {
-		/**
-		 * confirmation text
-		 */
-		confirmText: {
-			type: String,
-			required: false,
-			default: 'confirm',
-		},
-		/**
-		 * cancel text
-		 */
-		cancelText: {
-			type: String,
-			required: false,
-			default: 'cancel',
-		},
-		/**
-		 * modal width
-		 */
-		width: {
-			type: Number,
-			required: false,
-			default: 470,
-		},
-	},
-	data() {
-		return {};
-	},
-};
+);
+
+const emit = defineEmits(['confirm', 'cancel']);
 </script>
 
 <style lang="scss">

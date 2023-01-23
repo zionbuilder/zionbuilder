@@ -1,7 +1,7 @@
 <template>
 	<Modal
 		v-if="activeSaveElement.type"
-		:title="$translate('save_to_library')"
+		:title="i18n.__('Save to library', 'zionbuilder')"
 		append-to="body"
 		:width="560"
 		:show-maximize="false"
@@ -14,10 +14,10 @@
 
 			<div class="znpb-modal-content-save-buttons">
 				<Button class="znpb-button--secondary" @click="saveElement">
-					<span>{{ $translate('save') }}</span>
+					<span>{{ i18n.__('Save', 'zionbuilder') }}</span>
 				</Button>
 				<Button class="znpb-button--line" @click="downloadElement">
-					{{ $translate('download') }}
+					{{ i18n.__('Download', 'zionbuilder') }}
 				</Button>
 			</div>
 			<p
@@ -31,164 +31,147 @@
 	</Modal>
 </template>
 
-<script>
-import { ref, computed } from 'vue';
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+import { ref, computed, onBeforeUnmount } from 'vue';
 import { saveAs } from 'file-saver';
 
 import { useSaveTemplate } from '../composables';
-import { useLibrary } from '/@/common/composables';
-import { exportTemplate } from '/@/common/api';
 import { useContentStore } from '/@/editor/store';
 
-export default {
-	name: 'SaveElementModal',
-	setup() {
-		const { activeSaveElement, hideSaveElement } = useSaveTemplate();
-		const contentStore = useContentStore();
+// Common API
+const { useLibrary } = window.zb.composables;
+const { exportTemplate } = window.zb.api;
 
-		const formModel = ref({});
-		const computedFormModel = computed({
-			get() {
-				return formModel.value;
-			},
-			set(newValue) {
-				formModel.value = null !== newValue ? newValue : {};
-			},
-		});
+const { activeSaveElement, hideSaveElement } = useSaveTemplate();
+const contentStore = useContentStore();
 
-		return {
-			activeSaveElement,
-			hideSaveElement,
-			formModel,
-			computedFormModel,
-			contentStore,
-		};
+const formModel = ref({});
+const computedFormModel = computed({
+	get() {
+		return formModel.value;
 	},
-
-	data() {
-		return {
-			loading: false,
-			loadingMessage: false,
-			errorMessage: '',
-		};
+	set(newValue) {
+		formModel.value = null !== newValue ? newValue : {};
 	},
+});
 
-	computed: {
-		optionsSchema() {
-			return {
-				title: {
-					type: 'text',
-					title: this.$translate('choose_title'),
-					description: this.$translate('save_title_desc'),
-				},
-			};
+// Refs
+const loading = ref(false);
+const loadingMessage = ref('');
+const errorMessage = ref('');
+
+// Computed
+const optionsSchema = computed(() => {
+	return {
+		title: {
+			type: 'text',
+			title: i18n.__('Choose a title', 'zionbuilder'),
+			description: i18n.__('Write a suggestive name for your element', 'zionbuilder'),
 		},
-	},
-	beforeUnmount() {
-		this.loadingMessage = '';
-		this.errorMessage = '';
-	},
-	methods: {
-		saveElement() {
-			const { getSource } = useLibrary();
-			const { element, type } = this.activeSaveElement;
-			const compiledElementData =
-				type === 'template'
-					? this.contentStore.getAreaContentAsJSON(window.ZnPbInitialData.page_id)
-					: [element.toJSON()];
-			const templateType = type === 'template' ? 'template' : 'block';
+	};
+});
 
-			const localLibrary = getSource('local_library');
+// Lifecycle hooks
+onBeforeUnmount(() => {
+	loadingMessage.value = '';
+	errorMessage.value = '';
+});
 
-			if (!localLibrary) {
-				console.warn(
-					'Local library was not registered. It may be possible that a plugin is removing the default library.',
-				);
-				return;
+// Methods
+function saveElement() {
+	const { getSource } = useLibrary();
+	const { element, type } = activeSaveElement.value;
+	const compiledElementData =
+		type === 'template' ? contentStore.getAreaContentAsJSON(window.ZnPbInitialData.page_id) : [element.toJSON()];
+	const templateType = type === 'template' ? 'template' : 'block';
+
+	const localLibrary = getSource('local_library');
+
+	if (!localLibrary) {
+		console.warn('Local library was not registered. It may be possible that a plugin is removing the default library.');
+		return;
+	}
+
+	// save template
+	loading.value = true;
+	loadingMessage.value = '';
+	errorMessage.value = '';
+
+	localLibrary
+		.createItem({
+			title: formModel.value.title,
+			template_type: templateType,
+			template_data: compiledElementData,
+		})
+		.then(response => {
+			loadingMessage.value = i18n.__('The template was successfully added to library', 'zionbuilder');
+		})
+		.catch(error => {
+			if (error.response !== undefined) {
+				if (typeof error.response.data === 'string') {
+					errorMessage.value = error.response.data;
+				} else errorMessage.value = arrayBufferToString(error.response.data);
+			} else {
+				// eslint-disable-next-line
+						console.error(error);
+				errorMessage.value = error;
 			}
+		})
+		.finally(() => {
+			loading.value = false;
+			formModel.value = {};
 
-			// save template
-			this.loading = true;
-			this.loadingMessage = '';
-			this.errorMessage = '';
+			setTimeout(() => {
+				loadingMessage.value = false;
+				errorMessage.value = false;
+			}, 3500);
+		});
+}
 
-			localLibrary
-				.createItem({
-					title: this.formModel.title,
-					template_type: templateType,
-					template_data: compiledElementData,
-				})
-				.then(response => {
-					this.loadingMessage = this.$translate('template_was_added');
-				})
-				.catch(error => {
-					if (error.response !== undefined) {
-						if (typeof error.response.data === 'string') {
-							this.errorMessage = error.response.data;
-						} else this.errorMessage = this.arrayBufferToString(error.response.data);
-					} else {
-						// eslint-disable-next-line
-						console.error(error)
-						this.errorMessage = error;
-					}
-				})
-				.finally(() => {
-					this.loading = false;
-					this.formModel = {};
+function decode_utf8(s: string) {
+	return decodeURIComponent(escape(s));
+}
 
-					setTimeout(() => {
-						this.loadingMessage = false;
-						this.errorMessage = false;
-					}, 3500);
-				});
-		},
+function arrayBufferToString(buffer) {
+	const s = String.fromCharCode.apply(null, new Uint8Array(buffer));
 
-		downloadElement() {
-			const { element, type } = this.activeSaveElement;
-			const compiledElementData =
-				type === 'template'
-					? this.contentStore.getAreaContentAsJSON(window.ZnPbInitialData.page_id)
-					: [element.toJSON()];
-			const templateType = type === 'template' ? 'template' : 'block';
+	return decode_utf8(s);
+}
 
-			this.loading = true;
-			this.loadingMessage = '';
-			this.errorMessage = '';
+function downloadElement() {
+	const { element, type } = activeSaveElement.value;
+	const compiledElementData =
+		type === 'template' ? contentStore.getAreaContentAsJSON(window.ZnPbInitialData.page_id) : [element.toJSON()];
+	const templateType = type === 'template' ? 'template' : 'block';
 
-			exportTemplate({
-				title: this.formModel.title,
-				template_type: templateType,
-				template_data: compiledElementData,
-			})
-				.then(response => {
-					const fileName = this.formModel.title && this.formModel.title.length > 0 ? this.formModel.title : 'export';
+	loading.value = true;
+	loadingMessage.value = '';
+	errorMessage.value = '';
 
-					var blob = new Blob([response.data], { type: 'application/zip' });
-					saveAs(blob, `${fileName}.zip`);
-					this.loadingMessage = '';
-					this.hideSaveElement();
-				})
-				.catch(error => {
-					if (typeof error.response.data === 'string') {
-						this.errorMessage = error.response.data;
-					} else this.errorMessage = this.arrayBufferToString(error.response.data);
-				})
-				.finally(() => {
-					this.loading = false;
-					this.formModel = {};
-				});
-		},
-		decode_utf8(s) {
-			let obj = JSON.parse(s);
-			return decodeURIComponent(escape(obj.message));
-		},
-		arrayBufferToString(buffer) {
-			var s = String.fromCharCode.apply(null, new Uint8Array(buffer));
+	exportTemplate({
+		title: formModel.value.title,
+		template_type: templateType,
+		template_data: compiledElementData,
+	})
+		.then(response => {
+			const fileName = formModel.value.title && formModel.value.title.length > 0 ? formModel.value.title : 'export';
 
-			return this.decode_utf8(s);
-		},
-	},
-};
+			const blob = new Blob([response.data], { type: 'application/zip' });
+			saveAs(blob, `${fileName}.zip`);
+			loadingMessage.value = '';
+			hideSaveElement();
+		})
+		.catch(error => {
+			if (typeof error.response.data === 'string') {
+				errorMessage.value = error.response.data;
+			} else errorMessage.value = arrayBufferToString(error.response.data);
+		})
+		.finally(() => {
+			loading.value = false;
+			formModel.value = {};
+		});
+}
 </script>
 <style lang="scss">
 .znpb-modal-content-save-buttons {

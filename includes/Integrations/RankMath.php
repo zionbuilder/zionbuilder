@@ -4,6 +4,7 @@ namespace ZionBuilder\Integrations;
 
 use ZionBuilder\Plugin;
 use ZionBuilder\CommonJS;
+use ZionBuilder\Nonces;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -59,7 +60,7 @@ class RankMath implements IBaseIntegration {
 
 			Plugin::instance()->scripts->enqueue_script(
 				'zb-rankmath',
-				'js/integrations/rankmath.js',
+				'integrations/rankmath',
 				[
 					'wp-hooks',
 					'rank-math-analyzer',
@@ -67,6 +68,16 @@ class RankMath implements IBaseIntegration {
 				Plugin::instance()->get_version(),
 				true
 			);
+
+			wp_localize_script(
+				'zb-rankmath',
+				'ZnRestConfig',
+				[
+					'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
+					'rest_root' => esc_url_raw( rest_url() ),
+				]
+			);
+
 		}
 	}
 }

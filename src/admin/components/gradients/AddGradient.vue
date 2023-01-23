@@ -1,15 +1,14 @@
 <template>
 	<div class="znpb-admin-gradient-preset-box__empty">
 		<Icon icon="plus" />
-		<div>{{$translate('add_gradient')}}</div>
+		<div>{{ i18n.__('Add Gradient', 'zionbuilder') }}</div>
 	</div>
 </template>
-<script>
-export default {
-	name: 'AddGradient'
-}
 
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 </script>
+
 <style lang="scss">
 .znpb-admin-gradient-preset-box__empty {
 	display: flex;

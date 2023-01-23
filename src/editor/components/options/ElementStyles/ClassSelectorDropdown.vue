@@ -1,378 +1,320 @@
 <template>
-	<div class="znpb-class-selector">
-		<Tooltip
-			trigger="null"
-			:show="dropdownState"
-			placement="bottom-start"
-			tooltip-class="znpb-class-selector__popper"
-			:show-arrows="false"
-		>
-			<template #content>
-				<div v-if="!allow_class_assignments">
-					{{ $translate('add_class_assignment_not_allowed') }}
-				</div>
-				<div
-					v-else
-					ref="dropDownWrapper"
-					class="znpb-class-selector-body"
-					tabindex="0"
-					@keydown.down="onKeyDown"
-					@keydown.up="onKeyUp"
-					@keydown.enter="onKeyEnter"
-					@keydown.esc.stop="dropdownState = false"
-				>
-					<div class="znpb-search-wrapper">
-						<BaseInput
-							ref="input"
-							:modelValue="keyword"
-							:filterable="true"
-							:clearable="true"
-							:placeholder="$translate('enter_class_name')"
-							@update:modelValue="handleClassInput"
-							@keydown.enter.stop="addNewCssClass"
-						></BaseInput>
-						<Button type="line" class="znpb-class-selector__add-class-button" @click="addNewCssClass">
-							{{ $translate('add_class') }}
-						</Button>
-					</div>
-
-					<template v-if="filteredClasses.length > 0">
-						<CssSelector
-							v-for="cssClassItem in filteredClasses"
-							:key="cssClassItem.selector"
-							:class-config="cssClassItem"
-							:name="cssClassItem.name"
-							:type="cssClassItem.type"
-							:is-selected="cssClassItem.selector === activeClass"
-							:show-delete="cssClassItem.deletable"
-							@remove-class="removeClass"
-							@click="selectClass(cssClassItem.selector), (dropdownState = false)"
-							@copy-styles="onCopyStyles(cssClassItem)"
-							@paste-styles="onPasteStyles(cssClassItem)"
-						/>
-					</template>
-					<div v-if="!errorMessage && filteredClasses.length === 0" class="znpb-class-selector-noclass">
-						{{ $translate('no_class_found') }}
-					</div>
-					<div v-if="invalidClass" class="znpb-class-selector-validator">{{ errorMessage }}</div>
-				</div>
-			</template>
-
+	<div ref="root" class="znpb-class-selector">
+		<div>
 			<CssSelector
-				v-bind="activeClassConfig"
-				:class-config="activeClassConfig"
+				class="znpb-class-selector-trigger"
 				:show-delete="false"
 				:show-actions="false"
-				class="znpb-class-selector-trigger"
-				:show-changes-bullet="showRemoveExtraClasses"
+				:name="name"
+				:type="activeGlobalClass ? 'class' : 'id'"
 				@click="dropdownState = !dropdownState"
-				@remove-extra-classes="onRemoveExtraClasses"
+				@copy-styles="onCopyStyles"
+				@paste-styles="onPasteStyles"
 			/>
-		</Tooltip>
+		</div>
+
+		<div v-if="dropdownState" ref="dropDownWrapperRef" class="hg-popper znpb-class-selector__popper">
+			<div v-if="!allowClassAssignment">
+				{{ i18n.__('Class assignments not allowed', 'zionbuilder') }}
+			</div>
+			<div
+				v-else
+				ref="dropDownWrapper"
+				class="znpb-class-selector-body"
+				tabindex="0"
+				@keydown.down="onKeyDown"
+				@keydown.up="onKeyUp"
+				@keydown.enter="onKeyEnter"
+				@keydown.esc.stop="dropdownState = false"
+			>
+				<div class="znpb-search-wrapper">
+					<BaseInput
+						ref="inputRef"
+						:modelValue="keyword"
+						:filterable="true"
+						:clearable="true"
+						:placeholder="i18n.__('Enter class name', 'zionbuilder')"
+						@update:modelValue="handleClassInput($event as string)"
+						@keydown.enter.stop="addNewCssClass"
+					></BaseInput>
+					<Button type="line" class="znpb-class-selector__add-class-button" @click="addNewCssClass">
+						{{ i18n.__('Add Class', 'zionbuilder') }}
+					</Button>
+				</div>
+
+				<template v-if="filteredClasses.length > 0">
+					<CssSelector
+						v-for="cssClassItem in filteredClasses"
+						:key="cssClassItem.name"
+						:name="cssClassItem.name"
+						:type="cssClassItem.type"
+						:show-delete="cssClassItem.deletable"
+						:is-selected="cssClassItem.selected"
+						@remove-class="removeClass(cssClassItem)"
+						@click="selectClass(cssClassItem), (dropdownState = false)"
+						@copy-styles="onCopyStyles(cssClassItem)"
+						@paste-styles="onPasteStyles(cssClassItem)"
+					/>
+				</template>
+				<div v-if="errorMessage.length === 0 && filteredClasses.length === 0" class="znpb-class-selector-noClass">
+					{{
+						i18n.__('No class found. Press "Add class" to create a new class and assign it to the element.', 'zionbuilder')
+					}}
+				</div>
+				<div v-if="invalidClass" class="znpb-class-selector-validator">{{ errorMessage }}</div>
+			</div>
+		</div>
 	</div>
 </template>
 
-<script>
-import { computed } from 'vue';
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+import { computed, ref, watch, nextTick, onBeforeUnmount, Ref } from 'vue';
 import CssSelector from './CssSelector.vue';
-import { useCSSClassesStore } from '../../../store';
+import { useCSSClassesStore } from '/@/editor/store';
+import { type BaseInput } from '@zb/components';
 
-export default {
-	name: 'ClassSelectorDropdown',
-	components: {
-		CssSelector,
+type SelectorConfig = {
+	type: 'class' | 'id';
+	name: string;
+	deletable: boolean;
+	selected: boolean;
+};
+
+const props = withDefaults(
+	defineProps<{
+		element: ZionElement;
+		activeGlobalClass: string | null;
+		name: string;
+		allowClassAssignment?: boolean;
+		assignedClasses: string[];
+		activeStyleElementId: string;
+	}>(),
+	{
+		allowClassAssignment: true,
 	},
-	props: {
-		selector: {
-			type: String,
-			required: true,
-		},
-		modelValue: {
-			type: Array,
-		},
-		title: {
-			type: String,
-		},
-		activeClass: {
-			type: String,
-			required: true,
-		},
-		allow_class_assignments: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-		activeModelValue: {
-			type: Object,
-			required: false,
-			default: {},
-		},
-	},
-	setup(props, { emit }) {
-		const cssClasses = useCSSClassesStore();
-		const showRemoveExtraClasses = computed(() => {
-			return props.modelValue && props.modelValue.length > 0;
+);
+
+const emit = defineEmits([
+	'update:activeClass',
+	'remove-class',
+	'add-class',
+	'update:activeGlobalClass',
+	'paste-styles',
+]);
+
+const cssClasses = useCSSClassesStore();
+
+// Refs
+const errorMessage = ref('');
+const invalidClass = ref(false);
+const focusClassIndex = ref(0);
+const root: Ref<HTMLElement | null> = ref(null);
+const inputRef: Ref<typeof BaseInput | null> = ref(null);
+const dropDownWrapperRef: Ref<HTMLElement | null> = ref(null);
+const dropdownState = ref(false);
+const keyword = ref('');
+
+const filteredClasses = computed(() => {
+	if (keyword.value.length === 0) {
+		const extraClasses: SelectorConfig[] = [
+			{
+				type: 'id',
+				name: props.activeStyleElementId,
+				deletable: false,
+				selected: props.activeGlobalClass === null,
+			},
+		];
+
+		props.assignedClasses.forEach(cssClass => {
+			const className = cssClasses.CSSClasses.find(({ id }) => id === cssClass);
+
+			if (className) {
+				extraClasses.push({
+					type: 'class',
+					name: cssClass,
+					deletable: true,
+					selected: props.activeGlobalClass === cssClass,
+				});
+			}
 		});
 
-		function onCopyStyles(selectorConfig) {
-			// If this is a
-			if (selectorConfig.type === 'class') {
-				// Get the class config
-				const stylesConfig = cssClasses.getStylesConfig(selectorConfig.selector);
-				cssClasses.copyClassStyles(stylesConfig);
-			} else {
-				// Get the config from id
-				cssClasses.copyClassStyles(props.activeModelValue);
-			}
-		}
-
-		function onPasteStyles(selectorConfig) {
-			// If this is a
-			if (selectorConfig.type === 'class') {
-				// Get the class config
-				cssClasses.pasteClassStyles(selectorConfig.selector);
-			} else {
-				// Get the config from id
-				emit('paste-style-model');
-			}
-		}
-
-		return {
-			showRemoveExtraClasses,
-			cssClasses,
-
-			// Methods
-			onCopyStyles,
-			onPasteStyles,
-		};
-	},
-	data() {
-		return {
-			dropdownState: false,
-			errorMessage: null,
-			keyword: '',
-			invalidClass: false,
-			focusClassIndex: 0,
-		};
-	},
-	computed: {
-		computedValue: {
-			get() {
-				return this.modelValue;
-			},
-			set(newValue) {
-				this.$emit('update:modelValue', newValue);
-			},
-		},
-		computedSelectorConfig() {
+		return extraClasses;
+	} else {
+		return cssClasses.getClassesByFilter(keyword.value).map((selectorConfig): SelectorConfig => {
 			return {
-				type: 'selector',
-				selector: this.selector,
-				name: this.title,
+				type: 'class',
+				name: selectorConfig.name,
 				deletable: false,
+				selected: false,
 			};
-		},
-		invalidClassReset() {
-			return this.keyword.length > 0;
-		},
-		activeClassConfig() {
-			if (this.activeClass !== this.selector) {
-				let that = this;
-				let className = this.cssClasses.CSSClasses.find(({ id }) => id === that.activeClass);
-				return {
-					type: 'class',
-					name: className ? className.name : that.activeClass,
-				};
-			} else {
-				return this.computedSelectorConfig;
+		});
+	}
+});
+
+function removeClass(selectorConfig: SelectorConfig) {
+	emit('remove-class', selectorConfig.name);
+
+	// clear the keyword
+	keyword.value = '';
+	errorMessage.value = '';
+}
+
+function selectClass(selectorConfig: SelectorConfig) {
+	if (selectorConfig.type === 'id') {
+		emit('update:activeGlobalClass', null);
+	} else {
+		// Check to see if we need to add the class to the element
+		emit('add-class', selectorConfig.name);
+	}
+
+	nextTick(() => {
+		focusClassIndex.value = filteredClasses.value.findIndex(item => item.name === selectorConfig.name);
+	});
+}
+
+function addNewCssClass() {
+	if (!invalidClass.value && keyword.value.length) {
+		dropdownState.value = false;
+
+		// check if the class already exists
+		const existingClass = cssClasses.CSSClasses.find(classItem => {
+			return classItem.name.toLowerCase() === keyword.value;
+		});
+
+		if (!existingClass) {
+			cssClasses.addCSSClass({
+				id: keyword.value,
+				name: keyword.value,
+			});
+		}
+
+		// Add css class to element options
+		emit('add-class', keyword.value);
+
+		// clear the keyword
+		keyword.value = '';
+	}
+}
+
+function handleClassInput(newCssClass: string) {
+	keyword.value = newCssClass;
+
+	// Add new class to store
+	if (!/-?[_a-zA-Z]+[_a-zA-Z0-9-]*/i.test(keyword.value)) {
+		errorMessage.value = 'Invalid class name, classes must not start with numbers and cannot contain spaces';
+		invalidClass.value = true;
+	} else {
+		invalidClass.value = false;
+		errorMessage.value = '';
+	}
+
+	if (!keyword.value.length) {
+		errorMessage.value = '';
+		invalidClass.value = false;
+	}
+}
+
+function onCopyStyles(selectorConfig: SelectorConfig) {
+	// If this is a
+	if (selectorConfig.type === 'class') {
+		// Get the class config
+		const stylesConfig = cssClasses.getStylesConfig(selectorConfig.name);
+		cssClasses.copyClassStyles(stylesConfig);
+	} else {
+		// Get the config from id
+		cssClasses.copyClassStyles(props.element.getOptionValue(`_styles.${props.activeStyleElementId}.styles`, {}));
+	}
+}
+
+function onPasteStyles(selectorConfig: SelectorConfig) {
+	// If this is a
+	if (selectorConfig.type === 'class') {
+		// Get the class config
+		cssClasses.pasteClassStyles(selectorConfig.name);
+	} else {
+		// Get the config from id
+		emit('paste-styles');
+	}
+}
+
+// Watchers
+watch(dropdownState, newState => {
+	if (newState) {
+		document.addEventListener('click', closePanel);
+
+		nextTick(() => {
+			if (inputRef.value) {
+				// Element not focused on next tick alone
+				inputRef.value.focus();
 			}
-		},
-		filteredClasses() {
-			if (this.keyword.length === 0) {
-				let extraClasses = [];
-				this.computedValue.forEach(selector => {
-					let className = this.cssClasses.CSSClasses.find(({ id }) => id === selector);
+		});
 
-					if (className) {
-						extraClasses.push({
-							type: 'class',
-							selector,
-							name: className ? className.name : selector,
-							deletable: true,
-						});
-					}
-				});
+		keyword.value = '';
+	} else {
+		document.removeEventListener('click', closePanel);
+		errorMessage.value = '';
+		focusClassIndex.value = 0;
+	}
+});
 
-				return [this.computedSelectorConfig, ...extraClasses];
-			} else {
-				return this.cssClasses.getClassesByFilter(this.keyword).map(selectorConfig => {
-					return {
-						type: 'class',
-						selector: selectorConfig.id,
-						name: selectorConfig.name,
-					};
-				});
-			}
-		},
-	},
-	watch: {
-		dropdownState: function (newState, oldState) {
-			if (newState) {
-				document.addEventListener('click', this.closePanel);
+onBeforeUnmount(() => {
+	document.removeEventListener('click', closePanel);
+});
 
-				this.$nextTick(() => {
-					if (this.$refs.input) {
-						// Element not focused on nect tick alone
-						setTimeout(() => {
-							this.$refs.input.focus();
-						}, 50);
-					}
-				});
+// Methods
+function onKeyDown() {
+	let nextClass;
 
-				this.keyword = '';
-			} else {
-				document.removeEventListener('click', this.closePanel);
-				this.errorMessage = null;
-				this.focusClassIndex = 0;
-			}
-		},
-	},
-	beforeUnmount() {
-		document.removeEventListener('click', this.closePanel);
-	},
-	methods: {
-		onKeyDown(event) {
-			let nextClass;
+	if (filteredClasses.value.length > 0) {
+		if (dropDownWrapperRef.value) {
+			dropDownWrapperRef.value.focus();
+		}
 
-			if (this.filteredClasses.length !== 0) {
-				this.$refs.input.blur();
-				this.$refs.dropDownWrapper.focus();
+		if (filteredClasses.value[focusClassIndex.value + 1]) {
+			nextClass = filteredClasses.value[focusClassIndex.value + 1];
+			selectClass(nextClass);
+			focusClassIndex.value = focusClassIndex.value + 1;
+		}
+	}
+}
 
-				if (this.filteredClasses[this.focusClassIndex + 1]) {
-					nextClass = this.filteredClasses[this.focusClassIndex + 1].selector;
-					this.selectClass(nextClass);
-					this.focusClassIndex += 1;
-				}
-			}
-		},
-		onKeyUp(event) {
-			let previousClass;
+function onKeyUp() {
+	let previousClass;
 
-			if (this.filteredClasses.length !== 0) {
-				this.$refs.input.blur();
-				this.$refs.dropDownWrapper.focus();
+	if (filteredClasses.value.length > 0) {
+		if (dropDownWrapperRef.value) {
+			dropDownWrapperRef.value.focus();
+		}
 
-				if (this.filteredClasses[this.focusClassIndex - 1]) {
-					previousClass = this.filteredClasses[this.focusClassIndex - 1].selector;
-					this.selectClass(previousClass);
-					this.focusClassIndex -= 1;
-				}
-			}
-		},
-		onKeyEnter(event) {
-			this.dropdownState = false;
-		},
+		if (filteredClasses.value[focusClassIndex.value - 1]) {
+			previousClass = filteredClasses.value[focusClassIndex.value - 1];
+			selectClass(previousClass);
+			focusClassIndex.value = focusClassIndex.value - 1;
+		}
+	}
+}
 
-		closePanel(event) {
-			if (event.target === document) {
-				this.dropdownState = false;
-				return;
-			}
-			if (
-				!this.$el.contains(event.target) &&
-				event.target.tagName !== 'INPUT' &&
-				!event.target.classList.contains('znpb-class-selector__add-class-button') &&
-				!this.dragOutside
-			) {
-				this.dropdownState = false;
-			}
-		},
+function onKeyEnter() {
+	dropdownState.value = false;
+}
 
-		onRemoveExtraClasses() {
-			this.computedValue = [];
-			this.selectClass(this.selector);
-		},
+function closePanel(event: MouseEvent) {
+	if (event.target === document) {
+		dropdownState.value = false;
+		return;
+	}
 
-		removeClass(selector) {
-			const classIndex = this.computedValue.indexOf(selector);
-			const clonedValue = [...this.computedValue];
-			const previousClassIndex = classIndex - 1;
-			const previousClassSelector = this.computedValue[previousClassIndex];
-
-			clonedValue.splice(classIndex, 1);
-
-			// Update the value
-			this.computedValue = clonedValue;
-
-			// Change active index if this was deleted
-			if (selector === this.activeClass) {
-				const newSelector = previousClassSelector || this.selector;
-				const newSelectorIndex = clonedValue.indexOf(newSelector);
-
-				this.selectClass(newSelector);
-
-				// Add +1 as the main selector is not inside the selectors array
-				this.focusClassIndex = newSelectorIndex !== -1 ? newSelectorIndex + 1 : 0;
-			}
-
-			// clear the keyword
-			this.keyword = '';
-			this.errorMessage = null;
-		},
-		handleClassInput(event) {
-			this.keyword = event;
-
-			// Add new class to store
-			if (!/-?[_a-zA-Z]+[_a-zA-Z0-9-]*/i.test(this.keyword)) {
-				this.errorMessage = 'Invalid class name, classes must not start with numbers and cannot contain spaces';
-				this.invalidClass = true;
-			} else {
-				this.invalidClass = false;
-				this.errorMessage = false;
-			}
-
-			if (!this.keyword.length) {
-				this.errorMessage = false;
-				this.invalidClass = false;
-			}
-		},
-		addNewCssClass(event) {
-			if (!this.invalidClass && this.keyword.length) {
-				this.dropdownState = false;
-
-				// check if the class already exists
-				const existingClass = this.cssClasses.CSSClasses.find(classItem => {
-					return classItem.name.toLowerCase() === this.keyword;
-				});
-
-				if (!existingClass) {
-					this.cssClasses.addCSSClass({
-						id: this.keyword,
-						name: this.keyword,
-					});
-				}
-
-				// Add css class to element options
-				this.selectClass(this.keyword);
-
-				// clear the keyword
-				this.keyword = '';
-			}
-		},
-		selectClass(selector) {
-			// Check to see if we need to add the class to the element
-			if (selector && selector !== this.selector && this.computedValue.indexOf(selector) === -1) {
-				// Make a clone as computed properties with setters are not
-				// triggered by array methods
-				const clonedValue = [...this.computedValue];
-				clonedValue.push(selector);
-				this.computedValue = clonedValue;
-			}
-
-			this.$emit('update:activeClass', selector);
-		},
-	},
-};
+	if (root.value && event.target instanceof Element) {
+		if (
+			!root.value.contains(event.target) &&
+			event.target.tagName !== 'INPUT' &&
+			!event.target.classList.contains('znpb-class-selector__add-class-button')
+		) {
+			dropdownState.value = false;
+		}
+	}
+}
 </script>
 
 <style lang="scss">
@@ -386,7 +328,6 @@ export default {
 	flex: 6;
 	margin-right: 10px;
 	background: var(--zb-input-bg-color);
-	border: 2px solid var(--zb-input-border-color);
 	border-radius: 3px;
 	.selected-class {
 		.znpb-item {
@@ -397,7 +338,7 @@ export default {
 		display: inline-block;
 	}
 
-	&-noclass {
+	&-noClass {
 		padding: 0 15px;
 		line-height: 20px;
 	}
@@ -421,5 +362,11 @@ export default {
 		display: flex;
 		margin-bottom: 10px;
 	}
+}
+
+.znpb-class-selector__popper {
+	position: absolute;
+	left: 0;
+	top: calc(100% + 5px);
 }
 </style>

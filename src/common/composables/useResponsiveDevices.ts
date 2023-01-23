@@ -40,7 +40,7 @@ const deviceSizesConfig = [
 ];
 
 const activeResponsiveDeviceId = ref('default');
-const responsiveDevices = ref<ResponsiveDevice[]>(window.ZnPbComponentsData.breakpoints);
+const responsiveDevices = ref<ResponsiveDevice[]>(window.ZBCommonData.breakpoints);
 
 const activeResponsiveOptions = ref<ActiveResponsiveDevice | null>(null);
 const iframeWidth = ref<number | null>(0);

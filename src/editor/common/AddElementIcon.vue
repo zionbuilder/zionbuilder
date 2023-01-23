@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { translate } from '/@/common/modules/i18n';
+import * as i18n from '@wordpress/i18n';
 import { useUIStore, useUserStore } from '../store';
 import { ref, onBeforeUnmount, onMounted } from 'vue';
 
@@ -35,7 +35,8 @@ const props = withDefaults(
 const root = ref(null);
 const UIStore = useUIStore();
 const userStore = useUserStore();
-const positionString = props.placement === 'inside' ? translate('insert_inside') : translate('insert_after');
+const positionString =
+	props.placement === 'inside' ? i18n.__('Insert inside', 'zionbuilder') : i18n.__('Insert after', 'zionbuilder');
 
 onMounted(() => {
 	if (root.value) {

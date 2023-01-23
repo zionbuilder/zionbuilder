@@ -26,33 +26,37 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { ref, watch, onMounted } from 'vue';
 
-export default {
-	name: 'Counter',
-	props: ['options', 'element', 'api'],
-	setup(props) {
-		const root = ref(null);
+const props = defineProps<{
+	options: {
+		start: number;
+		end: number;
+		duration: number;
+		before: string;
+		after: string;
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
 
-		onMounted(() => {
-			runScript();
-		});
+const root = ref(null);
 
-		watch(
-			() => [props.options.start, props.options.end, props.options.duration].toString(),
-			(newValue, oldValue) => {
-				runScript();
-			},
-		);
+onMounted(() => {
+	runScript();
+});
 
-		function runScript() {
-			new window.zbScripts.counter(root.value);
-		}
-
-		return {
-			root,
-		};
+watch(
+	() => [props.options.start, props.options.end, props.options.duration].toString(),
+	() => {
+		runScript();
 	},
-};
+);
+
+function runScript() {
+	if (root.value) {
+		new window.zbScripts.counter(root.value);
+	}
+}
 </script>

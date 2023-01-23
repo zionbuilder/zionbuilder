@@ -89,7 +89,7 @@
 
 		<div v-if="UIStore.isPreviewLoading" class="znpb-loading-wrapper-gif">
 			<img :src="editorData.urls.loader" />
-			<div class="znpb-loading-wrapper-gif__text">{{ translate('generating_preview') }}</div>
+			<div class="znpb-loading-wrapper-gif__text">{{ i18n.__('Generating preview...', 'zionbuilder') }}</div>
 		</div>
 
 		<!-- Add Elements Popup -->
@@ -106,14 +106,16 @@
 		<div v-if="UIStore.mainBar.isDragging" class="znpb-editor-header__helper" :style="mainBarDraggingPlaceholderStyles">
 			<Icon icon="more" rotate="90" />
 		</div>
+
+		<CornerLoader :is-loading="isSavePageLoading" />
 	</div>
 	<!-- end znpb-main-wrapper -->
 </template>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { ref, provide, computed, onBeforeUnmount, onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { translate } from '/@/common/modules/i18n';
 
 import PanelTree from './components/treeView/PanelTree.vue';
 import PanelGlobalSettings from './components/PanelGlobalSettings.vue';
@@ -132,12 +134,13 @@ import AssetsRegeneration from './components/AssetsRegeneration.vue';
 import { AddElementPopup } from './components/AddElementPopup';
 import { ElementMenu } from './components/ElementMenu';
 import { useKeyBindings, useEditorData, useSavePage } from './composables';
-import { useResponsiveDevices } from '/@/common/composables';
-import { useNotificationsStore, useBuilderOptionsStore } from '/@/common/store';
 import { useUIStore, useCSSClassesStore, usePageSettingsStore, useHistoryStore } from './store';
+import { CornerLoader } from '@zb/components';
 import { serverRequest } from './api';
 
-// WordPress HeartBeat
+// Common API
+const { useNotificationsStore, useBuilderOptionsStore } = window.zb.store;
+const { useResponsiveDevices } = window.zb.composables;
 
 const devicesVisible = ref(false);
 const UIStore = useUIStore();
@@ -174,7 +177,7 @@ const mainBarDraggingPlaceholderStyles = computed(() => {
 
 // General functionality
 const historyStore = useHistoryStore();
-const { saveAutosave } = useSavePage();
+const { saveAutosave, isSavePageLoading } = useSavePage();
 let canAutosave = true;
 
 watch(
@@ -196,14 +199,6 @@ provide('builderOptions', useBuilderOptionsStore);
 provide('serverRequester', serverRequest);
 provide('masks', editorData.value.masks);
 provide('plugin_info', editorData.value.plugin_info);
-
-// Add notices
-const { add } = useNotificationsStore();
-add({
-	message: translate('autosave_notice'),
-	type: 'info',
-	delayClose: 5000,
-});
 
 const showEditorButtonStyle = computed(() => {
 	let buttonStyle;

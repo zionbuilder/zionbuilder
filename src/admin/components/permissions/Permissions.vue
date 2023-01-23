@@ -6,30 +6,35 @@
 				<Loader v-if="loading" />
 				<template v-else>
 					<div class="znpb-admin-role-manager-wrapper">
-						<h3>{{ $translate('role_manager') }}</h3>
+						<h3>{{ i18n.__('Role manager', 'zionbuilder') }}</h3>
 						<SingleRole v-for="(role, i) in dataSets.user_roles" :key="i" :role="role" />
 					</div>
 				</template>
 				<template #right>
 					<p class="znpb-admin-info-p">
-						{{ $translate('manage_users_permissions') }}
+						{{
+							i18n.__(
+								'Manage the permissions by selecting which users are allowed to use the page builder. Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder.',
+								'zionbuilder',
+							)
+						}}
 					</p>
 				</template>
 			</PageTemplate>
 
 			<PageTemplate>
 				<UpgradeToPro
-					v-if="!isPro"
+					v-if="!is_pro_active"
 					:info-text="proLink"
-					:message_title="$translate('manage_users_permissions_title')"
-					:message_description="$translate('manage_users_permissions_free')"
+					:message_title="i18n.__('specific users control', 'zionbuilder')"
+					:message_description="i18n.__('Want to give control to specific users?', 'zionbuilder')"
 				/>
 				<template v-else-if="!loading">
 					<div class="znpb-admin-user-specific-wrapper">
-						<h3>{{ $translate('user_specific') }}</h3>
+						<h3>{{ i18n.__('User specific permissions', 'zionbuilder') }}</h3>
 
 						<EmptyList v-if="Object.entries(userPermissions).length === 0" @click="showModal = true">{{
-							$translate('no_user_added')
+							i18n.__('no user added yet', 'zionbuilder')
 						}}</EmptyList>
 
 						<SingleUser
@@ -42,13 +47,13 @@
 					<div class="znpb-admin-user-specific-actions">
 						<Button type="secondary" @click="showModal = true">
 							<span class="znpb-add-element-icon"></span>
-							{{ $translate('add_user') }}
+							{{ i18n.__('Add a User', 'zionbuilder') }}
 						</Button>
 						<Modal
 							v-model:show="showModal"
 							class="znpb-admin-permissions-modal"
 							:width="560"
-							:title="$translate('add_user')"
+							:title="i18n.__('Add a User', 'zionbuilder')"
 							:show-backdrop="false"
 						>
 							<AddUserModalContent @close-modal="showModal = false" />
@@ -57,7 +62,12 @@
 				</template>
 				<template #right>
 					<p class="znpb-admin-info-p">
-						{{ $translate('manage_wordpress_users_permissions') }}
+						{{
+							i18n.__(
+								'Manage your wordpress users permissions. Adding a new user will allow the basic permissions which can be edited afterwards.',
+								'zionbuilder',
+							)
+						}}
 					</p>
 				</template>
 			</PageTemplate>
@@ -65,56 +75,38 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
-import { useBuilderOptionsStore, useUsersStore, useDataSetsStore } from '/@/common/store';
+import { useEnvironmentStore } from '@zb/store';
 
 // Components
 import SingleRole from './SingleRole.vue';
 import SingleUser from './SingleUser.vue';
 import AddUserModalContent from './AddUserModalContent.vue';
 
-export default {
-	name: 'Permissions',
-	components: {
-		SingleRole,
-		SingleUser,
-		AddUserModalContent,
-	},
-	setup() {
-		const isPro = window.ZnPbAdminPageData.is_pro_active;
-		const { fetchUsersData } = useUsersStore();
-		const { getOptionValue } = useBuilderOptionsStore();
+const { is_pro_active } = useEnvironmentStore();
+const { fetchUsersData } = window.zb.store.useUsersStore();
+const { getOptionValue } = window.zb.store.useBuilderOptionsStore();
 
-		const { dataSets } = storeToRefs(useDataSetsStore());
-		const userPermissions = getOptionValue('users_permissions');
+const { dataSets } = storeToRefs(window.zb.store.useDataSetsStore());
+const userPermissions = getOptionValue('users_permissions');
 
-		const loading = ref(true);
-		const showModal = ref(false);
-		const proLink = ref(null);
+const loading = ref(true);
+const showModal = ref(false);
+const proLink = ref(null);
 
-		// Fetch system information from rest api
-		const userIds = Object.keys(userPermissions);
+// Fetch system information from rest api
+const userIds = Object.keys(userPermissions);
 
-		if (userIds.length > 0) {
-			fetchUsersData(userIds).finally(() => {
-				loading.value = false;
-			});
-		} else {
-			loading.value = false;
-		}
-
-		return {
-			isPro,
-			dataSets,
-			userPermissions,
-			loading,
-			showModal,
-			proLink,
-		};
-	},
-};
+if (userIds.length > 0) {
+	fetchUsersData(userIds).finally(() => {
+		loading.value = false;
+	});
+} else {
+	loading.value = false;
+}
 </script>
 
 <style lang="scss">

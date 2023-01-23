@@ -23,14 +23,16 @@
 
 <script>
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
-import { addAction, removeAction } from '/@/common/modules/hooks';
 import { each } from 'lodash-es';
 
 import { useKeyBindings, useSavePage, useEditorData, useWindows } from '../composables';
-import { useResponsiveDevices } from '/@/common/composables';
 import { useUIStore, useContentStore, useElementDefinitionsStore, useHistoryStore } from '../store';
 
 import PreviewApp from '/@/preview/PreviewApp.vue';
+
+// Common API
+const { useResponsiveDevices } = window.zb.composables;
+const { addAction, removeAction } = window.zb.hooks;
 
 export default {
 	name: 'PreviewIframe',
@@ -83,7 +85,7 @@ export default {
 		});
 
 		const deviceStyle = computed(() => {
-			let styles = {};
+			const styles = {};
 
 			return styles;
 		});
@@ -148,7 +150,7 @@ export default {
 
 		// Watch for container width change and set the new width
 		const containerResizeObserver = new ResizeObserver(entries => {
-			for (let entry of entries) {
+			for (const entry of entries) {
 				if (entry.contentBoxSize) {
 					// Firefox implements `contentBoxSize` as a single content rect, rather than an array
 					const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize;
@@ -167,7 +169,7 @@ export default {
 		});
 
 		const iframeResizeObserver = new ResizeObserver(entries => {
-			for (let entry of entries) {
+			for (const entry of entries) {
 				if (entry.contentBoxSize) {
 					// Firefox implements `contentBoxSize` as a single content rect, rather than an array
 					const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize;
@@ -239,7 +241,7 @@ export default {
 		});
 
 		const pointerEvents = computed(() => {
-			let style = {};
+			const style = {};
 
 			if (UIStore.iFrame.pointerEvents) {
 				style.pointerEvents = 'none';
@@ -327,12 +329,16 @@ export default {
 
 			// Expose common methods
 			const elementDefinitionsStore = useElementDefinitionsStore();
+
 			elementDefinitionsStore.setCategories(iframeWindow.ZnPbInitialData.elements_categories);
 			elementDefinitionsStore.addElements(iframeWindow.ZnPbInitialData.elements_data);
 
 			// Register the document
 			this.addWindow('preview', iframeWindow);
 			this.attachIframeEvents();
+
+			// Setup connector
+			iframeWindow.zb = window.zb;
 
 			// Set preview data
 			// Render the app

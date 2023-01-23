@@ -17,9 +17,9 @@
 			/>
 
 			<template #actions>
-				<span v-if="!showPresetInput" class="znpb-gradient__show-preset" @click="showPresetInput = true">{{
-					$translate('save_to_library')
-				}}</span>
+				<span v-if="!showPresetInput" class="znpb-gradient__show-preset" @click="showPresetInput = true">
+					{{ i18n.__('Save to library', 'zionbuilder') }}</span
+				>
 
 				<PresetInput v-else @save-preset="addGlobalPattern" @cancel="showPresetInput = false" />
 
@@ -69,7 +69,8 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, computed, inject, nextTick } from 'vue';
+import * as i18n from '@wordpress/i18n';
+import { ref, computed, nextTick } from 'vue';
 import { getDefaultGradient } from '../../utils/';
 import Icon from '../Icon/Icon.vue';
 import GradientBoard from './GradientBoard.vue';

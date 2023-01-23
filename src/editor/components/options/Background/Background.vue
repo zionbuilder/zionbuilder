@@ -4,11 +4,6 @@
 			<template #title>
 				<Icon icon="drop" />
 			</template>
-			<!-- <InputBackgroundColor
-				:modelValue="valueModel['background-color']"
-				:delete-value="onDeleteOption"
-				@update:modelValue="onOptionUpdate('background-color', $event)"
-			/> -->
 
 			<OptionWrapper
 				:schema="bgColorSchema"
@@ -53,103 +48,80 @@
 	</Tabs>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { computed } from 'vue';
-import { useResponsiveDevices, usePseudoSelectors } from '/@/common/composables';
 
 // Components
-import { BackgroundColor as InputBackgroundColor } from '../BackgroundColor';
+const { useResponsiveDevices, usePseudoSelectors } = window.zb.composables;
 
-export default {
-	name: 'Background',
-	components: {
-		InputBackgroundColor,
+const props = withDefaults(
+	defineProps<{
+		modelValue: Record<string, unknown>;
+		placeholder?: Record<string, unknown>;
+	}>(),
+	{
+		placeholder: () => ({}),
 	},
-	inject: {
-		panel: {
-			default: null,
-		},
-	},
-	props: {
-		modelValue: {},
-		placeholder: {
-			type: Object,
-			required: false,
-			default: {},
-		},
-	},
-	setup(props, { emit }) {
-		const { activeResponsiveDeviceInfo } = useResponsiveDevices();
-		const { activePseudoSelector } = usePseudoSelectors();
+);
 
-		const valueModel = computed({
-			get() {
-				return props.modelValue || {};
-			},
-			set(newValue) {
-				emit('update:modelValue', newValue);
-			},
-		});
-
-		const canShowBackground = computed(
-			() => activeResponsiveDeviceInfo.value.id === 'default' && activePseudoSelector.value.id === 'default',
-		);
-
-		const bgColorSchema = computed(() => {
-			return {
-				id: 'background-color',
-				type: 'background_color',
-				placeholder: props.placeholder ? props.placeholder['background-color'] : null,
-			};
-		});
-
-		return {
-			activeResponsiveDeviceInfo,
-			activePseudoSelector,
-			valueModel,
-			canShowBackground,
-			bgColorSchema,
-		};
-	},
-
-	data() {
-		return {
-			bgGradientSchema: {
-				id: 'background-gradient',
-				type: 'background_gradient',
-			},
-		};
-	},
-	methods: {
-		onDeleteOption(optionId) {
-			const newValues = {
-				...this.modelValue,
-			};
-
-			delete newValues[optionId];
-			this.valueModel = newValues;
-		},
-		onOptionUpdate(optionId, newValue) {
-			const clonedValue = { ...this.modelValue };
-			if (optionId) {
-				if (newValue === null) {
-					// If this is used as layout, we need to delete the active pseudo selector
-					delete clonedValue[optionId];
-				} else {
-					clonedValue[optionId] = newValue;
-				}
-
-				this.valueModel = clonedValue;
-			} else {
-				if (newValue === null) {
-					this.$emit('update:modelValue', null);
-				} else {
-					this.valueModel = newValue;
-				}
-			}
-		},
-	},
+const emit = defineEmits(['update:modelValue']);
+const bgGradientSchema = {
+	id: 'background-gradient',
+	type: 'background_gradient',
 };
+
+const { activeResponsiveDeviceInfo } = useResponsiveDevices();
+const { activePseudoSelector } = usePseudoSelectors();
+
+const valueModel = computed({
+	get() {
+		return props.modelValue || {};
+	},
+	set(newValue) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+const canShowBackground = computed(
+	() => activeResponsiveDeviceInfo.value.id === 'default' && activePseudoSelector.value.id === 'default',
+);
+
+const bgColorSchema = computed(() => {
+	return {
+		id: 'background-color',
+		type: 'background_color',
+		placeholder: props.placeholder ? props.placeholder['background-color'] : null,
+	};
+});
+
+function onDeleteOption(optionId: string) {
+	const newValues = {
+		...props.modelValue,
+	};
+
+	delete newValues[optionId];
+	valueModel.value = newValues;
+}
+
+function onOptionUpdate(optionId: string | null, newValue: Record<string, unknown>) {
+	const clonedValue = { ...props.modelValue };
+	if (optionId) {
+		if (newValue === null) {
+			// If this is used as layout, we need to delete the active pseudo selector
+			delete clonedValue[optionId];
+		} else {
+			clonedValue[optionId] = newValue;
+		}
+
+		valueModel.value = clonedValue;
+	} else {
+		if (newValue === null) {
+			emit('update:modelValue', null);
+		} else {
+			valueModel.value = newValue;
+		}
+	}
+}
 </script>
 
 <style lang="scss">

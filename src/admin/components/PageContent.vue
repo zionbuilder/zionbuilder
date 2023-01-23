@@ -16,35 +16,34 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'PageContent',
-	data() {
-		return {
-			responsiveOpen: false,
-		};
-	},
-	computed: {
-		basePathConfig() {
-			if (this.$route.matched.length > 0) {
-				const path = this.$route.matched[0].path;
-				return this.$router.options.routes.find(route => route.path === path);
-			}
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
-			return false;
-		},
-		basePath() {
-			return this.basePathConfig ? this.basePathConfig.path : false;
-		},
-		childMenus() {
-			if (this.basePathConfig) {
-				if (this.basePathConfig.children.length > 0) {
-					return this.basePathConfig.children;
-				}
-			}
+const responsiveOpen = ref(false);
 
-			return [];
-		},
-	},
-};
+const basePathConfig = computed(() => {
+	const currentRoute = useRoute();
+	const router = useRouter();
+	const routes = router.getRoutes();
+
+	if (currentRoute.matched.length > 0) {
+		const path = currentRoute.matched[0].path;
+		return routes.find(route => route.path === path) || false;
+	}
+
+	return false;
+});
+
+const basePath = computed(() => {
+	return basePathConfig.value ? basePathConfig.value.path : false;
+});
+
+const childMenus = computed(() => {
+	if (basePathConfig.value !== false && basePathConfig.value.children) {
+		return basePathConfig.value.children;
+	}
+
+	return [];
+});
 </script>

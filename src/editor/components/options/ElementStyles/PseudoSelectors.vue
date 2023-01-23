@@ -8,20 +8,15 @@
 			{{ activePseudoSelector.name }}
 		</span>
 
-		<Tooltip
+		<Icon
 			v-if="hasContent"
-			:trigger="null"
-			:show="showContentTooltip"
-			:content="$translate('add_pseudo_content')"
-			placement="top"
-		>
-			<Icon
-				icon="edit"
-				:size="12"
-				class="znpb-pseudo-selector__edit"
-				@click.stop="(contentOpen = !contentOpen), (selectorIsOpen = false)"
-			/>
-		</Tooltip>
+			v-znpb-tooltip="i18n.__('Click to add content for pseudo selector.', 'zionbuilder')"
+			icon="edit"
+			:size="12"
+			class="znpb-pseudo-selector__edit"
+			@click.stop="(contentOpen = !contentOpen), (selectorIsOpen = false)"
+		/>
+
 		<Tooltip
 			:show-arrows="false"
 			:show="selectorIsOpen"
@@ -72,273 +67,234 @@
 			@click.stop=""
 		>
 			<BaseInput
-				ref="newpseudoInput"
+				ref="pseudoNameInputRef"
 				v-model="newPseudoModel"
 				:clearable="true"
-				:placeholder="$translate('new_pseudo')"
+				:placeholder="i18n.__('Add new pseudo-selector ex: :hover::before ', 'zionbuilder')"
 				@keypress.enter="createNewPseudoSelector"
 			/>
 		</div>
 	</div>
 </template>
 
-<script>
-import { computed, ref, onBeforeUnmount } from 'vue';
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+import { computed, ref, onBeforeUnmount, watch, nextTick } from 'vue';
 import { cloneDeep, set, find } from 'lodash-es';
-import { useResponsiveDevices, usePseudoSelectors } from '/@/common/composables';
-import { useEditorData } from '../../../composables';
 
 // Components
 import PseudoDropdownItem from './PseudoDropdownItem.vue';
 
-export default {
-	name: 'PseudoSelectors',
-	components: {
-		PseudoDropdownItem,
+const { useResponsiveDevices, usePseudoSelectors } = window.zb.composables;
+
+const props = defineProps({
+	modelValue: {
+		type: [Object, Array],
+		required: false,
+		default: {},
 	},
-	props: {
-		modelValue: {
-			type: [Object, Array],
-			required: false,
-			default: {},
-		},
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const { activeResponsiveDeviceInfo } = useResponsiveDevices();
+const { pseudoSelectors, activePseudoSelector, setActivePseudoSelector, deleteCustomSelector, addCustomSelector } =
+	usePseudoSelectors();
+
+// Refs / Data
+const root = ref(null);
+const pseudoNameInputRef = ref(null);
+const pseudoContentInput = ref(null);
+const contentOpen = ref(false);
+const selectorIsOpen = ref(false);
+const showContentTooltip = ref(false);
+const newPseudoName = ref(false);
+const customPseudoName = ref('');
+
+const hasContent = computed(
+	() => activePseudoSelector.value.id === ':before' || activePseudoSelector.value.id === ':after',
+);
+const activePseudoSelectors = computed(() => (props.modelValue || {} || {})[activeResponsiveDeviceInfo.value.id] || {});
+const pseudoStyles = computed(() => (activePseudoSelectors.value || {})[activePseudoSelector.value.id] || {});
+const pseudoContentModel = computed({
+	get() {
+		return pseudoStyles.value.content || '';
 	},
-	setup(props, { emit }) {
-		const { activeResponsiveDeviceInfo } = useResponsiveDevices();
-		const { pseudoSelectors, activePseudoSelector, setActivePseudoSelector, deleteCustomSelector, addCustomSelector } =
-			usePseudoSelectors();
-		const { editorData } = useEditorData();
-
-		// Refs / Data
-		const root = ref(null);
-		const contentOpen = ref(false);
-		const selectorIsOpen = ref(false);
-		const showContentTooltip = ref(false);
-		const newPseudoName = ref(false);
-		const customPseudoName = ref('');
-
-		const hasContent = computed(
-			() => activePseudoSelector.value.id === ':before' || activePseudoSelector.value.id === ':after',
+	set(newValue) {
+		const cloneModelValue = cloneDeep(props.modelValue);
+		const newValues = set(
+			cloneModelValue,
+			`${activeResponsiveDeviceInfo.value.id}.${activePseudoSelector.value.id}.content`,
+			newValue,
 		);
-		const activePseudoSelectors = computed(
-			() => (props.modelValue || {} || {})[activeResponsiveDeviceInfo.value.id] || {},
-		);
-		const pseudoStyles = computed(() => (activePseudoSelectors.value || {})[activePseudoSelector.value.id] || {});
-		const pseudoContentModel = computed({
-			get() {
-				return pseudoStyles.value.content || '';
-			},
-			set(newValue) {
-				const cloneModelValue = cloneDeep(props.modelValue);
-				const newValues = set(
-					cloneModelValue,
-					`${activeResponsiveDeviceInfo.value.id}.${activePseudoSelector.value.id}.content`,
-					newValue,
-				);
 
-				emit('update:modelValue', newValues);
-			},
-		});
+		emit('update:modelValue', newValues);
+	},
+});
 
-		const computedPseudoSelectors = computed(() => {
-			const savedSelectors = Object.keys(activePseudoSelectors.value);
-			const customSelectors = savedSelectors.filter(selector => {
-				return !find(pseudoSelectors.value, ['id', selector]);
-			});
+const computedPseudoSelectors = computed(() => {
+	const savedSelectors = Object.keys(activePseudoSelectors.value);
+	const customSelectors = savedSelectors.filter(selector => {
+		return !find(pseudoSelectors.value, ['id', selector]);
+	});
 
-			// Combine selectors with custom selectors
-			return [
-				...pseudoSelectors.value,
-				...customSelectors.map(selector => {
-					return {
-						name: selector,
-						id: selector,
-						canBeDeleted: true,
-					};
-				}),
-			];
-		});
-
-		/**
-		 * emit the change of the pseudoselector
-		 */
-		function onPseudoSelectorSelected(pseudoConfig) {
-			selectorIsOpen.value = false;
-
-			setActivePseudoSelector(pseudoConfig || pseudoSelectors.value[0]);
-			if (activePseudoSelector.value.id === 'custom') {
-				newPseudoName.value = true;
-			}
-			if (
-				pseudoContentModel.value === '' &&
-				(activePseudoSelector.value.id === 'before' || activePseudoSelector.value.id === 'after')
-			) {
-				showContentTooltip.value = false;
-				contentOpen.value = true;
-			}
-		}
-
-		function createNewPseudoSelector() {
-			newPseudoName.value = false;
-
-			let newSel = {
-				id: customPseudoName.value,
-				name: customPseudoName.value,
+	// Combine selectors with custom selectors
+	return [
+		...pseudoSelectors.value,
+		...customSelectors.map(selector => {
+			return {
+				name: selector,
+				id: selector,
 				canBeDeleted: true,
 			};
+		}),
+	];
+});
 
-			addCustomSelector(newSel);
-			setActivePseudoSelector(newSel);
-		}
+/**
+ * emit the change of the pseudo selector
+ */
+function onPseudoSelectorSelected(pseudoConfig) {
+	selectorIsOpen.value = false;
 
-		/**
-		 * Close input if clicked outside of selector
-		 */
-		function closePanel(event) {
-			if (!root.value.contains(event.target)) {
-				contentOpen.value = false;
-				selectorIsOpen.value = false;
-				newPseudoName.value = false;
-			}
-		}
+	setActivePseudoSelector(pseudoConfig || pseudoSelectors.value[0]);
+	if (activePseudoSelector.value.id === 'custom') {
+		newPseudoName.value = true;
+	}
+	if (
+		pseudoContentModel.value === '' &&
+		(activePseudoSelector.value.id === 'before' || activePseudoSelector.value.id === 'after')
+	) {
+		showContentTooltip.value = false;
+		contentOpen.value = true;
+	}
+}
 
-		function deleteConfigForPseudoSelector(pseudoSelectorId) {
-			const newValues = {
-				...props.modelValue,
-				[activeResponsiveDeviceInfo.value.id]: {
-					...props.modelValue[activeResponsiveDeviceInfo.value.id],
-				},
-			};
+function createNewPseudoSelector() {
+	newPseudoName.value = false;
 
-			delete newValues[activeResponsiveDeviceInfo.value.id][pseudoSelectorId];
+	const newSel = {
+		id: customPseudoName.value,
+		name: customPseudoName.value,
+		canBeDeleted: true,
+	};
 
-			// Check if there are any remaining styles for this responsive device
-			if (Object.keys(newValues[activeResponsiveDeviceInfo.value.id] || {}).length === 0) {
-				delete newValues[activeResponsiveDeviceInfo.value.id];
-			}
+	addCustomSelector(newSel);
+	setActivePseudoSelector(newSel);
+}
 
-			emit('update:modelValue', newValues);
-		}
+/**
+ * Close input if clicked outside of selector
+ */
+function closePanel(event) {
+	if (!root.value.contains(event.target)) {
+		contentOpen.value = false;
+		selectorIsOpen.value = false;
+		newPseudoName.value = false;
+	}
+}
 
-		function deletePseudoSelectorAndStyles(selector) {
-			deleteConfigForPseudoSelector(selector.id);
-			deleteCustomSelector(selector);
-		}
+function deleteConfigForPseudoSelector(pseudoSelectorId) {
+	const newValues = {
+		...props.modelValue,
+		[activeResponsiveDeviceInfo.value.id]: {
+			...props.modelValue[activeResponsiveDeviceInfo.value.id],
+		},
+	};
 
-		// Lifecycle
-		onBeforeUnmount(() => {
-			// Clear active pseudo selector
-			setActivePseudoSelector(null);
-		});
+	delete newValues[activeResponsiveDeviceInfo.value.id][pseudoSelectorId];
 
-		return {
-			// Data
-			root,
-			contentOpen,
-			selectorIsOpen,
-			showContentTooltip,
-			newPseudoName,
-			customPseudoName,
-			activeResponsiveDeviceInfo,
-			computedPseudoSelectors,
-			activePseudoSelector,
-			hasContent,
-			activePseudoSelectors,
-			plugin_info: editorData.value.plugin_info,
-			// Computed
-			pseudoContentModel,
-			// Methods
-			onPseudoSelectorSelected,
-			deleteConfigForPseudoSelector,
-			createNewPseudoSelector,
-			closePanel,
-			deletePseudoSelectorAndStyles,
-		};
+	// Check if there are any remaining styles for this responsive device
+	if (Object.keys(newValues[activeResponsiveDeviceInfo.value.id] || {}).length === 0) {
+		delete newValues[activeResponsiveDeviceInfo.value.id];
+	}
+
+	emit('update:modelValue', newValues);
+}
+
+function deletePseudoSelectorAndStyles(selector) {
+	deleteConfigForPseudoSelector(selector.id);
+	deleteCustomSelector(selector);
+}
+
+// Lifecycle
+onBeforeUnmount(() => {
+	// Clear active pseudo selector
+	setActivePseudoSelector(null);
+});
+
+const newPseudoModel = computed({
+	get() {
+		return customPseudoName.value;
 	},
-	computed: {
-		isPro() {
-			return this.plugin_info.is_pro_active;
-		},
-
-		pseudoSelectors() {
-			return this.pseudoSelectors.map(selectorConfig => {
-				const returnedSelector = {
-					...selectorConfig,
-					active: true,
-				};
-
-				if (!['default', ':hover'].includes(selectorConfig.id) && !this.isPro) {
-					returnedSelector.active = false;
-					returnedSelector.label = {
-						text: this.$translate('pro'),
-						type: 'warning',
-					};
-				}
-
-				return returnedSelector;
-			});
-		},
-
-		newPseudoModel: {
-			get() {
-				return this.customPseudoName;
-			},
-			set(newVal) {
-				this.customPseudoName = newVal.split(' ').join('').toLowerCase();
-			},
-		},
+	set(newVal) {
+		customPseudoName.value = newVal.split(' ').join('').toLowerCase();
 	},
-	watch: {
-		hasContent: function (newValue) {
-			if (newValue) {
-				this.showContentTooltip = true;
-				setTimeout(() => {
-					this.showContentTooltip = false;
-				}, 2000);
-			}
-		},
-		selectorIsOpen: function (newValue, oldValue) {
-			if (newValue) {
-				document.addEventListener('click', this.closePanel);
-			} else {
-				document.removeEventListener('click', this.closePanel);
-			}
-		},
-		contentOpen: function (newValue, oldValue) {
-			if (newValue) {
-				this.$nextTick(() => this.$refs.pseudoContentInput.focus());
-				document.addEventListener('click', this.closePanel);
-			} else {
-				this.$refs.pseudoContentInput.blur();
-				document.removeEventListener('click', this.closePanel);
-			}
-		},
-		newPseudoName: function (newValue, oldValue) {
-			if (newValue) {
-				this.$nextTick(() => this.$refs.newpseudoInput.focus());
-				document.addEventListener('click', this.closePanel);
-			} else {
-				this.$refs.newpseudoInput.blur();
-				document.removeEventListener('click', this.closePanel);
-			}
-		},
-	},
-	beforeUnmount() {
-		document.removeEventListener('click', this.closePanel);
-	},
-};
+});
+
+// Watchers
+watch(hasContent, newValue => {
+	if (newValue) {
+		showContentTooltip.value = true;
+
+		setTimeout(() => {
+			showContentTooltip.value = false;
+		}, 2000);
+	}
+});
+
+watch(selectorIsOpen, newValue => {
+	if (newValue) {
+		document.addEventListener('click', closePanel);
+	} else {
+		document.removeEventListener('click', closePanel);
+	}
+});
+
+watch(contentOpen, newValue => {
+	if (!pseudoContentInput.value) {
+		return;
+	}
+
+	if (newValue) {
+		nextTick(() => pseudoContentInput.value.focus());
+		document.addEventListener('click', closePanel);
+	} else {
+		pseudoContentInput.value.blur();
+		document.removeEventListener('click', closePanel);
+	}
+});
+watch(pseudoNameInputRef, newValue => {
+	if (!pseudoNameInputRef.value) {
+		return;
+	}
+
+	if (newValue) {
+		nextTick(() => pseudoNameInputRef.value.focus());
+		document.addEventListener('click', closePanel);
+	} else {
+		pseudoNameInputRef.value.blur();
+		document.removeEventListener('click', closePanel);
+	}
+});
+
+onBeforeUnmount(() => {
+	document.removeEventListener('click', closePanel);
+});
 </script>
 
 <style lang="scss">
 .znpb-pseudo-selector {
 	&__edit {
-		padding: 11px 8px;
+		padding: 10px 8px;
 	}
 }
 .znpb-element-options__media-class-pseudo-name {
 	padding-left: 10px;
 	font-size: 13px;
 	font-weight: 500;
+	flex-grow: 1;
+	user-select: none;
 }
 .znpb-element-options__media-class-pseudo {
 	&-holder {
@@ -351,6 +307,10 @@ export default {
 		border: 2px solid var(--zb-input-border-color);
 		border-radius: 3px;
 		cursor: pointer;
+
+		// .znpb-theme-dark & {
+		// 	border: 2px solid var(--zb-surface-lighter-color);
+		// }
 	}
 
 	&-title {
@@ -360,7 +320,7 @@ export default {
 		cursor: pointer;
 
 		.znpb-editor-icon-wrapper {
-			padding: 11px;
+			padding: 9px;
 		}
 
 		// &--has-edit {
@@ -369,16 +329,17 @@ export default {
 
 		&__before-after-content {
 			position: absolute;
-			top: 110%;
-			left: 0;
+			top: calc(100% + 5px);
+			left: -2px;
 			z-index: 20000;
-			width: 100%;
+			width: calc(100% + 4px);
 			padding: 15px;
 			color: var(--zb-dropdown-text-color);
 			background-color: var(--zb-dropdown-bg-color);
 			box-shadow: 0 2px 15px 0 var(--zb-dropdown-shadow);
 			border: 1px solid var(--zb-dropdown-border-color);
 			border-radius: 4px;
+
 			input::placeholder {
 				color: var(--zb-input-placeholder-color);
 			}

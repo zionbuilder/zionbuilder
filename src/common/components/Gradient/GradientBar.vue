@@ -12,8 +12,8 @@
 			/>
 		</div>
 		<div class="znpb-gradient-colors-legend">
-			<span class="znpb-form__input-title znpb-gradient-colors-legend-item"> {{ $translate('color') }} </span>
-			<span class="znpb-form__input-title znpb-gradient-colors-legend-item"> {{ $translate('location') }} </span>
+			<span class="znpb-form__input-title znpb-gradient-colors-legend-item"> {{ i18n.__('Color', 'zionbuilder') }} </span>
+			<span class="znpb-form__input-title znpb-gradient-colors-legend-item"> {{ i18n.__('Location', 'zionbuilder') }} </span>
 		</div>
 		<GradientColorConfig
 			v-for="(colorConfig, i) in sortedColors"
@@ -33,6 +33,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { ref, computed, nextTick, onMounted, onBeforeUnmount } from 'vue';
 import GradientBarPreview from './GradientBarPreview.vue';
 import GradientDragger from './GradientDragger.vue';

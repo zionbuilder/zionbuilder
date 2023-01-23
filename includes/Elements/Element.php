@@ -9,7 +9,6 @@ use ZionBuilder\Options\Options;
 use ZionBuilder\Icons;
 use ZionBuilder\RenderAttributes;
 use ZionBuilder\CustomCSS;
-use ZionBuilder\PageAssets;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -698,6 +697,7 @@ class Element {
 				$this->element_base_path = trailingslashit( dirname( $filename ) );
 			}
 		}
+
 		return $this->element_base_path . wp_normalize_path( $path );
 	}
 

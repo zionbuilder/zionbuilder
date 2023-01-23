@@ -1,25 +1,25 @@
 function applyTrigger(instance, options) {
 	const optionsWithDefaults = {
 		selector: null,
-		...options
-	}
+		...options,
+	};
 
 	if (!optionsWithDefaults.selector) {
-		return
+		return;
 	}
 
-	const selectors = document.querySelectorAll(optionsWithDefaults.selector)
+	const selectors = document.querySelectorAll(optionsWithDefaults.selector);
 
 	if (selectors.length === 0) {
-		return
+		return;
 	}
 
 	selectors.forEach(selector => {
-		selector.addEventListener('click', instance.open)
-	})
+		selector.addEventListener('click', instance.open);
+	});
 }
 
 export default {
 	name: 'selector_click',
-	fn: applyTrigger
-}
+	fn: applyTrigger,
+};

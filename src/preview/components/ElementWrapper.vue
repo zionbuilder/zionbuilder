@@ -36,8 +36,6 @@
 // Utils
 import { ref, watch, computed, readonly, provide } from 'vue';
 import { get, debounce, each, escape, mergeWith, isArray, camelCase } from 'lodash-es';
-import { applyFilters } from '/@/common/modules/hooks';
-import { useOptionsSchemas, usePseudoSelectors } from '/@/common/composables';
 
 // Components
 import ElementToolbox from './ElementToolbox/ElementToolbox.vue';
@@ -49,6 +47,10 @@ import VideoBackground from './VideoBackground.vue';
 import { useElementComponent } from '../composables/useElementComponent';
 import Options from '../modules/Options';
 import { useUIStore } from '/@/editor/store';
+
+// Common API
+const { applyFilters } = window.zb.hooks;
+const { useOptionsSchemas, usePseudoSelectors } = window.zb.composables;
 
 let clickHandled = false;
 
@@ -69,7 +71,7 @@ export default {
 		const { activePseudoSelector } = usePseudoSelectors();
 		const isVisible = computed(() => get(props.element.options, '_isVisible', true));
 
-		let toolboxWatcher = null;
+		const toolboxWatcher = null;
 		let optionsInstance = null;
 
 		// Data
@@ -203,8 +205,8 @@ export default {
 							if (attributeValue.attribute_name) {
 								additionalAttributes[styleID] = additionalAttributes[styleID] || {};
 
-								let cleanAttrName = attributeValue.attribute_name;
-								let cleanAttrValue = escape(attributeValue.attribute_value);
+								const cleanAttrName = attributeValue.attribute_name;
+								const cleanAttrValue = escape(attributeValue.attribute_value);
 								additionalAttributes[styleID][cleanAttrName] = cleanAttrValue;
 							}
 						});
@@ -362,13 +364,13 @@ export default {
 		watch(
 			() => props.element.scrollTo,
 			newValue => {
-				const iframe = window.frames['znpb-editor-iframe'];
+				const iframe = window.document.getElementById('znpb-editor-iframe')?.contentWindow;
 
 				if (!iframe) {
 					return;
 				}
 
-				const domNode = iframe.contentWindow.document.getElementById(props.element.elementCssId);
+				const domNode = iframe.document.getElementById(props.element.elementCssId);
 
 				if (newValue && domNode) {
 					if (typeof domNode.scrollIntoView === 'function') {

@@ -14,10 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Localization
- * Localization class
+ * Class MaintenanceMode
  *
- * Will handle all interactions with the WordPress admin area and the pagebuilder
+ * Will handle all interactions with the WordPress admin area and the page builder
  *
  * @package ZionBuilder
  */
@@ -34,7 +33,7 @@ class MaintenanceMode {
 
 		// Only run if the maintenance mode is enabled
 		if ( ! empty( $this->get_value( 'mode' ) ) ) {
-			add_action( 'template_redirect', [ $this, 'on_template_redirect' ], 98 ); // use 98 as the buider uses 99
+			add_action( 'template_redirect', [ $this, 'on_template_redirect' ], 98 ); // use 98 as the builder uses 99
 		}
 	}
 

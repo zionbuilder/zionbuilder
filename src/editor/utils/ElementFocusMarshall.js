@@ -1,19 +1,19 @@
 export default () => {
-	let handled = false
+	let handled = false;
 
 	const handle = () => {
-		handled = true
-	}
+		handled = true;
+	};
 
 	const reset = () => {
-		handled = false
-	}
+		handled = false;
+	};
 
 	return {
 		handle,
 		reset,
-		get isHandled () {
-			return handled
-		}
-	}
-}
+		get isHandled() {
+			return handled;
+		},
+	};
+};

@@ -237,17 +237,21 @@ class Video {
 
 	// Init HTML5 Video
 	initHTML5() {
-		const autoplay = this.options.autoplay ? true : false;
-		const muted = this.options.muted ? true : false;
-		const loop = this.options.loop ? true : false;
+		const loop = this.options.loop ? 'loop' : '';
 
 		const videoElement = document.createElement('video');
 		videoElement.classList.add('zb-el-video-element');
 
 		// Set video arguments
-		videoElement.muted = muted;
-		videoElement.autoplay = autoplay;
-		videoElement.loop = loop;
+		if (this.options.autoplay) {
+			videoElement.setAttribute('autoplay', '');
+		}
+
+		if (this.options.muted) {
+			videoElement.setAttribute('muted', '');
+		}
+
+		videoElement.setAttribute('loop', loop);
 
 		if (this.options.controls) {
 			videoElement.controls = true;

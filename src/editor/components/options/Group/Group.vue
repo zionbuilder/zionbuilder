@@ -4,40 +4,39 @@
 		v-model="valueModel"
 		class="znpb-option__type-option-group"
 		:class="{
-			[`znpb-option__type-option-group-layout--${optionsLayout}`]: optionsLayout,
+			[`znpb-option__type-option-group-layout--${optionsLayout}`]: optionsLayout.length,
 		}"
 		:schema="child_options"
 	/>
 </template>
 
-<script>
-export default {
-	name: 'Group',
-	props: {
-		modelValue: {},
-		child_options: {
-			type: Object,
-			required: false,
-		},
-		optionsLayout: {
-			type: String,
-			required: false,
-		},
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue: Record<string, unknown> | undefined;
+		// eslint-disable-next-line vue/prop-name-casing
+		child_options?: Record<string, unknown>;
+		optionsLayout?: string;
+	}>(),
+	{
+		child_options: () => ({}),
+		optionsLayout: '',
+		modelValue: () => ({}),
 	},
-	data() {
-		return {};
+);
+
+const emit = defineEmits(['update:modelValue']);
+
+const valueModel = computed({
+	get() {
+		return props.modelValue || {};
 	},
-	computed: {
-		valueModel: {
-			get() {
-				return this.modelValue || {};
-			},
-			set(newValue) {
-				this.$emit('update:modelValue', newValue);
-			},
-		},
+	set(newValue) {
+		emit('update:modelValue', newValue);
 	},
-};
+});
 </script>
 
 <style lang="scss">

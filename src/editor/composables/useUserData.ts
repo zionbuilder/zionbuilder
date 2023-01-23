@@ -1,8 +1,8 @@
 import { reactive } from 'vue';
-import { saveUserData } from '/@/common/api';
 import { useEditorData } from './useEditorData';
 
 const { editorData } = useEditorData();
+const { saveUserData } = window.zb.api;
 
 const userDataValues = reactive({
 	favorite_elements: [],

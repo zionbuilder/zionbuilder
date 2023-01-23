@@ -2,8 +2,7 @@
 
 name: TEST
 
-on:
-  pull_request:
+on: [pull_request]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -16,14 +15,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v1.4.4
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: 16
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.4"
+          php-version: '7.4'
+          extensions: mbstring
+
       - name: Set Composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-dir)"
@@ -33,31 +34,47 @@ jobs:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Set Yarn cache directory
-        uses: actions/cache@v2
-        id: yarn-cache
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
-      - name: Install Yarn dependencies
-        run: yarn install
+            ${{ runner.os }}-pnpm-store-
+
       - name: Check Composer configuration
         run: composer validate --strict
+
       - name: Install Composer dependencies
         run: composer install
+
+      - name: Install dependencies
+        run: pnpm install
+
       - name: i18n check
         run: |
-          yarn run translate && ! git diff -U0 | grep '^[+-]\(msgid\|msgstr\) '
+          pnpm run build && pnpm run translate && ! git diff -U0 | grep '^[+-]\(msgid\|msgstr\) '
+
       - name: Check PHP syntax
         run: find zionbuilder.php includes/ -type f -name '*.php' -print0|xargs -0 -L1 -P4 -- php -l
+
       - name: PHPCS check
         uses: chekalsky/phpcs-action@v1
         with:
-          phpcs_bin_path: "./vendor/bin/phpcs"
+          phpcs_bin_path: './vendor/bin/phpcs'
+
       - name: PHPStan check
-        run: vendor/bin/phpstan analyze --level=5
+        run: vendor/bin/phpstan analyze --level=5 --memory-limit=1024

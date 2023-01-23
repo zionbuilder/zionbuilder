@@ -1,39 +1,36 @@
 // Utils
-import { Component } from 'vue';
-// Forms component
-import {
-	BaseInput,
-	InputDatePicker,
-	InputShapeDividers,
-	ShapeDividerComponent,
-	InputColorPicker,
-	InputCustomSelector,
-	InputSelect,
-	InputRadioImage,
-	InputRange,
-	InputIcon,
-	InputRangeDynamic,
-	InputEditor,
-	InputMedia,
-	InputFile,
-	InputImage,
-	InputTextShadow,
-	InputCode,
-	InputNumber,
-	InputNumberUnit,
-	InputCheckbox,
-	InputCheckboxGroup,
-	InputCheckboxSwitch,
-	InputTextAlign,
-	InputBorderTabs,
-	InputBackgroundVideo,
-	InputSpacing,
-	InputRepeater,
-	UpgradeToPro,
-	InputDimensions,
-	InputHTML,
-} from '../components';
+import { type Component } from 'vue';
 
+import { BaseInput } from '../components/BaseInput';
+import { InputDatePicker } from '../components/InputDatePicker';
+import { InputShapeDividers } from '../components/InputShapeDividers';
+import { ShapeDividerComponent } from '../components/InputShapeDividers';
+import { InputColorPicker } from '../components/InputColorPicker';
+import { InputCustomSelector } from '../components/InputCustomSelector';
+import { InputSelect } from '../components/InputSelect';
+import { InputRadioImage } from '../components/InputRadioImage';
+import { InputRange } from '../components/InputRange';
+import { InputIcon } from '../components/InputIcon';
+import { InputRangeDynamic } from '../components/InputRange';
+import { InputEditor } from '../components/InputEditor';
+import { InputMedia } from '../components/InputMedia';
+import { InputFile } from '../components/InputFile';
+import { InputImage } from '../components/InputImage';
+import { InputTextShadow } from '../components/InputTextShadow';
+import { InputCode } from '../components/InputCode';
+import { InputNumber } from '../components/InputNumber';
+import { InputNumberUnit } from '../components/InputNumber';
+import { InputCheckbox } from '../components/InputCheckbox';
+import { InputCheckboxGroup } from '../components/InputCheckbox';
+import { InputCheckboxSwitch } from '../components/InputCheckbox';
+import { InputTextAlign } from '../components/InputTextAlign';
+import { InputBorderTabs } from '../components/InputBorders';
+import { InputBackgroundVideo } from '../components/InputBackgroundVideo';
+import { InputSpacing } from '../components/InputSpacing';
+import { InputRepeater } from '../components/InputRepeater';
+import { UpgradeToPro } from '../components/UpgradeToPro';
+import { InputDimensions } from '../components/InputDimensions';
+import { InputHTML } from '../components/InputHTML';
 interface Option {
 	id: string;
 	component: Component;

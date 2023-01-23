@@ -8,8 +8,9 @@
 
 <script lang="ts" setup>
 import { onMounted, onBeforeUnmount, computed } from 'vue';
-import { useResponsiveDevices, usePseudoSelectors } from '/@/common/composables';
 import { get } from 'lodash-es';
+
+const { useResponsiveDevices, usePseudoSelectors } = window.zb.composables;
 
 const {
 	activeResponsiveDeviceInfo,

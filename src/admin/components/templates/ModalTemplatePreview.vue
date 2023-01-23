@@ -1,35 +1,18 @@
 <template>
 	<div class="znpb-template-preview__wrapper znpb-fancy-scrollbar">
-		<Loader
-			v-if="!loaded"
-			class="znpb-template-preview__loader"
-		/>
-		<iframe
-			frameborder="0"
-			:src="frameUrl"
-			@load="loaded = true"
-			scrolling="yes"
-		>
-		</iframe>
-
+		<Loader v-if="!loaded" class="znpb-template-preview__loader" />
+		<iframe frameborder="0" :src="frameUrl" scrolling="yes" @load="loaded = true"> </iframe>
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'modal-template-preview',
-	props: {
-		frameUrl: {
-			type: String,
-			required: true
-		}
-	},
-	data: function () {
-		return {
-			loaded: false
-		}
-	}
-}
+<script lang="ts" setup>
+import { ref } from 'vue';
+
+defineProps<{
+	frameUrl: string;
+}>();
+
+const loaded = ref(false);
 </script>
 
 <style lang="scss">

@@ -12,7 +12,7 @@
 				<Icon icon="delete" :rounded="true" @click.stop="$emit('update:modelValue', null)" />
 			</div>
 			<span v-else @click="showModal = true">
-				{{ $translate('select_icon') }}
+				{{ i18n.__('Select an icon', 'zionbuilder') }}
 			</span>
 		</div>
 		<Modal
@@ -22,7 +22,7 @@
 			append-to=".znpb-center-area"
 			:show-maximize="false"
 			class="znpb-icon-library-modal"
-			:title="$translate('icon_library_title')"
+			:title="i18n.__('Icon Library', 'zionbuilder')"
 		>
 			<IconsLibraryModalContent
 				v-model="valueModel"
@@ -40,6 +40,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 import type { Icons } from '../../composables';
 import IconsLibraryModalContent from './IconsLibraryModalContent.vue';

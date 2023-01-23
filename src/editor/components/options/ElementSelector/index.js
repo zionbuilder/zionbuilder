@@ -1,10 +1,8 @@
-import ElementSelector from './ElementSelector.vue'
+import ElementSelector from './ElementSelector.vue';
 
 export default {
 	id: 'element_selector',
-	component: ElementSelector
-}
+	component: ElementSelector,
+};
 
-export {
-	ElementSelector
-}
+export { ElementSelector };

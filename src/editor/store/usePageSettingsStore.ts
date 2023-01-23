@@ -7,7 +7,7 @@ export const usePageSettingsStore = defineStore('pageSettings', {
 		};
 	},
 	actions: {
-		updatePageSettings(newValues) {
+		updatePageSettings(newValues: Record<string, unknown>) {
 			this.settings = newValues;
 		},
 		unsetPageSettings() {

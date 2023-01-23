@@ -2,12 +2,6 @@
 	<span class="znpb-sortable__placeholder-element"></span>
 </template>
 
-<script>
-export default {
-	name: 'SortablePlaceholder'
-}
-</script>
-
 <style lang="scss">
 .znpb-sortable__placeholder {
 	position: relative;
@@ -19,7 +13,7 @@ export default {
 	width: 100%;
 	height: 0;
 	transform-origin: center center;
-	animation: placeholder-animation--horizontal .3s ease;
+	animation: placeholder-animation--horizontal 0.3s ease;
 	animation-fill-mode: forwards;
 
 	&-element {
@@ -39,7 +33,7 @@ export default {
 		top: 50%;
 		left: 0;
 		width: 100%;
-		animation: placeholder-animation--horizontal .3s ease;
+		animation: placeholder-animation--horizontal 0.3s ease;
 	}
 	// Horizontal
 	&.znpb__sortable-container--horizontal > .znpb-sortable__placeholder {
@@ -47,7 +41,7 @@ export default {
 		top: 0;
 		left: 50%;
 		height: 100%;
-		animation: placeholder-animation--vertical .3s ease;
+		animation: placeholder-animation--vertical 0.3s ease;
 	}
 
 	& > .znpb-empty-placeholder > .znpb-element-toolbox__add-element-button {
@@ -59,7 +53,7 @@ export default {
 .znpb__sortable-container--horizontal > .znpb-sortable__placeholder {
 	width: 0;
 	height: auto;
-	animation: placeholder-animation--vertical .3s ease;
+	animation: placeholder-animation--vertical 0.3s ease;
 }
 
 .znpb__sortable-container--horizontal > .znpb-sortable__placeholder > .znpb-sortable__placeholder-element {
@@ -72,7 +66,7 @@ export default {
 
 @keyframes placeholder-animation--horizontal {
 	from {
-		transform: scaleX(.6);
+		transform: scaleX(0.6);
 		opacity: 0;
 	}
 	to {
@@ -82,7 +76,7 @@ export default {
 }
 @keyframes placeholder-animation--vertical {
 	from {
-		transform: scaleY(.6);
+		transform: scaleY(0.6);
 		opacity: 0;
 	}
 	to {

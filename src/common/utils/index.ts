@@ -1,12 +1,11 @@
-import getOptionValue from './getOptionValue';
 export { getIconUnicode, default as getIconAttributes } from './getIconAttributes';
 export { default as getLinkAttributes } from './getLinkAttributes';
 export { default as getImage } from './getImage';
 export * from './updateOptionValue';
 export * from './generateUID';
 export * from './style';
-export * from './isEditable.ts';
+export * from './isEditable';
 export * from './serverRequest';
 export * from './objectHash.js';
-export { default as Environment } from './Environment.ts';
+export { default as Environment } from './Environment';
 export * from './defaultGradient';

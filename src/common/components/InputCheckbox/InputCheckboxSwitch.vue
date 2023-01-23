@@ -1,150 +1,117 @@
 <template>
 	<div class="znpb-checkbox-switch-wrapper">
-
 		<label
 			class="znpb-checkbox-switch-wrapper__label"
-			:class="{[`znpb-checkbox-switch--${model? 'checked' : 'unchecked'}`]: true}"
-			:content="model ? $translate('yes') : $translate('no')"
+			:class="{ [`znpb-checkbox-switch--${model ? 'checked' : 'unchecked'}`]: true }"
+			:content="model ? i18n.__('Yes', 'zionbuilder') : i18n.__('No', 'zionbuilder')"
 		>
 			<input
+				v-model="model"
 				type="checkbox"
 				:disabled="disabled"
 				class="znpb-checkbox-switch-wrapper__checkbox"
 				:modelValue="optionValue"
-				v-model="model"
-			>
+			/>
 
 			<span class="znpb-checkbox-switch-wrapper__button"></span>
 		</label>
 	</div>
 </template>
 
-<script>
-/**
- * @deprecated This component no longer in use
- */
-export default {
-	name: 'InputCheckboxSwitch',
-	props: {
-		/**
-		 * label for checkbox
-		 */
-		label: {
-			type: String,
-			required: false
-		},
-		showLabel: {
-			type: Boolean,
-			required: false,
-			default: true
-		},
-		/**
-		 * v-model/modelValue for checkbox
-		 */
-		modelValue: {
-			type: [String, Array, Boolean],
-			required: false
-		},
-		/**
-		 * value for checkbox
-		 */
-		optionValue: {
-			type: [String, Boolean],
-			required: false
-		},
-		/**
-		 * if disabled
-		 */
-		disabled: {
-			type: Boolean,
-			required: false
-		},
-		/**
-		 * if checkbox checked
-		 */
-		checked: {
-			type: Boolean,
-			required: false
-		},
-		rounded: {
-			type: Boolean,
-			required: false
-		}
+<script lang="ts" setup>
+import { ref, computed, nextTick, inject } from 'vue';
+import * as i18n from '@wordpress/i18n';
+
+const props = withDefaults(
+	defineProps<{
+		label?: string;
+		showLabel?: boolean;
+		modelValue?: string | Array<string> | boolean;
+		optionValue?: string | boolean;
+		disabled?: boolean;
+		checked?: boolean;
+		rounded?: boolean;
+	}>(),
+	{
+		label: '',
+		showLabel: true,
+		disabled: false,
+		checked: false,
+		rounded: false,
+		modelValue: '',
+		optionValue: '',
 	},
-	data () {
-		return {
-			isLimitExceeded: false
-		}
+);
+
+const emit = defineEmits(['update:modelValue', 'change']);
+
+// Injections
+const checkboxGroup = inject('checkboxGroup', null);
+
+// Refs
+const isLimitExceeded = ref(false);
+
+// Computed data
+const model = computed({
+	get() {
+		return props.modelValue !== undefined ? props.modelValue : false;
 	},
-	computed: {
+	set(newValue) {
+		if (checkboxGroup) {
+			isLimitExceeded.value = false;
+			const allowUnselect = checkboxGroup.props.allowUnselect;
 
-		model: {
-			get () {
-				return this.modelValue !== undefined ? this.modelValue : false
-			},
-			set (newValue) {
-				this.isLimitExceeded = false
-				const allowUnselect = this.parentGroup.allowUnselect
-
-				if (this.isInGroup) {
-					this.isLimitExceeded = false
-					// Check if minimum limit is meet
-					if (this.parentGroup.min !== undefined && newValue.length < this.parentGroup.min) {
-						this.isLimitExceeded = true
-					}
-
-					// Check if maximum limit is meet
-					if (this.parentGroup.max !== undefined && newValue.length > this.parentGroup.max) {
-						this.isLimitExceeded = true
-					}
-
-					if (this.isLimitExceeded === false) {
-						this.$emit('update:modelValue', newValue)
-					} else if (allowUnselect && this.isLimitExceeded === true) {
-						const clonedValues = [...newValue]
-						clonedValues.shift()
-						// Allows to change the option check state on nextThick
-						this.isLimitExceeded = false
-						this.$emit('update:modelValue', clonedValues)
-					}
-				} else {
-					/**
-					 * when input model changed, it emits new value
-					 */
-					this.$emit('update:modelValue', newValue)
-				}
-			}
-		},
-		isInGroup () {
-			return this.$parent.$options.name === 'InputCheckboxGroup'
-		},
-		parentGroup () {
-			return this.isInGroup ? this.$parent : false
-		}
-	},
-	created () {
-		this.checked && this.setInitialValue()
-	},
-	methods: {
-		setInitialValue () {
-			this.model = this.modelValue || true
-		},
-		onChange (event) {
-			let checked = event.target.checked
-			if (this.isLimitExceeded) {
-				this.$nextTick(() => {
-					event.target.checked = !checked
-				})
-
-				return
+			isLimitExceeded.value = false;
+			// Check if minimum limit is meet
+			if (checkboxGroup.props.min !== undefined && newValue.length < checkboxGroup.props.min) {
+				isLimitExceeded.value = true;
 			}
 
+			// Check if maximum limit is meet
+			if (checkboxGroup.props.max !== undefined && newValue.length > checkboxGroup.props.max) {
+				isLimitExceeded.value = true;
+			}
+
+			if (isLimitExceeded.value === false) {
+				emit('update:modelValue', newValue);
+			} else if (allowUnselect && isLimitExceeded.value === true) {
+				const clonedValues = [...newValue];
+				clonedValues.shift();
+				// Allows to change the option check state on nextThick
+				isLimitExceeded.value = false;
+				emit('update:modelValue', clonedValues);
+			}
+		} else {
 			/**
-			 * when input changed, it emits new value
+			 * when input model changed, it emits new value
 			 */
-			this.$emit('change', !!event.target.checked)
+			emit('update:modelValue', newValue);
 		}
+	},
+});
+
+if (props.checked) {
+	setInitialValue();
+}
+
+function setInitialValue() {
+	model.value = props.modelValue || true;
+}
+
+function onChange(event) {
+	const checked = event.target.checked;
+	if (isLimitExceeded.value) {
+		nextTick(() => {
+			event.target.checked = !checked;
+		});
+
+		return;
 	}
+
+	/**
+	 * when input changed, it emits new value
+	 */
+	emit('change', !!event.target.checked);
 }
 </script>
 <style lang="scss">
@@ -153,7 +120,7 @@ export default {
 	display: flex;
 	cursor: pointer;
 
-	input[type="checkbox"].znpb-form__input-checkbox {
+	input[type='checkbox'].znpb-form__input-checkbox {
 		width: 0;
 		height: 0;
 		margin: 0;
@@ -202,7 +169,7 @@ export default {
 			content: attr(content);
 		}
 		&:after {
-			content: "" attr(content) "";
+			content: '' attr(content) '';
 			right: 0;
 			color: var(--zb-surface-text-active-color);
 		}
@@ -223,12 +190,12 @@ export default {
 
 .znpb-checkbox-switch--checked {
 	&::before {
-		content: "";
+		content: '';
 	}
 }
 .znpb-checkbox-switch--unchecked {
 	&::after {
-		content: "";
+		content: '';
 	}
 	.znpb-checkbox-switch-wrapper__button {
 		background: var(--zb-surface-lightest-color);

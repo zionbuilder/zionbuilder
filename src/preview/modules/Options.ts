@@ -1,7 +1,9 @@
-import { getImage } from '/@/common/utils';
-import { applyFilters } from '/@/common/modules/hooks';
 import { cloneDeep, forEach, get } from 'lodash-es';
-import { useResponsiveDevices } from '/@/common/composables';
+
+// Common API
+const { getImage } = window.zb.utils;
+const { applyFilters } = window.zb.hooks;
+const { useResponsiveDevices } = window.zb.composables;
 
 /**
  * Will parse the option schema in order to get the render attributes
@@ -105,7 +107,7 @@ export default class Options {
 		return model;
 	}
 
-	setPropperImage(optionId, schema, model) {
+	setPropperImage(optionId: string, schema, model) {
 		if (schema.type === 'image' && schema.show_size === true && model[optionId]) {
 			const imageConfig = model[optionId];
 
@@ -125,7 +127,7 @@ export default class Options {
 		}
 	}
 
-	setImage(optionsModel, optionId, newValue) {
+	setImage(optionsModel, optionId: string, newValue) {
 		const oldImage = (optionsModel[optionId] || {}).image;
 		if (oldImage === newValue) {
 			return;
@@ -139,7 +141,7 @@ export default class Options {
 		optionsModel[optionId] = newValues;
 	}
 
-	addRenderAttribute(tagId, attribute, value, replace = false) {
+	addRenderAttribute(tagId: string, attribute: string, value: string, replace = false) {
 		if (!this.renderAttributes[tagId]) {
 			this.renderAttributes[tagId] = {};
 		}
@@ -369,7 +371,7 @@ export default class Options {
 		return false;
 	}
 
-	getValue(optionPath, defaultValue) {
+	getValue(optionPath: string, defaultValue: unknown) {
 		return get(this.model, optionPath, defaultValue);
 	}
 }

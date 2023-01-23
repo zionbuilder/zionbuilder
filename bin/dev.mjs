@@ -17,17 +17,36 @@ const server = await createServer({
     alias: {
       '/@': path.resolve('./src'),
       '/@zb/vue': path.resolve('./node_modules/vue'),
+      '/@zb/pinia': path.resolve('./node_modules/pinia'),
+      '/@zb/vue-router': path.resolve('./node_modules/vue-router'),
     },
   },
   mode: 'development',
   build: {
     rollupOptions: {
       input: inputs,
-      external: ['vue'],
-      //   external: ['zbVue'],
-      //   globals: {
-      //     zbVue: 'window.zb.vue',
-      //   },
+      external: [
+        'vue',
+        'pinia',
+        'vue-router',
+        '@zb/api',
+        '@zb/components',
+        '@zb/composables',
+        '@zb/hooks',
+        '@zb/store',
+        '@zb/utils',
+      ],
+      globals: {
+        vue: 'zb.vue',
+        pinia: 'zb.pinia',
+        ['vue-router']: 'zb.VueRouter',
+        '@zb/api': 'zb.api',
+        '@zb/components': 'zb.components',
+        '@zb/composables': 'zb.composables',
+        '@zb/hooks': 'zb.hooks',
+        '@zb/store': 'zb.store',
+        '@zb/utils': 'zb.utils',
+      },
     },
   },
   //   css: {
@@ -35,14 +54,25 @@ const server = await createServer({
   //       scss: {
   //         additionalData: `@import "../src/common/scss/_mixins.scss";`,
   //       },
-  //     },
+  //     },w
   //   },
   plugins: [
     vue(),
     viteExternalsPlugin({
       vue: ['zb', 'vue'],
+      pinia: ['zb', 'pinia'],
+      ['vue-router']: ['zb', 'VueRouter'],
+      '@zb/api': ['zb', 'api'],
+      '@zb/components': ['zb', 'components'],
+      '@zb/composables': ['zb', 'composables'],
+      '@zb/hooks': ['zb', 'hooks'],
+      '@zb/store': ['zb', 'store'],
+      '@zb/utils': ['zb', 'utils'],
     }),
   ],
+  server: {
+    host: '127.0.0.1',
+  },
 });
 
 await server.listen();

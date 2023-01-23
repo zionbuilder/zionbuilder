@@ -6,7 +6,7 @@
 				:key="i"
 				class="zion-inline-editor__font-list-item"
 				:class="{ 'zion-inline-editor__font-list-item--active': isActive(font.id) }"
-				@click="changeFont(font.id, $event)"
+				@click="changeFont(font.id)"
 			>
 				{{ font.name }}
 			</li>
@@ -14,52 +14,42 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { ref, inject, onMounted, onBeforeUnmount } from 'vue';
-import { useDataSetsStore } from '/@/common/store';
+const { useDataSetsStore } = window.zb.store;
 
-export default {
-	setup(props, { emit }) {
-		const editor = inject('ZionInlineEditor');
-		const { fontsListForOption } = useDataSetsStore();
-		const activeFont = ref(null);
+const editor = inject('ZionInlineEditor');
+const { fontsListForOption } = useDataSetsStore();
+const activeFont = ref('');
 
-		function isActive(fontName) {
-			return activeFont.value === fontName ? 'zion-inline-editor__font-list-item--active' : '';
-		}
+function isActive(fontName: string) {
+	return activeFont.value === fontName ? 'zion-inline-editor__font-list-item--active' : '';
+}
 
-		function onNodeChange(node) {
-			getFontName();
-		}
+function onNodeChange() {
+	getFontName();
+}
 
-		function changeFont(font, event) {
-			activeFont.value = font;
+function changeFont(font: string) {
+	activeFont.value = font;
 
-			editor.editor.formatter.toggle('fontname', {
-				value: font,
-			});
-		}
+	editor.editor.formatter.toggle('fontname', {
+		value: font,
+	});
+}
 
-		function getFontName() {
-			activeFont.value = editor.editor.queryCommandValue('fontname');
-		}
+function getFontName() {
+	activeFont.value = editor.editor.queryCommandValue('fontname');
+}
 
-		onMounted(() => {
-			getFontName();
-			editor.editor.on('SelectionChange', onNodeChange);
-		});
+onMounted(() => {
+	getFontName();
+	editor.editor.on('SelectionChange', onNodeChange);
+});
 
-		onBeforeUnmount(() => {
-			editor.editor.off('SelectionChange', onNodeChange);
-		});
-
-		return {
-			fontsListForOption,
-			isActive,
-			changeFont,
-		};
-	},
-};
+onBeforeUnmount(() => {
+	editor.editor.off('SelectionChange', onNodeChange);
+});
 </script>
 
 <style lang="scss">

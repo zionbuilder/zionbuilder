@@ -1,63 +1,71 @@
 <template>
-	<ModalTemplateSaveButton :disabled="!canAdd" @save-modal="$emit('save-template', localTemplate)">
+	<ModalTemplateSaveButton :disabled="!canAdd" @save-modal="emit('save-template', localTemplate)">
 		<div class="znpb-admin-title-block znpb-admin-title-block--heading">
-			<h4 class="znpb-admin-modal-title-block__title">{{ $translate('add_new_template') }}</h4>
-			<p class="znpb-admin-modal-title-block__desc">{{ $translate('create_new_modal_template') }}</p>
+			<h4 class="znpb-admin-modal-title-block__title">{{ i18n.__('Shortcode', 'zionbuilder') }}</h4>
+			<p class="znpb-admin-modal-title-block__desc">
+				{{ i18n.__('Create a new template by choosing the template type and adding a name', 'zionbuilder') }}
+			</p>
 		</div>
-		<ModalTwoColTemplate :title="$translate('template_type')" :desc="$translate('select_template')">
+		<ModalTwoColTemplate :title="i18n.__('Template type', 'zionbuilder')" :desc="i18n.__('Select a template', 'zionbuilder')">
 			<InputSelect
 				v-model="localTemplate.template_type"
-				:placeholder="$translate('select_type')"
+				:placeholder="i18n.__('Select type', 'zionbuilder')"
 				:options="templates"
 				class="znpb-admin-add-template-select"
 			/>
 		</ModalTwoColTemplate>
-		<ModalTwoColTemplate :title="$translate('template_name')" :desc="$translate('type_name')">
+		<ModalTwoColTemplate
+			:title="i18n.__('Template Name', 'zionbuilder')"
+			:desc="i18n.__('Type a name for the new template', 'zionbuilder')"
+		>
 			<BaseInput
 				v-model="localTemplate.title"
-				:placeholder="$translate('enter_name_for_template')"
+				:placeholder="i18n.__('Enter a name for this template', 'zionbuilder')"
 				class="znpb-admin-add-template-input"
 			/>
 		</ModalTwoColTemplate>
 	</ModalTemplateSaveButton>
 </template>
 
-<script>
-export default {
-	name: 'ModalAddNewTemplate',
-	props: {
-		templateType: {
-			type: String,
-			required: false,
-			default: 'templates',
-		},
-	},
-	data: function () {
-		return {
-			localTemplate: {
-				title: '',
-				template_type: this.templateType,
-			},
-		};
-	},
-	computed: {
-		templates() {
-			const templateTypes = [];
-			window.ZnPbAdminPageData.template_types.forEach(element => {
-				templateTypes.push({
-					id: element.id,
-					name: element.singular_name,
-				});
-			});
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+import { ref, computed } from 'vue';
 
-			return templateTypes;
-		},
-		canAdd() {
-			const { template_type: templateType, title } = this.localTemplate;
-			return templateType.length > 0 && title.length > 0;
-		},
+const props = withDefaults(
+	defineProps<{
+		templateType: string;
+	}>(),
+	{
+		templateType: 'templates',
 	},
-};
+);
+
+const emit = defineEmits(['save-template']);
+
+const localTemplate = ref({
+	title: '',
+	template_type: props.templateType,
+});
+
+const templates = computed(() => {
+	const templateTypes: {
+		id: string;
+		name: string;
+	}[] = [];
+	window.ZnPbAdminPageData.template_types.forEach(element => {
+		templateTypes.push({
+			id: element.id,
+			name: element.singular_name,
+		});
+	});
+
+	return templateTypes;
+});
+
+const canAdd = computed(() => {
+	const { template_type: templateType, title } = localTemplate.value;
+	return templateType && title;
+});
 </script>
 
 <style lang="scss">

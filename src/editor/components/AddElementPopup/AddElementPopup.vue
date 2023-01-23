@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import { watch } from 'vue';
-import { useUIStore } from '../../store';
+import { useUIStore } from '/@/editor/store';
 
 // Components
 import ColumnTemplates from './ColumnTemplates.vue';

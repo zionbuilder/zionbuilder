@@ -1,5 +1,5 @@
 <template>
-	<div class="znpb-gradient-preview-transparent-container" :title="$translate('click_to_add_gradient_point')">
+	<div class="znpb-gradient-preview-transparent-container" :title="i18n.__('Click to add gradient point', 'zionbuilder')">
 		<div class="znpb-gradient-preview-transparent">
 			<div class="znpb-gradient-preview" :style="getGradientPreviewStyle"></div>
 		</div>
@@ -13,6 +13,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { computed, CSSProperties } from 'vue';
 import type { Gradient } from './GradientBar.vue';
 

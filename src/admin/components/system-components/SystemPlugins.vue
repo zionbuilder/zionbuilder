@@ -1,32 +1,27 @@
 <template>
 	<div class="znpb-system-list-plugins">
-		<h2 class="znpb-system-subtitle">{{categoryData.category_name}}</h2>
+		<h2 class="znpb-system-subtitle">{{ categoryData.category_name }}</h2>
 		<div class="znpb-system-plugins-wrapper">
-			<div
-				v-for="(value,i) in categoryData.values"
-				:key="i"
-				class="znpb-system-plugins"
-			>
-				<h3 class="znpb-system-plugins__item">{{value.name}}</h3>
-				<h4 class="znpb-system-plugins__item"> {{value.version}} </h4>
-				<h5 class="znpb-system-plugins__item"> {{value.author}} </h5>
-
+			<div v-for="(value, i) in categoryData.values" :key="i" class="znpb-system-plugins">
+				<h3 class="znpb-system-plugins__item">{{ value.name }}</h3>
+				<h4 class="znpb-system-plugins__item">{{ value.version }}</h4>
+				<h5 class="znpb-system-plugins__item">{{ value.author }}</h5>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-
-export default {
-	name: 'SystemPlugins',
-	props: {
-		categoryData: {
-			type: Object,
-			required: true
-		}
-	}
-}
+<script lang="ts" setup>
+defineProps<{
+	categoryData: {
+		category_name: string;
+		values: {
+			name: string;
+			version: string;
+			author: string;
+		}[];
+	};
+}>();
 </script>
 <style lang="scss">
 .znpb-system-plugins {

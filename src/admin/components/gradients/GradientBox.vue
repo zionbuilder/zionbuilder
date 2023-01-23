@@ -1,41 +1,54 @@
 <template>
-	<div
-		class="znpb-admin-gradient-preset-box"
-		@mouseover="showLink=true"
-		@mouseleave="showLink=false"
-	>
-
+	<div class="znpb-admin-gradient-preset-box" @mouseover="showLink = true" @mouseleave="showLink = false">
 		<Icon
+			v-znpb-tooltip="i18n.__('Delete this gradient from your preset', 'zionbuilder')"
 			icon="close"
-			v-znpb-tooltip="$translate('delete_gradient_from_preset')"
 			class="znpb-admin-gradient-preset-box__delete"
 			@click.stop="$emit('delete-gradient')"
 		/>
 
 		<div class="znpb-admin-gradient-preset-box__gradient">
-			<GradientPreview
-				:config="config"
-				:round="true"
-			/>
+			<GradientPreview :config="config" :round="true" />
 		</div>
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'GradientBox',
-	props: {
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+import { ref } from 'vue';
+
+withDefaults(
+	defineProps<{
 		config: {
-			type: Array,
-			required: true
-		}
+			type: string;
+			colors: {
+				color: string;
+				position: number;
+			}[];
+		};
+	}>(),
+	{
+		config: () => {
+			return {
+				type: 'linear',
+				colors: [
+					{
+						color: '#000000',
+						position: 0,
+					},
+					{
+						color: '#ffffff',
+						position: 100,
+					},
+				],
+			};
+		},
 	},
-	data () {
-		return {
-			showLink: false
-		}
-	}
-}
+);
+
+defineEmits(['delete-gradient']);
+
+const showLink = ref(false);
 </script>
 
 <style lang="scss">
@@ -50,7 +63,7 @@ export default {
 	cursor: pointer;
 
 	&::before {
-		content: "";
+		content: '';
 		display: block;
 		padding-top: 100%;
 	}

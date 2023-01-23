@@ -130,7 +130,7 @@ class Button extends Element {
 						'id'   => 'white',
 					],
 					[
-						'name' => __( 'Succes', 'zionbuilder' ),
+						'name' => __( 'Success', 'zionbuilder' ),
 						'id'   => 'succes',
 					],
 					[
