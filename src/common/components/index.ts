@@ -46,7 +46,7 @@ export * from './InputSpacing';
 export * from './UpgradeToPro';
 export * from './InputDimensions';
 export * from './InputHTML';
-export * from './Tooltip';
+export * from './tooltip';
 export * from './modal';
 export * from './sortable';
 export { default as IconPackGrid } from './IconPackGrid.vue';
