@@ -53,20 +53,26 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Install dependencies
-        run: pnpm install
       - name: Check Composer configuration
         run: composer validate --strict
+
       - name: Install Composer dependencies
         run: composer install
+
+      - name: Install dependencies
+        run: pnpm install
+
       - name: i18n check
         run: |
           pnpm run translate && ! git diff -U0 | grep '^[+-]\(msgid\|msgstr\) '
+
       - name: Check PHP syntax
         run: find zionbuilder.php includes/ -type f -name '*.php' -print0|xargs -0 -L1 -P4 -- php -l
+
       - name: PHPCS check
         uses: chekalsky/phpcs-action@v1
         with:
           phpcs_bin_path: "./vendor/bin/phpcs"
+
       - name: PHPStan check
         run: vendor/bin/phpstan analyze --level=5
