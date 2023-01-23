@@ -49,9 +49,6 @@ class Stack {
 			$stack[$option_id] = new Option( $option_id, $option_config );
 			return $stack[$option_id];
 		}
-
-		_doing_it_wrong( 'Stack', esc_html__( 'Second argument of add_option must be an array or an instance of ZionBuilder\Options\Option', 'zionbuilder' ), '1.0.0' );
-		return false;
 	}
 
 	/**

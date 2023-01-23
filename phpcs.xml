@@ -13,7 +13,7 @@
 	</rule>
 
 	<rule ref="WordPress-Core">
-		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 		<exclude name="WordPress.PHP.YodaConditions"/>
 	</rule>
 

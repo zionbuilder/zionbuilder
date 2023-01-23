@@ -64,9 +64,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      # - name: i18n check
-      #   run: |
-      #     pnpm run translate && ! git diff -U0 | grep '^[+-]\(msgid\|msgstr\) '
+      - name: i18n check
+        run: |
+          pnpm run build && pnpm run translate && ! git diff -U0 | grep '^[+-]\(msgid\|msgstr\) '
 
       - name: Check PHP syntax
         run: find zionbuilder.php includes/ -type f -name '*.php' -print0|xargs -0 -L1 -P4 -- php -l
@@ -77,4 +77,4 @@ jobs:
           phpcs_bin_path: './vendor/bin/phpcs'
 
       - name: PHPStan check
-        run: vendor/bin/phpstan analyze --level=5
+        run: vendor/bin/phpstan analyze --level=5 --memory-limit=1024

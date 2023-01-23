@@ -26,11 +26,6 @@ class Preview {
 	const CONTENT_FILTER_PRIORITY = 999999;
 
 	/**
-	 * Holds a reference to all enqueued scripts
-	 */
-	private static $enqueued_scripts = [];
-
-	/**
 	 * Preview constructor.
 	 */
 	public function __construct() {
@@ -49,7 +44,7 @@ class Preview {
 		if ( $this->is_preview_mode() ) {
 			add_theme_support( 'admin-bar', [ 'callback' => '__return_false' ] );
 			add_filter( 'show_admin_bar', '__return_false' );
-			add_filter( 'style_loader_tag', [__CLASS__, 'add_cross_origin_to_google_fonts']);
+			add_filter( 'style_loader_tag', [ __CLASS__, 'add_cross_origin_to_google_fonts' ] );
 		}
 	}
 
@@ -58,8 +53,8 @@ class Preview {
 	 *
 	 * @return string
 	 */
-	public static function add_cross_origin_to_google_fonts($html) {
-		if ( strpos($html, 'fonts.googleapis.com') !== false ) {
+	public static function add_cross_origin_to_google_fonts( $html ) {
+		if ( strpos( $html, 'fonts.googleapis.com' ) !== false ) {
 			return str_replace( "media='all'", "media='all' crossorigin='anonymous'", $html );
 		}
 
@@ -109,7 +104,7 @@ class Preview {
 	public function add_data() {
 		?>
 			<script type="text/javascript">
-				var ZnPbInitialData = <?php echo json_encode( $this->get_preview_initial_data() ); ?>
+				var ZnPbInitialData = <?php echo wp_json_encode( $this->get_preview_initial_data() ); ?>
 			</script>
 		<?php
 	}
@@ -159,8 +154,8 @@ class Preview {
 			'post'                    => get_post(),
 			'masks'                   => Masks::get_shapes(),
 			'plugin_info'             => [
-				'is_pro_active'      => Utils::is_pro_active(),
-				'is_pro_installed'   => Utils::is_pro_installed(),
+				'is_pro_active'    => Utils::is_pro_active(),
+				'is_pro_installed' => Utils::is_pro_installed(),
 			],
 			'urls'                    => [
 				'assets_url'        => Utils::get_file_url( 'assets' ),

@@ -135,7 +135,7 @@ class LocalGoogleFonts {
 		$allowed_font_extension      = [ 'woff2', 'woff', 'eot', 'ttf', 'svg' ];
 		$fonts_config_for_stylesheet = [];
 		foreach ( $this->fonts as $font ) {
-			
+
 			$font_info = $this->get_font_info( $font );
 			$files     = [];
 
@@ -206,7 +206,8 @@ class LocalGoogleFonts {
 
 		if ( is_wp_error( $response ) ) {
 			// TODO: add a general error system in both frontend and admin
-			error_log('[ZionBuilder local google fonts] ' . $response->get_error_message());
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions
+			error_log( '[ZionBuilder local google fonts] ' . $response->get_error_message() );
 			return [];
 		}
 

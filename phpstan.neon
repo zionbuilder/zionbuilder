@@ -7,10 +7,7 @@ parameters:
     bootstrapFiles:
         - tests/phpstan/bootstrap.php
     paths:
+        - zionbuilder.php
         - includes/
     scanFiles:
-        - zionbuilder.php
         - vendor/woocommerce/action-scheduler/functions.php
-    ignoreErrors:
-        # Uses func_get_args()
-        - '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'

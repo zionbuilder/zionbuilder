@@ -151,7 +151,7 @@ class Scripts {
 		wp_set_script_translations( 'zb-common', 'zionbuilder' );
 
 		// Get info for zion builder plugins
-		$plugin_updates = get_site_transient( 'update_plugins' );
+		$plugin_updates     = get_site_transient( 'update_plugins' );
 		$free_plugin_update = null;
 		$pro_plugin_update  = null;
 		if ( isset( $plugin_updates->response ) && is_array( $plugin_updates->response ) ) {
@@ -166,7 +166,6 @@ class Scripts {
 			}
 		}
 
-
 		wp_localize_script(
 			'zb-common',
 			'ZBCommonData',
@@ -179,30 +178,30 @@ class Scripts {
 					],
 					'environment' => [
 						// TODO: after finish check and replace this with environment.plugin_pro.is_active
-						'is_pro_active'  => Utils::is_pro_active(),
-						'plugin_name'    => Whitelabel::get_title(),
-						'urls' => [
-							'zion_dashboard' => admin_url( sprintf( 'admin.php?page=%s', Whitelabel::get_id() ) ),
-							'logo'        => Whitelabel::get_logo_url(),
-							'pro_logo'    => Utils::get_pro_png_url(),
-							'plugin_root' => Utils::get_file_url(),
-							'updates_page'          => admin_url( 'update-core.php' ),
-							'purchase_url'          => 'https://zionbuilder.io/pricing/',
-							'documentation_url'     => 'https://zionbuilder.io/help-center/',
-							'free_changelog'        => 'https://zionbuilder.io/changelog-free-version/',
-							'pro_changelog'         => 'https://zionbuilder.io/changelog-pro-version/',
+						'is_pro_active' => Utils::is_pro_active(),
+						'plugin_name'   => Whitelabel::get_title(),
+						'urls'          => [
+							'zion_dashboard'    => admin_url( sprintf( 'admin.php?page=%s', Whitelabel::get_id() ) ),
+							'logo'              => Whitelabel::get_logo_url(),
+							'pro_logo'          => Utils::get_pro_png_url(),
+							'plugin_root'       => Utils::get_file_url(),
+							'updates_page'      => admin_url( 'update-core.php' ),
+							'purchase_url'      => 'https://zionbuilder.io/pricing/',
+							'documentation_url' => 'https://zionbuilder.io/help-center/',
+							'free_changelog'    => 'https://zionbuilder.io/changelog-free-version/',
+							'pro_changelog'     => 'https://zionbuilder.io/changelog-pro-version/',
 						],
-						'plugin_free' => [
-							'is_active' => true,
-							'version' => Plugin::instance()->get_version(),
-							'update_version' => $free_plugin_update ? $free_plugin_update['new_version'] : null
+						'plugin_free'   => [
+							'is_active'      => true,
+							'version'        => Plugin::instance()->get_version(),
+							'update_version' => $free_plugin_update ? $free_plugin_update['new_version'] : null,
 						],
-						'plugin_pro' => [
-							'is_active' => Utils::is_pro_active(),
+						'plugin_pro'    => [
+							'is_active'      => Utils::is_pro_active(),
 							'is_installed'   => Utils::is_pro_installed(),
-							'version' => class_exists( 'ZionBuilderPro\Plugin' ) ? \ZionBuilderPro\Plugin::instance()->get_version() : null,
+							'version'        => class_exists( 'ZionBuilderPro\Plugin' ) ? \ZionBuilderPro\Plugin::instance()->get_version() : null,
 							'update_version' => $pro_plugin_update ? $pro_plugin_update['new_version'] : null,
-						]
+						],
 					],
 					'library'     => [
 						'sources' => Plugin::$instance->library->get_sources(),
@@ -220,7 +219,7 @@ class Scripts {
 							'shadow'           => Shadow::get_schema(),
 						]
 					),
-					'wp_editor'        => self::get_wp_editor(),
+					'wp_editor'   => self::get_wp_editor(),
 				]
 			)
 		);

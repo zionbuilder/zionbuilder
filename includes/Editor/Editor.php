@@ -103,7 +103,9 @@ class Editor {
 		// Add head actions again
 		add_action( 'wp_head', '_wp_render_title_tag', 1 );
 		add_action( 'wp_head', 'wp_enqueue_scripts', 1 );
+		// @phpstan-ignore-next-line
 		add_action( 'wp_head', 'wp_print_styles', 8 );
+		// @phpstan-ignore-next-line
 		add_action( 'wp_head', 'wp_print_head_scripts', 9 );
 		add_action( 'wp_head', 'wp_site_icon', 99 );
 
@@ -290,8 +292,8 @@ class Editor {
 
 				// Plugin info
 				'plugin_info'      => [
-					'is_pro_active'      => Utils::is_pro_active(),
-					'is_pro_installed'   => Utils::is_pro_installed(),
+					'is_pro_active'    => Utils::is_pro_active(),
+					'is_pro_installed' => Utils::is_pro_installed(),
 				],
 
 				// Templates

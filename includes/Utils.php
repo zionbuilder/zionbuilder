@@ -132,6 +132,7 @@ class Utils {
 		$theme_base = wp_normalize_path( $theme_base );
 		$path       = wp_normalize_path( $path );
 
+		// @phpstan-ignore-next-line
 		$directory_path = WP_CONTENT_DIR;
 		$fw_basename    = str_replace( wp_normalize_path( $directory_path ), '', $path );
 
