@@ -22,7 +22,9 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.4"
+          php-version: '7.4'
+          extensions: mbstring
+
       - name: Set Composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-dir)"
@@ -72,7 +74,7 @@ jobs:
       - name: PHPCS check
         uses: chekalsky/phpcs-action@v1
         with:
-          phpcs_bin_path: "./vendor/bin/phpcs"
+          phpcs_bin_path: './vendor/bin/phpcs'
 
       - name: PHPStan check
         run: vendor/bin/phpstan analyze --level=5
