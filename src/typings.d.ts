@@ -61,3 +61,9 @@ interface ZionElementRenderApi {
 		index: null | number = null,
 	) => Record<string, Record<string, unknown>>;
 }
+
+interface Breakpoint {
+	name: string;
+	id: string;
+	width: number;
+}

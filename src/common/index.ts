@@ -8,15 +8,11 @@ import * as api from './api';
 import * as store from './store';
 import * as components from './components';
 import * as hooks from './modules/hooks';
-import * as i18n from './modules/i18n';
 import * as composables from './composables';
 import { PopperDirective } from './components/tooltip';
 
 export const installCommonAPP = (app: App) => {
 	app.use(createPinia());
-
-	// init the translation functions
-	app.use(i18n.install);
 
 	for (const componentName in components) {
 		// @ts-expect-error: I want to index import using string

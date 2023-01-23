@@ -3,11 +3,11 @@
 		<div class="znpb-get-pro__image">
 			<img :src="proUrl" />
 		</div>
-		<h1 class="znpb-get-pro__title">{{ __('Upgrade to PRO now!', 'zionbuilder') }}</h1>
+		<h1 class="znpb-get-pro__title">{{ i18n.__('Upgrade to PRO now!', 'zionbuilder') }}</h1>
 		<p class="znpb-get-pro__description">{{ message }}</p>
 		<div class="znpb-get-pro__more">
 			<a href="https://zionbuilder.io/documentation/pro-version/" target="_blank">
-				{{ __('Click here to learn more about PRO.', 'zionbuilder') }}
+				{{ i18n.__('Click here to learn more about PRO.', 'zionbuilder') }}
 			</a>
 		</div>
 		<a
@@ -15,7 +15,7 @@
 			target="_blank"
 			class="znpb-button znpb-get-pro__cta znpb-button--secondary znpb-option__upgrade-to-pro-button"
 		>
-			{{ __('Upgrade to PRO', 'zionbuilder') }}
+			{{ i18n.__('Upgrade to PRO', 'zionbuilder') }}
 		</a>
 	</div>
 </template>
@@ -28,7 +28,7 @@ withDefaults(
 		message?: string;
 	}>(),
 	{
-		message: __(
+		message: i18n.__(
 			'With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features.',
 			'zionbuilder',
 		),

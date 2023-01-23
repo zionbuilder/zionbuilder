@@ -19,12 +19,6 @@ fs.readdirSync('src/elements/').forEach(folder => {
 });
 
 export const filesMap = [
-  // {
-  //   input: 'src/tmp/index.ts',
-  //   format: 'iife',
-  //   output: 'tmp',
-  //   name: 'editPage',
-  // },
   // Global
   {
     input: 'src/common/vue.ts',

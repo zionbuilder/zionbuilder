@@ -1,6 +1,6 @@
 <template>
 	<div v-if="showMessage" class="notice notice-warning znpb-assetRegenerationNotice">
-		{{ sprintf(__('%s assets needs to be regenerated.', 'zionbuilder'), EnvironmentStore.plugin_name) }}
+		{{ i18n.sprintf(i18n.__('%s assets needs to be regenerated.', 'zionbuilder'), EnvironmentStore.plugin_name) }}
 
 		<Button :class="{ ['-hasLoading']: AssetsStore.isLoading }" @click="regenerateAssets">
 			<template v-if="AssetsStore.isLoading">
@@ -8,14 +8,14 @@
 				<span v-if="AssetsStore.filesCount > 0">{{ AssetsStore.currentIndex }}/{{ AssetsStore.filesCount }}</span>
 			</template>
 
-			<span v-else>{{ __('Regenerate Files', 'zionbuilder') }}</span>
+			<span v-else>{{ i18n.__('Regenerate Files', 'zionbuilder') }}</span>
 		</Button>
 	</div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { sprintf, __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { useAssetsStore, useEnvironmentStore } from '@zb/store';
 
 const { Button, Loader } = window.zb.components;

@@ -1,6 +1,6 @@
 <template>
 	<PageTemplate class="znpb-admin-content-wrapper">
-		<h3>{{ __('Custom code', 'zionbuilder') }}</h3>
+		<h3>{{ i18n.__('Custom code', 'zionbuilder') }}</h3>
 
 		<OptionsForm v-model="computedModel" :schema="schema" class="znpb-appearancePageForm" />
 	</PageTemplate>

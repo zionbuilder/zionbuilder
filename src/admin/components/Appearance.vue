@@ -1,15 +1,15 @@
 <template>
 	<PageTemplate>
-		<h3>{{ __('Appearance', 'zionbuilder') }}</h3>
+		<h3>{{ i18n.__('Appearance', 'zionbuilder') }}</h3>
 
 		<OptionsForm v-model="computedModel" :schema="schema" class="znpb-appearancePageForm" />
 
 		<template #right>
 			<div>
-				<p class="znpb-admin-info-p">{{ __('Builder theme', 'zionbuilder') }}</p>
+				<p class="znpb-admin-info-p">{{ i18n.__('Builder theme', 'zionbuilder') }}</p>
 				<p class="znpb-admin-info-p">
 					{{
-						__(
+						i18n.__(
 							'By changing the builder theme, it will be applied on all pages where the builder is active, as well as all the builder admin pages',
 							'zionbuilder',
 						)
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 import { computed, watch } from 'vue';
 import { useBuilderOptionsStore } from '@zb/store';
 

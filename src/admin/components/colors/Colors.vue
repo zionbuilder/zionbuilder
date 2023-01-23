@@ -1,6 +1,6 @@
 <template>
 	<PageTemplate class="znpb-admin-colors__wrapper">
-		<h3>{{ __('Color Presets', 'zionbuilder') }}</h3>
+		<h3>{{ i18n.__('Color Presets', 'zionbuilder') }}</h3>
 
 		<Tabs tab-style="minimal">
 			<Tab name="Local">
@@ -21,9 +21,9 @@
 			<Tab name="Global">
 				<UpgradeToPro
 					v-if="!is_pro_active"
-					:message_title="__('Meet Global Colors', 'zionbuilder')"
+					:message_title="i18n.__('Meet Global Colors', 'zionbuilder')"
 					:message_description="
-						__(
+						i18n.__(
 							'Global colors allows you to define a color that you can use in builder, and every time this color changes it will be updated automatically in all locations where it was used. ',
 							'zionbuilder',
 						)
@@ -53,7 +53,7 @@
 			</Tab>
 		</Tabs>
 		<template #right>
-			<p class="znpb-admin-info-p">{{ __('Create your color pallette to use locally or globally', 'zionbuilder') }}</p>
+			<p class="znpb-admin-info-p">{{ i18n.__('Create your color pallette to use locally or globally', 'zionbuilder') }}</p>
 		</template>
 	</PageTemplate>
 </template>

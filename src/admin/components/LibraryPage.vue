@@ -1,6 +1,6 @@
 <template>
 	<PageTemplate class="znpb-librarySourcesPage">
-		<h3>{{ __('Library share', 'zionbuilder') }}</h3>
+		<h3>{{ i18n.__('Library share', 'zionbuilder') }}</h3>
 
 		<OptionsForm v-model="computedModel" :schema="schema" class="znpb-libraryShareForm" />
 	</PageTemplate>

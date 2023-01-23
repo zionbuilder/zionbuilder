@@ -29,7 +29,7 @@ export class UpdateElementOptions extends DebouncedHistoryCommand {
 					path,
 				},
 				title: element.name,
-				action: __( 'Edited', 'zionbuilder' ),
+				action: __('Edited', 'zionbuilder'),
 			});
 		}
 	}

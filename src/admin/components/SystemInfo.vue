@@ -5,7 +5,7 @@
 			<Loader v-if="!loaded" />
 
 			<template v-else>
-				<h3>{{ __('System Info', 'zionbuilder') }}</h3>
+				<h3>{{ i18n.__('System Info', 'zionbuilder') }}</h3>
 
 				<component
 					:is="getComponent(category.category_id)"
@@ -19,8 +19,8 @@
 
 			<template #right>
 				<div>
-					<p class="znpb-admin-info-p">{{ __('System Info', 'zionbuilder') }}</p>
-					<p class="znpb-admin-info-p">{{ __('Scroll down to copy paste the Info shown', 'zionbuilder') }}</p>
+					<p class="znpb-admin-info-p">{{ i18n.__('System Info', 'zionbuilder') }}</p>
+					<p class="znpb-admin-info-p">{{ i18n.__('Scroll down to copy paste the Info shown', 'zionbuilder') }}</p>
 				</div>
 			</template>
 		</PageTemplate>

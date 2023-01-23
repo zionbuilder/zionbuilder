@@ -2,6 +2,7 @@ type App = import('vue').App;
 
 interface Window {
 	zb: {
+		pinia: typeof import('pinia');
 		run: T<string, Record<string, unknown>>;
 		hooks: import('./common/modules');
 		api: import('./common/api');
@@ -9,6 +10,10 @@ interface Window {
 		components: import('./common/components');
 		store: import('./common/store');
 		composables: import('./common/composables');
+		editor: import('./editor/editor');
+		admin: {
+			routes: import('./admin/router').Routes;
+		};
 		installCommonAPP: (app: App) => void;
 	} = {};
 

@@ -13,16 +13,16 @@
 						class="znpb-button znpb-button--secondary"
 					>
 						<Icon icon="quality"></Icon>
-						{{ __('Upgrade to PRO', 'zionbuilder') }}
+						{{ i18n.__('Upgrade to PRO', 'zionbuilder') }}
 					</router-link>
 
 					<a
 						v-if="documentationLink && documentationLink.length"
 						:href="documentationLink"
-						:title="__('Documentation', 'zionbuilder')"
+						:title="i18n.__('Documentation', 'zionbuilder')"
 						target="_blank"
 						class="znpb-button znpb-button--line"
-						>{{ __('Documentation', 'zionbuilder') }}</a
+						>{{ i18n.__('Documentation', 'zionbuilder') }}</a
 					>
 				</div>
 			</div>
@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __ } from '@wordpress/i18n';
+import * as i18n from '@wordpress/i18n';
 
 // Globals
 import { ref, computed } from 'vue';

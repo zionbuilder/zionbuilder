@@ -1,6 +1,6 @@
 <template>
 	<PageTemplate>
-		<h3>{{ __('Maintenance mode', 'zionbuilder') }}</h3>
+		<h3>{{ i18n.__('Maintenance mode', 'zionbuilder') }}</h3>
 
 		<OptionsForm v-model="computedModel" :schema="schema" class="znpb-maintenanceModeForm" />
 	</PageTemplate>

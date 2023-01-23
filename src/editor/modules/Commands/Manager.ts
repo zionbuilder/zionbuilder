@@ -1,3 +1,5 @@
+import { BaseCommand } from './BaseCommand';
+
 type Command = {
 	id: string;
 	callback: Function;
@@ -6,7 +8,7 @@ type Command = {
 export class CommandManager {
 	private commands: Command[] = [];
 
-	registerCommand(commandId: string, commandClass) {
+	registerCommand(commandId: string, commandClass: typeof BaseCommand) {
 		this.commands.push({
 			id: commandId,
 			callback: (commandArgs: Record<string, unknown>) => {

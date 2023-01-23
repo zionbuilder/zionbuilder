@@ -15,11 +15,11 @@
 			</template>
 			<div v-if="type == 'addcolor'" class="znpb-admin-color-preset-box__empty" @click.stop="showColorPicker = true">
 				<Icon icon="plus" />
-				<div>{{ __('Add color', 'zionbuilder') }}</div>
+				<div>{{ i18n.'Add color', 'zionbuilder') }}</div>
 			</div>
 			<div v-else class="znpb-admin-color-preset-box__color" @click.stop="showColorPicker = true">
 				<Icon
-					v-znpb-tooltip="__('Delete this color from your preset', 'zionbuilder')"
+					v-znpb-tooltip="i18n.__('Delete this color from your preset', 'zionbuilder')"
 					icon="close"
 					@click.stop="$emit('delete-color')"
 				/>

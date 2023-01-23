@@ -1,6 +1,6 @@
 <template>
 	<PageTemplate class="znpb-performancePage">
-		<h3>{{ __('Performance', 'zionbuilder') }}</h3>
+		<h3>{{ i18n.__('Performance', 'zionbuilder') }}</h3>
 
 		<OptionsForm v-model="computedModel" :schema="schema" class="znpb-performanceForm" />
 	</PageTemplate>

@@ -81,4 +81,23 @@ class CSSClasses {
 
 		return $css;
 	}
+
+	/**
+	 * Returns the css class string based on the provided id|class config
+	 *
+	 * @param [type] $id
+	 * @return void
+	 */
+	public static function getCSSClass(string $id) {
+		$css_classes = self::get_classes();
+		if (is_array($css_classes)) {
+			foreach ($css_classes as $class_config) {
+				if (isset($class_config['id']) && $class_config['id'] === $id) {
+					return $class_config;
+				}
+			}
+		}
+
+		return $id;
+	}
 }

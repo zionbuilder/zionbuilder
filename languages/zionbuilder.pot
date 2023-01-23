@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-01-22T10:59:20+00:00\n"
+"POT-Creation-Date: 2023-01-23T09:15:13+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: zionbuilder\n"
@@ -1123,7 +1123,7 @@ msgid "flex-end"
 msgstr ""
 
 #: includes/Elements/Container/Container.php:300
-#: dist/common.js:18995
+#: dist/common.js:19536
 msgid "Justify"
 msgstr ""
 
@@ -1353,7 +1353,7 @@ msgstr ""
 #: includes/Options/Schemas/StyleOptions.php:622
 #: includes/Options/Schemas/StyleOptions.php:648
 #: includes/Permissions.php:76
-#: dist/editor.js:6260
+#: dist/editor.js:6288
 msgid "Click here to learn more about PRO."
 msgstr ""
 
@@ -1761,7 +1761,7 @@ msgstr ""
 
 #: includes/Elements/Manager.php:204
 #: includes/Elements/Tabs/Tabs.php:109
-#: dist/editor.js:18780
+#: dist/editor.js:18868
 msgid "Layout"
 msgstr ""
 
@@ -2330,7 +2330,7 @@ msgstr ""
 
 #: includes/Library/Sources/LocalSource.php:116
 #: includes/Templates.php:127
-#: dist/editor.js:18736
+#: dist/editor.js:18824
 msgid "Template"
 msgstr ""
 
@@ -2413,8 +2413,8 @@ msgid "Element visibility"
 msgstr ""
 
 #: includes/Options/Schemas/Advanced.php:64
-#: dist/editor.js:15818
-#: dist/editor.js:17331
+#: dist/editor.js:15896
+#: dist/editor.js:17409
 msgid "All"
 msgstr ""
 
@@ -3202,7 +3202,7 @@ msgid "Video source"
 msgstr ""
 
 #: includes/Options/Schemas/Video.php:33
-#: dist/common.js:13322
+#: dist/common.js:13823
 msgid "Local"
 msgstr ""
 
@@ -3409,7 +3409,7 @@ msgstr ""
 msgid "The image could not be retrieved"
 msgstr ""
 
-#. translators: %s Minimum PHP version
+#. translators: %s: Minimum PHP version
 #: zionbuilder.php:93
 msgid "Zion Builder requires at least PHP version %s. Please contact your hosting provider and ask them to update the PHP version used on your server. Zion builder will not be activated until the minimum PHP version is installed."
 msgstr ""
@@ -3466,8 +3466,8 @@ msgstr ""
 #: dist/admin-page.js:2798
 #: dist/admin-page.js:2813
 #: dist/admin-page.js:2867
-#: dist/editor.js:6251
-#: dist/editor.js:6252
+#: dist/editor.js:6279
+#: dist/editor.js:6280
 msgid "pro"
 msgstr ""
 
@@ -3512,7 +3512,7 @@ msgid "With PRO you can upload your own icons in addition to the Font Awesome ic
 msgstr ""
 
 #: dist/admin-page.js:2864
-#: dist/editor.js:16196
+#: dist/editor.js:16274
 msgid "Library"
 msgstr ""
 
@@ -3540,562 +3540,570 @@ msgstr ""
 msgid "System Info"
 msgstr ""
 
-#: dist/common.js:7448
+#: dist/common.js:7854
 msgid "Discard changes"
 msgstr ""
 
-#: dist/common.js:13326
+#: dist/common.js:13827
 msgid "Global"
 msgstr ""
 
-#: dist/common.js:14880
+#: dist/common.js:15387
 msgid "Search through"
 msgstr ""
 
-#: dist/common.js:14880
+#: dist/common.js:15387
 msgid "icons"
 msgstr ""
 
-#: dist/common.js:17274
+#: dist/common.js:17791
 msgid "Color"
 msgstr ""
 
-#: dist/common.js:18170
+#: dist/common.js:18687
 msgid "Mon"
 msgstr ""
 
-#: dist/common.js:18171
+#: dist/common.js:18688
 msgid "Tue"
 msgstr ""
 
-#: dist/common.js:18172
+#: dist/common.js:18689
 msgid "Wed"
 msgstr ""
 
-#: dist/common.js:18173
+#: dist/common.js:18690
 msgid "Thu"
 msgstr ""
 
-#: dist/common.js:18174
+#: dist/common.js:18691
 msgid "Fri"
 msgstr ""
 
-#: dist/common.js:18175
+#: dist/common.js:18692
 msgid "Sat"
 msgstr ""
 
-#: dist/common.js:18176
+#: dist/common.js:18693
 msgid "Sun"
 msgstr ""
 
-#: dist/common.js:18179
+#: dist/common.js:18696
 msgid "January"
 msgstr ""
 
-#: dist/common.js:18180
+#: dist/common.js:18697
 msgid "February"
 msgstr ""
 
-#: dist/common.js:18181
+#: dist/common.js:18698
 msgid "March"
 msgstr ""
 
-#: dist/common.js:18182
+#: dist/common.js:18699
 msgid "April"
 msgstr ""
 
-#: dist/common.js:18183
+#: dist/common.js:18700
 msgid "May"
 msgstr ""
 
-#: dist/common.js:18184
+#: dist/common.js:18701
 msgid "June"
 msgstr ""
 
-#: dist/common.js:18185
+#: dist/common.js:18702
 msgid "July"
 msgstr ""
 
-#: dist/common.js:18186
+#: dist/common.js:18703
 msgid "August"
 msgstr ""
 
-#: dist/common.js:18187
+#: dist/common.js:18704
 msgid "September"
 msgstr ""
 
-#: dist/common.js:18188
+#: dist/common.js:18705
 msgid "October"
 msgstr ""
 
-#: dist/common.js:18189
+#: dist/common.js:18706
 msgid "November"
 msgstr ""
 
-#: dist/common.js:18190
+#: dist/common.js:18707
 msgid "December"
 msgstr ""
 
-#: dist/common.js:18733
+#: dist/common.js:19274
 msgid "Top masks"
 msgstr ""
 
-#: dist/common.js:18737
+#: dist/common.js:19278
 msgid "Bottom masks"
 msgstr ""
 
-#: dist/common.js:18742
+#: dist/common.js:19283
 msgid "Selected top mask"
 msgstr ""
 
-#: dist/common.js:18742
+#: dist/common.js:19283
 msgid "Selected bottom mask"
 msgstr ""
 
-#: dist/common.js:18757
+#: dist/common.js:19298
 msgid "Add a color to mask"
 msgstr ""
 
-#: dist/common.js:18762
+#: dist/common.js:19303
 msgid "Add mask height"
 msgstr ""
 
-#: dist/common.js:18775
+#: dist/common.js:19316
 msgid "Flip mask horizontally"
 msgstr ""
 
-#: dist/common.js:18980
+#: dist/common.js:19521
 msgid "Align left"
 msgstr ""
 
-#: dist/common.js:18985
+#: dist/common.js:19526
 msgid "Align center"
 msgstr ""
 
-#: dist/common.js:18990
+#: dist/common.js:19531
 msgid "Align right"
 msgstr ""
 
-#: dist/common.js:19098
+#: dist/common.js:19639
 msgid "Search"
 msgstr ""
 
-#: dist/common.js:19256
+#: dist/common.js:19797
 msgid "Add new"
 msgstr ""
 
-#: dist/common.js:19827
+#: dist/common.js:20383
 msgid "Margin top"
 msgstr ""
 
-#: dist/common.js:19837
+#: dist/common.js:20393
 msgid "Margin right"
 msgstr ""
 
-#: dist/common.js:19847
+#: dist/common.js:20403
 msgid "Margin bottom"
 msgstr ""
 
-#: dist/common.js:19857
+#: dist/common.js:20413
 msgid "Margin left"
 msgstr ""
 
-#: dist/common.js:19869
+#: dist/common.js:20425
 msgid "Padding top"
 msgstr ""
 
-#: dist/common.js:19879
+#: dist/common.js:20435
 msgid "Padding right"
 msgstr ""
 
-#: dist/common.js:19889
+#: dist/common.js:20445
 msgid "Padding bottom"
 msgstr ""
 
-#: dist/common.js:19899
+#: dist/common.js:20455
 msgid "Padding left"
 msgstr ""
 
-#: dist/editor.js:3111
+#: dist/editor.js:3120
 msgid "New Window"
 msgstr ""
 
-#: dist/editor.js:3115
+#: dist/editor.js:3124
 msgid "Same Window"
 msgstr ""
 
-#: dist/editor.js:3810
+#: dist/editor.js:3820
 msgid "Root"
 msgstr ""
 
-#: dist/editor.js:3820
+#: dist/editor.js:3830
 msgid "Invalid Element"
 msgstr ""
 
-#: dist/editor.js:5189
+#: dist/editor.js:5216
 msgid "Editing started"
 msgstr ""
 
-#: dist/editor.js:5831
+#: dist/editor.js:5859
 msgid "Selector nice name"
 msgstr ""
 
-#: dist/editor.js:5831
+#: dist/editor.js:5859
 msgid "CSS class nice name"
 msgstr ""
 
-#: dist/editor.js:5832
+#: dist/editor.js:5860
 msgid "Enter a name that will help you recognize this CSS class"
 msgstr ""
 
-#: dist/editor.js:5836
+#: dist/editor.js:5864
 msgid "CSS selector"
 msgstr ""
 
-#: dist/editor.js:5836
+#: dist/editor.js:5864
 msgid "CSS class"
 msgstr ""
 
-#: dist/editor.js:5837
+#: dist/editor.js:5865
 msgid "Enter the css selector you want to style"
 msgstr ""
 
-#: dist/editor.js:5837
+#: dist/editor.js:5865
 msgid "Enter the CSS class name without the leading dot"
 msgstr ""
 
-#: dist/editor.js:5838
+#: dist/editor.js:5866
 msgid ".my-selector"
 msgstr ""
 
-#: dist/editor.js:5838
+#: dist/editor.js:5866
 msgid "my-class-name"
 msgstr ""
 
-#: dist/editor.js:5844
+#: dist/editor.js:5872
 msgid "Add child selector"
 msgstr ""
 
-#: dist/editor.js:5844
+#: dist/editor.js:5872
 msgid "Add CSS class"
 msgstr ""
 
-#: dist/editor.js:6133
-#: dist/editor.js:12785
+#: dist/editor.js:6161
+#: dist/editor.js:12853
 msgid "Copy styles"
 msgstr ""
 
-#: dist/editor.js:6140
-#: dist/editor.js:12789
-#: dist/editor.js:17755
+#: dist/editor.js:6168
+#: dist/editor.js:12857
+#: dist/editor.js:17833
 msgid "Paste styles"
 msgstr ""
 
-#: dist/editor.js:6153
+#: dist/editor.js:6181
 msgid "Delete selector"
 msgstr ""
 
-#: dist/editor.js:6258
+#: dist/editor.js:6286
 msgid "Meet custom attributes"
 msgstr ""
 
-#: dist/editor.js:6259
+#: dist/editor.js:6287
 msgid "Generate custom attributes to every inner parts of the element"
 msgstr ""
 
-#: dist/editor.js:7368
+#: dist/editor.js:7397
 msgid "Insert inside"
 msgstr ""
 
-#: dist/editor.js:7368
+#: dist/editor.js:7397
 msgid "Insert after"
 msgstr ""
 
-#: dist/editor.js:11305
+#: dist/editor.js:11359
 msgid "oops, something went wrong!"
 msgstr ""
 
-#: dist/editor.js:12430
+#: dist/editor.js:12498
 msgid "Tree view"
 msgstr ""
 
-#: dist/editor.js:12436
+#: dist/editor.js:12504
 msgid "Section view"
 msgstr ""
 
-#: dist/editor.js:12442
+#: dist/editor.js:12510
 msgid "Wireframe"
 msgstr ""
 
-#: dist/editor.js:12556
+#: dist/editor.js:12624
 msgid "Global CSS classes"
 msgstr ""
 
-#: dist/editor.js:12765
+#: dist/editor.js:12833
 msgid "Save changes"
 msgstr ""
 
-#: dist/editor.js:12769
-#: dist/editor.js:17727
+#: dist/editor.js:12837
+#: dist/editor.js:17805
 msgid "Copy"
 msgstr ""
 
-#: dist/editor.js:12773
-#: dist/editor.js:17745
+#: dist/editor.js:12841
+#: dist/editor.js:17823
 msgid "Paste"
 msgstr ""
 
-#: dist/editor.js:12777
-#: dist/editor.js:17736
+#: dist/editor.js:12845
+#: dist/editor.js:17814
 msgid "Cut"
 msgstr ""
 
-#: dist/editor.js:12781
-#: dist/editor.js:17718
+#: dist/editor.js:12849
+#: dist/editor.js:17796
 msgid "Duplicate"
 msgstr ""
 
-#: dist/editor.js:12793
+#: dist/editor.js:12861
 msgid "Undo"
 msgstr ""
 
-#: dist/editor.js:12797
-#: dist/editor.js:12801
+#: dist/editor.js:12865
+#: dist/editor.js:12869
 msgid "Redo"
 msgstr ""
 
-#: dist/editor.js:12805
+#: dist/editor.js:12873
 msgid "Hide element"
 msgstr ""
 
-#: dist/editor.js:12809
+#: dist/editor.js:12877
 msgid "Toggle preview mode"
 msgstr ""
 
-#: dist/editor.js:12813
+#: dist/editor.js:12881
 msgid "Toggle Tree View Panel"
 msgstr ""
 
-#: dist/editor.js:12817
+#: dist/editor.js:12885
 msgid "Toggle Library Panel"
 msgstr ""
 
-#: dist/editor.js:12821
+#: dist/editor.js:12889
 msgid "Toggle page options"
 msgstr ""
 
-#: dist/editor.js:12825
+#: dist/editor.js:12893
 msgid "Duplicate element in place"
 msgstr ""
 
-#: dist/editor.js:12826
+#: dist/editor.js:12894
 msgid "When dragging element"
 msgstr ""
 
-#: dist/editor.js:12830
+#: dist/editor.js:12898
 msgid "Set even values"
 msgstr ""
 
-#: dist/editor.js:12831
+#: dist/editor.js:12899
 msgid "When dragging toolbox"
 msgstr ""
 
-#: dist/editor.js:12835
+#: dist/editor.js:12903
 msgid "Set even incremental value"
 msgstr ""
 
-#: dist/editor.js:12839
-#: dist/editor.js:13651
+#: dist/editor.js:12907
+#: dist/editor.js:13719
 msgid "Back to WP dashboard"
 msgstr ""
 
-#: dist/editor.js:12843
-#: dist/editor.js:12848
+#: dist/editor.js:12911
+#: dist/editor.js:12916
 msgid "Set incremental value"
 msgstr ""
 
-#: dist/editor.js:12844
+#: dist/editor.js:12912
 msgid "On input of type number"
 msgstr ""
 
-#: dist/editor.js:12853
+#: dist/editor.js:12921
 msgid "On input of type number with link option available"
 msgstr ""
 
-#: dist/editor.js:13056
+#: dist/editor.js:13124
 msgid "Discard changes for"
 msgstr ""
 
-#: dist/editor.js:13633
+#: dist/editor.js:13701
 msgid "Start tour"
 msgstr ""
 
-#: dist/editor.js:13638
+#: dist/editor.js:13706
 msgid "Key shortcuts"
 msgstr ""
 
-#: dist/editor.js:13642
+#: dist/editor.js:13710
 msgid "About"
 msgstr ""
 
-#: dist/editor.js:13647
+#: dist/editor.js:13715
 msgid "Builder settings"
 msgstr ""
 
-#: dist/editor.js:13655
+#: dist/editor.js:13723
 msgid "Preview post"
 msgstr ""
 
-#: dist/editor.js:13673
+#: dist/editor.js:13741
 msgid "Save Template"
 msgstr ""
 
-#: dist/editor.js:13678
+#: dist/editor.js:13746
 msgid "Save Page"
 msgstr ""
 
-#: dist/editor.js:13683
+#: dist/editor.js:13751
 msgid "Save & Publish Page"
 msgstr ""
 
-#: dist/editor.js:14956
+#: dist/editor.js:15034
 msgid "Start typing in the search field and the found options will appear here"
 msgstr ""
 
-#: dist/editor.js:15121
+#: dist/editor.js:15199
 msgid "Advanced"
 msgstr ""
 
-#: dist/editor.js:15128
+#: dist/editor.js:15206
 msgid "Styles"
 msgstr ""
 
-#: dist/editor.js:15660
+#: dist/editor.js:15738
 msgid "Edit template"
 msgstr ""
 
-#: dist/editor.js:15668
+#: dist/editor.js:15746
 msgid "Export template"
 msgstr ""
 
-#: dist/editor.js:15675
+#: dist/editor.js:15753
 msgid "Regenerate screenshot"
 msgstr ""
 
-#: dist/editor.js:15683
+#: dist/editor.js:15761
 msgid "Delete template"
 msgstr ""
 
-#: dist/editor.js:16194
+#: dist/editor.js:16272
 msgid "Import"
 msgstr ""
 
-#: dist/editor.js:16418
+#: dist/editor.js:16496
 msgid "Could not lock current post"
 msgstr ""
 
-#: dist/editor.js:16591
+#: dist/editor.js:16669
 msgid "Choose a title"
 msgstr ""
 
-#: dist/editor.js:16592
+#: dist/editor.js:16670
 msgid "Write a suggestive name for your element"
 msgstr ""
 
-#: dist/editor.js:16618
+#: dist/editor.js:16696
 msgid "The template was successfully added to library"
 msgstr ""
 
-#: dist/editor.js:17337
+#: dist/editor.js:17415
 msgid "Favorites"
 msgstr ""
 
-#: dist/editor.js:17710
+#: dist/editor.js:17788
 msgid "Edit"
 msgstr ""
 
-#: dist/editor.js:17765
+#: dist/editor.js:17843
 msgid "Paste classes"
 msgstr ""
 
-#: dist/editor.js:17774
+#: dist/editor.js:17852
 msgid "Save Element "
 msgstr ""
 
-#: dist/editor.js:17782
+#: dist/editor.js:17860
 msgid "Hide Element "
 msgstr ""
 
-#: dist/editor.js:17782
+#: dist/editor.js:17860
 msgid "Show Element "
 msgstr ""
 
-#: dist/editor.js:17792
+#: dist/editor.js:17870
 msgid "Wrap with container"
 msgstr ""
 
-#: dist/editor.js:17802
+#: dist/editor.js:17880
 msgid "Discard styles"
 msgstr ""
 
-#: dist/editor.js:17811
+#: dist/editor.js:17889
 msgid "Delete Element"
 msgstr ""
 
-#: dist/editor.js:18148
-#: dist/editor.js:18737
-#: dist/editor.js:18781
+#: dist/editor.js:18226
+#: dist/editor.js:18825
+#: dist/editor.js:18869
 msgid "added"
 msgstr ""
 
-#: dist/editor.js:18149
+#: dist/editor.js:18227
 msgid "deleted"
 msgstr ""
 
-#: dist/editor.js:18150
+#: dist/editor.js:18228
 msgid "renamed"
 msgstr ""
 
-#: dist/editor.js:18151
+#: dist/editor.js:18229
 msgid "show"
 msgstr ""
 
-#: dist/editor.js:18152
+#: dist/editor.js:18230
 msgid "hide"
 msgstr ""
 
-#: dist/editor.js:18153
+#: dist/editor.js:18231
 msgid "duplicate"
 msgstr ""
 
-#: dist/editor.js:18154
+#: dist/editor.js:18232
 msgid "wrapped with container"
 msgstr ""
 
-#: dist/editor.js:18155
+#: dist/editor.js:18233
 msgid "copied"
 msgstr ""
 
-#: dist/editor.js:18156
+#: dist/editor.js:18234
 msgid "moved"
 msgstr ""
 
-#: dist/editor.js:18157
+#: dist/editor.js:18235
 msgid "paste styles"
 msgstr ""
 
-#: dist/editor.js:18158
+#: dist/editor.js:18236
 msgid "paste css classes"
 msgstr ""
 
-#: dist/editor.js:18159
+#: dist/editor.js:18237
 msgid "discard styles"
 msgstr ""
 
-#: dist/editor.js:18321
+#: dist/editor.js:18409
 msgid "Page cleared"
 msgstr ""
 
-#: dist/editor.js:18825
+#: dist/editor.js:18913
 msgid "Edited"
+msgstr ""
+
+#: dist/regenerate-assets-notice.js:66
+msgid "%s assets needs to be regenerated."
+msgstr ""
+
+#: dist/regenerate-assets-notice.js:75
+msgid "Regenerate Files"
 msgstr ""

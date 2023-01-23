@@ -11,7 +11,7 @@ function RankMath() {
 		}
 	}
 
-	function getContent(content) {
+	function getContent(content: string) {
 		if (pageContent.length) {
 			content = pageContent;
 		} else {

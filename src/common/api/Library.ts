@@ -18,7 +18,7 @@ export function getLibraryItemBuilderConfig(libraryID: string, itemID: number) {
 	return getService().get(`library/${libraryID}/${itemID}/get-builder-config`);
 }
 
-export function importLibraryItem(libraryID: string, file) {
+export function importLibraryItem(libraryID: string, file: File) {
 	return getService().post(`library/${libraryID}/import`, file, {
 		headers: {
 			'Content-Type': 'multipart/form-data',
