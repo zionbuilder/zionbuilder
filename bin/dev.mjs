@@ -5,7 +5,6 @@ import { filesMap } from './map.mjs';
 import path from 'path';
 import { generateManifest } from './manifest.mjs';
 import { viteExternalsPlugin } from 'vite-plugin-externals';
-import resolveExternalsPlugin from 'vite-plugin-resolve-externals';
 
 const inputs = {};
 filesMap.forEach(file => {
@@ -37,6 +36,7 @@ const server = await createServer({
         '@zb/hooks',
         '@zb/store',
         '@zb/utils',
+        '@wordpress/i18n',
       ],
       globals: {
         vue: 'zb.vue',
@@ -48,14 +48,16 @@ const server = await createServer({
         '@zb/hooks': 'zb.hooks',
         '@zb/store': 'zb.store',
         '@zb/utils': 'zb.utils',
+        '@wordpress/i18n': 'wp.i18n',
       },
     },
   },
   plugins: [
+    vue(),
     viteExternalsPlugin({
       vue: ['zb', 'vue'],
-      pinia: ['zb', 'pinia'],
       ['vue-demi']: ['zb', 'vue'],
+      pinia: ['zb', 'pinia'],
       ['vue-router']: ['zb', 'VueRouter'],
       '@zb/api': ['zb', 'api'],
       '@zb/components': ['zb', 'components'],
@@ -63,16 +65,8 @@ const server = await createServer({
       '@zb/hooks': ['zb', 'hooks'],
       '@zb/store': ['zb', 'store'],
       '@zb/utils': ['zb', 'utils'],
+      '@wordpress/i18n': ['wp', 'i18n'],
     }),
-    vue(),
-    // resolveExternalsPlugin({
-    //   vue: () => `window.zb.vue`,
-    //   '@zb/hooks': () => `window.zb.hooks`,
-    //   '@zb/store': () => `window.zb.store`,
-    //   '@zb/components': () => `window.zb.components`,
-    //   '@zb/utils': () => `window.zb.utils`,
-    //   '@zb/api': () => `window.zb.api`,
-    // }),
   ],
   server: {
     host: '127.0.0.1',
