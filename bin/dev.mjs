@@ -5,6 +5,7 @@ import { filesMap } from './map.mjs';
 import path from 'path';
 import { generateManifest } from './manifest.mjs';
 import { viteExternalsPlugin } from 'vite-plugin-externals';
+import resolveExternalsPlugin from 'vite-plugin-resolve-externals';
 
 const inputs = {};
 filesMap.forEach(file => {
@@ -14,10 +15,11 @@ filesMap.forEach(file => {
 const server = await createServer({
   configFile: false,
   resolve: {
+    dedupe: ['vue'],
     alias: {
       '/@': path.resolve('./src'),
-      '/@zb/vue': path.resolve('./node_modules/vue'),
-      '/@zb/pinia': path.resolve('./node_modules/pinia'),
+      '/@zb/vue': path.resolve('./node_modules/vue/'),
+      '/@zb/pinia': path.resolve('./node_modules/pinia/'),
       '/@zb/vue-router': path.resolve('./node_modules/vue-router'),
     },
   },
@@ -49,18 +51,11 @@ const server = await createServer({
       },
     },
   },
-  //   css: {
-  //     preprocessorOptions: {
-  //       scss: {
-  //         additionalData: `@import "../src/common/scss/_mixins.scss";`,
-  //       },
-  //     },w
-  //   },
   plugins: [
-    vue(),
     viteExternalsPlugin({
       vue: ['zb', 'vue'],
       pinia: ['zb', 'pinia'],
+      ['vue-demi']: ['zb', 'vue'],
       ['vue-router']: ['zb', 'VueRouter'],
       '@zb/api': ['zb', 'api'],
       '@zb/components': ['zb', 'components'],
@@ -69,6 +64,15 @@ const server = await createServer({
       '@zb/store': ['zb', 'store'],
       '@zb/utils': ['zb', 'utils'],
     }),
+    vue(),
+    // resolveExternalsPlugin({
+    //   vue: () => `window.zb.vue`,
+    //   '@zb/hooks': () => `window.zb.hooks`,
+    //   '@zb/store': () => `window.zb.store`,
+    //   '@zb/components': () => `window.zb.components`,
+    //   '@zb/utils': () => `window.zb.utils`,
+    //   '@zb/api': () => `window.zb.api`,
+    // }),
   ],
   server: {
     host: '127.0.0.1',
