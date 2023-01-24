@@ -35,7 +35,23 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 			};
 		},
 		getClassConfig: state => {
-			return (classId: string) => state.CSSClasses.find(classConfig => classConfig.id === classId);
+			/**
+			 * Get the class config by id. It first checks for the uid and then for the id for backwards compatibility
+			 *
+			 * @param state
+			 */
+			return (classId: string) =>
+				state.CSSClasses.find(classConfig => classConfig.uid === classId || classConfig.id === classId);
+		},
+		getSelectorName() {
+			return (class_uid_or_selector: string) => {
+				const config = this.getClassConfig(class_uid_or_selector);
+				if (config) {
+					return config.id;
+				}
+
+				return null;
+			};
 		},
 		getStylesConfig() {
 			return (classId: string) => {

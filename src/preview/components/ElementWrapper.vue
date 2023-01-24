@@ -46,7 +46,7 @@ import VideoBackground from './VideoBackground.vue';
 // Composables
 import { useElementComponent } from '../composables/useElementComponent';
 import Options from '../modules/Options';
-import { useUIStore } from '/@/editor/store';
+import { useUIStore, useCSSClassesStore } from '/@/editor/store';
 
 // Common API
 const { applyFilters } = window.zb.hooks;
@@ -64,6 +64,7 @@ export default {
 	},
 	props: ['element'],
 	setup(props) {
+		const CSSClassesStore = useCSSClassesStore();
 		const root = ref(null);
 		const UIStore = useUIStore();
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element);
@@ -228,10 +229,14 @@ export default {
 									additionalAttributes[renderTag] = {};
 								}
 
-								additionalAttributes[renderTag]['class'] = [
-									...(additionalAttributes[renderTag]['class'] || []),
-									cssClass,
-								];
+								const cssClassSelector = CSSClassesStore.getSelectorName(cssClass);
+
+								if (cssClassSelector) {
+									additionalAttributes[renderTag]['class'] = [
+										...(additionalAttributes[renderTag]['class'] || []),
+										cssClass,
+									];
+								}
 							});
 						}
 					}
@@ -264,7 +269,11 @@ export default {
 				const wrapperConfig = stylesConfig.value.wrapper;
 				if (wrapperConfig.classes) {
 					wrapperConfig.classes.forEach(classSelector => {
-						classes[classSelector] = true;
+						const cssClass = CSSClassesStore.getSelectorName(classSelector);
+
+						if (cssClass) {
+							classes[cssClass] = true;
+						}
 					});
 				}
 			}

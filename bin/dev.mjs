@@ -14,10 +14,11 @@ filesMap.forEach(file => {
 const server = await createServer({
   configFile: false,
   resolve: {
+    dedupe: ['vue'],
     alias: {
       '/@': path.resolve('./src'),
-      '/@zb/vue': path.resolve('./node_modules/vue'),
-      '/@zb/pinia': path.resolve('./node_modules/pinia'),
+      '/@zb/vue': path.resolve('./node_modules/vue/'),
+      '/@zb/pinia': path.resolve('./node_modules/pinia/'),
       '/@zb/vue-router': path.resolve('./node_modules/vue-router'),
     },
   },
@@ -35,6 +36,7 @@ const server = await createServer({
         '@zb/hooks',
         '@zb/store',
         '@zb/utils',
+        '@wordpress/i18n',
       ],
       globals: {
         vue: 'zb.vue',
@@ -46,20 +48,15 @@ const server = await createServer({
         '@zb/hooks': 'zb.hooks',
         '@zb/store': 'zb.store',
         '@zb/utils': 'zb.utils',
+        '@wordpress/i18n': 'wp.i18n',
       },
     },
   },
-  //   css: {
-  //     preprocessorOptions: {
-  //       scss: {
-  //         additionalData: `@import "../src/common/scss/_mixins.scss";`,
-  //       },
-  //     },w
-  //   },
   plugins: [
     vue(),
     viteExternalsPlugin({
       vue: ['zb', 'vue'],
+      ['vue-demi']: ['zb', 'vue'],
       pinia: ['zb', 'pinia'],
       ['vue-router']: ['zb', 'VueRouter'],
       '@zb/api': ['zb', 'api'],
@@ -68,6 +65,7 @@ const server = await createServer({
       '@zb/hooks': ['zb', 'hooks'],
       '@zb/store': ['zb', 'store'],
       '@zb/utils': ['zb', 'utils'],
+      '@wordpress/i18n': ['wp', 'i18n'],
     }),
   ],
   server: {

@@ -257,11 +257,11 @@ class Editor {
 		return apply_filters(
 			'zionbuilder/editor/initial_data',
 			[
-				'page_settings'    => [
+				'page_settings'      => [
 					'schema' => $post_instance->get_page_settings_schema(),
 					'values' => $autosave_instance->get_page_settings_values(),
 				],
-				'urls'             => [
+				'urls'               => [
 					'assets_url'            => Utils::get_file_url( 'assets' ),
 					'logo'                  => Whitelabel::get_logo_url(),
 					'loader'                => Whitelabel::get_loader_url(),
@@ -278,34 +278,35 @@ class Editor {
 					'ajax_url'              => admin_url( 'admin-ajax.php', 'relative' ),
 					'plugin_root'           => Utils::get_file_url(),
 				],
-				'masks'            => Masks::get_shapes(),
-				'builder_settings' => [],
-				'page_id'          => $this->post_id,
-				'page_data'        => get_post( $this->post_id ),
-				'autosaveInterval' => AUTOSAVE_INTERVAL,
+				'masks'              => Masks::get_shapes(),
+				'builder_settings'   => [],
+				'page_id'            => $this->post_id,
+				'page_data'          => get_post( $this->post_id ),
+				'autosaveInterval'   => AUTOSAVE_INTERVAL,
 
 				// User data
-				'post_lock_user'   => $locked_user_name,
+				'post_lock_user'     => $locked_user_name,
 
 				// Css classes
-				'css_classes'      => CSSClasses::get_classes(),
+				'css_classes'        => CSSClasses::get_classes(),
+				'css_static_classes' => CSSClasses::get_static_classes(),
 
 				// Plugin info
-				'plugin_info'      => [
+				'plugin_info'        => [
 					'is_pro_active'    => Utils::is_pro_active(),
 					'is_pro_installed' => Utils::is_pro_installed(),
 				],
 
 				// Templates
-				'template_types'   => Plugin::$instance->templates->get_template_types(),
-				'template_sources' => Plugin::$instance->library->get_sources(),
+				'template_types'     => Plugin::$instance->templates->get_template_types(),
+				'template_sources'   => Plugin::$instance->library->get_sources(),
 
 				// Misc
-				'rtl'              => is_rtl(),
+				'rtl'                => is_rtl(),
 
 				// User data
-				'user_data'        => User::get_user_data(),
-				'user_permissions' => Permissions::get_user_permissions(),
+				'user_data'          => User::get_user_data(),
+				'user_permissions'   => Permissions::get_user_permissions(),
 			]
 		);
 	}

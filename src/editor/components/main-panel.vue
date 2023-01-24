@@ -154,7 +154,6 @@ import { ResponsiveDevices, FlyoutWrapper, FlyoutMenuItem } from './MainPanel';
 import { useUIStore, useUserStore } from '../store';
 
 // Common API
-const { translate } = window.zb.i18n;
 const { useBuilderOptionsStore } = window.zb.store;
 
 // Stores

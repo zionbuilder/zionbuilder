@@ -58,7 +58,10 @@
 				</template>
 				<div v-if="errorMessage.length === 0 && filteredClasses.length === 0" class="znpb-class-selector-noClass">
 					{{
-						i18n.__('No class found. Press "Add class" to create a new class and assign it to the element.', 'zionbuilder')
+						i18n.__(
+							'No class found. Press "Add class" to create a new class and assign it to the element.',
+							'zionbuilder',
+						)
 					}}
 				</div>
 				<div v-if="invalidClass" class="znpb-class-selector-validator">{{ errorMessage }}</div>
@@ -75,10 +78,12 @@ import { useCSSClassesStore } from '/@/editor/store';
 import { type BaseInput } from '@zb/components';
 
 type SelectorConfig = {
-	type: 'class' | 'id';
+	type: 'class' | 'id' | 'static_class';
 	name: string;
+	id: string;
 	deletable: boolean;
 	selected: boolean;
+	uid?: string;
 };
 
 const props = withDefaults(
@@ -101,6 +106,7 @@ const emit = defineEmits([
 	'add-class',
 	'update:activeGlobalClass',
 	'paste-styles',
+	'update:add-static-class',
 ]);
 
 const cssClasses = useCSSClassesStore();
@@ -122,19 +128,22 @@ const filteredClasses = computed(() => {
 				type: 'id',
 				name: props.activeStyleElementId,
 				deletable: false,
+				id: props.activeStyleElementId,
 				selected: props.activeGlobalClass === null,
 			},
 		];
 
 		props.assignedClasses.forEach(cssClass => {
-			const className = cssClasses.CSSClasses.find(({ id }) => id === cssClass);
+			const classConfig = cssClasses.CSSClasses.find(({ id }) => id === cssClass);
 
-			if (className) {
+			if (classConfig) {
 				extraClasses.push({
 					type: 'class',
-					name: cssClass,
+					name: classConfig.name,
+					id: classConfig.id,
 					deletable: true,
-					selected: props.activeGlobalClass === cssClass,
+					selected: props.activeGlobalClass === classConfig.id,
+					uid: classConfig.uid || classConfig.id,
 				});
 			}
 		});
@@ -145,15 +154,17 @@ const filteredClasses = computed(() => {
 			return {
 				type: 'class',
 				name: selectorConfig.name,
+				id: selectorConfig.id,
 				deletable: false,
 				selected: false,
+				uid: selectorConfig.uid || selectorConfig.id,
 			};
 		});
 	}
 });
 
 function removeClass(selectorConfig: SelectorConfig) {
-	emit('remove-class', selectorConfig.name);
+	emit('remove-class', selectorConfig.uid);
 
 	// clear the keyword
 	keyword.value = '';
@@ -163,13 +174,15 @@ function removeClass(selectorConfig: SelectorConfig) {
 function selectClass(selectorConfig: SelectorConfig) {
 	if (selectorConfig.type === 'id') {
 		emit('update:activeGlobalClass', null);
-	} else {
+	} else if (selectorConfig.type === 'class') {
 		// Check to see if we need to add the class to the element
-		emit('add-class', selectorConfig.name);
+		emit('add-class', selectorConfig.uid);
+	} else if (selectorConfig.type === 'static_class') {
+		emit('update:add-static-class', selectorConfig.uid);
 	}
 
 	nextTick(() => {
-		focusClassIndex.value = filteredClasses.value.findIndex(item => item.name === selectorConfig.name);
+		focusClassIndex.value = filteredClasses.value.findIndex(item => item.id === selectorConfig.id);
 	});
 }
 
