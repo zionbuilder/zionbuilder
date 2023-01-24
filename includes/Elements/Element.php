@@ -3,7 +3,7 @@
 namespace ZionBuilder\Elements;
 
 use ZionBuilder\Utils;
-use ZionBuilder\Elements\Style;
+use ZionBuilder\CSSClasses;
 use ZionBuilder\Plugin;
 use ZionBuilder\Options\Options;
 use ZionBuilder\Icons;
@@ -288,8 +288,8 @@ class Element {
 				$render_tag   = isset( $style_config['render_tag'] ) ? $style_config['render_tag'] : $style_config_id;
 
 				if ( isset( $style_value['classes'] ) && is_array( $style_value['classes'] ) ) {
-					foreach ( $style_value['classes'] as $css_class ) {
-						$this->render_attributes->add( $render_tag, 'class', $css_class );
+					foreach ( $style_value['classes'] as $css_class_uid_or_selector ) {
+						$this->render_attributes->add( $render_tag, 'class', CSSClasses::get_css_class_by_uid($css_class_uid_or_selector) );
 					}
 				}
 			}

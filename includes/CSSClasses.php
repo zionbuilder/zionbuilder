@@ -20,6 +20,13 @@ class CSSClasses {
 	const CLASSES_OPTION_KEY = '_zionbuilder_css_classes';
 
 	/**
+	 * Holds the static classes
+	 *
+	 * These classes are injected by 3rd party plugins and cannot be modified by zionbuilder
+	 */
+	private static $static_classes = null;
+
+	/**
 	 * Holds a cached version of the css classes
 	 *
 	 * @var array<int, array{id: string, name: string, styles: array<string, mixed>}>
@@ -82,23 +89,37 @@ class CSSClasses {
 		return $css;
 	}
 
+
+	/**
+	 * Returns the static classes
+	 *
+	 * @return array
+	 */
+	public static function get_static_classes() {
+		if ( null === self::$static_classes ) {
+			self::$static_classes = apply_filters( 'zionbuilder/css_classes/static_classes', [] );
+		}
+
+		return self::$static_classes;
+	}
+
 	/**
 	 * Returns the css class string based on the provided id|class config
 	 *
-	 * @param string | array $id
+	 * @param string $id
 	 *
 	 * @return string
 	 */
-	public static function get_css_class( $id ) {
+	public static function get_css_class_by_uid( $uid_or_selector ) {
 		$css_classes = self::get_classes();
 		if ( is_array( $css_classes ) ) {
 			foreach ( $css_classes as $class_config ) {
-				if ( isset( $class_config['id'] ) && $class_config['id'] === $id ) {
+				if ( isset( $class_config['uid'] ) && $class_config['uid'] === $uid_or_selector ) {
 					return $class_config['id'];
 				}
 			}
 		}
 
-		return $id;
+		return $uid_or_selector;
 	}
 }
