@@ -289,7 +289,7 @@ class Element {
 
 				if ( isset( $style_value['classes'] ) && is_array( $style_value['classes'] ) ) {
 					foreach ( $style_value['classes'] as $css_class_uid_or_selector ) {
-						$this->render_attributes->add( $render_tag, 'class', CSSClasses::get_css_class_by_uid($css_class_uid_or_selector) );
+						$this->render_attributes->add( $render_tag, 'class', CSSClasses::get_css_class_by_uid( $css_class_uid_or_selector ) );
 					}
 				}
 			}
@@ -1534,6 +1534,42 @@ class Element {
 				<p>
 				<?php echo $config['description']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</p>
+
+				<style>
+					.znpb-el-notice {
+						color: #fff;
+						font-size: 13px;
+						position: relative;
+						background-color: rgba(40, 40, 44, 0.6);
+						border-radius: 4px;
+						padding: 20px 20px 20px 56px;
+						width: 100%;
+						margin: 20px;
+					}
+
+					.znpb-el-notice h3 {
+						font-size: 15px !important;
+						margin: 0 0 5px !important;
+					}
+
+					.znpb-el-notice a {
+						font-weight: 700;
+					}
+
+					.znpb-el-notice .znpb-editor-icon-wrapper {
+						color: rgba(255, 255, 255, 0.4);
+						position: absolute;
+						font-size: 26px;
+						margin-left: -36px;
+					}
+
+					.znpb-el-notice .znpb-editor-icon-wrapper svg {
+						fill: currentColor;
+						width: 1em;
+						height: 1em;
+						display: block;
+					}
+				</style>
 			</div>
 		<?php
 	}

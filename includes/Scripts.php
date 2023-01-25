@@ -194,13 +194,13 @@ class Scripts {
 						'plugin_free'   => [
 							'is_active'      => true,
 							'version'        => Plugin::instance()->get_version(),
-							'update_version' => $free_plugin_update ? $free_plugin_update['new_version'] : null,
+							'update_version' => $free_plugin_update ? $free_plugin_update->new_version : null,
 						],
 						'plugin_pro'    => [
 							'is_active'      => Utils::is_pro_active(),
 							'is_installed'   => Utils::is_pro_installed(),
 							'version'        => class_exists( 'ZionBuilderPro\Plugin' ) ? \ZionBuilderPro\Plugin::instance()->get_version() : null,
-							'update_version' => $pro_plugin_update ? $pro_plugin_update['new_version'] : null,
+							'update_version' => $pro_plugin_update ? $pro_plugin_update->new_version : null,
 						],
 					],
 					'library'     => [
