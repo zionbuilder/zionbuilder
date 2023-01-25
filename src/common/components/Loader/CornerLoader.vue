@@ -23,6 +23,7 @@ defineProps<{
 	flex-direction: column;
 	align-items: flex-end;
 	min-width: 200px;
+	z-index: 999;
 }
 
 .znpb-admin__options-save-loader {
