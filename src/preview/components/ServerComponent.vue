@@ -119,6 +119,8 @@ function getElementFromServer() {
 		response => {
 			// Send back the image
 			elementContent.value = response.data.element;
+			doAction('zionbuilder/server_component/before_rendered', elementContentRef.value, props.element, props.options);
+
 			setInnerHTML(elementContent.value);
 
 			// Set body classes
@@ -139,7 +141,7 @@ function getElementFromServer() {
 			loading.value = false;
 
 			// eslint-disable-next-line
-					console.log('server Request fail', message)
+			console.log('server Request fail', message)
 		},
 	);
 }

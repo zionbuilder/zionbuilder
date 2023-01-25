@@ -10,6 +10,7 @@
 				:active-style-element-id="activeStyleElementId"
 				@add-class="onAddClass"
 				@remove-class="onRemoveClass"
+				@paste-styles="onPasteStyles"
 			/>
 
 			<PseudoSelectors v-model="computedStyles" />
@@ -39,8 +40,9 @@
 <script lang="ts" setup>
 import * as i18n from '@wordpress/i18n';
 import { computed } from 'vue';
+import { merge } from 'lodash-es';
 import PseudoSelectors from './PseudoSelectors.vue';
-import ClassSelectorDropdown from './ClassSelectorDropdown.vue';
+import ClassSelectorDropdown, { type SelectorConfig } from './ClassSelectorDropdown.vue';
 import { useCSSClassesStore } from '/@/editor/store';
 
 const cssClasses = useCSSClassesStore();
@@ -66,7 +68,7 @@ const computedClasses = computed({
 	get() {
 		return props.element.getOptionValue(`_styles.${props.activeStyleElementId}.classes`, []) as string[];
 	},
-	set(newValue) {
+	set(newValue: string[]) {
 		props.element.updateOptionValue(`_styles.${props.activeStyleElementId}.classes`, newValue);
 	},
 });
@@ -81,7 +83,16 @@ function toggleClass(cssClass: string) {
 
 function onRemoveClass(cssClass: string) {
 	const existingClasses = [...computedClasses.value];
-	const classIndex = existingClasses.indexOf(cssClass);
+	let classIndex = existingClasses.indexOf(cssClass);
+
+	console.log(cssClass, existingClasses);
+	if (classIndex === -1) {
+		// Check if the class is assigned using the old "selector" id instead of the uid
+		const classConfig = cssClasses.getClassConfig(cssClass);
+		if (classConfig) {
+			classIndex = existingClasses.indexOf(classConfig.id);
+		}
+	}
 
 	if (classIndex === -1) {
 		return;
@@ -156,6 +167,14 @@ function onAddClass(cssClass: string) {
 		computedClasses.value = existingClasses;
 
 		computedActiveGlobalClass.value = cssClass;
+	}
+}
+
+function onPasteStyles() {
+	const copiedStyles = cssClasses.copiedStyles;
+
+	if (copiedStyles) {
+		computedStyles.value = merge(computedStyles.value || {}, copiedStyles);
 	}
 }
 </script>

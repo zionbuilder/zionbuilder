@@ -77,7 +77,7 @@ import CssSelector from './CssSelector.vue';
 import { useCSSClassesStore } from '/@/editor/store';
 import { type BaseInput } from '@zb/components';
 
-type SelectorConfig = {
+export type SelectorConfig = {
 	type: 'class' | 'id' | 'static_class';
 	name: string;
 	id: string;
@@ -134,7 +134,7 @@ const filteredClasses = computed(() => {
 		];
 
 		props.assignedClasses.forEach(cssClass => {
-			const classConfig = cssClasses.CSSClasses.find(({ id }) => id === cssClass);
+			const classConfig = cssClasses.getClassConfig(cssClass);
 
 			if (classConfig) {
 				extraClasses.push({
@@ -143,7 +143,7 @@ const filteredClasses = computed(() => {
 					id: classConfig.id,
 					deletable: true,
 					selected: props.activeGlobalClass === classConfig.id,
-					uid: classConfig.uid || classConfig.id,
+					uid: classConfig.uid,
 				});
 			}
 		});
@@ -157,7 +157,7 @@ const filteredClasses = computed(() => {
 				id: selectorConfig.id,
 				deletable: false,
 				selected: false,
-				uid: selectorConfig.uid || selectorConfig.id,
+				uid: selectorConfig.uid,
 			};
 		});
 	}
@@ -232,7 +232,7 @@ function onCopyStyles(selectorConfig: SelectorConfig) {
 	// If this is a
 	if (selectorConfig.type === 'class') {
 		// Get the class config
-		const stylesConfig = cssClasses.getStylesConfig(selectorConfig.name);
+		const stylesConfig = cssClasses.getStylesConfig(selectorConfig.uid);
 		cssClasses.copyClassStyles(stylesConfig);
 	} else {
 		// Get the config from id
@@ -244,10 +244,10 @@ function onPasteStyles(selectorConfig: SelectorConfig) {
 	// If this is a
 	if (selectorConfig.type === 'class') {
 		// Get the class config
-		cssClasses.pasteClassStyles(selectorConfig.name);
+		cssClasses.pasteClassStyles(selectorConfig.uid);
 	} else {
 		// Get the config from id
-		emit('paste-styles');
+		emit('paste-styles', selectorConfig);
 	}
 }
 

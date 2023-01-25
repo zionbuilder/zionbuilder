@@ -63,7 +63,9 @@
 			<div class="znpb-options-breadcrumbs" @click="activeGlobalClass = null">
 				<Icon class="znpb-back-icon-breadcrumbs" icon="select" />
 
-				<span class="znpb-classEditBackName">{{ i18n.__('Back to', 'zionbuilder') }} {{ UIStore.editedElement.name }}</span>
+				<span class="znpb-classEditBackName"
+					>{{ i18n.__('Back to', 'zionbuilder') }} {{ UIStore.editedElement.name }}</span
+				>
 			</div>
 
 			<OptionsForm v-model="activeClassStyles" :schema="activeClassSchema" />
@@ -855,7 +857,7 @@ watch(
 
 	& > .znpb-options-form-wrapper,
 	& .znpb-element-styles-option__options-wrapper,
-	& .znpb-options-breadcrumbs {
+	& > .znpb-options-breadcrumbs {
 		padding-top: 0;
 	}
 }

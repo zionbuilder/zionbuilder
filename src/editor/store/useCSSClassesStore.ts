@@ -76,9 +76,8 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 			this.CSSClasses.splice(cssClassIndex, 1);
 		},
 		updateCSSClass(classId: string, newValues) {
-			const editedClass = this.CSSClasses.find(cssClassConfig => {
-				return cssClassConfig.id === classId;
-			});
+			const editedClass = this.getClassConfig(classId);
+
 			if (!editedClass) {
 				// eslint-disable-next-line
 				console.warn('could not find class with config ', { classId, newValues })
@@ -98,7 +97,6 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 			this.CSSClasses = newValue;
 		},
 		copyClassStyles(styles: CssStyles) {
-			console.log(styles);
 			this.copiedStyles = cloneDeep(styles);
 		},
 		pasteClassStyles(classId: string) {
