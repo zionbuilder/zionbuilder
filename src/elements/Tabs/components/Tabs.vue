@@ -10,7 +10,7 @@
 				:active="activeTab ? tab.uid === activeTab : i === 0"
 				v-bind="api.getAttributesForTag('inner_content_styles_title')"
 				:class="api.getStyleClasses('inner_content_styles_title')"
-				@click="activeTab = tab.uid"
+				@click.prevent.stop="activeTab = tab.uid"
 			/>
 		</ul>
 
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, provide, Ref } from 'vue';
 import TabLink from './TabLink.vue';
 
 const props = defineProps<{
@@ -43,7 +43,7 @@ const props = defineProps<{
 	api: ZionElementRenderApi;
 }>();
 
-const activeTab = ref(null);
+const activeTab: Ref<string | null> = ref(null);
 
 // Check to see if we need to add some tabs
 if (props.element.content.length === 0 && props.options.tabs) {
@@ -66,5 +66,11 @@ const tabs = computed(() => {
 			uid: element.uid,
 		};
 	});
+});
+
+provide('TabsElement', {
+	changeTab: (uid: string) => {
+		activeTab.value = uid;
+	},
 });
 </script>
