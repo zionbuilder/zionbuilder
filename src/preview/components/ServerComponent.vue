@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
+import { ref, Ref, computed, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
 
 // Utils
 import { debounce } from 'lodash-es';
@@ -23,17 +23,10 @@ import { ScriptsLoader } from '../modules/ScriptsLoader';
 
 const { applyFilters, addAction, removeAction, doAction } = window.zb.hooks;
 
-const props = withDefaults(
-	defineProps<{ element: ZionElement; options: Record<string, unknown>; api: Record<string, unknown> }>(),
-	{
-		element: null,
-		options: null,
-		api: null,
-	},
-);
+const props = defineProps<{ element: ZionElement; options: Record<string, unknown>; api: Record<string, unknown> }>();
 
-const logoUrl = window.ZnPbInitialData.urls.logo;
-const elementContentRef = ref(null);
+const logoUrl = window.ZBCommonData.environment.urls.logo;
+const elementContentRef: Ref<HTMLElement | null> = ref(null);
 const elementContent = ref('');
 const loading = ref(true);
 const elementNotSelectable = ref(false);
@@ -70,15 +63,15 @@ watch(elementDataForRender, (newValue, oldValue) => {
 	}
 });
 
-function setInnerHTML(content) {
-	const elm = elementContentRef.value;
+function setInnerHTML(content: string) {
+	const elm = elementContentRef.value as HTMLElement;
 	elm.innerHTML = content;
 
-	Array.from(elm.querySelectorAll('script')).forEach(oldScript => {
+	Array.from(elm.querySelectorAll('script')).forEach((oldScript: HTMLScriptElement) => {
 		const newScript = document.createElement('script');
 		Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
 		newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-		oldScript.parentNode.replaceChild(newScript, oldScript);
+		oldScript.parentNode?.replaceChild(newScript, oldScript);
 	});
 
 	elm.addEventListener('load', checkElementHeight);
@@ -88,11 +81,13 @@ const serverComponentRenderData = applyFilters('zionbuilder/server_component/dat
 	element_data: props.element,
 });
 
-function loadScripts(scripts) {
-	const { loadScript } = ScriptsLoader(window.document.getElementById('znpb-editor-iframe').contentWindow);
+function loadScripts(scripts: Record<string, { handle: string; src: string }>) {
+	const { loadScript } = ScriptsLoader(
+		(window.document.getElementById('znpb-editor-iframe') as HTMLIFrameElement).contentWindow,
+	);
 
-	return new Promise((resolve, reject) => {
-		Object.keys(scripts).map(scriptHandle => {
+	return new Promise(resolve => {
+		Object.keys(scripts).map((scriptHandle: string) => {
 			// Script can sometimes be false
 			const scriptConfig = scripts[scriptHandle];
 
@@ -104,7 +99,7 @@ function loadScripts(scripts) {
 			}
 		});
 
-		resolve();
+		resolve(true);
 	});
 }
 
@@ -121,7 +116,7 @@ function getElementFromServer() {
 			elementContent.value = response.data.element;
 			doAction('zionbuilder/server_component/before_rendered', elementContentRef.value, props.element, props.options);
 
-			setInnerHTML(elementContent.value);
+			setInnerHTML(response.data.element);
 
 			// Set body classes
 			setBodyClasses(response.data.body_classes);
@@ -137,7 +132,7 @@ function getElementFromServer() {
 				});
 			});
 		},
-		function (message) {
+		function (message: string) {
 			loading.value = false;
 
 			// eslint-disable-next-line
@@ -154,13 +149,21 @@ const debouncedGetElementFromServer = debounce(function () {
  * Add body classes required by elements
  */
 function setBodyClasses(classes: string[]) {
-	const body = window.document.getElementById('znpb-editor-iframe')?.contentWindow?.document?.body;
-	classes.forEach(cssClass => {
-		body.classList.add(cssClass);
-	});
+	const body = (window.document.getElementById('znpb-editor-iframe') as HTMLIFrameElement)?.contentWindow?.document
+		?.body;
+
+	if (body) {
+		classes.forEach(cssClass => {
+			body.classList.add(cssClass);
+		});
+	}
 }
 
 function checkForContentHeight() {
+	if (!elementContentRef.value) {
+		return;
+	}
+
 	const loadableElements = elementContentRef.value.querySelectorAll('img, iframe, video');
 	let loadableElementsCount = loadableElements.length;
 
@@ -183,9 +186,11 @@ function checkForContentHeight() {
 }
 
 function checkElementHeight() {
-	const { height } = elementContentRef.value.getBoundingClientRect();
+	if (elementContentRef.value) {
+		const { height } = elementContentRef.value.getBoundingClientRect();
 
-	elementNotSelectable.value = height < 2;
+		elementNotSelectable.value = height < 2;
+	}
 }
 
 onMounted(() => {
