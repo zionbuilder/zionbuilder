@@ -46,16 +46,16 @@
 				>
 					<template #trigger>
 						<span>
-							<Tooltip
+							<span
 								v-if="!modelValue || modelValue === undefined"
-								:content="i18n.__('No color chosen', 'zionbuilder')"
-								tag="span"
+								v-znpb-tooltip="i18n.__('No color chosen', 'zionbuilder')"
 							>
 								<span
 									:style="{ backgroundColor: modelValue || placeholder }"
 									class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 								></span>
-							</Tooltip>
+							</span>
+
 							<span
 								v-else
 								:style="{ backgroundColor: modelValue || placeholder }"

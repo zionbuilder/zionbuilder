@@ -6,7 +6,6 @@
 			:close-on-outside-click="true"
 			:trigger="null"
 			placement="right-start"
-			:modifiers="[]"
 			:show-arrows="false"
 			@hide="closeColorPicker"
 		>

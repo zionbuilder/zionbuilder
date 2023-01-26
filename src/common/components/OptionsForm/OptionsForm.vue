@@ -261,12 +261,6 @@ export default {
 		},
 	},
 	methods: {
-		updateModelValueByPath(path, newValue) {
-			const clonedValue = cloneDeep(this.modelValue || {});
-			const newValues = set(clonedValue, path, newValue);
-
-			this.$emit('update:modelValue', newValues);
-		},
 		setValue(optionId, newValue) {
 			let newValueToSend;
 

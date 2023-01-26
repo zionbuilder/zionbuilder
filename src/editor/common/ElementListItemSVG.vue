@@ -12,7 +12,6 @@ export default {
 		if (cache[props.svg]) {
 			iconMarkup.value = cache[props.svg];
 		} else {
-			console.log(props.svg);
 			fetch(props.svg)
 				.then(response => response.text())
 				.then(data => {

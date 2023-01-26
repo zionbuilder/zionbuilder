@@ -109,7 +109,7 @@ const props = withDefaults(
 );
 
 const inputWrapper = inject('inputWrapper');
-const optionsForm = inject('optionsForm');
+const optionsForm = inject('OptionsForm');
 const emit = defineEmits<{
 	(e: 'background-position-change', value: { x: number; y: number }): void;
 	(e: 'update:modelValue', value: ImageValue | string): void;
@@ -418,7 +418,7 @@ function deleteImage() {
 
 	// Reset the selection
 	if (mediaModal) {
-		let selection = mediaModal.state().get('selection');
+		const selection = mediaModal.state().get('selection');
 		selection.reset([]);
 	}
 }

@@ -31,7 +31,7 @@
 	>
 		<template #content>
 			<ColorPicker
-				ref="colorpickerHolder"
+				ref="colorPickerHolder"
 				:model="modelValue && modelValue.length > 0 ? modelValue : placeholder"
 				@color-changed="updateColor"
 				@click.stop="onColorPickerClick"
@@ -85,7 +85,7 @@ const emit = defineEmits<{
 }>();
 
 const popper = ref<InstanceType<typeof Tooltip> | null>(null);
-const colorpickerHolder = ref<InstanceType<typeof ColorPicker> | null>(null);
+const colorPickerHolder = ref<InstanceType<typeof ColorPicker> | null>(null);
 const isDragging = ref(false);
 
 let backdrop: HTMLDivElement;
@@ -108,7 +108,7 @@ function updateColor(color: string) {
 	 */
 	emit('option-updated', color);
 	/**
-	 * emits new color when inputcolor changed
+	 * emits new color when input color changed
 	 */
 	emit('update:modelValue', color);
 }
@@ -128,27 +128,25 @@ function openColorPicker() {
 function closeColorPicker() {
 	emit('close');
 	document.removeEventListener('click', closePanelOnOutsideClick);
-
 	if (backdrop) {
-		document.body.appendChild(backdrop);
 		backdrop.parentNode?.removeChild(backdrop);
 	}
 }
 
 function closePanelOnOutsideClick(event: MouseEvent) {
-	if (popper.value?.$el.contains(event.target) || colorpickerHolder.value?.$refs.colorPicker.contains(event.target)) {
+	if (popper.value?.$el.contains(event.target) || colorPickerHolder.value?.$refs.colorPicker.contains(event.target)) {
 		return;
 	}
 
 	if (!isDragging.value && popper.value) {
-		popper.value.hidePopper();
+		// popper.value.hidePopper();
 	}
 	isDragging.value = false;
 }
 
 onBeforeUnmount(() => {
 	document.removeEventListener('click', closePanelOnOutsideClick);
-
+	console.log(backdrop);
 	if (backdrop) {
 		backdrop.parentNode?.removeChild(backdrop);
 	}
