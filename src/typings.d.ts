@@ -63,7 +63,12 @@ interface ZionElementRenderApi {
 }
 
 interface Breakpoint {
-	name: string;
+	name?: string;
 	id: string;
-	width: number;
+	width?: number;
+	height?: number;
+	icon: string;
+	isCustom?: boolean;
+	isDefault?: boolean;
+	builtIn?: boolean;
 }

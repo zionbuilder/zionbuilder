@@ -85,9 +85,9 @@ const { doAction } = window.zb.hooks;
 // TODO: find a solution for typings
 const props = withDefaults(
 	defineProps<{
-		deviceConfig: ResponsiveDevice;
+		deviceConfig: Breakpoint;
 		allowEdit: boolean;
-		editedBreakpoint?: ResponsiveDevice | null;
+		editedBreakpoint?: Breakpoint | null;
 	}>(),
 	{
 		editedBreakpoint: () => {
