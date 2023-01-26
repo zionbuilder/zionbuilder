@@ -25,7 +25,7 @@
 		<template #end>
 			<div v-if="!isVisible" class="znpb-hidden-element-container">
 				<div class="znpb-hidden-element-placeholder">
-					<Icon icon="eye" @click.stop="element.toggleVisibility()"> </Icon>
+					<Icon icon="eye" @click.stop="element.setVisibility(!element.isVisible)"> </Icon>
 				</div>
 			</div>
 		</template>

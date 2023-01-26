@@ -139,9 +139,13 @@ export const useUIStore = defineStore('ui', {
 	getters: {
 		openPanels: (state): Panel[] => filter(state.panels, { isActive: true }) || [],
 		isAnyPanelDragging: (state): boolean => filter(state.panels, { isDragging: true }).length > 0,
-		editedElement: state => {
+		editedElement: (state): ZionElement | null => {
 			const contentStore = useContentStore();
-			return contentStore.getElement(state.editedElementUID);
+			if (state.editedElementUID) {
+				return contentStore.getElement(state.editedElementUID);
+			}
+
+			return null;
 		},
 		openPanelsIDs(): string[] {
 			return this.openPanels.map(panel => panel.id);

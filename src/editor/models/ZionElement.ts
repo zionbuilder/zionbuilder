@@ -175,7 +175,7 @@ export class ZionElement {
 		});
 	}
 
-	setVisibility(isVisible: boolean) {
+	setVisibility(isVisible: boolean): void {
 		update(this.options, '_isVisible', () => isVisible);
 	}
 
