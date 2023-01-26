@@ -313,6 +313,20 @@ class StyleOptions extends BaseSchema {
 			]
 		);
 
+		// Size and Spacings accordion
+		$size_and_spacings = $pseudo_option->add_group(
+			'size_and_spacings',
+			[
+				'type'             => 'accordion_menu',
+				'home-button-text' => esc_html__( 'Styling', 'zionbuilder' ),
+				'title'            => esc_html__( 'Size & Spacing', 'zionbuilder' ),
+				'icon'             => 'size-spacing',
+				'show_title'       => false,
+			]
+		);
+
+		self::attach_size_and_spacings_options( $size_and_spacings );
+
 		self::attach_typography_options( $typography_accordion );
 
 		// Borders accordion
@@ -328,20 +342,6 @@ class StyleOptions extends BaseSchema {
 		);
 
 		self::attach_border_options( $borders );
-
-		// Size and Spacings accordion
-		$size_and_spacings = $pseudo_option->add_group(
-			'size_and_spacings',
-			[
-				'type'             => 'accordion_menu',
-				'home-button-text' => esc_html__( 'Styling', 'zionbuilder' ),
-				'title'            => esc_html__( 'Size & Spacing', 'zionbuilder' ),
-				'icon'             => 'size-spacing',
-				'show_title'       => false,
-			]
-		);
-
-		self::attach_size_and_spacings_options( $size_and_spacings );
 
 		// Display accordion
 		$display = $pseudo_option->add_group(
