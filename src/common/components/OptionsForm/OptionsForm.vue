@@ -91,7 +91,7 @@ export default {
 		/**
 		 * Returns a value for the top level model value by specifying a path
 		 */
-		function getTopModelValueByPath(path, defaultValue = null) {
+		function getTopModelValueByPath(path, defaultValue = undefined) {
 			return get(topModelValue.value, path, defaultValue);
 		}
 

@@ -237,7 +237,7 @@ const hasChanges = computed(() => {
 		const childOptionsIds = getChildOptionsIds(props.schema);
 
 		return childOptionsIds.find(optionId => {
-			let hasDynamicValue = get(props.modelValue, `__dynamic_content__[${optionId}]`);
+			const hasDynamicValue = get(props.modelValue, `__dynamic_content__[${optionId}]`);
 			return (savedOptionValue.value && savedOptionValue.value[optionId]) || hasDynamicValue !== undefined;
 		});
 	} else {
@@ -399,7 +399,7 @@ function getPseudoIcon(pseudo) {
  */
 function onDeleteOption(optionId) {
 	if (props.schema.sync) {
-		let fullOptionIds = [];
+		const fullOptionIds = [];
 		const childOptionsIds = getChildOptionsIds(props.schema, false);
 		const compiledSync = props.compilePlaceholder(props.schema.sync);
 

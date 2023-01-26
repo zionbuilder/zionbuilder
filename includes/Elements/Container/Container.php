@@ -517,7 +517,7 @@ class Container extends Element {
 			[
 				'type'      => 'panel_accordion',
 				'title'     => esc_html__( 'Spacing', 'zionbuilder' ),
-				'sync'      => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.order',
+				'sync'      => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default',
 				'collapsed' => true,
 			]
 		);
@@ -525,67 +525,10 @@ class Container extends Element {
 		$spacing_group->add_group(
 			'padding',
 			[
-				'type'        => 'dimensions',
-				'title'       => esc_html__( 'Padding', 'zionbuilder' ),
-				'description' => esc_html__( 'Choose the desired padding for this element.', 'zionbuilder' ),
-				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.padding',
-				'min'         => 0,
-				'max'         => 99999,
-				'dimensions'  => [
-					[
-						'name' => 'top',
-						'icon' => 'padding-top',
-						'id'   => 'padding-top',
-					],
-					[
-						'name' => 'right',
-						'icon' => 'padding-right',
-						'id'   => 'padding-right',
-					],
-					[
-						'name' => 'bottom',
-						'icon' => 'padding-bottom',
-						'id'   => 'padding-bottom',
-					],
-					[
-						'name' => 'left',
-						'icon' => 'padding-left',
-						'id'   => 'padding-left',
-					],
-				],
-			]
-		);
-		$spacing_group->add_group(
-			'margin',
-			[
-				'type'        => 'dimensions',
-				'title'       => esc_html__( 'Margin', 'zionbuilder' ),
-				'description' => esc_html__( 'Choose the desired margin for this element.', 'zionbuilder' ),
-				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.margin',
-				'min'         => -99999,
-				'max'         => 99999,
-				'dimensions'  => [
-					[
-						'name' => 'top',
-						'icon' => 'margin-top',
-						'id'   => 'margin-top',
-					],
-					[
-						'name' => 'right',
-						'icon' => 'margin-right',
-						'id'   => 'margin-right',
-					],
-					[
-						'name' => 'bottom',
-						'icon' => 'margin-bottom',
-						'id'   => 'margin-bottom',
-					],
-					[
-						'name' => 'left',
-						'icon' => 'margin-left',
-						'id'   => 'margin-left',
-					],
-				],
+				'type'        => 'spacing',
+				'title'       => esc_html__( 'Margin & padding', 'zionbuilder' ),
+				'description' => esc_html__( 'Choose the desired margin and padding for this element.', 'zionbuilder' ),
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default',
 			]
 		);
 
