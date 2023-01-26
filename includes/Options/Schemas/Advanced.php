@@ -514,7 +514,7 @@ class Advanced extends BaseSchema {
 				'options'     => [
 					[
 						'min'        => 0,
-						'max'        => 100,
+						'max'        => 10000,
 						'step'       => 1,
 						'shift_step' => 5,
 						'unit'       => 's',

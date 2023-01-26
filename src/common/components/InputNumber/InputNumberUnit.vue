@@ -17,7 +17,7 @@
 					v-model:show="showUnits"
 					trigger="click"
 					placement="bottom"
-					append-to="el"
+					append-to="element"
 					:show-arrows="false"
 					strategy="fixed"
 					tooltip-class="hg-popper--no-padding"
@@ -199,7 +199,7 @@ function changeUnit(newUnit: string) {
 	});
 
 	// Don't proceed if we don't have an existing value
-	if (ALL_NUMBER_UNITS_TYPES.includes(newUnit)) {
+	if ((props.units && props.units.includes(newUnit)) || ALL_NUMBER_UNITS_TYPES.includes(newUnit)) {
 		if (localValue.value) {
 			onTextValueChange(`${localValue.value}${newUnit}`);
 		} else {
