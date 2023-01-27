@@ -16,10 +16,12 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 	state: (): {
 		CSSClasses: CSSClass[];
 		copiedStyles: CssStyles | null;
+		staticClasses: string[];
 	} => {
 		return {
 			CSSClasses: [],
 			copiedStyles: null,
+			staticClasses: [],
 		};
 	},
 	getters: {
@@ -31,6 +33,16 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 					cssClass =>
 						cssClass.name.toLowerCase().indexOf(keyToLower) !== -1 ||
 						cssClass.id.toLowerCase().indexOf(keyToLower) !== -1,
+				);
+			};
+		},
+		getStaticClassesByFilter: state => {
+			return (keyword: string): string[] => {
+				const keyToLower = keyword.toLowerCase();
+
+				return state.staticClasses.filter(
+					cssClass =>
+						cssClass.toLowerCase().indexOf(keyToLower) !== -1 || cssClass.toLowerCase().indexOf(keyToLower) !== -1,
 				);
 			};
 		},
@@ -93,8 +105,11 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 		removeAllCssClasses() {
 			this.CSSClasses = [];
 		},
-		setCSSClasses(newValue) {
+		setCSSClasses(newValue: CSSClass[]) {
 			this.CSSClasses = newValue;
+		},
+		setStaticClasses(classes: string[]) {
+			this.staticClasses = classes;
 		},
 		copyClassStyles(styles: CssStyles) {
 			this.copiedStyles = cloneDeep(styles);

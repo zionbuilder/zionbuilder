@@ -146,7 +146,6 @@ function closePanelOnOutsideClick(event: MouseEvent) {
 
 onBeforeUnmount(() => {
 	document.removeEventListener('click', closePanelOnOutsideClick);
-	console.log(backdrop);
 	if (backdrop) {
 		backdrop.parentNode?.removeChild(backdrop);
 	}

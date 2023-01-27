@@ -49,6 +49,7 @@
 						:name="cssClassItem.name"
 						:type="cssClassItem.type"
 						:show-delete="cssClassItem.deletable"
+						:show-copy-paste="cssClassItem.type !== 'static_class'"
 						:is-selected="cssClassItem.selected"
 						@remove-class="removeClass(cssClassItem)"
 						@click="selectClass(cssClassItem), (dropdownState = false)"
@@ -83,7 +84,7 @@ export type SelectorConfig = {
 	id: string;
 	deletable: boolean;
 	selected: boolean;
-	uid?: string;
+	uid: string;
 };
 
 const props = withDefaults(
@@ -93,6 +94,7 @@ const props = withDefaults(
 		name: string;
 		allowClassAssignment?: boolean;
 		assignedClasses: string[];
+		assignedStaticClasses: string[];
 		activeStyleElementId: string;
 	}>(),
 	{
@@ -106,7 +108,8 @@ const emit = defineEmits([
 	'add-class',
 	'update:activeGlobalClass',
 	'paste-styles',
-	'update:add-static-class',
+	'add-static-class',
+	'remove-static-class',
 ]);
 
 const cssClasses = useCSSClassesStore();
@@ -130,6 +133,7 @@ const filteredClasses = computed(() => {
 				deletable: false,
 				id: props.activeStyleElementId,
 				selected: props.activeGlobalClass === null,
+				uid: props.activeStyleElementId,
 			},
 		];
 
@@ -148,23 +152,55 @@ const filteredClasses = computed(() => {
 			}
 		});
 
+		props.assignedStaticClasses.forEach(cssClassName => {
+			extraClasses.push({
+				type: 'static_class',
+				name: cssClassName,
+				id: cssClassName,
+				deletable: true,
+				selected: false,
+				uid: cssClassName,
+			});
+		});
+
 		return extraClasses;
 	} else {
-		return cssClasses.getClassesByFilter(keyword.value).map((selectorConfig): SelectorConfig => {
-			return {
+		const foundClasses: SelectorConfig[] = [];
+
+		// Search in global classes
+		cssClasses.getClassesByFilter(keyword.value).map(selectorConfig => {
+			foundClasses.push({
 				type: 'class',
 				name: selectorConfig.name,
 				id: selectorConfig.id,
 				deletable: false,
 				selected: false,
 				uid: selectorConfig.uid,
-			};
+			});
 		});
+
+		// search in static classes
+		cssClasses.getStaticClassesByFilter(keyword.value).map(cssClassName => {
+			foundClasses.push({
+				type: 'static_class',
+				name: cssClassName,
+				id: cssClassName,
+				deletable: true,
+				selected: false,
+				uid: cssClassName,
+			});
+		});
+
+		return foundClasses;
 	}
 });
 
 function removeClass(selectorConfig: SelectorConfig) {
-	emit('remove-class', selectorConfig.uid);
+	if (selectorConfig.type === 'class') {
+		emit('remove-class', selectorConfig.uid);
+	} else if (selectorConfig.type === 'static_class') {
+		emit('remove-static-class', selectorConfig.uid);
+	}
 
 	// clear the keyword
 	keyword.value = '';
@@ -178,7 +214,7 @@ function selectClass(selectorConfig: SelectorConfig) {
 		// Check to see if we need to add the class to the element
 		emit('add-class', selectorConfig.uid);
 	} else if (selectorConfig.type === 'static_class') {
-		emit('update:add-static-class', selectorConfig.uid);
+		emit('add-static-class', selectorConfig.uid);
 	}
 
 	nextTick(() => {

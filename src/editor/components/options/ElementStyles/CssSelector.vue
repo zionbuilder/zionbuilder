@@ -4,7 +4,7 @@
 			<span
 				class="znpb-css-class-selector__item-type"
 				:class="{ [`znpb-css-class-selector__item-type--${type}`]: type }"
-				>{{ type }}
+				>{{ getNameFromType(type) }}
 			</span>
 			<span class="znpb-css-class-selector__item-name">
 				<span :title="name">{{ name }}</span>
@@ -12,7 +12,7 @@
 		</div>
 
 		<Icon
-			v-if="showActions"
+			v-if="showActions && showCopyPaste"
 			v-znpb-tooltip="i18n.__('Copy styles', 'zionbuilder')"
 			icon="copy"
 			class="znpb-css-class-selector__item-copy"
@@ -20,7 +20,7 @@
 		/>
 
 		<Icon
-			v-if="showActions"
+			v-if="showActions && showCopyPaste"
 			v-znpb-tooltip="i18n.__('Paste styles', 'zionbuilder')"
 			icon="paste"
 			class="znpb-css-class-selector__item-paste"
@@ -53,11 +53,13 @@ withDefaults(
 		type: string;
 		isSelected?: boolean;
 		showDelete?: boolean;
+		showCopyPaste?: boolean;
 		showActions?: boolean;
 	}>(),
 	{
 		isSelected: false,
 		showDelete: false,
+		showCopyPaste: true,
 		showActions: true,
 		showChangesBullet: false,
 	},
@@ -66,6 +68,21 @@ withDefaults(
 const emit = defineEmits(['remove-class', 'copy-styles', 'paste-styles', 'remove-extra-classes']);
 
 const cssClasses = useCSSClassesStore();
+
+const namedTypes: Record<string, string> = {
+	id: i18n.__('ID', 'zionbuilder'),
+	class: i18n.__('class', 'zionbuilder'),
+	static_class: i18n.__('external', 'zionbuilder'),
+};
+
+/**
+ * Returns a human readable name for the given type
+ *
+ * @param type string The type of the class
+ */
+function getNameFromType(type: string) {
+	return namedTypes[type] || type;
+}
 </script>
 
 <style lang="scss">
@@ -200,5 +217,10 @@ const cssClasses = useCSSClassesStore();
 			pointer-events: none;
 		}
 	}
+}
+
+.znpb-css-class-selector__item-type--static_class {
+	background: #d15208;
+	color: #fff;
 }
 </style>

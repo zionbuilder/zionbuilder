@@ -7,30 +7,36 @@
 				:element="element"
 				:allow-class-assignment="allowClassAssignment"
 				:assigned-classes="computedClasses"
+				:assigned-static-classes="computedStaticClasses"
 				:active-style-element-id="activeStyleElementId"
 				@add-class="onAddClass"
 				@remove-class="onRemoveClass"
+				@remove-static-class="removeStaticClass"
 				@paste-styles="onPasteStyles"
+				@add-static-class="onAddStaticClass"
 			/>
 
 			<PseudoSelectors v-model="computedStyles" />
 		</div>
 
-		<div v-if="computedClasses.length" class="znpb-element-styles__mediaActiveClasses">
+		<div v-if="computedClasses.length || computedStaticClasses.length" class="znpb-element-styles__mediaActiveClasses">
 			<span
-				v-for="cssClass in computedClasses"
-				:key="cssClass"
+				v-for="cssClass in computedAssignedClasses"
+				:key="cssClass.selector"
 				class="znpb-element-styles__mediaActiveClass"
-				:class="{ 'znpb-element-styles__mediaActiveClass--active': cssClass === computedActiveGlobalClass }"
-				@click.prevent="toggleClass(cssClass)"
+				:class="{
+					'znpb-element-styles__mediaActiveClass--active': cssClass.uid === computedActiveGlobalClass,
+					'znpb-element-styles__mediaActiveClass--static': cssClass.type === 'static_class',
+				}"
+				@click.prevent="cssClass.type !== 'static_class' && toggleClass(cssClass.uid)"
 			>
-				.{{ cssClass }}
+				.{{ cssClass.selector }}
 
 				<Icon
 					v-znpb-tooltip="i18n.__('Remove class', 'zionbuilder')"
 					class="znpb-element-styles__mediaActiveClassRemove"
 					icon="close"
-					@click.stop.prevent="onRemoveClass(cssClass)"
+					@click.stop.prevent="cssClass.onRemove(cssClass.uid)"
 				/>
 			</span>
 		</div>
@@ -42,7 +48,7 @@ import * as i18n from '@wordpress/i18n';
 import { computed } from 'vue';
 import { merge } from 'lodash-es';
 import PseudoSelectors from './PseudoSelectors.vue';
-import ClassSelectorDropdown, { type SelectorConfig } from './ClassSelectorDropdown.vue';
+import ClassSelectorDropdown from './ClassSelectorDropdown.vue';
 import { useCSSClassesStore } from '/@/editor/store';
 
 const cssClasses = useCSSClassesStore();
@@ -73,6 +79,51 @@ const computedClasses = computed({
 	},
 });
 
+const computedAssignedClasses = computed(() => {
+	const assignedClasses: {
+		type: string;
+		selector: string;
+		uid: string;
+		onRemove?: (cssClass: string) => void;
+	}[] = [];
+
+	computedClasses.value.forEach(cssClass => {
+		const classConfig = cssClasses.getClassConfig(cssClass);
+		if (classConfig) {
+			assignedClasses.push({
+				type: 'class',
+				selector: classConfig.id,
+				uid: classConfig.uid,
+				onRemove: () => {
+					onRemoveClass(classConfig.uid);
+				},
+			});
+		}
+	});
+
+	computedStaticClasses.value.forEach(cssClass => {
+		assignedClasses.push({
+			type: 'static_class',
+			selector: cssClass,
+			uid: cssClass,
+			onRemove: () => {
+				removeStaticClass(cssClass);
+			},
+		});
+	});
+
+	return assignedClasses;
+});
+
+const computedStaticClasses = computed({
+	get() {
+		return props.element.getOptionValue(`_styles.${props.activeStyleElementId}.static_classes`, []) as string[];
+	},
+	set(newValue: string[]) {
+		props.element.updateOptionValue(`_styles.${props.activeStyleElementId}.static_classes`, newValue);
+	},
+});
+
 function toggleClass(cssClass: string) {
 	if (computedActiveGlobalClass.value === cssClass) {
 		computedActiveGlobalClass.value = null;
@@ -85,7 +136,6 @@ function onRemoveClass(cssClass: string) {
 	const existingClasses = [...computedClasses.value];
 	let classIndex = existingClasses.indexOf(cssClass);
 
-	console.log(cssClass, existingClasses);
 	if (classIndex === -1) {
 		// Check if the class is assigned using the old "selector" id instead of the uid
 		const classConfig = cssClasses.getClassConfig(cssClass);
@@ -99,13 +149,30 @@ function onRemoveClass(cssClass: string) {
 	}
 
 	existingClasses.splice(classIndex, 1);
-
 	// Check if the active class was the one deleted
 	if (computedActiveGlobalClass.value === cssClass) {
 		computedActiveGlobalClass.value = null;
 	}
 
 	computedClasses.value = existingClasses;
+}
+
+/**
+ * Removes a static class from the element
+ *
+ * @param cssClass string
+ */
+function removeStaticClass(cssClass: string) {
+	const existingClasses = [...computedStaticClasses.value];
+	const classIndex = existingClasses.indexOf(cssClass);
+
+	if (classIndex === -1) {
+		return;
+	}
+
+	existingClasses.splice(classIndex, 1);
+
+	computedStaticClasses.value = existingClasses;
 }
 
 const allowClassAssignment = computed(() => {
@@ -167,6 +234,17 @@ function onAddClass(cssClass: string) {
 		computedClasses.value = existingClasses;
 
 		computedActiveGlobalClass.value = cssClass;
+	}
+}
+
+function onAddStaticClass(cssClass: string) {
+	// Check to see if the class already exists
+	if (computedStaticClasses.value.includes(cssClass)) {
+		return;
+	} else {
+		const existingClasses = [...computedStaticClasses.value];
+		existingClasses.push(cssClass);
+		computedStaticClasses.value = existingClasses;
 	}
 }
 
@@ -236,5 +314,11 @@ function onPasteStyles() {
 .znpb-element-styles__mediaActiveClass:hover .znpb-element-styles__mediaActiveClassRemove {
 	opacity: 1;
 	visibility: visible;
+}
+
+.znpb-element-styles__mediaActiveClass--static {
+	cursor: default;
+	background: #141414;
+	color: #fff;
 }
 </style>

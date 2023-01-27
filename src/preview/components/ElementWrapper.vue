@@ -224,6 +224,7 @@ export default {
 						const renderTag = styleConfig.render_tag;
 
 						if (renderTag) {
+							// Assign dynamic classes
 							options.value._styles[styleId].classes.forEach(cssClass => {
 								if (!additionalAttributes[renderTag]) {
 									additionalAttributes[renderTag] = {};
@@ -234,9 +235,21 @@ export default {
 								if (cssClassSelector) {
 									additionalAttributes[renderTag]['class'] = [
 										...(additionalAttributes[renderTag]['class'] || []),
-										cssClass,
+										cssClassSelector,
 									];
 								}
+							});
+
+							// assign static classes
+							options.value._styles[styleId].static_classes.forEach(cssClass => {
+								if (!additionalAttributes[renderTag]) {
+									additionalAttributes[renderTag] = {};
+								}
+
+								additionalAttributes[renderTag]['class'] = [
+									...(additionalAttributes[renderTag]['class'] || []),
+									cssClass,
+								];
 							});
 						}
 					}

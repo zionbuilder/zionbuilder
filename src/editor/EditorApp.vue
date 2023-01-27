@@ -162,6 +162,7 @@ const panelComponentsMap = {
 // Setup initial data for stores
 const cssClasses = useCSSClassesStore();
 cssClasses.setCSSClasses(window.ZnPbInitialData.css_classes);
+cssClasses.setStaticClasses(window.ZnPbInitialData.css_static_classes);
 
 // Setup initial data for page settings
 const pageSettings = usePageSettingsStore();

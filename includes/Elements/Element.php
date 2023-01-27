@@ -292,6 +292,13 @@ class Element {
 						$this->render_attributes->add( $render_tag, 'class', CSSClasses::get_css_class_by_uid( $css_class_uid_or_selector ) );
 					}
 				}
+
+				// Assign static classes
+				if ( isset( $style_value['static_classes'] ) && is_array( $style_value['static_classes'] ) ) {
+					foreach ( $style_value['static_classes'] as $css_class ) {
+						$this->render_attributes->add( $render_tag, 'class', $css_class );
+					}
+				}
 			}
 		}
 	}
