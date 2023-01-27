@@ -227,19 +227,20 @@ function addNewCssClass() {
 		dropdownState.value = false;
 
 		// check if the class already exists
-		const existingClass = cssClasses.CSSClasses.find(classItem => {
-			return classItem.name.toLowerCase() === keyword.value;
-		});
+		const existingClass = cssClasses.getClassConfig(keyword.value);
 
-		if (!existingClass) {
-			cssClasses.addCSSClass({
+		if (existingClass) {
+			// Add css class to element options
+			emit('add-class', existingClass.uid);
+		} else {
+			const newClass = cssClasses.addCSSClass({
 				id: keyword.value,
 				name: keyword.value,
 			});
-		}
 
-		// Add css class to element options
-		emit('add-class', keyword.value);
+			// Add css class to element options
+			emit('add-class', newClass.uid);
+		}
 
 		// clear the keyword
 		keyword.value = '';

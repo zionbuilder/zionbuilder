@@ -78,10 +78,12 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 		},
 	},
 	actions: {
-		addCSSClass(config) {
+		addCSSClass(config: { name: string; id: string }): CSSClass {
 			const classToAdd = { ...config };
 			classToAdd.uid = config.uid || generateUID();
 			this.CSSClasses.push(classToAdd);
+
+			return classToAdd;
 		},
 		removeCSSClass(cssClass) {
 			const cssClassIndex = this.CSSClasses.indexOf(cssClass);

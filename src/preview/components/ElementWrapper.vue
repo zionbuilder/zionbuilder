@@ -241,7 +241,8 @@ export default {
 							});
 
 							// assign static classes
-							options.value._styles[styleId].static_classes.forEach(cssClass => {
+							const staticClasses = get(options.value, `_styles.${styleId}.static_classes`, []);
+							staticClasses.forEach(cssClass => {
 								if (!additionalAttributes[renderTag]) {
 									additionalAttributes[renderTag] = {};
 								}

@@ -2,8 +2,8 @@
 Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
-Tested up to: 6.0.3
-Stable tag: 3.5.0
+Tested up to: 6.1.1
+Stable tag: 3.6.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,38 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 3.5.0 2023-27-01 =
+Improved: Moved element class and pseudo selector at the top of the element options panel
+Improved: Number unit option type
+Improved: Margin/padding option type
+Improved: Press the CTRL key ( command on Mac ) to change the opposite value of the margin/padding option
+Improved: Preserve unit for number input options when changing responsive device
+Improved: Zion builder library open speed
+Improved: Remove custom attributes options when editing a global CSS class
+Improved: Zion Builder library display speed
+Improved: Display of the system info admin page
+Improved: Replaced save page notification with a small loader icon
+Improved: Removed autosave notification when opening a page
+Improved: Moved the "add new CSS" class to the top of the options panel
+Improved: Updated all code to Typescript and Vue setup
+Improved: Moved size and spacing options before border options
+Fixed: Page template not applying when a theme builder template is used
+Fixed: Rank Math integration stopped working
+Fixed: Improper background color for custom code option on the current line 
+Fixed: Fatal error occurring in certain conditions when editing the menu
+Fixed: Several actions from the inline text editor not working
+Fixed: Background video doesn't autoplay on mobile phones in certain conditions
+Fixed: Element additional classes get deleted when removing element styles
+Fixed: Compatibility with "Hoverify Chrome extension"
+Fixed: Console error when hovering various style option tabs
+Fixed: Local google fonts not working in certain conditions
+Fixed: show/hide element not working from the toolbox
+Fixed: container spacing options not showing
+Fixed: new breakpoints not saving
+Fixed: improper appear animation duration value set when changing the unit
+Fixed: possible editor freeze when using the font color picker
+Developer: Added the ability to add additional CSS classes to the CSS class selector option
+
 = 3.4.1 2022-15-11 =
 Added: Eyedropper to color picker
 Added: Highlight the affected element when hovering on element style options items
