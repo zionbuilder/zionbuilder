@@ -172,7 +172,6 @@ class IconList extends Element {
 			'icon',
 			[
 				'type'        => 'icon_library',
-				'id'          => 'icon',
 				'title'       => esc_html__( 'Icon', 'zionbuilder' ),
 				'description' => esc_html__( 'Choose an icon', 'zionbuilder' ),
 			]
@@ -182,7 +181,6 @@ class IconList extends Element {
 			'text',
 			[
 				'type'        => 'text',
-				'id'          => 'content',
 				'description' => esc_html__( 'Set the desired content for this element', 'zionbuilder' ),
 				'title'       => esc_html__( 'Content', 'zionbuilder' ),
 				'placeholder' => esc_html__( 'Enter item text', 'zionbuilder' ),
