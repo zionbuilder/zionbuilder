@@ -104,7 +104,16 @@ class Preview {
 	public function add_data() {
 		?>
 			<script type="text/javascript">
-				var ZnPbInitialData = <?php echo wp_json_encode( $this->get_preview_initial_data() ); ?>
+				var ZnPbInitialData = <?php echo wp_json_encode( $this->get_preview_initial_data() ); ?>;
+
+				/**
+				 * Adds backwards compatibility with plugins that use this variable
+				 * 
+				 * @deprecated 3.6.0
+				 */
+				var zionBuilderPaths = {
+					appName: 'zionbuilder'
+				}
 			</script>
 		<?php
 	}
@@ -129,8 +138,6 @@ class Preview {
 			],
 			Plugin::instance()->get_version()
 		);
-
-		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbInitialData', $this->get_preview_initial_data() );
 
 		do_action( 'zionbuilder/preview/after_load_scripts', $this );
 		do_action( 'zionbuilder/preview/after_load_styles', $this );
@@ -172,7 +179,6 @@ class Preview {
 				'pro_changelog'     => 'https://zionbuilder.io/changelog-pro-version/',
 				'ajax_url'          => admin_url( 'admin-ajax.php', 'relative' ),
 			],
-
 			'user_data'               => User::get_user_data(),
 		];
 	}
