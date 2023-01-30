@@ -57,8 +57,6 @@ class Yoast implements IBaseIntegration {
 
 		if ( ( 'post-new.php' === $hook || 'post.php' === $hook ) && ! is_null( $post ) ) {
 			// Load the scripts
-			CommonJS::register_scripts();
-
 			wp_enqueue_script(
 				'zb-yoast',
 				Plugin::instance()->scripts->get_script_url( 'integrations/yoast', 'js' ),
