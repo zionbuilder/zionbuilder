@@ -99,5 +99,14 @@ interface Window {
 		i18n: {
 			__: (text: string, domain?: string) => string;
 		};
+
+		hooks: {
+			addFilter: (tag: string, namespace: string, callback: T, priority?: number) => void;
+			addAction: (tag: string, namespace: string, callback: T, priority?: number) => void;
+			removeFilter: (tag: string, namespace: string, callback: T, priority?: number) => void;
+			removeAction: (tag: string, namespace: string, callback: T, priority?: number) => void;
+			doAction: (tag: string, ...args: unknown[]) => void;
+			applyFilters: (tag: string, value: unknown, ...args: unknown[]) => unknown;
+		};
 	};
 }

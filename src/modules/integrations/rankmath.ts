@@ -1,9 +1,6 @@
-import { getRenderedContent } from '/@/common/api';
-
 function RankMath() {
 	const { post_id = 0, is_editor_enabled = false } = window.ZnPbEditPostData ? window.ZnPbEditPostData.data : {};
 	let pageContent = '';
-	let hasContent = true;
 
 	function init() {
 		if (is_editor_enabled) {
@@ -15,14 +12,22 @@ function RankMath() {
 		if (pageContent.length) {
 			content = pageContent;
 		} else {
-			getRenderedContent(post_id).then(response => {
-				pageContent = response.data;
-				if (!pageContent.length) {
-					hasContent = false;
-				} else {
-					window.rankMathEditor.refresh('content');
-				}
-			});
+			const url = `${window.ZbRankMathData.rest_root}zionbuilder/v1/pages/${post_id}/get_rendered_content`;
+			fetch(url, {
+				headers: {
+					'X-WP-Nonce': window.ZbRankMathData.nonce,
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+			})
+				.then(response => response.json())
+				.then(data => {
+					pageContent = data;
+
+					if (pageContent.length) {
+						window.rankMathEditor.refresh('content');
+					}
+				});
 		}
 
 		// perform the query
@@ -35,3 +40,5 @@ function RankMath() {
 }
 
 RankMath().init();
+
+export {};

@@ -56,8 +56,6 @@ class RankMath implements IBaseIntegration {
 	public function on_enqueue_scripts( $hook ) {
 		if ( 'post-new.php' === $hook || 'post.php' === $hook ) {
 			// Load the scripts
-			CommonJS::register_scripts();
-
 			Plugin::instance()->scripts->enqueue_script(
 				'zb-rankmath',
 				'integrations/rankmath',
@@ -71,7 +69,7 @@ class RankMath implements IBaseIntegration {
 
 			wp_localize_script(
 				'zb-rankmath',
-				'ZnRestConfig',
+				'ZbRankMathData',
 				[
 					'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
 					'rest_root' => esc_url_raw( rest_url() ),
