@@ -71,7 +71,7 @@ const props = withDefaults(
 	},
 );
 
-defineEmits<{
+const emit = defineEmits<{
 	(e: 'color-updated', value: string): void;
 }>();
 
