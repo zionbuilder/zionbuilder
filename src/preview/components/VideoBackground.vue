@@ -1,14 +1,22 @@
 <template>
-	<div v-if="hasVideoSource" class="zb__videoBackground-wrapper" :data-zion-video-background="getVideoSettings" />
+	<div
+		v-if="hasVideoSource"
+		ref="elementRef"
+		class="zb__videoBackground-wrapper"
+		:data-zion-video-background="getVideoSettings"
+	/>
 </template>
 
 <script lang="ts" setup>
 import { isEqual } from 'lodash-es';
-import { computed, nextTick, onMounted, watch } from 'vue';
+import { computed, ref, Ref, nextTick, onMounted, watch } from 'vue';
 
 const props = withDefaults(defineProps<{ videoConfig: any }>(), {
 	videoConfig: () => ({}),
 });
+
+const elementRef = ref(null);
+const videoInstance: Ref<Video | null> = ref(null);
 
 const getVideoSettings = computed(() => JSON.stringify(props.videoConfig));
 const hasVideoSource = computed(() => {
