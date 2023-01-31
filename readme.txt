@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 6.1.1
-Stable tag: 3.6.1
+Stable tag: 3.6.2
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,12 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 3.6.2 2023-30-01 =
+Improved: Lowered z-index for video overlay from 999 to 9 ( https://feedback.zionbuilder.io/b/5v8jzj0g/feature-requests/z-index-of-embedded-videos-overlay-image-is-too-high )
+Improved: Added backward compatibility for zb.hooks API
+Fixed: Color presets cannot be selected
+Fixed: Compatibility with Rank Math plugin
+
 = 3.6.1 2023-28-01 =
 Fixed: Icon position CSS class for button element is translatable
 Fixed: Compatibility with Zion Extras
