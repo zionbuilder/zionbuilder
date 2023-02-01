@@ -93,7 +93,7 @@ export const ScriptsLoader = window => {
 			const javascriptTag = window.document.createElement('script');
 			javascriptTag.src = url;
 
-			if (url.indexOf('http://127.0.0.1') === 0) {
+			if (url.indexOf('//127.0.0.1') === 0) {
 				javascriptTag.type = 'module';
 			}
 

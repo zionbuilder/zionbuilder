@@ -40,10 +40,19 @@ class Scripts {
 	 */
 	private $assets_root_path = null;
 
+	/**
+	 * Holds the value of the debug flag
+	 *
+	 * @var boolean
+	 */
+	private $is_debug = false;
+
 	public function __construct() {
 		$this->setup_environment();
 
-		if ( Environment::is_debug() ) {
+		$this->is_debug = Environment::is_debug();
+
+		if ( $this->is_debug ) {
 			add_filter( 'script_loader_src', [ $this, 'remove_script_version' ], 15, 1 );
 			add_filter( 'style_loader_src', [ $this, 'remove_script_version' ], 15, 1 );
 			add_filter( 'script_loader_tag', [ $this, 'add_module_attribute' ], 10, 3 );
@@ -57,9 +66,13 @@ class Scripts {
 
 	public function add_module_attribute( $tag, $handle, $src ) {
 		// if not your script, do nothing and return original $tag
-		if ( strpos( $src, 'http://127.0.0.1' ) === 0 ) {
-			// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
-			$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+		if ( $this->is_debug ) {
+
+			$scripts_map = Environment::get_value( 'devScripts', [] );
+			if ( in_array( $src, $scripts_map, true ) ) {
+				// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
+				$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+			}
 		}
 
 		// change the script tag by adding type="module" and return it.
@@ -74,7 +87,7 @@ class Scripts {
 	public function setup_environment() {
 		// Get the project root
 		$output_directory       = Environment::get_value( 'outputDir' );
-		$this->assets_root_url  = trailingslashit( Utils::get_file_url( $output_directory ) );
+		$this->assets_root_url  = trailingslashit( Utils::get_file_url( $output_directory, 'relative' ) );
 		$this->assets_root_path = trailingslashit( Utils::get_file_path( $output_directory ) );
 	}
 
@@ -364,8 +377,7 @@ class Scripts {
 	 * @return string
 	 */
 	public function get_script_url( $path, $extension ) {
-		$is_debug = Environment::is_debug();
-		if ( $is_debug && $extension === 'js' ) {
+		if ( $this->is_debug && $extension === 'js' ) {
 			$scripts_map = Environment::get_value( 'devScripts', [] );
 
 			if ( isset( $scripts_map[$path] ) ) {

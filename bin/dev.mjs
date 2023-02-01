@@ -5,6 +5,7 @@ import { filesMap } from './map.mjs';
 import path from 'path';
 import { generateManifest } from './manifest.mjs';
 import { viteExternalsPlugin } from 'vite-plugin-externals';
+import mkcert from 'vite-plugin-mkcert';
 
 const inputs = {};
 filesMap.forEach(file => {
@@ -53,6 +54,7 @@ const server = await createServer({
     },
   },
   plugins: [
+    mkcert(),
     vue(),
     viteExternalsPlugin({
       vue: ['zb', 'vue'],
@@ -70,6 +72,7 @@ const server = await createServer({
   ],
   server: {
     host: '127.0.0.1',
+    https: true,
   },
 });
 
@@ -82,7 +85,7 @@ await server.listen();
  */
 const devScripts = {};
 const { address, port } = server.httpServer.address();
-const url = `http://${address}:${port}/`;
+const url = `//${address}:${port}/`;
 filesMap.forEach(fileConfig => {
   devScripts[fileConfig.output] = `${url}${fileConfig.input}`;
 });
