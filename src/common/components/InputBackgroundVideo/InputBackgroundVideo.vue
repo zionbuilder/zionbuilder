@@ -61,7 +61,7 @@ const emit = defineEmits<{
 	(e: 'update:modelValue', value: VideoValue): void;
 }>();
 const videoInstance: Ref<Video | null> = ref(null);
-const mediaModal: Ref<Record<string, any> | null> = ref(null);
+let mediaModal = null;
 const videoPreview: Ref<HTMLDivElement | null> = ref(null);
 
 const { getSchema } = useOptionsSchemas();
@@ -132,7 +132,7 @@ function initVideo() {
 }
 
 function openMediaModal() {
-	if (mediaModal.value === null) {
+	if (mediaModal === null) {
 		const args = {
 			frame: 'select',
 			state: 'library',
@@ -142,17 +142,17 @@ function openMediaModal() {
 		};
 
 		// Create the frame
-		mediaModal.value = window.wp.media(args) as Record<string, any>;
+		mediaModal = window.wp.media(args) as Record<string, any>;
 
-		mediaModal.value.on('select update insert', selectMedia);
+		mediaModal.on('select update insert', selectMedia);
 	}
 
 	// Open the media modal
-	mediaModal.value.open();
+	mediaModal.open();
 }
 
 function selectMedia() {
-	const selection = (mediaModal.value as Record<string, any>).state().get('selection').toJSON();
+	const selection = (mediaModal as Record<string, any>).state().get('selection').toJSON();
 
 	emit('update:modelValue', {
 		...computedValue.value,

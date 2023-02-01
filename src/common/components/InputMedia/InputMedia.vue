@@ -18,7 +18,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed, ref, Ref } from 'vue';
+import { computed } from 'vue';
 import BaseInput from '../BaseInput/BaseInput.vue';
 
 const props = withDefaults(
@@ -26,14 +26,14 @@ const props = withDefaults(
 		modelValue?: string;
 		media_type?: string;
 		selectButtonText?: string;
-		mediaConfig?: { inserTitle: string; multiple: boolean };
+		mediaConfig?: { insertTitle: string; multiple: boolean };
 	}>(),
 	{
 		media_type: 'image',
 		selectButtonText: 'select',
 		mediaConfig: () => {
 			return {
-				inserTitle: 'Add File',
+				insertTitle: 'Add File',
 				multiple: false,
 			};
 		},
@@ -42,7 +42,7 @@ const props = withDefaults(
 
 const emit = defineEmits(['update:modelValue']);
 
-const mediaModal: Ref<any> = ref(null);
+let mediaModal = null;
 
 const inputValue = computed({
 	get() {
@@ -54,31 +54,31 @@ const inputValue = computed({
 });
 
 function openMediaModal() {
-	if (mediaModal.value === null) {
-		let selection = getSelection();
+	if (mediaModal === null) {
+		const selection = getSelection();
 
 		const args = {
 			frame: 'select',
 			state: 'library',
 			library: { type: props.media_type },
-			button: { text: props.mediaConfig.inserTitle },
+			button: { text: props.mediaConfig.insertTitle },
 			selection,
 		};
 
 		// Create the frame
-		mediaModal.value = window.wp.media(args);
+		mediaModal = window.wp.media(args);
 
-		mediaModal.value.on('select update insert', selectFont);
+		mediaModal.on('select update insert', selectMedia);
 	}
 
 	// Open the media modal
-	mediaModal.value.open();
+	mediaModal.open();
 }
 
-function selectFont(e) {
+function selectMedia(e) {
 	console.log('e', e);
 
-	let selection = mediaModal.value.state().get('selection').toJSON();
+	let selection = mediaModal.state().get('selection').toJSON();
 
 	// In case we have multiple items
 	if (e !== undefined) {
@@ -95,10 +95,10 @@ function selectFont(e) {
 function getSelection() {
 	if (typeof props.modelValue === 'undefined') return;
 
-	let idArray = props.modelValue.split(',');
-	let args = { orderby: 'post__in', order: 'ASC', type: 'image', perPage: -1, post__in: idArray };
-	let attachments = window.wp.media.query(args);
-	let selection = new window.wp.media.model.Selection(attachments.models, {
+	const idArray = props.modelValue.split(',');
+	const args = { orderby: 'post__in', order: 'ASC', type: 'image', perPage: -1, post__in: idArray };
+	const attachments = window.wp.media.query(args);
+	const selection = new window.wp.media.model.Selection(attachments.models, {
 		props: attachments.props.toJSON(),
 		multiple: true,
 	});
