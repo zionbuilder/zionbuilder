@@ -87,7 +87,7 @@ class Scripts {
 	public function setup_environment() {
 		// Get the project root
 		$output_directory       = Environment::get_value( 'outputDir' );
-		$this->assets_root_url  = trailingslashit( Utils::get_file_url( $output_directory, 'relative' ) );
+		$this->assets_root_url  = trailingslashit( Utils::get_file_url( $output_directory ) );
 		$this->assets_root_path = trailingslashit( Utils::get_file_path( $output_directory ) );
 	}
 

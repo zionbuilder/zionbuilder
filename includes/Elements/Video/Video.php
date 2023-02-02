@@ -220,9 +220,10 @@ class Video extends Element {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
+		wp_enqueue_script( 'zb-video' );
+
 		// Using helper methods will go through caching policy
 		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Video/editor', 'js' ) );
-		wp_enqueue_script( 'zb-video' );
 	}
 
 	/**

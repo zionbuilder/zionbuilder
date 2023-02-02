@@ -79,34 +79,35 @@ export default class Video {
 		}
 
 		// Check to see if we are inside a modal
-		// const modalParent = this.domNode.closest('.zb-modal');
+		const modalParent = this.domNode.closest('.zb-modal');
 
-		// if (modalParent) {
-		// 	modalParent.addEventListener('openModal', () => {
-		// 		if (this.isInit) {
-		// 			this.play();
-		// 		} else {
-		// 			this.init();
-		// 		}
-		// 	});
-
-		// 	modalParent.addEventListener('closeModal', () => {
-		// 		this.pause();
-		// 	});
-		// } else {
-		// 	this.init();
-		// }
-
-		// Setup intersection observer
-		this.intersectionObserer = new IntersectionObserver(entries => {
-			entries.forEach(entry => {
-				if (entry.isIntersecting) {
+		if (modalParent) {
+			modalParent.addEventListener('openModal', () => {
+				if (this.isInit) {
+					this.play();
+				} else {
 					this.init();
 				}
 			});
-		});
 
-		this.intersectionObserer.observe(this.domNode);
+			modalParent.addEventListener('closeModal', () => {
+				this.pause();
+			});
+		} else {
+			this.init();
+		}
+
+		// Setup intersection observer
+		// TODO: add lazy loading
+		// this.intersectionObserer = new IntersectionObserver(entries => {
+		// 	entries.forEach(entry => {
+		// 		if (entry.isIntersecting) {
+		// 			this.init();
+		// 		}
+		// 	});
+		// });
+
+		// this.intersectionObserer.observe(this.domNode);
 	}
 
 	initResponsive(iframe: HTMLIFrameElement) {
@@ -122,7 +123,7 @@ export default class Video {
 				} else {
 					width = entry.contentRect.width;
 				}
-				console.log(width);
+
 				const elementHeight = this.domNode.clientHeight;
 				let height = (width * 9) / 16;
 
@@ -345,7 +346,7 @@ export default class Video {
 				playerVars: playerVars,
 				host: 'https://www.youtube-nocookie.com',
 			});
-			console.log(this.youtubePlayer);
+
 			this.initResponsive(this.youtubePlayer.h);
 		});
 	}
