@@ -1,5 +1,5 @@
 <template>
-	<div ref="root" :data-zion-video="getElementOptions">
+	<div ref="root">
 		<slot name="start" />
 
 		<div class="zb-el-zionVideo-wrapper" />
@@ -76,13 +76,14 @@ watch(watchedValues, (newValue, oldValue) => {
 });
 
 function runScript() {
+	console.log(window.zbScripts);
 	if (window.zbScripts?.video) {
 		if (videoPlayer) {
 			videoPlayer.destroy();
 		}
 
 		if (root.value) {
-			videoPlayer = new window.zbScripts.video(root.value);
+			videoPlayer = new window.zbScripts.video(root.value, getElementOptions.value);
 			videoPlayer.init();
 		}
 	}
@@ -93,10 +94,11 @@ const videoSourceModel = computed(() => {
 });
 
 const getElementOptions = computed(() => {
-	return JSON.stringify({
-		video_config: videoSourceModel.value,
+	console.log(props.options);
+	return {
 		use_image_overlay: props.options.use_image_overlay,
-	});
+		...videoSourceModel.value,
+	};
 });
 
 const imageSrc = computed(() => {

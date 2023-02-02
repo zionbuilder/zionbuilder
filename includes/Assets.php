@@ -350,8 +350,8 @@ class Assets {
 		wp_register_script( 'zb-modal', Plugin::instance()->scripts->get_script_url( 'ModalJS', 'js' ), array(), Plugin::instance()->get_version(), true );
 
 		// Video
-		wp_register_script( 'zb-video', Plugin::instance()->scripts->get_script_url( 'ZBVideo', 'js' ), array(), Plugin::instance()->get_version(), true );
-		wp_register_script( 'zb-video-bg', Plugin::instance()->scripts->get_script_url( 'ZBVideoBg', 'js' ), array( 'zb-video' ), Plugin::instance()->get_version(), true );
+		wp_register_script( 'zb-video', Plugin::instance()->scripts->get_script_url( 'ZBVideo', 'js' ), [], Plugin::instance()->get_version(), true );
+		wp_register_script( 'zb-video-bg', Plugin::instance()->scripts->get_script_url( 'ZBVideo', 'js' ), [], Plugin::instance()->get_version(), true );
 
 		// Swiper slider
 		wp_register_script( 'swiper', Utils::get_file_url( 'assets/vendors/swiper/swiper.min.js' ), array(), Plugin::instance()->get_version(), true );

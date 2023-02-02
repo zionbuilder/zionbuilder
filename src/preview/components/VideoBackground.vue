@@ -2,7 +2,7 @@
 	<div
 		v-if="hasVideoSource"
 		ref="elementRef"
-		class="zb__videoBackground-wrapper"
+		class="zb__videoBackground-wrapper zbjs_video_background hg-video-bg__wrapper"
 		:data-zion-video-background="getVideoSettings"
 	/>
 </template>
@@ -35,39 +35,36 @@ const hasVideoSource = computed(() => {
 watch(
 	() => props.videoConfig,
 	(newValue, oldValue) => {
-		if (!hasVideoSource.value) {
-			return;
-		}
-
 		if (!isEqual(newValue, oldValue)) {
-			if (videoInstance.value) {
-				videoInstance.value.destroy();
-			}
-
 			nextTick(() => {
-				const script = window.document.getElementById('znpb-editor-iframe')?.contentWindow?.ZBVideoBg;
-				if (script) {
-					videoInstance.value = new script(elementRef.value, props.videoConfig);
-				} else {
-					console.error('video script not found');
-				}
+				initVideo();
 			});
 		}
 	},
 );
 
-onMounted(() => {
+function initVideo() {
 	if (!hasVideoSource.value) {
 		return;
 	}
 
-	if (Object.keys(props.videoConfig).length > 0) {
-		const script = window.document.getElementById('znpb-editor-iframe')?.contentWindow?.ZBVideoBg;
-		if (script) {
-			videoInstance.value = new script(elementRef.value, props.videoConfig);
-		} else {
-			console.error('video script not found');
-		}
+	if (videoInstance.value) {
+		videoInstance.value.destroy();
 	}
+
+	const script = window.document.getElementById('znpb-editor-iframe')?.contentWindow?.zbScripts.video;
+
+	if (script) {
+		videoInstance.value = new script(elementRef.value, {
+			...props.videoConfig,
+			isBackgroundVideo: true,
+		});
+	} else {
+		console.error('video script not found');
+	}
+}
+
+onMounted(() => {
+	initVideo();
 });
 </script>

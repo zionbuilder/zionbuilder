@@ -23,7 +23,9 @@ import BaseInput from '../BaseInput/BaseInput.vue';
 
 const props = withDefaults(
 	defineProps<{
+		// eslint-disable-next-line vue/require-default-prop
 		modelValue?: string;
+		// eslint-disable-next-line vue/prop-name-casing
 		media_type?: string;
 		selectButtonText?: string;
 		mediaConfig?: { insertTitle: string; multiple: boolean };
@@ -76,8 +78,6 @@ function openMediaModal() {
 }
 
 function selectMedia(e) {
-	console.log('e', e);
-
 	let selection = mediaModal.state().get('selection').toJSON();
 
 	// In case we have multiple items

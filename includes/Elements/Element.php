@@ -821,7 +821,7 @@ class Element {
 		$background_video_options = $this->options->get_value( '_styles.wrapper.styles.default.default.background-video' );
 
 		if ( ! empty( self::has_video_background( $background_video_options ) ) ) {
-			wp_enqueue_script( 'zb-video-bg' );
+			wp_enqueue_script( 'zb-video' );
 		}
 
 		$wrapper_tag = $this->get_wrapper_tag( $this->options );
@@ -864,7 +864,14 @@ class Element {
 	 */
 	public static function render_video_background( $options ) {
 		if ( self::has_video_background( $options ) ) {
-			printf( '<div class="zb__videoBackground-wrapper zbjs_video_background" data-zion-video-background=\'%s\'></div>', wp_json_encode( $options ) );
+
+			$video_options = array_merge(
+				$options,
+				[
+					'isBackgroundVideo' => true,
+				]
+			);
+			printf( '<div class="zb__videoBackground-wrapper zbjs_video_background" data-zion-video=\'%s\'></div>', wp_json_encode( $video_options ) );
 		}
 	}
 

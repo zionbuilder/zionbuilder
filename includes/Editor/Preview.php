@@ -128,7 +128,7 @@ class Preview {
 
 		wp_enqueue_style( 'zion-frontend-animations' );
 		wp_enqueue_script( 'zionbuilder-animatejs' );
-		wp_enqueue_script( 'zb-video-bg' );
+		wp_enqueue_script( 'zb-video' );
 
 		Plugin::instance()->scripts->enqueue_style(
 			'znpb-preview-frame-styles',

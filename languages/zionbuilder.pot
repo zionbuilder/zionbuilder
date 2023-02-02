@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-01-31T16:34:47+00:00\n"
+"POT-Creation-Date: 2023-02-01T21:11:09+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: zionbuilder\n"
@@ -297,7 +297,7 @@ msgstr ""
 #: includes/Elements/Soundcloud/Soundcloud.php:291
 #: includes/Elements/Soundcloud/Soundcloud.php:313
 #: includes/MaintenanceMode.php:238
-#: dist/common.js:17147
+#: dist/common.js:17160
 msgid "Yes"
 msgstr ""
 
@@ -315,7 +315,7 @@ msgstr ""
 #: includes/Elements/Soundcloud/Soundcloud.php:295
 #: includes/Elements/Soundcloud/Soundcloud.php:317
 #: includes/MaintenanceMode.php:242
-#: dist/common.js:17147
+#: dist/common.js:17160
 msgid "No"
 msgstr ""
 
@@ -713,8 +713,8 @@ msgstr ""
 #: includes/Elements/Icon/Icon.php:93
 #: includes/Elements/IconList/IconList.php:198
 #: includes/Elements/Image/Image.php:118
-#: dist/common.js:20433
-#: dist/common.js:20472
+#: dist/common.js:20445
+#: dist/common.js:20484
 msgid "Link"
 msgstr ""
 
@@ -1130,7 +1130,7 @@ msgid "flex-end"
 msgstr ""
 
 #: includes/Elements/Container/Container.php:300
-#: dist/common.js:19373
+#: dist/common.js:19385
 msgid "Justify"
 msgstr ""
 
@@ -1353,7 +1353,7 @@ msgstr ""
 #: includes/Options/Schemas/StyleOptions.php:648
 #: includes/Permissions.php:76
 #: dist/admin-page.js:2353
-#: dist/common.js:19335
+#: dist/common.js:19347
 #: dist/editor.js:6311
 msgid "Click here to learn more about PRO."
 msgstr ""
@@ -1362,8 +1362,8 @@ msgstr ""
 msgid "Wrapper"
 msgstr ""
 
-#: includes/Elements/Element.php:1530
-#: includes/Elements/Element.php:1593
+#: includes/Elements/Element.php:1537
+#: includes/Elements/Element.php:1600
 msgid "Heads up!"
 msgstr ""
 
@@ -3268,7 +3268,11 @@ msgstr ""
 msgid "Autoplay video?"
 msgstr ""
 
-#: includes/Options/Schemas/Video.php:150
+#: includes/Options/Schemas/Video.php:151
+msgid "Loop video?"
+msgstr ""
+
+#: includes/Options/Schemas/Video.php:159
 msgid "Start muted?"
 msgstr ""
 
@@ -3742,7 +3746,7 @@ msgstr ""
 
 #: dist/admin-page.js:2355
 #: dist/admin-page.js:3017
-#: dist/common.js:19255
+#: dist/common.js:19267
 msgid "Upgrade to PRO"
 msgstr ""
 
@@ -3840,7 +3844,7 @@ msgstr ""
 #: dist/admin-page.js:2829
 #: dist/admin-page.js:2883
 #: dist/common.js:14937
-#: dist/common.js:19243
+#: dist/common.js:19255
 #: dist/editor.js:6302
 #: dist/editor.js:6303
 #: dist/editor.js:13036
@@ -3893,9 +3897,9 @@ msgid "Documentation"
 msgstr ""
 
 #: dist/common.js:7871
-#: dist/common.js:20424
-#: dist/common.js:20463
-#: dist/common.js:21336
+#: dist/common.js:20436
+#: dist/common.js:20475
+#: dist/common.js:21348
 #: dist/editor.js:719
 #: dist/editor.js:6415
 msgid "Discard changes"
@@ -3910,7 +3914,7 @@ msgid "Click to add gradient point"
 msgstr ""
 
 #: dist/common.js:12510
-#: dist/common.js:17633
+#: dist/common.js:17646
 msgid "Color"
 msgstr ""
 
@@ -3935,7 +3939,7 @@ msgid "Search or add new"
 msgstr ""
 
 #: dist/common.js:13574
-#: dist/common.js:19476
+#: dist/common.js:19488
 msgid "Search"
 msgstr ""
 
@@ -4004,208 +4008,208 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: dist/common.js:16570
+#: dist/common.js:16583
 msgid "No video Selected"
 msgstr ""
 
-#: dist/common.js:17673
-#: dist/common.js:17701
+#: dist/common.js:17686
+#: dist/common.js:17714
 msgid "No color chosen"
 msgstr ""
 
-#: dist/common.js:18524
+#: dist/common.js:18537
 msgid "Mon"
 msgstr ""
 
-#: dist/common.js:18525
+#: dist/common.js:18538
 msgid "Tue"
 msgstr ""
 
-#: dist/common.js:18526
+#: dist/common.js:18539
 msgid "Wed"
 msgstr ""
 
-#: dist/common.js:18527
+#: dist/common.js:18540
 msgid "Thu"
 msgstr ""
 
-#: dist/common.js:18528
+#: dist/common.js:18541
 msgid "Fri"
 msgstr ""
 
-#: dist/common.js:18529
+#: dist/common.js:18542
 msgid "Sat"
 msgstr ""
 
-#: dist/common.js:18530
+#: dist/common.js:18543
 msgid "Sun"
 msgstr ""
 
-#: dist/common.js:18533
+#: dist/common.js:18546
 msgid "January"
 msgstr ""
 
-#: dist/common.js:18534
+#: dist/common.js:18547
 msgid "February"
 msgstr ""
 
-#: dist/common.js:18535
+#: dist/common.js:18548
 msgid "March"
 msgstr ""
 
-#: dist/common.js:18536
+#: dist/common.js:18549
 msgid "April"
 msgstr ""
 
-#: dist/common.js:18537
+#: dist/common.js:18550
 msgid "May"
 msgstr ""
 
-#: dist/common.js:18538
+#: dist/common.js:18551
 msgid "June"
 msgstr ""
 
-#: dist/common.js:18539
+#: dist/common.js:18552
 msgid "July"
 msgstr ""
 
-#: dist/common.js:18540
+#: dist/common.js:18553
 msgid "August"
 msgstr ""
 
-#: dist/common.js:18541
+#: dist/common.js:18554
 msgid "September"
 msgstr ""
 
-#: dist/common.js:18542
+#: dist/common.js:18555
 msgid "October"
 msgstr ""
 
-#: dist/common.js:18543
+#: dist/common.js:18556
 msgid "November"
 msgstr ""
 
-#: dist/common.js:18544
+#: dist/common.js:18557
 msgid "December"
 msgstr ""
 
-#: dist/common.js:18569
+#: dist/common.js:18582
 msgid "Next Month"
 msgstr ""
 
-#: dist/common.js:18570
+#: dist/common.js:18583
 msgid "Previous month"
 msgstr ""
 
-#: dist/common.js:18571
+#: dist/common.js:18584
 msgid "Set time"
 msgstr ""
 
-#: dist/common.js:19111
+#: dist/common.js:19123
 msgid "Top masks"
 msgstr ""
 
-#: dist/common.js:19115
+#: dist/common.js:19127
 msgid "Bottom masks"
 msgstr ""
 
-#: dist/common.js:19120
+#: dist/common.js:19132
 msgid "Selected top mask"
 msgstr ""
 
-#: dist/common.js:19120
+#: dist/common.js:19132
 msgid "Selected bottom mask"
 msgstr ""
 
-#: dist/common.js:19135
+#: dist/common.js:19147
 msgid "Add a color to mask"
 msgstr ""
 
-#: dist/common.js:19140
+#: dist/common.js:19152
 msgid "Add mask height"
 msgstr ""
 
-#: dist/common.js:19153
+#: dist/common.js:19165
 msgid "Flip mask horizontally"
 msgstr ""
 
-#: dist/common.js:19291
+#: dist/common.js:19303
 msgid "Select shape divider"
 msgstr ""
 
-#: dist/common.js:19333
+#: dist/common.js:19345
 msgid "More shape dividers"
 msgstr ""
 
-#: dist/common.js:19334
+#: dist/common.js:19346
 msgid "The shape you were looking for is not listed above ?"
 msgstr ""
 
-#: dist/common.js:19358
+#: dist/common.js:19370
 msgid "Align left"
 msgstr ""
 
-#: dist/common.js:19363
+#: dist/common.js:19375
 msgid "Align center"
 msgstr ""
 
-#: dist/common.js:19368
+#: dist/common.js:19380
 msgid "Align right"
 msgstr ""
 
-#: dist/common.js:19536
+#: dist/common.js:19548
 msgid "No items found"
 msgstr ""
 
-#: dist/common.js:19634
+#: dist/common.js:19646
 msgid "Add new"
 msgstr ""
 
-#: dist/common.js:20220
+#: dist/common.js:20232
 msgid "Margin top"
 msgstr ""
 
-#: dist/common.js:20230
+#: dist/common.js:20242
 msgid "Margin right"
 msgstr ""
 
-#: dist/common.js:20240
+#: dist/common.js:20252
 msgid "Margin bottom"
 msgstr ""
 
-#: dist/common.js:20250
+#: dist/common.js:20262
 msgid "Margin left"
 msgstr ""
 
-#: dist/common.js:20262
+#: dist/common.js:20274
 msgid "Padding top"
 msgstr ""
 
-#: dist/common.js:20272
+#: dist/common.js:20284
 msgid "Padding right"
 msgstr ""
 
-#: dist/common.js:20282
+#: dist/common.js:20294
 msgid "Padding bottom"
 msgstr ""
 
-#: dist/common.js:20292
+#: dist/common.js:20304
 msgid "Padding left"
 msgstr ""
 
-#: dist/common.js:20433
-#: dist/common.js:20472
+#: dist/common.js:20445
+#: dist/common.js:20484
 msgid "Unlink"
 msgstr ""
 
-#: dist/common.js:22294
+#: dist/common.js:22306
 #: dist/editor.js:13274
 #: dist/editor.js:13666
 #: dist/editor.js:16952
 msgid "Save"
 msgstr ""
 
-#: dist/common.js:22349
+#: dist/common.js:22361
 msgid "No icons were found in package"
 msgstr ""
 
