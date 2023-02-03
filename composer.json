@@ -38,6 +38,12 @@
     ],
     "makepot": [
       "wp --allow-root i18n make-pot . languages/zionbuilder.pot --exclude=\".github,vendor,node-modules,bin,node_modules,tests\" --slug=zionbuilder"
+    ],
+    "phpcs": [
+      "phpcs"
+    ],
+    "phpstan": [
+      "phpstan analyze --level=5 --memory-limit=1024"
     ]
   }
 }

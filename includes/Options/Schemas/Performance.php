@@ -75,6 +75,27 @@ class Performance extends BaseSchema {
 		);
 
 		$options->add_option(
+			'enable_video_lazy_load',
+			[
+				'type'        => 'custom_selector',
+				'columns'     => 2,
+				'default'     => false,
+				'title'       => esc_html__( 'Enable lazy load for videos', 'zionbuilder' ),
+				'description' => esc_html__( 'By lazy loading videos, they will be added in the page when they become visible.', 'zionbuilder' ),
+				'options'     => [
+					[
+						'name' => esc_html__( 'Enable video lazy load', 'zionbuilder' ),
+						'id'   => true,
+					],
+					[
+						'name' => esc_html__( 'no', 'zionbuilder' ),
+						'id'   => false,
+					],
+				],
+			]
+		);
+
+		$options->add_option(
 			'disable_normalize_css',
 			[
 				'type'        => 'custom_selector',

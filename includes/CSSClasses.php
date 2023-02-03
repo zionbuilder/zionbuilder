@@ -106,7 +106,7 @@ class CSSClasses {
 	/**
 	 * Returns the css class string based on the provided id|class config
 	 *
-	 * @param string $id
+	 * @param string $uid_or_selector
 	 *
 	 * @return string
 	 */
@@ -114,7 +114,7 @@ class CSSClasses {
 		$css_classes = self::get_classes();
 		if ( is_array( $css_classes ) ) {
 			foreach ( $css_classes as $class_config ) {
-				if ( isset( $class_config['uid'] ) && $class_config['uid'] === $uid_or_selector ) {
+				if ( $class_config['uid'] === $uid_or_selector ) {
 					return $class_config['id'];
 				}
 			}

@@ -164,11 +164,13 @@ class Video extends Element {
 	 */
 	public function before_render( $options ) {
 		// data-zion-options
-		$video_options = [
-			'video_config'      => $options->get_value( 'video_config' ),
-			'use_image_overlay' => $options->get_value( 'use_image_overlay' ),
-			'use_modal'         => $options->get_value( 'use_modal' ),
-		];
+		$video_options = array_merge(
+			$options->get_value( 'video_config', [] ),
+			[
+				'use_image_overlay' => $options->get_value( 'use_image_overlay' ),
+				'use_modal'         => $options->get_value( 'use_modal' ),
+			]
+		);
 		$this->render_attributes->add( 'wrapper', 'data-zion-video', wp_json_encode( $video_options ) );
 	}
 
@@ -218,9 +220,10 @@ class Video extends Element {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
+		wp_enqueue_script( 'zb-video' );
+
 		// Using helper methods will go through caching policy
 		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Video/editor', 'js' ) );
-		wp_enqueue_script( 'zb-element-video', Plugin::instance()->scripts->get_script_url( 'elements/Video/frontend', 'js' ), [], Plugin::instance()->get_version(), true );
 	}
 
 	/**

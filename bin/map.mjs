@@ -115,12 +115,6 @@ export const filesMap = [
     name: 'ZBVideo',
   },
   {
-    input: 'src/frontend/modules/videoBG/index.ts',
-    format: 'iife',
-    output: 'ZBVideoBg',
-    name: 'ZBVideoBg',
-  },
-  {
     input: 'src/scss/frontend/index.scss',
     output: 'frontend',
     name: 'frontend',

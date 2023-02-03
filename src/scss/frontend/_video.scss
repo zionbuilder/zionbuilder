@@ -1,6 +1,6 @@
 // Background video
 .hg-video-bg {
-	&__wrappper {
+	&__wrapper {
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -20,6 +20,18 @@
 				cursor: pointer;
 				opacity: 1;
 			}
+		}
+
+		& iframe,
+		& video {
+			border: none;
+			height: 100%;
+			left: 50%;
+			max-width: none;
+			position: absolute;
+			top: 50%;
+			transform: translate(-50%,-50%);
+			width: 100%;
 		}
 	}
 
