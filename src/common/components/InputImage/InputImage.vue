@@ -15,7 +15,7 @@
 				</template>
 			</ActionsOverlay>
 			<div
-				v-if="shouldDragImage && (previewExpanded || !shouldDisplayExpander)"
+				v-if="imageSrc && shouldDragImage && (previewExpanded || !shouldDisplayExpander)"
 				ref="dragButton"
 				class="znpb-drag-icon-wrapper"
 				:style="positionCircleStyle"

@@ -98,11 +98,8 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 				return;
 			}
 			const cssClassIndex = this.CSSClasses.indexOf(editedClass);
-			const updatedValues = {
-				...editedClass,
-				...newValues,
-			};
-			this.CSSClasses[cssClassIndex] = updatedValues;
+
+			this.CSSClasses[cssClassIndex] = newValues;
 		},
 		removeAllCssClasses() {
 			this.CSSClasses = [];
@@ -119,9 +116,21 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 		pasteClassStyles(classId: string) {
 			const oldStyles = this.getStylesConfig(classId);
 			const mergedStyles = merge(oldStyles || {}, cloneDeep(this.copiedStyles));
-			this.updateCSSClass(classId, {
+
+			const editedClass = this.getClassConfig(classId);
+
+			if (!editedClass) {
+				// eslint-disable-next-line
+				console.warn('could not find class with config ', { classId, newValues })
+				return;
+			}
+			const cssClassIndex = this.CSSClasses.indexOf(editedClass);
+
+			const updatedValues = {
+				...editedClass,
 				styles: mergedStyles,
-			});
+			};
+			this.CSSClasses[cssClassIndex] = updatedValues;
 		},
 	},
 });

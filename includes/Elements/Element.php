@@ -864,7 +864,6 @@ class Element {
 	 */
 	public static function render_video_background( $options ) {
 		if ( self::has_video_background( $options ) ) {
-
 			$video_options = array_merge(
 				$options,
 				[
