@@ -854,6 +854,7 @@ watch(
 .znpb-panelElementOptionsGlobalClassForm {
 	position: relative;
 	padding-top: 20px;
+	height: 100%;
 
 	& > .znpb-options-form-wrapper,
 	& .znpb-element-styles-option__options-wrapper,
