@@ -351,6 +351,14 @@ class Assets {
 
 		// Video
 		wp_register_script( 'zb-video', Plugin::instance()->scripts->get_script_url( 'ZBVideo', 'js' ), [], Plugin::instance()->get_version(), true );
+		wp_localize_script(
+			'zb-video',
+			'ZionBuilderVideo',
+			[
+				'lazy_load' => Settings::get_value( 'performance.enable_video_lazy_load', false ),
+			]
+		);
+
 		wp_register_script( 'zb-video-bg', Plugin::instance()->scripts->get_script_url( 'ZBVideo', 'js' ), [], Plugin::instance()->get_version(), true );
 
 		// Swiper slider

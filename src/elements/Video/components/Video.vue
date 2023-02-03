@@ -76,7 +76,6 @@ watch(watchedValues, (newValue, oldValue) => {
 });
 
 function runScript() {
-	console.log(window.zbScripts);
 	if (window.zbScripts?.video) {
 		if (videoPlayer) {
 			videoPlayer.destroy();
@@ -94,7 +93,6 @@ const videoSourceModel = computed(() => {
 });
 
 const getElementOptions = computed(() => {
-	console.log(props.options);
 	return {
 		use_image_overlay: props.options.use_image_overlay,
 		...videoSourceModel.value,

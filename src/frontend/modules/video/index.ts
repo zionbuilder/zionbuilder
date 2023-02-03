@@ -78,6 +78,26 @@ export default class Video {
 			}
 		}
 
+		const lazyLoadEnabled = window.ZionBuilderVideo?.lazy_load || false;
+
+		if (lazyLoadEnabled) {
+			// Setup intersection observer
+			// TODO: add lazy loading
+			this.intersectionObserer = new IntersectionObserver(entries => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						this.enableVideo();
+					}
+				});
+			});
+
+			this.intersectionObserer.observe(this.domNode);
+		} else {
+			this.enableVideo();
+		}
+	}
+
+	enableVideo() {
 		// Check to see if we are inside a modal
 		const modalParent = this.domNode.closest('.zb-modal');
 
@@ -96,18 +116,6 @@ export default class Video {
 		} else {
 			this.init();
 		}
-
-		// Setup intersection observer
-		// TODO: add lazy loading
-		// this.intersectionObserer = new IntersectionObserver(entries => {
-		// 	entries.forEach(entry => {
-		// 		if (entry.isIntersecting) {
-		// 			this.init();
-		// 		}
-		// 	});
-		// });
-
-		// this.intersectionObserer.observe(this.domNode);
 	}
 
 	initResponsive(iframe: HTMLIFrameElement) {

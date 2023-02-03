@@ -349,7 +349,6 @@ function deleteItem() {
 }
 
 function resetChanges() {
-	console.log({ value });
 	const clonedValue = cloneDeep(value.value);
 	delete clonedValue.styles;
 
