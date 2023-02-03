@@ -15,6 +15,7 @@
     "publish": "yarn run publish:packages",
     "build:types": "tsc --build",
     "postinstall": "composer install",
+    "test": "composer run-script phpcs && composer run-script phpstan",
     "lint": "tsc --noEmit && eslint"
   },
   "dependencies": {
