@@ -2,7 +2,9 @@ import { createPopper } from '@popperjs/core';
 
 export const PopperDirective = {
 	mounted(el, { value, arg }, vnode) {
-		el.__ZnPbTooltip__ = initTooltip(el, value, arg);
+		if (value) {
+			el.__ZnPbTooltip__ = initTooltip(el, value, arg);
+		}
 	},
 	beforeUnmount(el) {
 		if (el.__ZnPbTooltip__) {
