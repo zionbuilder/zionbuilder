@@ -30,7 +30,8 @@ class Assets {
 	/**
 	 * Holds the name of the dynamic cache file name
 	 */
-	const DYNAMIC_CSS_FILENAME = 'dynamic_css.css';
+	const DYNAMIC_CSS_FILENAME            = 'dynamic_css.css';
+	const DYNAMIC_CSS_FOR_EDITOR_FILENAME = 'dynamic_css--editor.css';
 
 	/**
 	 * Holds a reference to the cache folder
@@ -417,26 +418,37 @@ class Assets {
 		$dynamic_cache_file     = self::$cache_directory['path'] . self::DYNAMIC_CSS_FILENAME;
 		$dynamic_cache_file_url = self::$cache_directory['url'] . self::DYNAMIC_CSS_FILENAME;
 
+		$dynamic_cache_file_for_editor     = self::$cache_directory['path'] . self::DYNAMIC_CSS_FOR_EDITOR_FILENAME;
+		$dynamic_cache_file_url_for_editor = self::$cache_directory['url'] . self::DYNAMIC_CSS_FOR_EDITOR_FILENAME;
+
 		// Create the file if it doesn't exists
-		if ( ! is_file( $dynamic_cache_file ) || Environment::is_debug() ) {
+		if ( ! is_file( $dynamic_cache_file ) || ! is_file( $dynamic_cache_file_for_editor ) || Environment::is_debug() ) {
 			self::compile_global_css();
 		}
 
 		$version = (string) filemtime( $dynamic_cache_file );
-		wp_enqueue_style( 'zionbuilder-global-css', $dynamic_cache_file_url, array(), $version );
+
+		if ( Plugin::instance()->editor->preview->is_preview_mode() ) {
+			wp_enqueue_style( 'zionbuilder-global-css', $dynamic_cache_file_url_for_editor, array(), $version );
+		} else {
+			wp_enqueue_style( 'zionbuilder-global-css', $dynamic_cache_file_url, array(), $version );
+		}
 	}
 
 
 	public static function compile_global_css() {
-		$dynamic_cache_file = self::$cache_directory['path'] . self::DYNAMIC_CSS_FILENAME;
+		$dynamic_cache_file                    = self::$cache_directory['path'] . self::DYNAMIC_CSS_FILENAME;
+		$dynamic_cache_file_for_editor_preview = self::$cache_directory['path'] . self::DYNAMIC_CSS_FOR_EDITOR_FILENAME;
 
-		$dynamic_css = '';
+		$dynamic_css                    = '';
+		$dynamic_css_for_editor_preview = '';
 
 		// #1 Add normalize if necessary
 		if ( Settings::get_value( 'performance.disable_normalize_css', false ) === false ) {
 			$normalize_css = FileSystem::get_file_system()->get_contents( Utils::get_file_path( 'assets/vendors/css/normalize.css' ) );
 			if ( $normalize_css ) {
-				$dynamic_css .= $normalize_css;
+				$dynamic_css                    .= $normalize_css;
+				$dynamic_css_for_editor_preview .= $normalize_css;
 			}
 		}
 
@@ -445,7 +457,9 @@ class Assets {
 
 		// Set proper responsive breakpoints
 		if ( $frontend_css ) {
-			$dynamic_css .= Responsive::replace_devices_in_css( $frontend_css );
+			$formatted_css                   = Responsive::replace_devices_in_css( $frontend_css );
+			$dynamic_css                    .= $formatted_css;
+			$dynamic_css_for_editor_preview .= $formatted_css;
 		}
 
 		// #3 Add css classes css
@@ -453,7 +467,11 @@ class Assets {
 		$dynamic_css .= CSSClasses::get_css();
 
 		// #4 Allow others to add css to the global css
-		$dynamic_css = apply_filters( 'zionbuilder/cache/dynamic_css', $dynamic_css );
+		$dynamic_css                    = apply_filters( 'zionbuilder/cache/dynamic_css', $dynamic_css );
+		$dynamic_css_for_editor_preview = apply_filters( 'zionbuilder/cache/dynamic_css', $dynamic_css_for_editor_preview );
+
+		// Create the file for editor preview. This file doesn't compile the css classes as they are generated with Vue
+		FileSystem::get_file_system()->put_contents( $dynamic_cache_file_for_editor_preview, self::minify( $dynamic_css_for_editor_preview ), 0644 );
 
 		return FileSystem::get_file_system()->put_contents( $dynamic_cache_file, self::minify( $dynamic_css ), 0644 );
 	}
