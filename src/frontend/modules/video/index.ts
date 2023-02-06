@@ -329,6 +329,10 @@ export default class Video {
 			playerVarsFromURL[entry[0]] = entry[1];
 		}
 
+		if (playerVarsFromURL.v) {
+			delete playerVarsFromURL.v;
+		}
+
 		if (!videoID) {
 			return;
 		}
@@ -411,6 +415,10 @@ export default class Video {
 
 		this.onVimeoApiReady(() => {
 			this.vimeoPlayer = new window.Vimeo.Player(videoElement, playerVars);
+
+			this.vimeoPlayer.on('loaded', () => {
+				this.initResponsive(this.vimeoPlayer.element);
+			});
 		});
 	}
 
