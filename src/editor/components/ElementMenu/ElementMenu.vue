@@ -39,6 +39,10 @@ const { copyElement, pasteElement, copiedElement, pasteElementStyles, pasteEleme
 
 // Computed
 const elementActions = computed(() => {
+	if (!UIStore.activeElementMenu) {
+		return [];
+	}
+
 	const element = UIStore.activeElementMenu.element;
 	const contentStore = useContentStore();
 	const isElementVisible = contentStore.getElementValue(element.uid, 'options._isVisible', true);
