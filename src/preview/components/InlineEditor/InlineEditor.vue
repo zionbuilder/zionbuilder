@@ -320,7 +320,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
 	// Destroy tinyMce
-	if (typeof windowObject.tinyMCE !== 'undefined' && TinyMCEEditor.editor) {
+	if (windowObject && typeof windowObject.tinyMCE !== 'undefined' && TinyMCEEditor.editor) {
 		windowObject.tinyMCE.remove(TinyMCEEditor.editor);
 	}
 });

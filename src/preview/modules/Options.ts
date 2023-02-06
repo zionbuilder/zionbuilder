@@ -14,7 +14,7 @@ export default class Options {
 		this.model = JSON.parse(JSON.stringify(model));
 		this.schema = schema;
 		this.selector = selector;
-		this.options = options;
+		this.options = options || {};
 		this.element = element;
 		this.serverRequester = element ? element.serverRequester : window.zb.editor.serverRequest;
 
