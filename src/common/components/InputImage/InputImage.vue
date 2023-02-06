@@ -271,7 +271,7 @@ const imageSrc = computed(() => {
 		: props.modelValue || null;
 });
 
-const element = inject('ZionElement');
+const element = inject('ZionElement', null);
 
 watchEffect(() => {
 	doAction('zionbuilder/input/image/src_url', dynamicImageSrc, props.modelValue, element);
