@@ -147,7 +147,7 @@ class Video extends BaseSchema {
 			'playsInline'      => [
 				'type'        => 'checkbox_switch',
 				'default'     => true,
-				'title'       => esc_html__( 'Add "playsInline" video attribute', 'zionbuilder' ),
+				'title'       => esc_html__( 'Play video inline', 'zionbuilder' ),
 				'description' => esc_html__( 'With this option set to yes, mobile browsers, will play the video right where it is instead of the default, which is to open it up fullscreen while it plays.', 'zionbuilder' ),
 				'layout'      => 'inline',
 				'dependency'  => [
