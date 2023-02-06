@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-02-06T16:26:22+00:00\n"
+"POT-Creation-Date: 2023-02-06T18:21:17+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: zionbuilder\n"
@@ -1763,7 +1763,7 @@ msgstr ""
 
 #: includes/Elements/Manager.php:204
 #: includes/Elements/Tabs/Tabs.php:109
-#: dist/editor.js:19042
+#: dist/editor.js:19045
 msgid "Layout"
 msgstr ""
 
@@ -2350,7 +2350,7 @@ msgstr ""
 
 #: includes/Library/Sources/LocalSource.php:116
 #: includes/Templates.php:127
-#: dist/editor.js:18998
+#: dist/editor.js:19001
 msgid "Template"
 msgstr ""
 
@@ -3282,7 +3282,7 @@ msgid "Autoplay video?"
 msgstr ""
 
 #: includes/Options/Schemas/Video.php:150
-msgid "Add \"playsInline\" video attribute"
+msgid "Play video inline"
 msgstr ""
 
 #: includes/Options/Schemas/Video.php:151
@@ -3599,7 +3599,7 @@ msgstr ""
 
 #: dist/admin-page.js:1202
 #: dist/editor.js:12889
-#: dist/editor.js:17978
+#: dist/editor.js:17981
 msgid "Copy"
 msgstr ""
 
@@ -4368,7 +4368,7 @@ msgstr ""
 #: dist/editor.js:6197
 #: dist/editor.js:12909
 #: dist/editor.js:14621
-#: dist/editor.js:18006
+#: dist/editor.js:18009
 msgid "Paste styles"
 msgstr ""
 
@@ -4524,17 +4524,17 @@ msgid "Save changes"
 msgstr ""
 
 #: dist/editor.js:12893
-#: dist/editor.js:17996
+#: dist/editor.js:17999
 msgid "Paste"
 msgstr ""
 
 #: dist/editor.js:12897
-#: dist/editor.js:17987
+#: dist/editor.js:17990
 msgid "Cut"
 msgstr ""
 
 #: dist/editor.js:12901
-#: dist/editor.js:17969
+#: dist/editor.js:17972
 msgid "Duplicate"
 msgstr ""
 
@@ -4909,97 +4909,97 @@ msgstr ""
 msgid "No elements found matching the search criteria"
 msgstr ""
 
-#: dist/editor.js:17961
+#: dist/editor.js:17964
 msgid "Edit"
 msgstr ""
 
-#: dist/editor.js:18016
+#: dist/editor.js:18019
 msgid "Paste classes"
 msgstr ""
 
-#: dist/editor.js:18025
+#: dist/editor.js:18028
 msgid "Save Element "
 msgstr ""
 
-#: dist/editor.js:18033
+#: dist/editor.js:18036
 msgid "Hide Element "
 msgstr ""
 
-#: dist/editor.js:18033
+#: dist/editor.js:18036
 msgid "Show Element "
 msgstr ""
 
-#: dist/editor.js:18043
+#: dist/editor.js:18046
 msgid "Wrap with container"
 msgstr ""
 
-#: dist/editor.js:18053
+#: dist/editor.js:18056
 msgid "Discard styles"
 msgstr ""
 
-#: dist/editor.js:18062
+#: dist/editor.js:18065
 msgid "Delete Element"
 msgstr ""
 
-#: dist/editor.js:18308
+#: dist/editor.js:18311
 msgid "Generating preview..."
 msgstr ""
 
-#: dist/editor.js:18400
-#: dist/editor.js:18999
-#: dist/editor.js:19043
+#: dist/editor.js:18403
+#: dist/editor.js:19002
+#: dist/editor.js:19046
 msgid "added"
 msgstr ""
 
-#: dist/editor.js:18401
+#: dist/editor.js:18404
 msgid "deleted"
 msgstr ""
 
-#: dist/editor.js:18402
+#: dist/editor.js:18405
 msgid "renamed"
 msgstr ""
 
-#: dist/editor.js:18403
+#: dist/editor.js:18406
 msgid "show"
 msgstr ""
 
-#: dist/editor.js:18404
+#: dist/editor.js:18407
 msgid "hide"
 msgstr ""
 
-#: dist/editor.js:18405
+#: dist/editor.js:18408
 msgid "duplicate"
 msgstr ""
 
-#: dist/editor.js:18406
+#: dist/editor.js:18409
 msgid "wrapped with container"
 msgstr ""
 
-#: dist/editor.js:18407
+#: dist/editor.js:18410
 msgid "copied"
 msgstr ""
 
-#: dist/editor.js:18408
+#: dist/editor.js:18411
 msgid "moved"
 msgstr ""
 
-#: dist/editor.js:18409
+#: dist/editor.js:18412
 msgid "paste styles"
 msgstr ""
 
-#: dist/editor.js:18410
+#: dist/editor.js:18413
 msgid "paste css classes"
 msgstr ""
 
-#: dist/editor.js:18411
+#: dist/editor.js:18414
 msgid "discard styles"
 msgstr ""
 
-#: dist/editor.js:18583
+#: dist/editor.js:18586
 msgid "Page cleared"
 msgstr ""
 
-#: dist/editor.js:19087
+#: dist/editor.js:19090
 msgid "Edited"
 msgstr ""
 
