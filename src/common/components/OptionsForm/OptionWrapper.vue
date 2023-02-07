@@ -238,7 +238,10 @@ const hasChanges = computed(() => {
 
 		return childOptionsIds.find(optionId => {
 			const hasDynamicValue = get(props.modelValue, `__dynamic_content__[${optionId}]`);
-			return (savedOptionValue.value && savedOptionValue.value[optionId]) || hasDynamicValue !== undefined;
+			return (
+				(typeof savedOptionValue.value !== 'undefined' && typeof savedOptionValue.value[optionId]) !== 'undefined' ||
+				hasDynamicValue !== undefined
+			);
 		});
 	} else {
 		return typeof savedOptionValue.value !== 'undefined' && savedOptionValue.value !== null;
