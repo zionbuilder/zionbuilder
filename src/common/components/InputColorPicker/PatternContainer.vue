@@ -89,7 +89,7 @@ const showPresetInput = ref(false);
 
 const isPro = computed(() => {
 	if (window.ZBCommonData !== undefined) {
-		return window.ZBCommonData.is_pro_active;
+		return window.ZBCommonData.environment.plugin_pro.is_active;
 	}
 
 	return false;

@@ -190,10 +190,8 @@ class Scripts {
 						'rest_root' => esc_url_raw( rest_url() ),
 					],
 					'environment' => [
-						// TODO: after finish check and replace this with environment.plugin_pro.is_active
-						'is_pro_active' => Utils::is_pro_active(),
-						'plugin_name'   => Whitelabel::get_title(),
-						'urls'          => [
+						'plugin_name' => Whitelabel::get_title(),
+						'urls'        => [
 							'zion_dashboard'    => admin_url( sprintf( 'admin.php?page=%s', Whitelabel::get_id() ) ),
 							'logo'              => Whitelabel::get_logo_url(),
 							'pro_logo'          => Utils::get_pro_png_url(),
@@ -204,12 +202,12 @@ class Scripts {
 							'free_changelog'    => 'https://zionbuilder.io/changelog-free-version/',
 							'pro_changelog'     => 'https://zionbuilder.io/changelog-pro-version/',
 						],
-						'plugin_free'   => [
+						'plugin_free' => [
 							'is_active'      => true,
 							'version'        => Plugin::instance()->get_version(),
 							'update_version' => $free_plugin_update ? $free_plugin_update->new_version : null,
 						],
-						'plugin_pro'    => [
+						'plugin_pro'  => [
 							'is_active'      => Utils::is_pro_active(),
 							'is_installed'   => Utils::is_pro_installed(),
 							'version'        => class_exists( 'ZionBuilderPro\Plugin' ) ? \ZionBuilderPro\Plugin::instance()->get_version() : null,
