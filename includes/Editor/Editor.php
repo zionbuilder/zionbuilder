@@ -213,6 +213,7 @@ class Editor {
 				'zb-common',
 				'wp-auth-check',
 				'heartbeat',
+				'wp-i18n',
 			],
 			Plugin::instance()->get_version(),
 			true
