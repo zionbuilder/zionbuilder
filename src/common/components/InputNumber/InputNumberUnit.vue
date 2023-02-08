@@ -95,8 +95,8 @@ const props = withDefaults(
 
 const emit = defineEmits(['update:modelValue', 'linked-value']);
 
-const root = ref(null);
-const numberUnitInput = ref(null);
+const root: Ref<HTMLElement | null> = ref(null);
+const numberUnitInput: Ref<typeof BaseInput | null> = ref(null);
 const localRawValue = ref('');
 const localValue = ref(0);
 const localUnit: Ref<string> = ref('');
@@ -132,18 +132,18 @@ watch(
 			return;
 		}
 
-		const { unit, value, rawValue } = getValuesFromString(newValue);
+		const { unit, value, rawValue, unitIsValid } = getValuesFromString(newValue);
 
 		localRawValue.value = rawValue;
 		localValue.value = null !== value ? value : getValueInRange(0);
 
 		if (localRawValue.value && localRawValue.value.length) {
-			localUnit.value = unit ?? '';
+			localUnit.value = unitIsValid && unit ? unit : '';
 		} else {
 			const { unit } = getValuesFromString(props.placeholder);
 
-			// Use default unit
-			localUnit.value = unit && unit.length ? unit : defaultUnit.value;
+			// Use default unit or empty string
+			localUnit.value = unit && unit.length ? unit : defaultUnit.value ? defaultUnit.value : '';
 		}
 
 		preventWatcher = false;
@@ -153,14 +153,15 @@ watch(
 	},
 );
 
-function isNumeric(value: string) {
-	return !isNaN(value) && !isNaN(parseFloat(value));
+function isNumeric(value: string | number) {
+	return !isNaN(value as number) && !isNaN(parseFloat(value as string));
 }
 
 function getValuesFromString(string: string) {
 	let unit = null;
 	let value = null;
 	let rawValue = '';
+	let unitIsValid = false;
 
 	if (isNumeric(string)) {
 		value = parseFloat(string);
@@ -168,15 +169,16 @@ function getValuesFromString(string: string) {
 	} else {
 		const { value: parsedValue, unit: parsedUnit } = getIntegerAndUnit(string);
 
-		const unitIsValid = parsedUnit !== null && props.units.includes(parsedUnit);
+		unitIsValid = parsedUnit !== null && props.units.includes(parsedUnit);
 
 		if (parsedValue !== null && parsedUnit !== null) {
-			rawValue = `${parsedValue}`;
+			// If the unit is valid, we will split the value and the unit
+			rawValue = unitIsValid ? `${parsedValue}` : `${parsedValue}${parsedUnit}`;
 			value = parsedValue;
-			unit = unitIsValid ? parsedUnit : '';
+			unit = parsedUnit;
 		} else {
 			rawValue = string ?? '';
-			unit = unitIsValid ? parsedUnit : '';
+			unit = parsedUnit;
 		}
 	}
 
@@ -184,6 +186,7 @@ function getValuesFromString(string: string) {
 		unit,
 		value,
 		rawValue,
+		unitIsValid,
 	};
 }
 
@@ -233,7 +236,7 @@ function onTextValueChange(
 	},
 ) {
 	const { unit, value, rawValue } = getValuesFromString(newValue);
-	const validUnit = unit ? unit : localUnit.value;
+	const validUnit = unit && unit.length ? unit : localUnit.value;
 	const { shouldPreventWatcher = false, updateLocalRawValue = true } = flags;
 	preventWatcher = shouldPreventWatcher;
 
@@ -290,14 +293,18 @@ function actNumberDrag(event: MouseEvent) {
 		return;
 	}
 
-	root.value.ownerDocument.body.style.userSelect = 'none';
-	root.value.ownerDocument.defaultView.addEventListener('mousemove', dragNumberThrottle);
-	root.value.ownerDocument.defaultView.addEventListener('mouseup', deactivateDragNumber);
+	if (root.value) {
+		root.value.ownerDocument.body.style.userSelect = 'none';
+
+		if (root.value.ownerDocument.defaultView) {
+			root.value.ownerDocument.defaultView.addEventListener('mousemove', dragNumberThrottle);
+			root.value.ownerDocument.defaultView.addEventListener('mouseup', deactivateDragNumber);
+		}
+	}
 }
 
 function canUpdateNumber() {
-	const { value } = getValuesFromString(localRawValue.value);
-	return localRawValue.value === '' || value !== null;
+	return localRawValue.value === '' || isNumeric(localRawValue.value);
 }
 
 function onKeyDown(event: KeyboardEvent) {
@@ -324,14 +331,19 @@ function onKeyDown(event: KeyboardEvent) {
 function deactivateDragNumber() {
 	dragNumberThrottle.cancel();
 	dragging = false;
-	root.value.ownerDocument.body.style.userSelect = '';
-	root.value.ownerDocument.body.style.pointerEvents = '';
 
-	root.value.ownerDocument.defaultView.removeEventListener('mousemove', dragNumberThrottle);
+	if (root.value) {
+		root.value.ownerDocument.body.style.userSelect = '';
+		root.value.ownerDocument.body.style.pointerEvents = '';
+		(root.value.ownerDocument.defaultView as Window).removeEventListener('mousemove', dragNumberThrottle);
+	}
 }
 function removeEvents() {
 	deactivateDragNumber();
-	root.value.ownerDocument.defaultView.removeEventListener('mouseup', deactivateDragNumber);
+
+	if (root.value) {
+		(root.value.ownerDocument.defaultView as Window).removeEventListener('mouseup', deactivateDragNumber);
+	}
 }
 
 function dragNumber(event: MouseEvent) {
@@ -346,7 +358,9 @@ function dragNumber(event: MouseEvent) {
 			toTop = false;
 		}
 
-		root.value.ownerDocument.body.style.pointerEvents = 'none';
+		if (root.value) {
+			root.value.ownerDocument.body.style.pointerEvents = 'none';
+		}
 
 		if (pageY !== directionReset) {
 			setDraggingValue();
@@ -394,7 +408,9 @@ onBeforeUnmount(() => {
 });
 
 onMounted(() => {
-	root.value.ownerDocument.defaultView.removeEventListener('mousemove', dragNumberThrottle);
+	if (root.value) {
+		(root.value.ownerDocument.defaultView as Window).removeEventListener('mousemove', dragNumberThrottle);
+	}
 });
 </script>
 <style lang="scss">
