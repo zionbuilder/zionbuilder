@@ -2,14 +2,14 @@
 # This file is distributed under the GPL3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Zion Builder 3.6.3-beta1\n"
+"Project-Id-Version: Zion Builder 3.6.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/zionbuilder\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-02-06T18:21:17+00:00\n"
+"POT-Creation-Date: 2023-02-13T20:05:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: zionbuilder\n"
@@ -202,7 +202,7 @@ msgstr ""
 #: includes/Api/RestControllers/Templates.php:704
 #: includes/Library/Sources/LocalSource.php:69
 #: includes/Library/Sources/LocalSource.php:137
-#: includes/Templates.php:333
+#: includes/Templates.php:344
 msgid "Your post id could not be found!"
 msgstr ""
 
@@ -297,7 +297,7 @@ msgstr ""
 #: includes/Elements/Soundcloud/Soundcloud.php:291
 #: includes/Elements/Soundcloud/Soundcloud.php:313
 #: includes/MaintenanceMode.php:238
-#: dist/common.js:17237
+#: dist/common.js:17251
 msgid "Yes"
 msgstr ""
 
@@ -315,7 +315,7 @@ msgstr ""
 #: includes/Elements/Soundcloud/Soundcloud.php:295
 #: includes/Elements/Soundcloud/Soundcloud.php:317
 #: includes/MaintenanceMode.php:242
-#: dist/common.js:17237
+#: dist/common.js:17251
 msgid "No"
 msgstr ""
 
@@ -348,7 +348,7 @@ msgid "Theme"
 msgstr ""
 
 #: includes/Api/RestControllers/SystemInfo.php:145
-#: dist/common.js:13695
+#: dist/common.js:13709
 msgid "name"
 msgstr ""
 
@@ -512,15 +512,15 @@ msgid "There was a problem saving the user data."
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
-#: includes/Editor/Editor.php:247
+#: includes/Editor/Editor.php:248
 msgid "Post is locked by %s"
 msgstr ""
 
 #: includes/Elements/Accordions/AccordionItem.php:39
-#: includes/Elements/Accordions/Accordions.php:83
-#: includes/Elements/Accordions/Accordions.php:90
-#: includes/Elements/Accordions/Accordions.php:96
-#: includes/Elements/Accordions/Accordions.php:111
+#: includes/Elements/Accordions/Accordions.php:95
+#: includes/Elements/Accordions/Accordions.php:102
+#: includes/Elements/Accordions/Accordions.php:108
+#: includes/Elements/Accordions/Accordions.php:123
 msgid "Accordion"
 msgstr ""
 
@@ -556,35 +556,35 @@ msgid "Active by default?"
 msgstr ""
 
 #: includes/Elements/Accordions/AccordionItem.php:100
-#: includes/Elements/Accordions/Accordions.php:131
+#: includes/Elements/Accordions/Accordions.php:143
 msgid "Select the HTML tag to use for the title. If you want to add a custom tag, make sure to only use letters and numbers"
 msgstr ""
 
 #: includes/Elements/Accordions/AccordionItem.php:101
-#: includes/Elements/Accordions/Accordions.php:132
+#: includes/Elements/Accordions/Accordions.php:144
 msgid "HTML tag for titles"
 msgstr ""
 
 #: includes/Elements/Accordions/Accordions.php:39
-#: includes/Elements/Accordions/Accordions.php:76
+#: includes/Elements/Accordions/Accordions.php:88
 msgid "Accordions"
 msgstr ""
 
-#: includes/Elements/Accordions/Accordions.php:107
+#: includes/Elements/Accordions/Accordions.php:119
 #: includes/Elements/Alert/Alert.php:69
 #: includes/Elements/Shortcode/Shortcode.php:81
 msgid "Type"
 msgstr ""
 
-#: includes/Elements/Accordions/Accordions.php:115
+#: includes/Elements/Accordions/Accordions.php:127
 msgid "Toggle"
 msgstr ""
 
-#: includes/Elements/Accordions/Accordions.php:182
+#: includes/Elements/Accordions/Accordions.php:194
 msgid "Single accordion wrapper"
 msgstr ""
 
-#: includes/Elements/Accordions/Accordions.php:192
+#: includes/Elements/Accordions/Accordions.php:204
 #: includes/Elements/IconBox/IconBox.php:232
 #: includes/Elements/ImageBox/ImageBox.php:244
 #: includes/Elements/PricingBox/PricingBox.php:255
@@ -592,12 +592,12 @@ msgstr ""
 msgid "Title styles"
 msgstr ""
 
-#: includes/Elements/Accordions/Accordions.php:202
+#: includes/Elements/Accordions/Accordions.php:214
 msgid "Active accordion title styles"
 msgstr ""
 
-#: includes/Elements/Accordions/Accordions.php:212
-#: includes/Elements/Tabs/Tabs.php:164
+#: includes/Elements/Accordions/Accordions.php:224
+#: includes/Elements/Tabs/Tabs.php:176
 msgid "Content styles"
 msgstr ""
 
@@ -713,8 +713,8 @@ msgstr ""
 #: includes/Elements/Icon/Icon.php:93
 #: includes/Elements/IconList/IconList.php:198
 #: includes/Elements/Image/Image.php:118
-#: dist/common.js:20522
-#: dist/common.js:20561
+#: dist/common.js:20536
+#: dist/common.js:20575
 msgid "Link"
 msgstr ""
 
@@ -1130,7 +1130,7 @@ msgid "flex-end"
 msgstr ""
 
 #: includes/Elements/Container/Container.php:300
-#: dist/common.js:19462
+#: dist/common.js:19476
 msgid "Justify"
 msgstr ""
 
@@ -1353,17 +1353,17 @@ msgstr ""
 #: includes/Options/Schemas/StyleOptions.php:648
 #: includes/Permissions.php:76
 #: dist/admin-page.js:2353
-#: dist/common.js:19424
+#: dist/common.js:19438
 #: dist/editor.js:6317
 msgid "Click here to learn more about PRO."
 msgstr ""
 
-#: includes/Elements/Element.php:594
+#: includes/Elements/Element.php:593
 msgid "Wrapper"
 msgstr ""
 
-#: includes/Elements/Element.php:1536
-#: includes/Elements/Element.php:1599
+#: includes/Elements/Element.php:1535
+#: includes/Elements/Element.php:1598
 msgid "Heads up!"
 msgstr ""
 
@@ -1762,7 +1762,7 @@ msgid "Transition speed"
 msgstr ""
 
 #: includes/Elements/Manager.php:204
-#: includes/Elements/Tabs/Tabs.php:109
+#: includes/Elements/Tabs/Tabs.php:121
 #: dist/editor.js:19045
 msgid "Layout"
 msgstr ""
@@ -2120,33 +2120,33 @@ msgid "Buttons color"
 msgstr ""
 
 #: includes/Elements/Tabs/Tabs.php:40
-#: includes/Elements/Tabs/Tabs.php:77
+#: includes/Elements/Tabs/Tabs.php:89
 msgid "Tabs"
 msgstr ""
 
-#: includes/Elements/Tabs/Tabs.php:84
-#: includes/Elements/Tabs/Tabs.php:91
-#: includes/Elements/Tabs/Tabs.php:97
+#: includes/Elements/Tabs/Tabs.php:96
+#: includes/Elements/Tabs/Tabs.php:103
+#: includes/Elements/Tabs/Tabs.php:109
 msgid "Tab"
 msgstr ""
 
-#: includes/Elements/Tabs/Tabs.php:112
+#: includes/Elements/Tabs/Tabs.php:124
 msgid "Horizontal"
 msgstr ""
 
-#: includes/Elements/Tabs/Tabs.php:116
+#: includes/Elements/Tabs/Tabs.php:128
 msgid "Vertical"
 msgstr ""
 
-#: includes/Elements/Tabs/Tabs.php:120
+#: includes/Elements/Tabs/Tabs.php:132
 msgid "Stacked"
 msgstr ""
 
-#: includes/Elements/Tabs/Tabs.php:146
+#: includes/Elements/Tabs/Tabs.php:158
 msgid "Tab title styles"
 msgstr ""
 
-#: includes/Elements/Tabs/Tabs.php:154
+#: includes/Elements/Tabs/Tabs.php:166
 msgid "Active tab title styles"
 msgstr ""
 
@@ -2349,7 +2349,7 @@ msgid "Zion Builder library"
 msgstr ""
 
 #: includes/Library/Sources/LocalSource.php:116
-#: includes/Templates.php:127
+#: includes/Templates.php:138
 #: dist/editor.js:19001
 msgid "Template"
 msgstr ""
@@ -3229,7 +3229,7 @@ msgid "Video source"
 msgstr ""
 
 #: includes/Options/Schemas/Video.php:33
-#: dist/common.js:13665
+#: dist/common.js:13679
 msgid "Local"
 msgstr ""
 
@@ -3342,84 +3342,84 @@ msgstr ""
 msgid "Template was not built with %s"
 msgstr ""
 
-#: includes/Templates.php:126
+#: includes/Templates.php:137
 #: dist/admin-page.js:2903
 msgid "Templates"
 msgstr ""
 
-#: includes/Templates.php:131
+#: includes/Templates.php:142
 msgid "Blocks"
 msgstr ""
 
-#: includes/Templates.php:132
+#: includes/Templates.php:143
 msgid "Block"
 msgstr ""
 
-#: includes/Templates.php:181
+#: includes/Templates.php:192
 msgid "The template type already exists."
 msgstr ""
 
-#: includes/Templates.php:221
 #: includes/Templates.php:232
+#: includes/Templates.php:243
 msgctxt "Zion Template Library"
 msgid "Zion Templates"
 msgstr ""
 
-#: includes/Templates.php:222
+#: includes/Templates.php:233
 msgctxt "Zion Template Library"
 msgid "Template"
 msgstr ""
 
-#: includes/Templates.php:223
+#: includes/Templates.php:234
 msgctxt "Zion Template Library"
 msgid "Add New"
 msgstr ""
 
-#: includes/Templates.php:224
+#: includes/Templates.php:235
 msgctxt "Zion Template Library"
 msgid "Add New Template"
 msgstr ""
 
-#: includes/Templates.php:225
+#: includes/Templates.php:236
 msgctxt "Zion Template Library"
 msgid "Edit Template"
 msgstr ""
 
-#: includes/Templates.php:226
+#: includes/Templates.php:237
 msgctxt "Zion Template Library"
 msgid "New Template"
 msgstr ""
 
-#: includes/Templates.php:227
+#: includes/Templates.php:238
 msgctxt "Zion Template Library"
 msgid "All Templates"
 msgstr ""
 
-#: includes/Templates.php:228
+#: includes/Templates.php:239
 msgctxt "Zion Template Library"
 msgid "View Template"
 msgstr ""
 
-#: includes/Templates.php:229
+#: includes/Templates.php:240
 msgctxt "Zion Template Library"
 msgid "Search Template"
 msgstr ""
 
-#: includes/Templates.php:230
+#: includes/Templates.php:241
 msgctxt "Zion Template Library"
 msgid "No Templates found"
 msgstr ""
 
-#: includes/Templates.php:231
+#: includes/Templates.php:242
 msgctxt "Zion Template Library"
 msgid "No Templates found in Trash"
 msgstr ""
 
-#: includes/Templates.php:304
+#: includes/Templates.php:315
 msgid "template"
 msgstr ""
 
-#: includes/Templates.php:313
+#: includes/Templates.php:324
 msgid "Missing template type"
 msgstr ""
 
@@ -3767,7 +3767,7 @@ msgstr ""
 
 #: dist/admin-page.js:2355
 #: dist/admin-page.js:3017
-#: dist/common.js:19344
+#: dist/common.js:19358
 msgid "Upgrade to PRO"
 msgstr ""
 
@@ -3864,8 +3864,8 @@ msgstr ""
 #: dist/admin-page.js:2814
 #: dist/admin-page.js:2829
 #: dist/admin-page.js:2883
-#: dist/common.js:14939
-#: dist/common.js:19332
+#: dist/common.js:14953
+#: dist/common.js:19346
 #: dist/editor.js:6308
 #: dist/editor.js:6309
 #: dist/editor.js:13035
@@ -3918,319 +3918,319 @@ msgid "Documentation"
 msgstr ""
 
 #: dist/common.js:7871
-#: dist/common.js:20513
-#: dist/common.js:20552
-#: dist/common.js:21425
+#: dist/common.js:20527
+#: dist/common.js:20566
+#: dist/common.js:21439
 #: dist/editor.js:719
 #: dist/editor.js:6420
 msgid "Discard changes"
 msgstr ""
 
-#: dist/common.js:11233
+#: dist/common.js:11245
 msgid "custom"
 msgstr ""
 
-#: dist/common.js:12096
+#: dist/common.js:12111
 msgid "Click to add gradient point"
 msgstr ""
 
-#: dist/common.js:12512
-#: dist/common.js:17723
+#: dist/common.js:12526
+#: dist/common.js:17737
 msgid "Color"
 msgstr ""
 
-#: dist/common.js:12513
+#: dist/common.js:12527
 msgid "Location"
 msgstr ""
 
-#: dist/common.js:13028
+#: dist/common.js:13042
 msgid "Gradient type"
 msgstr ""
 
-#: dist/common.js:13041
+#: dist/common.js:13055
 msgid "Gradient angle"
 msgstr ""
 
-#: dist/common.js:13117
+#: dist/common.js:13131
 msgid "Gradient bar"
 msgstr ""
 
-#: dist/common.js:13576
+#: dist/common.js:13590
 msgid "Search or add new"
 msgstr ""
 
-#: dist/common.js:13576
-#: dist/common.js:19565
+#: dist/common.js:13590
+#: dist/common.js:19579
 msgid "Search"
 msgstr ""
 
-#: dist/common.js:13590
+#: dist/common.js:13604
 msgid "Add new item"
 msgstr ""
 
-#: dist/common.js:13618
+#: dist/common.js:13632
 msgid "no more items"
 msgstr ""
 
-#: dist/common.js:13669
+#: dist/common.js:13683
 msgid "Global"
 msgstr ""
 
-#: dist/common.js:13695
+#: dist/common.js:13709
 msgid "Global color name"
 msgstr ""
 
-#: dist/common.js:13747
+#: dist/common.js:13761
 msgid "Draggable"
 msgstr ""
 
-#: dist/common.js:14727
+#: dist/common.js:14741
 #: dist/editor.js:16930
 msgid "Save to library"
 msgstr ""
 
-#: dist/common.js:14921
+#: dist/common.js:14935
 msgid "No local gradients were found"
 msgstr ""
 
-#: dist/common.js:14937
+#: dist/common.js:14951
 msgid "Global colors are available in"
 msgstr ""
 
-#: dist/common.js:14943
+#: dist/common.js:14957
 msgid "No global gradients were found"
 msgstr ""
 
-#: dist/common.js:15229
+#: dist/common.js:15243
 msgid "Search through"
 msgstr ""
 
-#: dist/common.js:15229
+#: dist/common.js:15243
 msgid "icons"
 msgstr ""
 
-#: dist/common.js:15390
+#: dist/common.js:15404
 msgid "Select an icon"
 msgstr ""
 
-#: dist/common.js:15400
+#: dist/common.js:15414
 msgid "Icon Library"
 msgstr ""
 
-#: dist/common.js:15582
+#: dist/common.js:15596
 msgid "Custom Width"
 msgstr ""
 
-#: dist/common.js:15601
+#: dist/common.js:15615
 msgid "Custom Height"
 msgstr ""
 
-#: dist/common.js:15617
+#: dist/common.js:15631
 msgid "Apply"
 msgstr ""
 
-#: dist/common.js:16660
+#: dist/common.js:16674
 msgid "No video Selected"
 msgstr ""
 
-#: dist/common.js:17763
-#: dist/common.js:17791
+#: dist/common.js:17777
+#: dist/common.js:17805
 msgid "No color chosen"
 msgstr ""
 
-#: dist/common.js:18614
+#: dist/common.js:18628
 msgid "Mon"
 msgstr ""
 
-#: dist/common.js:18615
+#: dist/common.js:18629
 msgid "Tue"
 msgstr ""
 
-#: dist/common.js:18616
+#: dist/common.js:18630
 msgid "Wed"
 msgstr ""
 
-#: dist/common.js:18617
+#: dist/common.js:18631
 msgid "Thu"
 msgstr ""
 
-#: dist/common.js:18618
+#: dist/common.js:18632
 msgid "Fri"
 msgstr ""
 
-#: dist/common.js:18619
+#: dist/common.js:18633
 msgid "Sat"
 msgstr ""
 
-#: dist/common.js:18620
+#: dist/common.js:18634
 msgid "Sun"
 msgstr ""
 
-#: dist/common.js:18623
+#: dist/common.js:18637
 msgid "January"
 msgstr ""
 
-#: dist/common.js:18624
+#: dist/common.js:18638
 msgid "February"
 msgstr ""
 
-#: dist/common.js:18625
+#: dist/common.js:18639
 msgid "March"
 msgstr ""
 
-#: dist/common.js:18626
+#: dist/common.js:18640
 msgid "April"
 msgstr ""
 
-#: dist/common.js:18627
+#: dist/common.js:18641
 msgid "May"
 msgstr ""
 
-#: dist/common.js:18628
+#: dist/common.js:18642
 msgid "June"
 msgstr ""
 
-#: dist/common.js:18629
+#: dist/common.js:18643
 msgid "July"
 msgstr ""
 
-#: dist/common.js:18630
+#: dist/common.js:18644
 msgid "August"
 msgstr ""
 
-#: dist/common.js:18631
+#: dist/common.js:18645
 msgid "September"
 msgstr ""
 
-#: dist/common.js:18632
+#: dist/common.js:18646
 msgid "October"
 msgstr ""
 
-#: dist/common.js:18633
+#: dist/common.js:18647
 msgid "November"
 msgstr ""
 
-#: dist/common.js:18634
+#: dist/common.js:18648
 msgid "December"
 msgstr ""
 
-#: dist/common.js:18659
+#: dist/common.js:18673
 msgid "Next Month"
 msgstr ""
 
-#: dist/common.js:18660
+#: dist/common.js:18674
 msgid "Previous month"
 msgstr ""
 
-#: dist/common.js:18661
+#: dist/common.js:18675
 msgid "Set time"
 msgstr ""
 
-#: dist/common.js:19200
+#: dist/common.js:19214
 msgid "Top masks"
 msgstr ""
 
-#: dist/common.js:19204
+#: dist/common.js:19218
 msgid "Bottom masks"
 msgstr ""
 
-#: dist/common.js:19209
+#: dist/common.js:19223
 msgid "Selected top mask"
 msgstr ""
 
-#: dist/common.js:19209
+#: dist/common.js:19223
 msgid "Selected bottom mask"
 msgstr ""
 
-#: dist/common.js:19224
+#: dist/common.js:19238
 msgid "Add a color to mask"
 msgstr ""
 
-#: dist/common.js:19229
+#: dist/common.js:19243
 msgid "Add mask height"
 msgstr ""
 
-#: dist/common.js:19242
+#: dist/common.js:19256
 msgid "Flip mask horizontally"
 msgstr ""
 
-#: dist/common.js:19380
+#: dist/common.js:19394
 msgid "Select shape divider"
 msgstr ""
 
-#: dist/common.js:19422
+#: dist/common.js:19436
 msgid "More shape dividers"
 msgstr ""
 
-#: dist/common.js:19423
+#: dist/common.js:19437
 msgid "The shape you were looking for is not listed above ?"
 msgstr ""
 
-#: dist/common.js:19447
+#: dist/common.js:19461
 msgid "Align left"
 msgstr ""
 
-#: dist/common.js:19452
+#: dist/common.js:19466
 msgid "Align center"
 msgstr ""
 
-#: dist/common.js:19457
+#: dist/common.js:19471
 msgid "Align right"
 msgstr ""
 
-#: dist/common.js:19625
+#: dist/common.js:19639
 msgid "No items found"
 msgstr ""
 
-#: dist/common.js:19723
+#: dist/common.js:19737
 msgid "Add new"
 msgstr ""
 
-#: dist/common.js:20309
+#: dist/common.js:20323
 msgid "Margin top"
 msgstr ""
 
-#: dist/common.js:20319
+#: dist/common.js:20333
 msgid "Margin right"
 msgstr ""
 
-#: dist/common.js:20329
+#: dist/common.js:20343
 msgid "Margin bottom"
 msgstr ""
 
-#: dist/common.js:20339
+#: dist/common.js:20353
 msgid "Margin left"
 msgstr ""
 
-#: dist/common.js:20351
+#: dist/common.js:20365
 msgid "Padding top"
 msgstr ""
 
-#: dist/common.js:20361
+#: dist/common.js:20375
 msgid "Padding right"
 msgstr ""
 
-#: dist/common.js:20371
+#: dist/common.js:20385
 msgid "Padding bottom"
 msgstr ""
 
-#: dist/common.js:20381
+#: dist/common.js:20395
 msgid "Padding left"
 msgstr ""
 
-#: dist/common.js:20522
-#: dist/common.js:20561
+#: dist/common.js:20536
+#: dist/common.js:20575
 msgid "Unlink"
 msgstr ""
 
-#: dist/common.js:22383
+#: dist/common.js:22397
 #: dist/editor.js:13273
 #: dist/editor.js:13665
 #: dist/editor.js:16951
 msgid "Save"
 msgstr ""
 
-#: dist/common.js:22438
+#: dist/common.js:22452
 msgid "No icons were found in package"
 msgstr ""
 

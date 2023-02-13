@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 6.1.1
-Stable tag: 3.6.2
+Stable tag: 3.6.3
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,30 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 3.6.3 2023-13-02 =
+Added: Loop option for video element and video background
+Added: Option to enable video lazy loading ( can be found in Zion Builder options > Performance )
+Added: Option to add "playsinline" for video element and video background ( https://feedback.zionbuilder.io/b/5v8jzj0g/feature-requests/mobile-video-not-fullscreen )
+Improved: Removed video preview from the video option. The video preview took a lot of space and the preview can be viewed directly on the page
+Improved: Updated Google fonts list ( https://feedback.zionbuilder.io/b/5v8jzj0g/feature-requests/add-more-google-fonts )
+Improved: Allow YouTube URLs that contain playlist param. If this is present and the "loop" option is set to "no", the videos will autoplay to the next item in the playlist
+Improved: Show collapse button for accordions and tabs in tree view ( https://feedback.zionbuilder.io/roadmap/bug-for-some-elements-the-expandcollapse-icon-is-not-displayed-in-the-tree-view )
+Improved: Combined video background and video scripts into one single script
+Improved: Removed Zion Builder templates from XML sitemap ( https://feedback.zionbuilder.io/roadmap/remove-zions-templates-from-wp-default-sitemap )
+Fixed: Video background not displaying the video inside the editor
+Fixed: Select option dropdown exits the browser window in certain conditions
+Fixed: WordPress media modal not showing results the first time it is opened from the video element
+Fixed: global class options form not full height
+Fixed: Cannot discard changes when editing a CSS class
+Fixed: background image drag icon always appears in the background image option field
+Fixed: CSS class changes not applied in the editor in certain conditions
+Fixed: Console error showing in editor mode when using dynamic data for a CSS class
+Fixed: Console error showing when opening the page options inside the editor in certain conditions
+Fixed: Discard changes icon not showing properly in certain conditions ( https://feedback.zionbuilder.io/roadmap/child-green-indicator-doesnt-clear-automatically )
+Fixed: PHP warning showing in error log in certain conditions
+Fixed: Custom unit not working properly for margin and padding option
+Fixed: gradient color disappears when dragging the color from the gradient background
+
 = 3.6.2 2023-30-01 =
 Improved: Lowered z-index for video overlay from 999 to 9 ( https://feedback.zionbuilder.io/b/5v8jzj0g/feature-requests/z-index-of-embedded-videos-overlay-image-is-too-high )
 Improved: Added backward compatibility for zb.hooks API
