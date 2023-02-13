@@ -50,7 +50,9 @@
 						</div>
 					</template>
 
-					<span class="znpb-input-number__unitValue">{{ localUnit.length ? localUnit : '-' }}</span>
+					<span class="znpb-input-number__unitValue" @click.stop="showUnits = !showUnits">{{
+						localUnit.length ? localUnit : '-'
+					}}</span>
 				</Tooltip>
 			</template>
 		</BaseInput>
