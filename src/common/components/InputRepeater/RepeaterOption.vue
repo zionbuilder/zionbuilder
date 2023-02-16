@@ -3,12 +3,14 @@
 		<template #actions>
 			<Icon
 				v-if="clonable"
+				v-znpb-tooltip="i18n.__('Clone', 'zionbuilder')"
 				class="znpb-option-repeater-selector__clone-icon"
 				icon="copy"
 				@click.stop="cloneOption"
 			></Icon>
 			<Icon
 				v-if="deletable"
+				v-znpb-tooltip="i18n.__('Delete', 'zionbuilder')"
 				class="znpb-option-repeater-selector__delete-icon"
 				icon="delete"
 				@click.stop="deleteOption(propertyIndex)"
@@ -31,7 +33,8 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import * as i18n from '@wordpress/i18n';
+import { computed } from 'vue';
 
 const props = withDefaults(
 	defineProps<{
