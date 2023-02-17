@@ -107,10 +107,11 @@
 
 <script lang="ts" setup>
 import * as i18n from '@wordpress/i18n';
-import { ref, computed, watchEffect, provide, onMounted, onBeforeMount, onBeforeUnmount } from 'vue';
+import { ref, computed, watchEffect, provide, onMounted, onBeforeUnmount } from 'vue';
 import { regenerateUIDsForContent } from '../utils';
 import { useEditorData, useLocalStorage } from '../composables';
 import { useUIStore } from '../store';
+import { useEnvironmentStore } from '@zb/store';
 
 // Components
 import LibraryPanel from './LibraryPanel.vue';
@@ -130,7 +131,7 @@ const { librarySources, getSource } = useLibrary();
 const activeLibraryTab = ref(getData('libraryActiveSource', 'local_library'));
 
 const { editorData } = useEditorData();
-const isProActive = editorData.value.plugin_info.is_pro_active;
+const isProActive = useEnvironmentStore();
 const isProInstalled = editorData.value.plugin_info.is_pro_installed;
 const purchaseURL = ref(editorData.value.urls.purchase_url);
 const previewOpen = ref(false);

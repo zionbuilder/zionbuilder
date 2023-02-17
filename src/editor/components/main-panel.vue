@@ -152,6 +152,7 @@ import aboutModal from './aboutModal.vue';
 import { useSavePage, useEditorData, useSaveTemplate } from '../composables';
 import { ResponsiveDevices, FlyoutWrapper, FlyoutMenuItem } from './MainPanel';
 import { useUIStore, useUserStore } from '../store';
+import { useEnvironmentStore } from '@zb/store';
 
 // Common API
 const { useBuilderOptionsStore } = window.zb.store;
@@ -194,9 +195,11 @@ const tooltipsPosition = computed(() => {
 	return 'top';
 });
 
-const isPro = editorData.value.plugin_info.is_pro_active;
+const isProActive = useEnvironmentStore();
 const hasWhiteLabel = computed(() => {
-	return isPro && getOptionValue('white_label') !== null && getOptionValue('white_label').plugin_title ? true : false;
+	return isProActive && getOptionValue('white_label') !== null && getOptionValue('white_label').plugin_title
+		? true
+		: false;
 });
 
 const helpMenuItems = computed(() => {
@@ -204,7 +207,7 @@ const helpMenuItems = computed(() => {
 		{
 			title: i18n.__('Start tour', 'zionbuilder'),
 			action: doShowGettingStartedVideo,
-			canShow: isPro && gettingStartedVideoURL.length > 0,
+			canShow: isProActive && gettingStartedVideoURL.length > 0,
 		},
 		{
 			title: i18n.__('Key shortcuts', 'zionbuilder'),

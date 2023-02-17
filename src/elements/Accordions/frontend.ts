@@ -16,7 +16,7 @@ function onAccordionKeydown(event: KeyboardEvent) {
 }
 
 function initAccordion(domNode: HTMLElement) {
-	if (!domNode.classList.contains('zb-el-accordions-accordionTitle')) {
+	if (!domNode.closest('.zb-el-accordions-accordionTitle')) {
 		return;
 	}
 
