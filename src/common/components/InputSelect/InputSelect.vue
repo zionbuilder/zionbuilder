@@ -1,7 +1,7 @@
 <template>
 	<Tooltip
 		v-model:show="showDropdown"
-		append-to="element"
+		append-to="body"
 		:placement="placement"
 		trigger="click"
 		:close-on-outside-click="true"
