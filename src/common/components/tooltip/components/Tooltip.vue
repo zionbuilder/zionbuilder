@@ -235,7 +235,6 @@ function instantiatePopper() {
 		nextTick(() => {
 			popperInstance = createPopper(popperSelector.value, popperContentRef.value, popperOptions.value);
 		});
-		// popperInstance = createPopper(popperSelector.value, popperContentRef.value, popperOptions.value);
 	}
 
 	onHideAfter();
