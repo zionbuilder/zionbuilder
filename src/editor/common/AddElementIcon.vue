@@ -54,6 +54,38 @@ function onIconClick(event: MouseEvent) {
 	event.stopPropagation();
 	UIStore.showAddElementsPopup(props.element, event, props.placement);
 }
+
+// Prevent the element from exiting the browser window
+function preventElementExit() {
+	const element = root.value;
+	if (!element) {
+		return;
+	}
+
+	const elementRect = element.getBoundingClientRect();
+	const windowWidth = window.innerWidth;
+	const windowHeight = window.innerHeight;
+
+	if (elementRect.left < 0) {
+		element.style.left = '0px';
+	}
+
+	if (elementRect.top < 0) {
+		element.style.top = '0px';
+	}
+
+	if (elementRect.right > windowWidth) {
+		element.style.left = `${windowWidth - elementRect.width}px`;
+	}
+
+	if (elementRect.bottom > windowHeight) {
+		element.style.marginTop = `-30px`;
+	}
+}
+
+onMounted(() => {
+	preventElementExit();
+});
 </script>
 
 <style lang="scss">

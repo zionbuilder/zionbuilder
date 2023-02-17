@@ -75,6 +75,38 @@ function showElementMenu(event, element) {
 
 	UIStore.showElementMenuFromEvent(element, event);
 }
+
+// Prevent the element from exiting the browser window
+function preventElementExit() {
+	const element = root.value;
+	if (!element) {
+		return;
+	}
+
+	const elementRect = element.getBoundingClientRect();
+	const windowWidth = window.innerWidth;
+	const windowHeight = window.innerHeight;
+
+	if (elementRect.left < 0) {
+		element.style.marginRight = '-28px';
+	}
+
+	if (elementRect.top < 0) {
+		element.style.marginTop = '-35px';
+	}
+
+	if (elementRect.right > windowWidth) {
+		element.style.marginLeft = `15px`;
+	}
+
+	if (elementRect.bottom > windowHeight) {
+		element.style.marginTop = `-35px`;
+	}
+}
+
+onMounted(() => {
+	preventElementExit();
+});
 </script>
 
 <style lang="scss">

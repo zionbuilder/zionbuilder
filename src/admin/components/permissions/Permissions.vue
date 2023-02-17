@@ -24,7 +24,7 @@
 
 			<PageTemplate>
 				<UpgradeToPro
-					v-if="!is_pro_active"
+					v-if="!plugin_pro.is_active"
 					:info-text="proLink"
 					:message_title="i18n.__('specific users control', 'zionbuilder')"
 					:message_description="i18n.__('Want to give control to specific users?', 'zionbuilder')"
@@ -86,7 +86,7 @@ import SingleRole from './SingleRole.vue';
 import SingleUser from './SingleUser.vue';
 import AddUserModalContent from './AddUserModalContent.vue';
 
-const { is_pro_active } = useEnvironmentStore();
+const { plugin_pro } = useEnvironmentStore();
 const { fetchUsersData } = window.zb.store.useUsersStore();
 const { getOptionValue } = window.zb.store.useBuilderOptionsStore();
 
