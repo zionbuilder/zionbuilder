@@ -20,7 +20,7 @@
 			</Tab>
 			<Tab name="Global">
 				<UpgradeToPro
-					v-if="!is_pro_active"
+					v-if="!isProActive"
 					:message_title="i18n.__('Meet Global Colors', 'zionbuilder')"
 					:message_description="
 						i18n.__(
@@ -53,7 +53,9 @@
 			</Tab>
 		</Tabs>
 		<template #right>
-			<p class="znpb-admin-info-p">{{ i18n.__('Create your color pallette to use locally or globally', 'zionbuilder') }}</p>
+			<p class="znpb-admin-info-p">
+				{{ i18n.__('Create your color pallette to use locally or globally', 'zionbuilder') }}
+			</p>
 		</template>
 	</PageTemplate>
 </template>
@@ -68,7 +70,7 @@ import { useBuilderOptionsStore, useEnvironmentStore } from '@zb/store';
 // Components
 import ColorBox from './ColorBox.vue';
 
-const { is_pro_active } = useEnvironmentStore();
+const { isProActive } = useEnvironmentStore();
 const {
 	addLocalColor,
 	getOptionValue,
