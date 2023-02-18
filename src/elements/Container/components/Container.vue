@@ -10,20 +10,28 @@
 	</SortableContent>
 </template>
 
-<script>
-export default {
-	name: 'ZionColumn',
-	props: ['options', 'api', 'element'],
-	computed: {
-		htmlTag() {
-			if (this.options.link && this.options.link.link) {
-				return 'a';
-			}
-			return /^[a-z0-9]+$/i.test(this.options.tag) ? this.options.tag : 'div';
-		},
-		extraAttributes() {
-			return window.zb.utils.getLinkAttributes(this.options.link);
-		},
-	},
-};
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const props = defineProps<{
+	options: {
+		link?: {
+			link: string;
+			target: string;
+			title: string;
+		};
+		tag?: string;
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
+
+const htmlTag = computed(() => {
+	if (props.options.link && props.options.link.link) {
+		return 'a';
+	}
+	return props.options.tag && /^[a-z0-9]+$/i.test(props.options.tag) ? props.options.tag : 'div';
+});
+
+const extraAttributes = computed(() => window.zb.utils.getLinkAttributes(props.options.link));
 </script>

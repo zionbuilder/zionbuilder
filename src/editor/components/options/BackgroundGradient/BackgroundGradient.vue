@@ -1,10 +1,10 @@
 <template>
 	<div class="znpb-style-background-gradient">
 		<EmptyList v-if="!modelValue && !showLibrary" class="znpb-style-background-gradient__empty" :no-margin="true">
-			<a @click="addNewGradient">{{ $translate('add_background_gradient') }}</a>
+			<a @click="addNewGradient">{{ i18n.__('Add new background gradient', 'zionbuilder') }}</a>
 			<template v-if="hasLibrary">
-				<div>{{ $translate('or') }}</div>
-				<a @click="showLibrary = true">{{ $translate('select_background_gradient') }}</a>
+				<div>{{ i18n.__('or', 'zionbuilder') }}</div>
+				<a @click="showLibrary = true">{{ i18n.__('Select from library', 'zionbuilder') }}</a>
 			</template>
 		</EmptyList>
 
@@ -18,42 +18,41 @@
 	</div>
 </template>
 
-<script>
-import { getDefaultGradient } from '/@/common/utils';
-export default {
-	name: 'BackgroundGradient',
-	props: {
-		modelValue: {
-			type: Array,
-			required: false,
-		},
-		hasLibrary: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+import { ref, computed } from 'vue';
+import { getDefaultGradient } from '@zb/utils';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: Array<any> | null;
+		hasLibrary?: boolean;
+	}>(),
+	{
+		modelValue: null,
+		hasLibrary: true,
 	},
-	data() {
-		return {
-			showLibrary: false,
-		};
+);
+
+const emit = defineEmits(['update:modelValue']);
+
+// Refs
+const showLibrary = ref(false);
+
+// computed
+const gradientModel = computed({
+	get() {
+		return props.modelValue || null;
 	},
-	computed: {
-		gradientModel: {
-			get() {
-				return this.modelValue || null;
-			},
-			set(newGradient) {
-				this.$emit('update:modelValue', newGradient);
-			},
-		},
+	set(newGradient) {
+		emit('update:modelValue', newGradient);
 	},
-	methods: {
-		addNewGradient() {
-			this.gradientModel = getDefaultGradient();
-		},
-	},
-};
+});
+
+// methods
+function addNewGradient() {
+	gradientModel.value = getDefaultGradient();
+}
 </script>
 
 <style lang="scss">

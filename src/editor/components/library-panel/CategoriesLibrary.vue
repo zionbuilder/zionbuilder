@@ -14,11 +14,11 @@
 import CategoriesLibraryItem from './CategoriesLibraryItem.vue';
 
 const props = defineProps<{
-	categories?: Array;
-	onCategoryActivate: Function;
+	categories?: LibraryCategory[];
+	onCategoryActivate: (category: LibraryCategory) => void;
 }>();
 
-function activateCategory(category) {
+function activateCategory(category: LibraryCategory) {
 	props.onCategoryActivate(category);
 }
 </script>

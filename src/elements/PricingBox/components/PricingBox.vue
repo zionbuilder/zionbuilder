@@ -3,11 +3,11 @@
 		<slot name="start" />
 
 		<span
-			v-if="options.plan_featured==='featured'"
+			v-if="options.plan_featured === 'featured'"
 			class="zb-el-pricingBox-featured"
 			:class="api.getStyleClasses('featured_label_styles')"
 			v-bind="api.getAttributesForTag('featured_label_styles')"
-		>{{$translate('featured')}}
+			>{{ $translate('featured') }}
 		</span>
 		<div class="zb-el-pricingBox-content">
 			<div class="zb-el-pricingBox-heading">
@@ -29,22 +29,23 @@
 						:class="api.getStyleClasses('price_styles')"
 						v-bind="api.getAttributesForTag('price_styles')"
 					>
-						{{pricingPrice || '$999'}}<span class="zb-el-pricingBox-price-dot">{{priceFloat ? '.' : ''}}</span>
+						{{ pricingPrice || '$999' }}<span class="zb-el-pricingBox-price-dot">{{ priceFloat ? '.' : '' }}</span>
 					</span>
-					<span class="zb-el-pricingBox-price-float">{{options.price && options.price.split('.').length > 1 ? priceFloat : null}}</span>
+					<span class="zb-el-pricingBox-price-float">{{
+						options.price && options.price.split('.').length > 1 ? priceFloat : null
+					}}</span>
 				</span>
 				<span class="zb-el-pricingBox-period">
 					<RenderValue option="period" />
 				</span>
 			</div>
 			<div
+				v-if="options.plan_details"
 				class="zb-el-pricingBox-plan-features"
 				:class="api.getStyleClasses('features_styles')"
-				v-if="options.plan_details"
-				v-html="options.plan_details"
 				v-bind="api.getAttributesForTag('features_styles')"
-			>
-			</div>
+				v-html="options.plan_details"
+			></div>
 			<a
 				v-if="options.button_link && options.button_link.link"
 				:href="options.button_link.link"
@@ -69,19 +70,34 @@
 		<slot name="end" />
 	</div>
 </template>
-<script>
-export default {
-	name: 'pricing_box',
-	props: ['options', 'element', 'api'],
-	computed: {
-		pricingPrice () {
-			return this.options.price ? this.options.price.split('.')[0] : null
-		},
-		priceFloat () {
-			let floatValue = this.options.price ? this.options.price.split('.')[1] : null
-			return floatValue
-		}
 
-	}
-}
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const props = defineProps<{
+	options: {
+		plan_title: string;
+		plan_description: string;
+		plan_featured: string;
+		price: string;
+		period: string;
+		plan_details: string;
+		button_text: string;
+		button_link: {
+			link: string;
+			title: string;
+			target: string;
+		};
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
+
+const pricingPrice = computed(() => {
+	return props.options.price ? props.options.price.split('.')[0] : null;
+});
+
+const priceFloat = computed(() => {
+	return props.options.price ? props.options.price.split('.')[1] : null;
+});
 </script>

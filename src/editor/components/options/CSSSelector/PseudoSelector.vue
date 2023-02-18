@@ -30,73 +30,61 @@
 	</Tooltip>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { computed } from 'vue';
-import { usePseudoSelectors } from '/@/common/composables';
 
-export default {
-	name: 'PseudoSelector',
-	props: {
-		states: {
-			type: Array,
-			default: [],
-		},
+const { usePseudoSelectors } = window.zb.composables;
+
+const props = withDefaults(defineProps<{ states: string[] }>(), {
+	states: () => [],
+});
+
+const emit = defineEmits(['update:states']);
+
+const { pseudoSelectors } = usePseudoSelectors();
+const allPseudoSelectors = computed(() => {
+	const disabledStates = ['custom', ':before', ':after'];
+	return pseudoSelectors.value.filter(state => !disabledStates.includes(state.id));
+});
+
+const computedStates = computed({
+	get() {
+		return props.states || [];
 	},
-	setup(props, { emit }) {
-		const { pseudoSelectors } = usePseudoSelectors();
-		const allPseudoSelectors = computed(() => {
-			const disabledStates = ['custom', ':before', ':after'];
-			return pseudoSelectors.value.filter(state => !disabledStates.includes(state.id));
-		});
-
-		const computedStates = computed({
-			get() {
-				return props.states || [];
-			},
-			set(newStates) {
-				emit('update:states', newStates);
-			},
-		});
-
-		const activePseudo = computed(() => {
-			return computedStates.value.map(state => allPseudoSelectors.value.find(stateConfig => stateConfig.id === state));
-		});
-
-		const remainingPseudo = computed(() => {
-			return allPseudoSelectors.value.filter(state => !computedStates.value.includes(state.id));
-		});
-
-		function removeState(state) {
-			const value = computedStates.value.slice();
-			// Don't allow removing all states
-			if (value.length === 1) {
-				return;
-			}
-
-			if (value.includes(state.id)) {
-				const index = value.indexOf(state.id);
-				value.splice(index, 1);
-
-				computedStates.value = value;
-			}
-		}
-
-		function addState(state) {
-			const value = computedStates.value.slice();
-			value.push(state.id);
-
-			computedStates.value = value;
-		}
-
-		return {
-			computedStates,
-			activePseudo,
-			remainingPseudo,
-			addState,
-			removeState,
-		};
+	set(newStates) {
+		emit('update:states', newStates);
 	},
-};
+});
+
+const activePseudo = computed(() => {
+	return computedStates.value.map(state => allPseudoSelectors.value.find(stateConfig => stateConfig.id === state));
+});
+
+const remainingPseudo = computed(() => {
+	return allPseudoSelectors.value.filter(state => !computedStates.value.includes(state.id));
+});
+
+function removeState(state) {
+	const value = computedStates.value.slice();
+	// Don't allow removing all states
+	if (value.length === 1) {
+		return;
+	}
+
+	if (value.includes(state.id)) {
+		const index = value.indexOf(state.id);
+		value.splice(index, 1);
+
+		computedStates.value = value;
+	}
+}
+
+function addState(state) {
+	const value = computedStates.value.slice();
+	value.push(state.id);
+
+	computedStates.value = value;
+}
 </script>
 
 <style lang="scss">

@@ -1,81 +1,46 @@
 <template>
-	<div
-		class="znpb-element-options__media-class-pseudo-selector"
-		@click.stop="onSelectorSelected"
-	>
-		{{selector.name}}
+	<div class="znpb-element-options__media-class-pseudo-selector" @click.stop="onSelectorSelected">
+		{{ selector.name }}
 
 		<div class="znpb-element-options__pseudo-actions">
-			<Tooltip
-				content="Delete Pseudo Selector"
-				v-if="clearable"
-				tag="span"
-			>
-				<Icon
-					icon="delete"
-					@click.stop="onDeleteSelector"
-				></Icon>
+			<Tooltip v-if="clearable" content="Delete Pseudo Selector" tag="span">
+				<Icon icon="delete" @click.stop="onDeleteSelector"></Icon>
 			</Tooltip>
-			<ChangesBullet
-				v-if="hasChanges"
-				@remove-styles="$emit('remove-styles', selector.id)"
-			/>
+			<ChangesBullet v-if="hasChanges" @remove-styles="emit('remove-styles', selector.id)" />
 		</div>
 
-		<ZionLabel
-			v-if="selector.label"
-			:text="selector.label.text"
-			:type="selector.label.type"
-			class="znpb-label--pro"
-		/>
-
+		<ZionLabel v-if="selector.label" :text="selector.label.text" :type="selector.label.type" class="znpb-label--pro" />
 	</div>
 </template>
 
-<script>
-import ZionLabel from '../../../common/Label.vue'
+<script lang="ts" setup>
+import { computed } from 'vue';
+import ZionLabel from '/@/editor/common/Label.vue';
 
-export default {
-	name: 'PseudoDropdownItem',
-	components: {
-		ZionLabel
+const props = withDefaults(
+	defineProps<{
+		selector: Record<string, unknown>;
+		selectorsModel?: Record<string, unknown>;
+		clearable?: boolean;
+	}>(),
+	{
+		selectorsModel: () => ({}),
+		clearable: false,
 	},
-	props: {
-		selector: {
-			type: Object,
-			required: true
-		},
-		selectorsModel: {
-			type: Object,
-			required: false
-		},
-		clearable: {
-			tye: Boolean,
-			required: false
-		}
-	},
-	data () {
-		return {}
-	},
-	computed: {
-		selectorsModelComputed () {
-			return this.selectorsModel || {}
-		},
-		hasChanges () {
-			const activeSelectorData = (this.selectorsModelComputed || {})[this.selector.id] || {}
-			return Object.keys(activeSelectorData).length > 0
-		}
-	},
-	methods: {
-		onDeleteSelector () {
-			this.$emit('delete-selector', this.selector)
-			this.$emit('selector-selected', null)
-		},
-		onSelectorSelected () {
-			this.$emit('selector-selected', this.selector)
-		}
-	}
+);
 
+const emit = defineEmits(['delete-selector', 'selector-selected', 'remove-styles']);
+
+const selectorsModelComputed = computed(() => props.selectorsModel || {});
+const hasChanges = computed(() => Object.keys(selectorsModelComputed.value[props.selector.id] || {}).length > 0);
+
+function onDeleteSelector() {
+	emit('delete-selector', props.selector);
+	emit('selector-selected', null);
+}
+
+function onSelectorSelected() {
+	emit('selector-selected', props.selector);
 }
 </script>
 

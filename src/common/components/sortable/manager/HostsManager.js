@@ -1,40 +1,40 @@
 export default () => {
-	let hosts = []
-	let iframes = []
+	let hosts = [];
+	let iframes = [];
 
 	const getHosts = () => {
-		return hosts
-	}
+		return hosts;
+	};
 
 	const getIframes = () => {
-		return iframes
-	}
+		return iframes;
+	};
 
 	const resetHosts = () => {
-		hosts = [document]
-		iframes = []
-	}
+		hosts = [document];
+		iframes = [];
+	};
 
 	const fetchHosts = () => {
 		// Reset the cached hosts
-		resetHosts()
+		resetHosts();
 
 		// Fetch new hosts
-		const DOMIframes = document.querySelectorAll('iframe')
+		const DOMIframes = document.querySelectorAll('iframe');
 
-		DOMIframes.forEach((iframe) => {
+		DOMIframes.forEach(iframe => {
 			if (iframe.contentDocument) {
-				hosts.push(iframe.contentDocument)
-				iframes.push(iframe)
+				hosts.push(iframe.contentDocument);
+				iframes.push(iframe);
 			}
-		})
+		});
 
-		return this
-	}
+		return this;
+	};
 
 	return {
 		getHosts,
 		getIframes,
-		fetchHosts
-	}
-}
+		fetchHosts,
+	};
+};

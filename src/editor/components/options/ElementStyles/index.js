@@ -1,13 +1,11 @@
-import ElementStyles from './ElementStyles.vue'
+import ElementStyles from './ElementStyles.vue';
 
 export default {
 	id: 'element_styles',
 	component: ElementStyles,
 	config: {
-		barebone: true
-	}
-}
+		barebone: true,
+	},
+};
 
-export {
-	ElementStyles
-}
+export { ElementStyles };

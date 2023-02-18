@@ -46,7 +46,6 @@ const schema = computed(() => {
 			title: 'Width',
 			min: 0,
 			max: 999,
-			default_unit: 'px',
 			step: 1,
 			css_class: 'znpb-border-control-group-item',
 			width: 50,

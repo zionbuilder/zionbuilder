@@ -12,8 +12,8 @@ export class ElementType {
 	keywords: string[] = [];
 	label = '';
 	options: object = {};
-	scripts: object = {};
-	styles: object = {};
+	scripts: Record<string, { src: string; handle: string }> = {};
+	styles: Record<string, { src: string; handle: string }> = {};
 	show_in_ui = true;
 	style_elements: object = {};
 	wrapper = false;

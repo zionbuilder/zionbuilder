@@ -13,12 +13,12 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { computed, ref } from 'vue';
 import { get } from 'lodash-es';
 import { InputCustomSelector } from '../InputCustomSelector';
 
-const { translate } = window.zb.i18n;
-interface ShapeDevider {
+interface ShapeDivider {
 	shape?: string;
 	height?: { default: string; tablet: string; mobile: string; laptop: string } | 'auto';
 	color?: string;
@@ -28,7 +28,7 @@ interface ShapeDevider {
 type Position = 'top' | 'bottom';
 const props = withDefaults(
 	defineProps<{
-		modelValue?: Partial<Record<Position, ShapeDevider>>;
+		modelValue?: Partial<Record<Position, ShapeDivider>>;
 	}>(),
 	{
 		modelValue: () => {
@@ -38,24 +38,26 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-	(e: 'update:modelValue', value: Partial<Record<Position, ShapeDevider>> | null): void;
+	(e: 'update:modelValue', value: Partial<Record<Position, ShapeDivider>> | null): void;
 }>();
 
 const maskPosOptions = ref([
 	{
 		id: 'top',
-		name: translate('top_masks'),
+		name: i18n.__('Top masks', 'zionbuilder'),
 	},
 	{
 		id: 'bottom',
-		name: translate('bottom_masks'),
+		name: i18n.__('Bottom masks', 'zionbuilder'),
 	},
 ]);
 
 const activeMaskPosition = ref<Position>('top');
 
 const computedTitle = computed(() => {
-	return activeMaskPosition.value === 'top' ? translate('select_top_mask') : translate('select_bottom_mask');
+	return activeMaskPosition.value === 'top'
+		? i18n.__('Selected top mask', 'zionbuilder')
+		: i18n.__('Selected bottom mask', 'zionbuilder');
 });
 
 const schema = computed(() => {
@@ -71,12 +73,12 @@ const schema = computed(() => {
 			type: 'colorpicker',
 			id: 'color',
 			width: '100',
-			title: translate('select_mask_color'),
+			title: i18n.__('Add a color to mask', 'zionbuilder'),
 		},
 		height: {
 			type: 'dynamic_slider',
 			id: 'height',
-			title: translate('select_mask_height'),
+			title: i18n.__('Add mask height', 'zionbuilder'),
 			width: '100',
 			responsive_options: true,
 			options: [
@@ -89,7 +91,7 @@ const schema = computed(() => {
 		flip: {
 			type: 'checkbox_switch',
 			id: 'flip',
-			title: translate('flip_mask'),
+			title: i18n.__('Flip mask horizontally', 'zionbuilder'),
 			width: '100',
 			layout: 'inline',
 		},
@@ -100,7 +102,7 @@ const computedValue = computed({
 	get() {
 		return props.modelValue?.[activeMaskPosition.value] ?? {};
 	},
-	set(newValue: ShapeDevider) {
+	set(newValue: ShapeDivider) {
 		if (newValue === null) {
 			emit('update:modelValue', null);
 			return;

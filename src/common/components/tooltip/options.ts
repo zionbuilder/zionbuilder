@@ -1,17 +1,17 @@
 export interface TooltipOptions {
-	appendTo?: string
-	placement?: string
+	appendTo?: string;
+	placement?: string;
 }
 
 let defaultOptions: TooltipOptions = {
 	appendTo: 'body',
-	placement: 'top'
-}
+	placement: 'top',
+};
 
 export const getDefaultOptions = () => {
-	return defaultOptions
-}
+	return defaultOptions;
+};
 
 export const setDefaults = (options: TooltipOptions) => {
-	defaultOptions = options
-}
+	defaultOptions = options;
+};

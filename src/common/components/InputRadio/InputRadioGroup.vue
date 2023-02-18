@@ -2,30 +2,23 @@
 	<div
 		class="zion-radio-group"
 		:class="{
-			[`zion-radio-group--${layout}`]: layout
+			[`zion-radio-group--${layout}`]: layout,
 		}"
 	>
 		<!-- @slot Content for radiogroup <RadioGroupItem> -->
 		<slot></slot>
 	</div>
 </template>
-<script>
 
-export default {
-	props: {
-		/**
-		 * Layout type: row,column
-		 */
-		layout: {
-			type: String,
-			required: false
-		}
+<script lang="ts" setup>
+withDefaults(
+	defineProps<{
+		layout: string;
+	}>(),
+	{
+		layout: 'row',
 	},
-	data () {
-		return {}
-	},
-	name: 'InputRadioGroup'
-}
+);
 </script>
 <style lang="scss">
 .zion-radio-group {

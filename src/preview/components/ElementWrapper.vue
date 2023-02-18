@@ -25,7 +25,7 @@
 		<template #end>
 			<div v-if="!isVisible" class="znpb-hidden-element-container">
 				<div class="znpb-hidden-element-placeholder">
-					<Icon icon="eye" @click.stop="element.toggleVisibility()"> </Icon>
+					<Icon icon="eye" @click.stop="element.setVisibility(!element.isVisible)"> </Icon>
 				</div>
 			</div>
 		</template>
@@ -36,8 +36,6 @@
 // Utils
 import { ref, watch, computed, readonly, provide } from 'vue';
 import { get, debounce, each, escape, mergeWith, isArray, camelCase } from 'lodash-es';
-import { applyFilters } from '/@/common/modules/hooks';
-import { useOptionsSchemas, usePseudoSelectors } from '/@/common/composables';
 
 // Components
 import ElementToolbox from './ElementToolbox/ElementToolbox.vue';
@@ -48,7 +46,11 @@ import VideoBackground from './VideoBackground.vue';
 // Composables
 import { useElementComponent } from '../composables/useElementComponent';
 import Options from '../modules/Options';
-import { useUIStore } from '/@/editor/store';
+import { useUIStore, useCSSClassesStore } from '/@/editor/store';
+
+// Common API
+const { applyFilters } = window.zb.hooks;
+const { useOptionsSchemas, usePseudoSelectors } = window.zb.composables;
 
 let clickHandled = false;
 
@@ -62,6 +64,7 @@ export default {
 	},
 	props: ['element'],
 	setup(props) {
+		const CSSClassesStore = useCSSClassesStore();
 		const root = ref(null);
 		const UIStore = useUIStore();
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element);
@@ -69,7 +72,7 @@ export default {
 		const { activePseudoSelector } = usePseudoSelectors();
 		const isVisible = computed(() => get(props.element.options, '_isVisible', true));
 
-		let toolboxWatcher = null;
+		const toolboxWatcher = null;
 		let optionsInstance = null;
 
 		// Data
@@ -203,8 +206,8 @@ export default {
 							if (attributeValue.attribute_name) {
 								additionalAttributes[styleID] = additionalAttributes[styleID] || {};
 
-								let cleanAttrName = attributeValue.attribute_name;
-								let cleanAttrValue = escape(attributeValue.attribute_value);
+								const cleanAttrName = attributeValue.attribute_name;
+								const cleanAttrValue = escape(attributeValue.attribute_value);
 								additionalAttributes[styleID][cleanAttrName] = cleanAttrValue;
 							}
 						});
@@ -221,7 +224,25 @@ export default {
 						const renderTag = styleConfig.render_tag;
 
 						if (renderTag) {
+							// Assign dynamic classes
 							options.value._styles[styleId].classes.forEach(cssClass => {
+								if (!additionalAttributes[renderTag]) {
+									additionalAttributes[renderTag] = {};
+								}
+
+								const cssClassSelector = CSSClassesStore.getSelectorName(cssClass);
+
+								if (cssClassSelector) {
+									additionalAttributes[renderTag]['class'] = [
+										...(additionalAttributes[renderTag]['class'] || []),
+										cssClassSelector,
+									];
+								}
+							});
+
+							// assign static classes
+							const staticClasses = get(options.value, `_styles.${styleId}.static_classes`, []);
+							staticClasses.forEach(cssClass => {
 								if (!additionalAttributes[renderTag]) {
 									additionalAttributes[renderTag] = {};
 								}
@@ -262,7 +283,11 @@ export default {
 				const wrapperConfig = stylesConfig.value.wrapper;
 				if (wrapperConfig.classes) {
 					wrapperConfig.classes.forEach(classSelector => {
-						classes[classSelector] = true;
+						const cssClass = CSSClassesStore.getSelectorName(classSelector);
+
+						if (cssClass) {
+							classes[cssClass] = true;
+						}
 					});
 				}
 			}
@@ -362,13 +387,13 @@ export default {
 		watch(
 			() => props.element.scrollTo,
 			newValue => {
-				const iframe = window.frames['znpb-editor-iframe'];
+				const iframe = window.document.getElementById('znpb-editor-iframe')?.contentWindow;
 
 				if (!iframe) {
 					return;
 				}
 
-				const domNode = iframe.contentWindow.document.getElementById(props.element.elementCssId);
+				const domNode = iframe.document.getElementById(props.element.elementCssId);
 
 				if (newValue && domNode) {
 					if (typeof domNode.scrollIntoView === 'function') {
@@ -618,39 +643,5 @@ export default {
 	&-item {
 		padding: 10px;
 	}
-}
-
-.znpb-el-notice {
-	color: #fff;
-	font-size: 13px;
-	position: relative;
-	background-color: rgba(40, 40, 44, 0.6);
-	border-radius: 4px;
-	padding: 20px 20px 20px 56px;
-	width: 100%;
-	margin: 20px;
-}
-
-.znpb-el-notice h3 {
-	font-size: 15px !important;
-	margin: 0 0 5px !important;
-}
-
-.znpb-el-notice a {
-	font-weight: 700;
-}
-
-.znpb-el-notice .znpb-editor-icon-wrapper {
-	color: rgba(255, 255, 255, 0.4);
-	position: absolute;
-	font-size: 26px;
-	margin-left: -36px;
-}
-
-.znpb-el-notice .znpb-editor-icon-wrapper svg {
-	fill: currentColor;
-	width: 1em;
-	height: 1em;
-	display: block;
 }
 </style>

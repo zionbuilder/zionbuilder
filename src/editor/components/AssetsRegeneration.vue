@@ -1,13 +1,13 @@
 <template>
 	<div v-if="AssetsStore.isLoading" class="znpb-assetsRegenerationWrapper">
-		{{ translate('regenerating_assets') }}
+		{{ i18n.__('Regenerating assets', 'zionbuilder') }}
 		<template v-if="AssetsStore.filesCount > 0">{{ AssetsStore.currentIndex }}/{{ AssetsStore.filesCount }} </template>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { translate } from '/@/common/modules/i18n';
-import { useAssetsStore } from '/@/common/store';
+import * as i18n from '@wordpress/i18n';
+import { useAssetsStore } from '@zb/store';
 
 const AssetsStore = useAssetsStore();
 </script>

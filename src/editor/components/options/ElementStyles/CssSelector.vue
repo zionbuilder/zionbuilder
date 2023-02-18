@@ -4,106 +4,85 @@
 			<span
 				class="znpb-css-class-selector__item-type"
 				:class="{ [`znpb-css-class-selector__item-type--${type}`]: type }"
-				>{{ type }}
+				>{{ getNameFromType(type) }}
 			</span>
 			<span class="znpb-css-class-selector__item-name">
 				<span :title="name">{{ name }}</span>
 			</span>
-
-			<ChangesBullet
-				v-if="showChangesBullet"
-				:discard-changes-title="$translate('remove_additional_classes')"
-				@remove-styles="$emit('remove-extra-classes')"
-			/>
 		</div>
 
 		<Icon
-			v-if="showActions"
-			v-znpb-tooltip="$translate('copy_element_styles')"
+			v-if="showActions && showCopyPaste"
+			v-znpb-tooltip="i18n.__('Copy styles', 'zionbuilder')"
 			icon="copy"
 			class="znpb-css-class-selector__item-copy"
-			@click.stop="$emit('copy-styles')"
+			@click.stop="emit('copy-styles')"
 		/>
 
 		<Icon
-			v-if="showActions"
-			v-znpb-tooltip="$translate('paste_element_styles')"
+			v-if="showActions && showCopyPaste"
+			v-znpb-tooltip="i18n.__('Paste styles', 'zionbuilder')"
 			icon="paste"
 			class="znpb-css-class-selector__item-paste"
 			:class="{
 				'znpb-css-class-selector__item-paste--disabled': !cssClasses.copiedStyles,
 			}"
-			@click.stop="$emit('paste-styles')"
+			@click.stop="emit('paste-styles')"
 		/>
 
 		<Icon
 			v-if="showActions"
-			v-znpb-tooltip="$translate('delete_class_tooltip')"
+			v-znpb-tooltip="i18n.__('Remove class from element.', 'zionbuilder')"
 			icon="close"
 			class="znpb-css-class-selector__item-close"
 			:class="{
 				'znpb-css-class-selector__item-close--disabled': !showDelete,
 			}"
-			@click.stop="handleDeleteClass"
+			@click.stop="emit('remove-class')"
 		/>
 	</div>
 </template>
 
-<script>
-import { useCSSClassesStore } from '../../../store';
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+import { useCSSClassesStore } from '/@/editor/store';
 
-export default {
-	name: 'CssSelector',
-	props: {
-		classConfig: {
-			type: Object,
-			required: false,
-		},
-		name: {
-			type: String,
-			required: true,
-		},
-		type: {
-			type: String,
-			required: true,
-			default: 'id',
-		},
-		isSelected: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		showDelete: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		showActions: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-		showChangesBullet: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
+withDefaults(
+	defineProps<{
+		name: string;
+		type: string;
+		isSelected?: boolean;
+		showDelete?: boolean;
+		showCopyPaste?: boolean;
+		showActions?: boolean;
+	}>(),
+	{
+		isSelected: false,
+		showDelete: false,
+		showCopyPaste: true,
+		showActions: true,
+		showChangesBullet: false,
 	},
-	setup(props, { emit }) {
-		const cssClasses = useCSSClassesStore();
+);
 
-		function handleDeleteClass() {
-			if (props.showDelete) {
-				emit('remove-class', props.classConfig.selector);
-			}
-		}
+const emit = defineEmits(['remove-class', 'copy-styles', 'paste-styles', 'remove-extra-classes']);
 
-		return {
-			handleDeleteClass,
-			cssClasses,
-		};
-	},
+const cssClasses = useCSSClassesStore();
+
+const namedTypes: Record<string, string> = {
+	id: i18n.__('ID', 'zionbuilder'),
+	class: i18n.__('class', 'zionbuilder'),
+	static_class: i18n.__('external', 'zionbuilder'),
 };
+
+/**
+ * Returns a human readable name for the given type
+ *
+ * @param type string The type of the class
+ */
+function getNameFromType(type: string) {
+	return namedTypes[type] || type;
+}
 </script>
 
 <style lang="scss">
@@ -117,17 +96,6 @@ export default {
 		overflow: hidden;
 		width: 100%;
 		height: 100%;
-
-		&::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			right: 0;
-			z-index: 1;
-			width: 20px;
-			height: 100%;
-			background: linear-gradient(90deg, rgba(245, 245, 245, 0) 0%, var(--zb-input-faded-bg-color) 100%);
-		}
 
 		> span {
 			position: absolute;
@@ -203,7 +171,7 @@ export default {
 			background-color: var(--zb-secondary-color);
 		}
 
-		&--selector {
+		&--id {
 			background-color: var(--zb-column-color);
 		}
 	}
@@ -249,5 +217,10 @@ export default {
 			pointer-events: none;
 		}
 	}
+}
+
+.znpb-css-class-selector__item-type--static_class {
+	background: #d15208;
+	color: #fff;
 }
 </style>

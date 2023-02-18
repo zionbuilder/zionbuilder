@@ -1,158 +1,125 @@
 <template>
-	<PopOver
-		icon="ite-link"
-		:full-size="true"
-	>
+	<PopOver icon="ite-link" :full-size="true">
 		<div class="zion-inline-editor-link-wrapper">
-			<InputWrapper :title="$translate('add_a_link')">
-				<BaseInput
-					v-model="linkUrl"
-					:clearable="true"
-					placeholder="www.address.com"
-					@keyup.enter="addLink"
-				>
-					<template v-slot:prepend>
+			<InputWrapper :title="i18n.__('Add a link', 'zionbuilder')">
+				<BaseInput v-model="linkUrl" :clearable="true" placeholder="www.address.com" @keyup.enter="addLink">
+					<template #prepend>
 						<Icon icon="link" />
 					</template>
 				</BaseInput>
 			</InputWrapper>
 			<div class="zion-inline-editor-popover__link-title">
-				<InputWrapper :title="$translate('target')">
+				<InputWrapper :title="i18n.__('Target', 'zionbuilder')">
 					<InputSelect
-						:options="selectOptions"
 						v-model="linkTarget"
-						placeholder="Select target"
+						:options="selectOptions"
+						:placeholder="i18n.__('Select target', 'zionbuilder')"
 					/>
 				</InputWrapper>
-				<InputWrapper :title="$translate('title')">
-					<BaseInput
-						v-model="linkTitle"
-						placeholder="link_title"
-						:clearable="true"
-						@keyup.enter="addLink"
-					/>
+				<InputWrapper :title="i18n.__('Title', 'zionbuilder')">
+					<BaseInput v-model="linkTitle" placeholder="link_title" :clearable="true" @keyup.enter="addLink" />
 				</InputWrapper>
 			</div>
 		</div>
-
 	</PopOver>
 </template>
 
-<script>
-import { inject, computed, ref, onMounted, onBeforeUnmount } from 'vue'
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+import { inject, computed, ref, onMounted, onBeforeUnmount } from 'vue';
 
 // Components
-import PopOver from './PopOver.vue'
+import PopOver from './PopOver.vue';
 
-export default {
-	components: {
-		PopOver
+const props = withDefaults(
+	defineProps<{
+		fullWidth?: boolean;
+		direction?: string;
+		visible?: boolean;
+	}>(),
+	{
+		fullWidth: false,
+		direction: 'bottom',
+		visible: false,
 	},
-	props: {
-		fullWidth: {
-			type: Boolean,
-			required: false
-		},
-		direction: {
-			type: String,
-			required: false
-		},
-		visible: {
-			type: Boolean
-		}
+);
+
+const editor = inject('ZionInlineEditor');
+const isPopOverVisible = ref(false);
+const justChangedNode = ref(false);
+const linkTarget = ref('_self');
+const linkUrl = ref('');
+const linkTitle = ref('');
+const selectOptions = [
+	{
+		id: '_self',
+		name: 'Self',
 	},
-	setup () {
-		const editor = inject('ZionInlineEditor')
-		const isPopOverVisible = ref(false)
-		const justChangedNode = ref(false)
-		const linkTarget = ref('_self')
-		const linkUrl = ref('')
-		const linkTitle = ref('')
-		const selectOptions = [
-			{
-				id: '_self',
-				name: 'Self'
-			},
-			{
-				id: '_blank',
-				name: 'New Window'
-			}
-		]
+	{
+		id: '_blank',
+		name: 'New Window',
+	},
+];
 
-		const hasLink = ref(false)
+const hasLink = ref(false);
 
+const buttonClasses = computed(() => {
+	const classes = [];
 
-		const buttonClasses = computed(() => {
-			let classes = []
+	// Check if the button is active
+	if (hasLink.value) {
+		classes.push('zion-inline-editor-button--active');
+	}
 
-			// Check if the button is active
-			if (hasLink.value) {
-				classes.push('zion-inline-editor-button--active')
-			}
+	return classes.join(' ');
+});
 
-			return classes.join(' ')
-		})
-
-		function onNodeChange (node) {
-			if (node.selectionChange) {
-				getLink()
-			}
-		}
-
-		function getLink () {
-			let link = editor.editor.dom.getParent(editor.editor.selection.getStart(), 'a[href]')
-
-			if (link) {
-				linkTarget.value = link.target || '_self'
-				linkUrl.value = link.getAttribute('href')
-				linkTitle.value = link.getAttribute('title')
-				hasLink.value = true
-			} else {
-				linkUrl.value = null
-				linkTitle.value = ''
-				hasLink.value = false
-			}
-
-		}
-
-		function addLink (closePopper = true) {
-			if (linkUrl.value) {
-				// Make the selection a link
-				editor.editor.formatter.apply('link', {
-					href: linkUrl.value,
-					target: linkTarget.value,
-					title: linkTitle.value
-				})
-			} else {
-				editor.editor.formatter.remove('link')
-			}
-
-			if (closePopper) {
-				isPopOverVisible.value = false
-			}
-		}
-
-		onMounted(() => {
-			getLink()
-			editor.editor.on('NodeChange', onNodeChange)
-		})
-
-		onBeforeUnmount(() => {
-			editor.editor.off('NodeChange', onNodeChange)
-		})
-
-		return {
-			isPopOverVisible,
-			linkTarget,
-			linkUrl,
-			linkTitle,
-			selectOptions,
-			buttonClasses,
-			addLink,
-			hasLink
-		}
+function onNodeChange(node) {
+	if (node.selectionChange) {
+		getLink();
 	}
 }
+
+function getLink() {
+	const link = editor.editor.dom.getParent(editor.editor.selection.getStart(), 'a[href]');
+
+	if (link) {
+		linkTarget.value = link.target || '_self';
+		linkUrl.value = link.getAttribute('href');
+		linkTitle.value = link.getAttribute('title');
+		hasLink.value = true;
+	} else {
+		linkUrl.value = null;
+		linkTitle.value = '';
+		hasLink.value = false;
+	}
+}
+
+function addLink(closePopper = true) {
+	if (linkUrl.value) {
+		// Make the selection a link
+		editor.editor.formatter.apply('link', {
+			href: linkUrl.value,
+			target: linkTarget.value,
+			title: linkTitle.value,
+		});
+	} else {
+		editor.editor.formatter.remove('link');
+	}
+
+	if (closePopper) {
+		isPopOverVisible.value = false;
+	}
+}
+
+onMounted(() => {
+	getLink();
+	editor.editor.on('NodeChange', onNodeChange);
+});
+
+onBeforeUnmount(() => {
+	editor.editor.off('NodeChange', onNodeChange);
+});
 </script>
 
 <style lang="scss">

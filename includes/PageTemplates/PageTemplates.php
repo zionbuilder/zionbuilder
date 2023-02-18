@@ -24,7 +24,7 @@ class PageTemplates {
 		// Add our templates to template list dropdown
 		add_filter( 'theme_templates', array( $this, 'register_page_templates_options' ), 10, 4 );
 		// Check and load our template
-		add_filter( 'template_include', array( $this, 'template_include' ), 11 );
+		add_filter( 'template_include', array( $this, 'template_include' ), 12 );
 	}
 
 	/**

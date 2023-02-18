@@ -143,12 +143,36 @@ class Video extends BaseSchema {
 				'title'   => esc_html__( 'Autoplay video?', 'zionbuilder' ),
 
 			],
+
+			'playsInline'      => [
+				'type'        => 'checkbox_switch',
+				'default'     => true,
+				'title'       => esc_html__( 'Play video inline', 'zionbuilder' ),
+				'description' => esc_html__( 'With this option set to yes, mobile browsers, will play the video right where it is instead of the default, which is to open it up fullscreen while it plays.', 'zionbuilder' ),
+				'layout'      => 'inline',
+				'dependency'  => [
+					[
+						'option' => 'videoSource',
+						'value'  => [ 'local' ],
+					],
+				],
+			],
+
+			'loop'             => [
+				'type'    => 'checkbox_switch',
+				'default' => true,
+				'layout'  => 'inline',
+				'title'   => esc_html__( 'Loop video?', 'zionbuilder' ),
+
+			],
+
 			'muted'            => [
 				'type'    => 'checkbox_switch',
 				'default' => true,
 				'layout'  => 'inline',
 				'title'   => esc_html__( 'Start muted?', 'zionbuilder' ),
 			],
+
 		];
 
 		$video_options = new Options( 'zionbuilder/schema/video_options', $options );

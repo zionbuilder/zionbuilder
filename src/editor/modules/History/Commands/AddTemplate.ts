@@ -1,5 +1,5 @@
+import * as i18n from '@wordpress/i18n';
 import { HistoryCommand } from '../HistoryCommand';
-import { translate } from '/@/common/modules/i18n';
 import { useUIStore, useContentStore } from '/@/editor/store';
 
 type HistoryItem = {
@@ -35,8 +35,8 @@ export class AddTemplate extends HistoryCommand {
 					index: index,
 					addedElementsUIDs: addedElements.map(el => el.uid),
 				},
-				title: translate('template'),
-				action: translate('added'),
+				title: i18n.__( 'Template', 'zionbuilder' ),
+				action: i18n.__( 'added', 'zionbuilder' ),
 			});
 		}
 	}

@@ -12,7 +12,7 @@ export default {
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useOptionsSchemas } from '../../composables';
+import { useOptionsSchemas } from '../../composables/useOptionsSchemas';
 import { omit } from 'lodash-es';
 
 interface Shadow {

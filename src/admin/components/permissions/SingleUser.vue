@@ -13,7 +13,7 @@
 			v-model:show="showModal"
 			class="znpb-admin-permissions-modal"
 			:width="560"
-			:title="userData.name + ' ' + $translate('permissions')"
+			:title="userData.name + ' ' + i18n.__('Permissions', 'zionbuilder')"
 			:show-backdrop="false"
 		>
 			<UserModalContent :permissions="permissions" @edit-role="editUserPermission(userId, $event)" />
@@ -21,50 +21,32 @@
 	</div>
 </template>
 
-<script>
-import { computed } from 'vue';
-import { useBuilderOptionsStore, useUsersStore } from '/@/common/store';
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+import { computed, ref } from 'vue';
 
 // Components
 import UserModalContent from './UserModalContent.vue';
 import UserTemplate from './UserTemplate.vue';
 
-export default {
-	name: 'SingleUser',
-	components: {
-		UserModalContent,
-		UserTemplate,
+const props = defineProps({
+	permissions: {
+		type: Object,
+		required: true,
 	},
-	props: {
-		permissions: {
-			type: Object,
-			required: true,
-		},
-		userId: {
-			type: Number,
-			required: true,
-		},
+	userId: {
+		type: Number,
+		required: true,
 	},
-	setup(props) {
-		const { getUserInfo } = useUsersStore();
-		const { editUserPermission, deleteUserPermission } = useBuilderOptionsStore();
-		const userData = getUserInfo(props.userId);
+});
 
-		const permissionsNumber = computed(() => {
-			return Object.keys(props.permissions).length;
-		});
+const showModal = ref(false);
 
-		return {
-			permissionsNumber,
-			userData,
-			editUserPermission,
-			deleteUserPermission,
-		};
-	},
-	data() {
-		return {
-			showModal: false,
-		};
-	},
-};
+const { getUserInfo } = window.zb.store.useUsersStore();
+const { editUserPermission, deleteUserPermission } = window.zb.store.useBuilderOptionsStore();
+const userData = getUserInfo(props.userId);
+
+const permissionsNumber = computed(() => {
+	return Object.keys(props.permissions).length;
+});
 </script>

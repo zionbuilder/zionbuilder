@@ -1,63 +1,70 @@
 <template>
-	<div v-if="hasVideoSource" class="zb__videoBackground-wrapper" :data-zion-video-background="getVideoSettings" />
+	<div
+		v-if="hasVideoSource"
+		ref="elementRef"
+		class="zb__videoBackground-wrapper zbjs_video_background hg-video-bg__wrapper"
+		:data-zion-video-background="getVideoSettings"
+	/>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { isEqual } from 'lodash-es';
+import { computed, ref, Ref, nextTick, onMounted, watch } from 'vue';
 
-export default {
-	name: 'VideoBackground',
-	props: {
-		videoConfig: {
-			type: Object,
-			required: false,
-			default: () => {
-				return {};
-			},
-		},
-	},
-	computed: {
-		getVideoSettings() {
-			return JSON.stringify(this.videoConfig);
-		},
-		hasVideoSource() {
-			const videoSource = this.videoConfig && this.videoConfig.videoSource ? this.videoConfig.videoSource : 'local';
-			if (videoSource === 'youtube' && this.videoConfig.youtubeURL) {
-				return true;
-			} else if (videoSource === 'vimeo' && this.videoConfig.vimeoURL) {
-				return true;
-			} else if (videoSource === 'local' && this.videoConfig.mp4) {
-				return true;
-			}
+const props = withDefaults(defineProps<{ videoConfig: any }>(), {
+	videoConfig: () => ({}),
+});
 
-			return false;
-		},
-	},
-	watch: {
-		videoConfig(newValue, oldValue) {
-			if (!this.hasVideoSource) {
-				return;
-			}
+const elementRef = ref(null);
+const videoInstance: Ref<Video | null> = ref(null);
 
-			if (!isEqual(newValue, oldValue)) {
-				if (this.videoInstance) {
-					this.videoInstance.destroy();
-				}
+const getVideoSettings = computed(() => JSON.stringify(props.videoConfig));
+const hasVideoSource = computed(() => {
+	const videoSource = props.videoConfig && props.videoConfig.videoSource ? props.videoConfig.videoSource : 'local';
+	if (videoSource === 'youtube' && props.videoConfig.youtubeURL) {
+		return true;
+	} else if (videoSource === 'vimeo' && props.videoConfig.vimeoURL) {
+		return true;
+	} else if (videoSource === 'local' && props.videoConfig.mp4) {
+		return true;
+	}
 
-				this.$nextTick(() => {
-					this.videoInstance = new window.frames[0].ZBVideoBg(this.$el, this.videoConfig);
-				});
-			}
-		},
-	},
-	mounted() {
-		if (!this.hasVideoSource) {
-			return;
-		}
+	return false;
+});
 
-		if (Object.keys(this.videoConfig).length > 0) {
-			this.videoInstance = new window.frames[0].ZBVideoBg(this.$el, this.videoConfig);
+watch(
+	() => props.videoConfig,
+	(newValue, oldValue) => {
+		if (!isEqual(newValue, oldValue)) {
+			nextTick(() => {
+				initVideo();
+			});
 		}
 	},
-};
+);
+
+function initVideo() {
+	if (!hasVideoSource.value) {
+		return;
+	}
+
+	if (videoInstance.value) {
+		videoInstance.value.destroy();
+	}
+
+	const script = window.document.getElementById('znpb-editor-iframe')?.contentWindow?.zbScripts.video;
+
+	if (script) {
+		videoInstance.value = new script(elementRef.value, {
+			...props.videoConfig,
+			isBackgroundVideo: true,
+		});
+	} else {
+		console.error('video script not found');
+	}
+}
+
+onMounted(() => {
+	initVideo();
+});
 </script>

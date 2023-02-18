@@ -500,7 +500,7 @@ class Advanced extends BaseSchema {
 			'_appear_duration',
 			[
 				'type'        => 'dynamic_slider',
-				'description' => esc_html__( 'Set the desired appear animation duration (in miliseconds).' ),
+				'description' => esc_html__( 'Set the desired appear animation duration (in milliseconds).' ),
 				'title'       => esc_html__( 'Appear duration', 'zionbuilder' ),
 				'default'     => '1000ms',
 				'content'     => 'ms',
@@ -514,7 +514,7 @@ class Advanced extends BaseSchema {
 				'options'     => [
 					[
 						'min'        => 0,
-						'max'        => 100,
+						'max'        => 10000,
 						'step'       => 1,
 						'shift_step' => 5,
 						'unit'       => 's',
@@ -535,7 +535,7 @@ class Advanced extends BaseSchema {
 			'_appear_delay',
 			[
 				'type'        => 'dynamic_slider',
-				'description' => esc_html__( 'Set the desired appear animation delay (in miliseconds).', 'zionbuilder' ),
+				'description' => esc_html__( 'Set the desired appear animation delay (in milliseconds).', 'zionbuilder' ),
 				'title'       => esc_html__( 'Appear delay', 'zionbuilder' ),
 				'default'     => '0ms',
 				'dependency'  => [

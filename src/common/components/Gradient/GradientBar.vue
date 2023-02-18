@@ -1,6 +1,6 @@
 <template>
 	<div ref="root" class="znpb-gradient-bar-colors-wrapper">
-		<div ref="gradientbar" class="znpb-gradient-bar-wrapper">
+		<div ref="gradientBar" class="znpb-gradient-bar-wrapper">
 			<GradientBarPreview :config="computedValue" @click="addColor" />
 			<GradientDragger
 				v-for="(colorConfig, i) in computedValue.colors"
@@ -12,8 +12,12 @@
 			/>
 		</div>
 		<div class="znpb-gradient-colors-legend">
-			<span class="znpb-form__input-title znpb-gradient-colors-legend-item"> {{ $translate('color') }} </span>
-			<span class="znpb-form__input-title znpb-gradient-colors-legend-item"> {{ $translate('location') }} </span>
+			<span class="znpb-form__input-title znpb-gradient-colors-legend-item">
+				{{ i18n.__('Color', 'zionbuilder') }}
+			</span>
+			<span class="znpb-form__input-title znpb-gradient-colors-legend-item">
+				{{ i18n.__('Location', 'zionbuilder') }}
+			</span>
 		</div>
 		<GradientColorConfig
 			v-for="(colorConfig, i) in sortedColors"
@@ -33,13 +37,14 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { ref, computed, nextTick, onMounted, onBeforeUnmount } from 'vue';
 import GradientBarPreview from './GradientBarPreview.vue';
 import GradientDragger from './GradientDragger.vue';
 import GradientColorConfig from './GradientColorConfig.vue';
 import rafSchd from 'raf-schd';
 
-export type Color = { color: string; position: number; __dynamic_content__?: any };
+export type Color = { color: string; position: number; __dynamic_content__?: unknown };
 export type Position = { x: number; y: number };
 
 export interface Gradient {
@@ -58,9 +63,9 @@ const emit = defineEmits<{
 }>();
 
 const root = ref<HTMLDivElement | null>(null);
-const gradientbar = ref<HTMLDivElement | null>(null);
+const gradientBar = ref<HTMLDivElement | null>(null);
 
-const gradref = ref<DOMRect | null>(null);
+const gradRef = ref<DOMRect | null>(null);
 const colorPickerOpen = ref(false);
 const deletedColorConfig = ref<Color | null>(null);
 
@@ -80,7 +85,7 @@ const computedValue = computed({
 });
 
 const sortedColors = computed(() => {
-	let colorsCopy = [...computedValue.value.colors].sort((a, b) => {
+	const colorsCopy = [...computedValue.value.colors].sort((a, b) => {
 		return a.position > b.position ? 1 : -1;
 	});
 
@@ -134,9 +139,9 @@ function addColor(event: MouseEvent) {
 	const barOffset = (root.value as HTMLDivElement).getBoundingClientRect();
 
 	// Calculate where the coordinate x of the element starts
-	const startx = barOffset.left;
+	const startX = barOffset.left;
 	// from total width reduce the coordinate x value
-	const newLeft = mouseLeftPosition - startx;
+	const newLeft = mouseLeftPosition - startX;
 
 	defaultColor.position = Math.round((newLeft / barOffset.width) * 100);
 
@@ -161,6 +166,7 @@ function enableDragging(colorConfigIndex: number) {
 }
 
 function disableDragging() {
+	rafMovePosition.cancel();
 	document.body.classList.remove('znpb-color-gradient--backdrop');
 	document.removeEventListener('mousemove', rafMovePosition);
 	document.removeEventListener('mouseup', rafEndDragging);
@@ -180,10 +186,10 @@ function updateActiveConfigPosition(newPosition: number) {
 
 function onCircleDrag(event: MouseEvent) {
 	// calculate the dragger left position %
-	let newLeft = ((event.clientX - (gradref.value as DOMRect).left) * 100) / (gradref.value as DOMRect).width;
+	const newLeft = ((event.clientX - (gradRef.value as DOMRect).left) * 100) / (gradRef.value as DOMRect).width;
 	const position = Math.min(Math.max(newLeft, 0), 100);
 
-	// check if the user wants to delete the color as in photoshop
+	// check if the user wants to delete the color as in Photoshop app
 	if (newLeft > 100 || newLeft < 0) {
 		// Check to see if we need to delete the color
 		if (sortedColors.value.length > 2 && deletedColorConfig.value === null) {
@@ -194,16 +200,14 @@ function onCircleDrag(event: MouseEvent) {
 			reAddColor();
 		}
 
-		nextTick(() => {
-			// Update position
-			updateActiveConfigPosition(Math.round(position));
-		});
+		// Update position
+		updateActiveConfigPosition(Math.round(position));
 	}
 }
 
 onMounted(() => {
 	nextTick(() => {
-		gradref.value = (gradientbar.value as HTMLDivElement).getBoundingClientRect();
+		gradRef.value = (gradientBar.value as HTMLDivElement).getBoundingClientRect();
 	});
 });
 

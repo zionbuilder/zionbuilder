@@ -4,7 +4,7 @@
 			<keyShortcutsItem
 				v-for="(schema, i) in schemaDescriptionFirst"
 				:key="i + schema.description"
-				:keyshortcut="schema.keyshortcut"
+				:shortcut-key="schema.shortcutKey"
 				:description="schema.description"
 			>
 				<pre v-if="schema.details" class="znpb-key-shortcuts-modal__item-details">{{ schema.details }}</pre>
@@ -13,115 +13,107 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import keyShortcutsItem from './keyShortcutsItem.vue';
-import { Environment } from '/@/common/utils';
 
-export default {
-	name: 'KeyShortcutsModal',
-	components: {
-		keyShortcutsItem,
+const { Environment } = window.zb.utils;
+
+const controlKey = Environment.isMac ? '⌘' : '⌃';
+const schemaDescriptionFirst = [
+	{
+		shortcutKey: [controlKey, 'S'],
+		description: i18n.__('Save changes', 'zionbuilder'),
 	},
-	data() {
-		const controlKey = Environment.isMac ? '⌘' : '⌃';
-		return {
-			schemaDescriptionFirst: [
-				{
-					keyshortcut: [controlKey, 'S'],
-					description: this.$translate('save_changes'),
-				},
-				{
-					keyshortcut: [controlKey, 'C'],
-					description: this.$translate('copy_element'),
-				},
-				{
-					keyshortcut: [controlKey, 'V'],
-					description: this.$translate('paste_element'),
-				},
-				{
-					keyshortcut: [controlKey, 'X'],
-					description: this.$translate('cut_element'),
-				},
-				{
-					keyshortcut: [controlKey, 'D'],
-					description: this.$translate('duplicate_element'),
-				},
-				{
-					keyshortcut: [controlKey, '⇧', 'C'],
-					description: this.$translate('copy_element_styles'),
-				},
-				{
-					keyshortcut: [controlKey, '⇧', 'V'],
-					description: this.$translate('paste_element_styles'),
-				},
-				{
-					keyshortcut: [controlKey, 'Z'],
-					description: this.$translate('undo'),
-				},
-				{
-					keyshortcut: [controlKey, 'Y'],
-					description: this.$translate('redo'),
-				},
-				{
-					keyshortcut: [controlKey, '⇧', 'Y'],
-					description: this.$translate('redo'),
-				},
-				{
-					keyshortcut: [controlKey, 'H'],
-					description: this.$translate('hide_element'),
-				},
-				{
-					keyshortcut: [controlKey, 'P'],
-					description: this.$translate('toggle_preview'),
-				},
-				{
-					keyshortcut: ['⇧', 'T'],
-					description: this.$translate('toggle_tree_view_panel'),
-				},
-				{
-					keyshortcut: ['⇧', 'L'],
-					description: this.$translate('toggle_library'),
-				},
-				{
-					keyshortcut: ['⇧', 'O'],
-					description: this.$translate('toggle_page_options'),
-				},
-				{
-					keyshortcut: ['DRAG', controlKey],
-					description: this.$translate('duplicate_element_in_place'),
-					details: this.$translate('when_dragging_element'),
-				},
-				{
-					keyshortcut: [controlKey, 'DRAG'],
-					description: this.$translate('set_even_values'),
-					details: this.$translate('when_dragging_toolbox'),
-				},
-				{
-					keyshortcut: [controlKey, '⇧', 'DRAG'],
-					description: this.$translate('set_even_incremental_value'),
-				},
-				{
-					keyshortcut: [controlKey, '⇧', 'D'],
-					description: this.$translate('back_to_wp_dashboard'),
-				},
-				{
-					keyshortcut: ['⇧', 'DRAG'],
-					description: this.$translate('set_incremental_value'),
-					details: this.$translate('when_dragging_input_number'),
-				},
-				{
-					keyshortcut: ['⇧', 'ARROWS'],
-					description: this.$translate('set_incremental_value'),
-				},
-				{
-					keyshortcut: ['ALT'],
-					description: 'Toggle Link',
-					details: this.$translate('on_input_number_link'),
-				},
-			],
-		};
+	{
+		shortcutKey: [controlKey, 'C'],
+		description: i18n.__('Copy', 'zionbuilder'),
 	},
-};
+	{
+		shortcutKey: [controlKey, 'V'],
+		description: i18n.__('Paste', 'zionbuilder'),
+	},
+	{
+		shortcutKey: [controlKey, 'X'],
+		description: i18n.__('Cut', 'zionbuilder'),
+	},
+	{
+		shortcutKey: [controlKey, 'D'],
+		description: i18n.__('Duplicate', 'zionbuilder'),
+	},
+	{
+		shortcutKey: [controlKey, '⇧', 'C'],
+		description: i18n.__('Copy styles', 'zionbuilder'),
+	},
+	{
+		shortcutKey: [controlKey, '⇧', 'V'],
+		description: i18n.__('Paste styles', 'zionbuilder'),
+	},
+	{
+		shortcutKey: [controlKey, 'Z'],
+		description: i18n.__('Undo', 'zionbuilder'),
+	},
+	{
+		shortcutKey: [controlKey, 'Y'],
+		description: i18n.__('Redo', 'zionbuilder'),
+	},
+	{
+		shortcutKey: [controlKey, '⇧', 'Y'],
+		description: i18n.__('Redo', 'zionbuilder'),
+	},
+	{
+		shortcutKey: [controlKey, 'H'],
+		description: i18n.__('Hide element', 'zionbuilder'),
+	},
+	{
+		shortcutKey: [controlKey, 'P'],
+		description: i18n.__('Toggle preview mode', 'zionbuilder'),
+	},
+	{
+		shortcutKey: ['⇧', 'T'],
+		description: i18n.__('Toggle Tree View Panel', 'zionbuilder'),
+	},
+	{
+		shortcutKey: ['⇧', 'L'],
+		description: i18n.__('Toggle Library Panel', 'zionbuilder'),
+	},
+	{
+		shortcutKey: ['⇧', 'O'],
+		description: i18n.__('Toggle page options', 'zionbuilder'),
+	},
+	{
+		shortcutKey: ['DRAG', controlKey],
+		description: i18n.__('Duplicate element in place', 'zionbuilder'),
+		details: i18n.__('When dragging element', 'zionbuilder'),
+	},
+	{
+		shortcutKey: [controlKey, 'DRAG'],
+		description: i18n.__('Set even values', 'zionbuilder'),
+		details: i18n.__('When dragging toolbox', 'zionbuilder'),
+	},
+	{
+		shortcutKey: [controlKey, '⇧', 'DRAG'],
+		description: i18n.__('Set even incremental value', 'zionbuilder'),
+	},
+	{
+		shortcutKey: [controlKey, '⇧', 'D'],
+		description: i18n.__('Back to WP dashboard', 'zionbuilder'),
+	},
+	{
+		shortcutKey: ['⇧', 'DRAG'],
+		description: i18n.__('Set incremental value', 'zionbuilder'),
+		details: i18n.__('On input of type number', 'zionbuilder'),
+	},
+	{
+		shortcutKey: ['⇧', 'ARROWS'],
+		description: i18n.__('Set incremental value', 'zionbuilder'),
+	},
+	{
+		shortcutKey: ['ALT'],
+		description: 'Toggle Link',
+		details: i18n.__('On input of type number with link option available', 'zionbuilder'),
+	},
+];
 </script>
 
 <style lang="scss">

@@ -1,35 +1,35 @@
-import { useSavePage, useEditorData, useElementActions } from '../composables';
-import { isEditable, Environment } from '/@/common/utils';
+import { useSavePage, useElementActions } from '../composables';
 import { useHistoryStore, useUIStore, useUserStore } from '../store';
+
+const { isEditable, Environment } = window.zb.utils;
 
 export const useKeyBindings = () => {
 	const UIStore = useUIStore();
 	const userStore = useUserStore();
 	const { savePage, isSavePageLoading } = useSavePage();
 	const { copyElement, pasteElement, resetCopiedElement, copyElementStyles, pasteElementStyles } = useElementActions();
-	const { editorData } = useEditorData();
 
 	const controlKey = Environment.isMac ? 'metaKey' : 'ctrlKey';
 
-	const getNextFocusedElement = element => {
-		const parentContent = element.parent.content;
-		const elementIndex = parentContent.indexOf(element);
-		const previousElement = parentContent[elementIndex - 1];
-		const nextElement = parentContent[elementIndex + 1];
+	// const getNextFocusedElement = element => {
+	// 	const parentContent = element.parent.content;
+	// 	const elementIndex = parentContent.indexOf(element);
+	// 	const previousElement = parentContent[elementIndex - 1];
+	// 	const nextElement = parentContent[elementIndex + 1];
 
-		if (previousElement) {
-			return previousElement;
-		} else if (nextElement) {
-			return nextElement;
-		} else if (element.parent && element.parent.element_type !== 'contentRoot') {
-			return element.parent;
-		}
+	// 	if (previousElement) {
+	// 		return previousElement;
+	// 	} else if (nextElement) {
+	// 		return nextElement;
+	// 	} else if (element.parent && element.parent.element_type !== 'contentRoot') {
+	// 		return element.parent;
+	// 	}
 
-		return null;
-	};
+	// 	return null;
+	// };
 
 	// end checkMousePosition
-	const applyShortcuts = e => {
+	const applyShortcuts = (e: KeyboardEvent) => {
 		// Save CTRL+S
 		if (e.which === 83 && e[controlKey] && !e.shiftKey) {
 			e.preventDefault();
@@ -102,7 +102,7 @@ export const useKeyBindings = () => {
 			// Hide element/panel
 			if (e.which === 72 && e[controlKey]) {
 				if (activeElementFocus) {
-					activeElementFocus.toggleVisibility();
+					activeElementFocus.setVisibility(!activeElementFocus.isVisible);
 					e.preventDefault();
 				}
 			}
@@ -120,7 +120,7 @@ export const useKeyBindings = () => {
 
 		// Redo CTRL+SHIFT+D -- Back to WP Dashboard
 		if (e.code === 'KeyD' && e[controlKey] && e.shiftKey) {
-			window.open(editorData.value.urls.edit_page, '_blank');
+			window.open(window.ZnPbInitialData.urls.edit_page, '_blank');
 		}
 
 		// Redo CTRL+SHIFT+Z CTRL + Y

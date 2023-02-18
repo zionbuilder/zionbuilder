@@ -8,17 +8,6 @@ export interface DeviceMap {
 	[key: string]: number | undefined;
 }
 
-export interface ResponsiveDevice {
-	name?: string;
-	id: string;
-	width?: number;
-	height?: number;
-	icon: string;
-	isCustom?: boolean;
-	isDefault?: boolean;
-	builtIn?: boolean;
-}
-
 export type ActiveResponsiveDevice = {
 	modelValue: Record<string, unknown>;
 	removeDeviceStyles: (deviceConfig: string) => void;
@@ -40,7 +29,7 @@ const deviceSizesConfig = [
 ];
 
 const activeResponsiveDeviceId = ref('default');
-const responsiveDevices = ref<ResponsiveDevice[]>(window.ZnPbComponentsData.breakpoints);
+const responsiveDevices = ref<Breakpoint[]>(window.ZBCommonData.breakpoints);
 
 const activeResponsiveOptions = ref<ActiveResponsiveDevice | null>(null);
 const iframeWidth = ref<number | null>(0);
@@ -142,7 +131,7 @@ export const useResponsiveDevices = () => {
 		activeResponsiveOptions.value = null;
 	}
 
-	async function updateBreakpoint(device: ResponsiveDevice, newWidth: number) {
+	async function updateBreakpoint(device: Breakpoint, newWidth: number) {
 		const editedDevice = responsiveDevices.value.find(deviceData => deviceData === device);
 
 		if (editedDevice && editedDevice.width !== newWidth) {
@@ -185,7 +174,7 @@ export const useResponsiveDevices = () => {
 		iframeWidth.value = actualWidth;
 	}
 
-	function addCustomBreakpoint(breakPoint: ResponsiveDevice) {
+	async function addCustomBreakpoint(breakPoint: Breakpoint) {
 		const { width, icon = 'desktop' } = breakPoint;
 
 		const newDeviceData = {
@@ -196,6 +185,9 @@ export const useResponsiveDevices = () => {
 		};
 
 		responsiveDevices.value.push(newDeviceData);
+
+		// Save the breakpoints
+		await saveDevices();
 
 		return newDeviceData;
 	}

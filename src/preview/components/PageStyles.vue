@@ -1,69 +1,63 @@
-<script>
+<template>
+	<templateRender />
+</template>
+
+<script lang="ts" setup>
 import ElementStyles from './ElementStyles.vue';
 import Options from '../modules/Options';
 import { h } from 'vue';
-import { usePseudoSelectors, useOptionsSchemas } from '/@/common/composables';
+const { usePseudoSelectors, useOptionsSchemas } = window.zb.composables;
 
-export default {
-	name: 'PageStyles',
-	props: {
-		cssClasses: {
-			type: [Object, Array],
-		},
-		pageSettingsModel: {
-			type: Object,
-		},
-		pageSettingsSchema: {
-			type: Object,
-		},
-	},
-	setup(props) {
-		const { getSchema } = useOptionsSchemas();
-		const optionsSchema = getSchema('styles');
+const props = defineProps<{
+	cssClasses?: Record<string, unknown> | Array<Record<string, unknown>>;
+	pageSettingsModel?: Record<string, unknown>;
+	pageSettingsSchema?: Record<string, unknown>;
+}>();
 
-		return () => {
-			const { activePseudoSelector } = usePseudoSelectors();
-			const returnVnodes = [];
+const { getSchema } = useOptionsSchemas();
+const optionsSchema = getSchema('styles');
 
-			const createVnode = function (styles) {
-				return h(ElementStyles, {
-					styles,
-				});
-			};
+const templateRender = () => {
+	const { activePseudoSelector } = usePseudoSelectors();
+	const returnVnodes = [];
 
-			// PageSettings
-			const pageSettingsOptionsInstance = new Options(props.pageSettingsSchema, props.pageSettingsModel);
-			const { customCSS: pageSettingsCustomCSS } = pageSettingsOptionsInstance.parseData();
+	const createVnode = function (styles) {
+		return h(ElementStyles, {
+			styles,
+		});
+	};
 
-			returnVnodes.push(createVnode(pageSettingsCustomCSS));
+	// PageSettings
+	const pageSettingsOptionsInstance = new Options(props.pageSettingsSchema, props.pageSettingsModel);
+	const { customCSS: pageSettingsCustomCSS } = pageSettingsOptionsInstance.parseData();
 
-			// Custom css classes
-			if (typeof props.cssClasses === 'object' && props.cssClasses !== null) {
-				Object.keys(props.cssClasses).forEach(cssClassId => {
-					const styleData = props.cssClasses[cssClassId];
-					const optionsInstance = new Options(optionsSchema, styleData, [`.zb .${styleData.id}`]);
+	returnVnodes.push(createVnode(pageSettingsCustomCSS));
 
-					const parsedOptions = optionsInstance.parseData();
+	// Custom css classes
+	if (typeof props.cssClasses === 'object' && props.cssClasses !== null) {
+		Object.keys(props.cssClasses).forEach(cssClassId => {
+			const styleData = props.cssClasses[cssClassId];
+			const optionsInstance = new Options(optionsSchema, styleData, [`.zb .${styleData.id}`]);
 
-					let customCSS = window.zb.editor.getCssFromSelector([`.zb .${styleData.id}`], parsedOptions.options);
+			const parsedOptions = optionsInstance.parseData();
 
-					// Generate the styles on hover
-					if (activePseudoSelector.value && activePseudoSelector.value.id === ':hover') {
-						const optionsInstance = new Options(optionsSchema, styleData, [`.zb .${styleData.id}`]);
+			let customCSS = window.zb.editor.getCssFromSelector([`.zb .${styleData.id}`], parsedOptions.options);
 
-						const parsedOptions = optionsInstance.parseData();
+			// Generate the styles on hover
+			if (activePseudoSelector.value && activePseudoSelector.value.id === ':hover') {
+				const optionsInstance = new Options(optionsSchema, styleData, [`.zb .${styleData.id}`]);
 
-						customCSS += window.zb.editor.getCssFromSelector([`.zb .${styleData.id}`], parsedOptions.options, {
-							forcehoverState: true,
-						});
-					}
+				const parsedOptions = optionsInstance.parseData();
 
-					returnVnodes.push(createVnode(customCSS));
+				customCSS += window.zb.editor.getCssFromSelector([`.zb .${styleData.id}`], parsedOptions.options, {
+					forcehoverState: true,
 				});
 			}
 
-			return returnVnodes;
-		};
-	},
+			returnVnodes.push(createVnode(customCSS));
+		});
+	}
+
+	return returnVnodes;
 };
 </script>

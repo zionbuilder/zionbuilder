@@ -28,74 +28,85 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue';
 import { useUIStore } from '/@/editor/store';
 
-export default {
-	name: 'ToolboxTitle',
-	props: {
-		element: {
-			type: Object,
-			required: true,
-		},
-	},
-	setup(props) {
-		const root = ref(null);
-		const UIStore = useUIStore();
+const props = defineProps<{
+	element: ZionElement;
+}>();
 
-		const parents = computed(() => {
-			let parents = [];
-			let activeElement = props.element;
+const root = ref(null);
+const UIStore = useUIStore();
 
-			while (activeElement) {
-				parents.push(activeElement);
+const parents = computed(() => {
+	const parents = [];
+	let activeElement = props.element;
 
-				activeElement =
-					activeElement.parent && activeElement.parent.element_type !== 'contentRoot' ? activeElement.parent : null;
-			}
+	while (activeElement) {
+		parents.push(activeElement);
 
-			return parents.reverse();
-		});
+		activeElement =
+			activeElement.parent && activeElement.parent.element_type !== 'contentRoot' ? activeElement.parent : null;
+	}
 
-		function editElement(element) {
-			UIStore.editElement(element);
-		}
+	return parents.reverse();
+});
 
-		// Lifecycle
-		onMounted(checkReposition);
+function editElement(element) {
+	UIStore.editElement(element);
+}
 
-		const exitsTop = ref(false);
-		const exitsRight = ref(false);
+// Lifecycle
+onMounted(() => {
+	const boundingClientRect = root.value.getBoundingClientRect();
 
-		function checkReposition() {
-			const boundingClientRect = root.value.getBoundingClientRect();
+	// Check if exits top
+	exitsTop.value = boundingClientRect.top + window.scrollY < 0;
+	exitsRight.value = boundingClientRect.right > (window.innerWidth || document.documentElement.clientWidth);
+});
 
-			// Check if exits top
-			exitsTop.value = boundingClientRect.top + window.scrollY < 0;
-			exitsRight.value = boundingClientRect.right > (window.innerWidth || document.documentElement.clientWidth);
-		}
+const exitsTop = ref(false);
+const exitsRight = ref(false);
 
-		function showElementMenu(event, element) {
-			event.preventDefault();
-			event.stopPropagation();
+function showElementMenu(event, element) {
+	event.preventDefault();
+	event.stopPropagation();
 
-			UIStore.showElementMenuFromEvent(element, event);
-		}
+	UIStore.showElementMenuFromEvent(element, event);
+}
 
-		return {
-			parents,
-			root,
-			exitsTop,
-			exitsRight,
-			UIStore,
+// Prevent the element from exiting the browser window
+function preventElementExit() {
+	const element = root.value;
+	if (!element) {
+		return;
+	}
 
-			// Methods
-			editElement,
-			showElementMenu,
-		};
-	},
-};
+	const elementRect = element.getBoundingClientRect();
+	const windowWidth = window.innerWidth;
+	const windowHeight = window.innerHeight;
+
+	if (elementRect.left < 0) {
+		element.style.marginRight = '-28px';
+	}
+
+	if (elementRect.top < 0) {
+		element.style.marginTop = '-35px';
+	}
+
+	if (elementRect.right > windowWidth) {
+		element.style.marginLeft = `15px`;
+	}
+
+	if (elementRect.bottom > windowHeight) {
+		element.style.marginTop = `-35px`;
+	}
+}
+
+onMounted(() => {
+	preventElementExit();
+});
 </script>
 
 <style lang="scss">

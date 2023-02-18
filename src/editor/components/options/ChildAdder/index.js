@@ -1,10 +1,8 @@
-import ChildAdder from './ChildAdder.vue'
+import ChildAdder from './ChildAdder.vue';
 
 export default {
 	id: 'child_adder',
-	component: ChildAdder
-}
+	component: ChildAdder,
+};
 
-export {
-	ChildAdder
-}
+export { ChildAdder };

@@ -1,17 +1,17 @@
 export const getManager = () => {
-	let zIndex = 10000
+	let zIndex = 10000;
 
-	const getZindex = () => {
-		zIndex++
-		return zIndex
-	}
+	const getZIndex = () => {
+		zIndex++;
+		return zIndex;
+	};
 
-	const removeZindex = () => {
-		zIndex--
-	}
+	const removeZIndex = () => {
+		zIndex--;
+	};
 
 	return {
-		getZindex,
-		removeZindex
-	}
-}
+		getZIndex,
+		removeZIndex,
+	};
+};

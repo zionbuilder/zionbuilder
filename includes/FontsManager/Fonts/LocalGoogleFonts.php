@@ -14,7 +14,7 @@ class LocalGoogleFonts {
 	/**
 	 * Url to the API that allows us to download the fonts
 	 */
-	const GOOGLE_DOWNLOAD_API_URL = 'https://google-webfonts-helper.herokuapp.com/api/fonts/';
+	const GOOGLE_DOWNLOAD_API_URL = 'https://gwfh.mranftl.com/api/fonts/';
 
 	/**
 	 * Holds a reference to the folder where we keep the fonts and stylesheets
@@ -134,8 +134,8 @@ class LocalGoogleFonts {
 	public function process_fonts() {
 		$allowed_font_extension      = [ 'woff2', 'woff', 'eot', 'ttf', 'svg' ];
 		$fonts_config_for_stylesheet = [];
-
 		foreach ( $this->fonts as $font ) {
+
 			$font_info = $this->get_font_info( $font );
 			$files     = [];
 
@@ -206,6 +206,8 @@ class LocalGoogleFonts {
 
 		if ( is_wp_error( $response ) ) {
 			// TODO: add a general error system in both frontend and admin
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions
+			error_log( '[ZionBuilder local google fonts] ' . $response->get_error_message() );
 			return [];
 		}
 

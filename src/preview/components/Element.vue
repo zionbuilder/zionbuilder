@@ -4,7 +4,9 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { applyFilters, doAction } from '/@/common/modules/hooks';
+
+// Common API
+const { doAction, applyFilters } = window.zb.hooks;
 
 const props = defineProps<{
 	element: ZionElement;

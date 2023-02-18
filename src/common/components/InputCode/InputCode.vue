@@ -195,6 +195,10 @@ onBeforeUnmount(() => {
 		color: #98a1ab;
 		background: var(--zb-surface-darker-color);
 
+		.CodeMirror-activeline-background {
+			background: var(--zb-surface-darker-color);
+		}
+
 		pre {
 			color: #98a1ab;
 			line-height: 1.4;

@@ -39,6 +39,17 @@ class Templates {
 		// Prevent search engines from indexing templates and prevent unauthorized users from seeing the templates
 		add_action( 'template_redirect', [ $this, 'on_template_redirect' ] );
 		add_action( 'wp_head', [ $this, 'on_wp_head' ] );
+
+		// Remove templates from sitemap
+		add_filter( 'wp_sitemaps_post_types', [ __CLASS__, 'remove_post_type_from_wp_sitemap' ] );
+	}
+
+	/**
+	 * Removes the Zion builder template post type from wp-sitemap.xml
+	 */
+	public static function remove_post_type_from_wp_sitemap( $post_types ) {
+		unset( $post_types[self::TEMPLATE_POST_TYPE] ); // Change page to any post type name
+		return $post_types;
 	}
 
 	/**

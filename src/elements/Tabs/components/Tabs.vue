@@ -10,7 +10,7 @@
 				:active="activeTab ? tab.uid === activeTab : i === 0"
 				v-bind="api.getAttributesForTag('inner_content_styles_title')"
 				:class="api.getStyleClasses('inner_content_styles_title')"
-				@click="activeTab = tab.uid"
+				@click.prevent.stop="activeTab = tab.uid"
 			/>
 		</ul>
 
@@ -31,47 +31,46 @@
 	</div>
 </template>
 
-<script>
-import { ref, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, provide, Ref } from 'vue';
 import TabLink from './TabLink.vue';
 
-export default {
-	name: 'Tabs',
-	components: {
-		TabLink,
-	},
-	props: ['options', 'element', 'api'],
-	setup(props) {
-		const activeTab = ref(null);
+const props = defineProps<{
+	options: {
+		tabs: ZionElementConfig[];
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
 
-		// Check to see if we need to add some tabs
-		if (props.element.content.length === 0 && props.options.tabs) {
-			props.element.addChildren(props.options.tabs);
-		}
+const activeTab: Ref<string | null> = ref(null);
 
-		const children = computed(() => {
-			return props.element.content.map(childUID => {
-				const contentStore = window.zb.editor.useContentStore();
-				return contentStore.getElement(childUID);
-			});
-		});
+// Check to see if we need to add some tabs
+if (props.element.content.length === 0 && props.options.tabs) {
+	props.element.addChildren(props.options.tabs);
+}
 
-		const tabs = computed(() => {
-			return props.element.content.map(childUID => {
-				const contentStore = window.zb.editor.useContentStore();
-				const element = contentStore.getElement(childUID);
-				return {
-					title: element.options.title,
-					uid: element.uid,
-				};
-			});
-		});
+const children = computed(() => {
+	return props.element.content.map(childUID => {
+		const contentStore = window.zb.editor.useContentStore();
+		return contentStore.getElement(childUID);
+	});
+});
 
+const tabs = computed(() => {
+	return props.element.content.map(childUID => {
+		const contentStore = window.zb.editor.useContentStore();
+		const element = contentStore.getElement(childUID);
 		return {
-			tabs,
-			activeTab,
-			children,
+			title: element.options.title,
+			uid: element.uid,
 		};
+	});
+});
+
+provide('TabsElement', {
+	changeTab: (uid: string) => {
+		activeTab.value = uid;
 	},
-};
+});
 </script>

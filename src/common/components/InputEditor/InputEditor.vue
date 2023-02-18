@@ -54,7 +54,7 @@ onBeforeUnmount(() => {
 });
 
 onMounted(() => {
-	(root.value as HTMLDivElement).innerHTML = window.ZnPbInitialData.wp_editor
+	(root.value as HTMLDivElement).innerHTML = window.ZBCommonData.wp_editor
 		.replace(/znpbwpeditorid/g, editorID)
 		.replace('%%ZNPB_EDITOR_CONTENT%%', content.value);
 

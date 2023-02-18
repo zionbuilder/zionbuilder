@@ -1,17 +1,32 @@
 import { defineStore } from 'pinia';
 import { cloneDeep, merge } from 'lodash-es';
-import { generateUID } from '/@/common/utils';
+
+const { generateUID } = window.zb.utils;
+
+type CssStyles = Record<string, unknown>;
+
+type CSSClass = {
+	id: string;
+	name: string;
+	uid: string;
+	styles: CssStyles;
+};
 
 export const useCSSClassesStore = defineStore('CSSClasses', {
-	state: () => {
+	state: (): {
+		CSSClasses: CSSClass[];
+		copiedStyles: CssStyles | null;
+		staticClasses: string[];
+	} => {
 		return {
 			CSSClasses: [],
 			copiedStyles: null,
+			staticClasses: [],
 		};
 	},
 	getters: {
 		getClassesByFilter: state => {
-			return (keyword: string) => {
+			return (keyword: string): CSSClass[] => {
 				const keyToLower = keyword.toLowerCase();
 
 				return state.CSSClasses.filter(
@@ -21,8 +36,34 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 				);
 			};
 		},
+		getStaticClassesByFilter: state => {
+			return (keyword: string): string[] => {
+				const keyToLower = keyword.toLowerCase();
+
+				return state.staticClasses.filter(
+					cssClass =>
+						cssClass.toLowerCase().indexOf(keyToLower) !== -1 || cssClass.toLowerCase().indexOf(keyToLower) !== -1,
+				);
+			};
+		},
 		getClassConfig: state => {
-			return (classId: string) => state.CSSClasses.find(classConfig => classConfig.id === classId);
+			/**
+			 * Get the class config by id. It first checks for the uid and then for the id for backwards compatibility
+			 *
+			 * @param state
+			 */
+			return (classId: string) =>
+				state.CSSClasses.find(classConfig => classConfig.uid === classId || classConfig.id === classId);
+		},
+		getSelectorName() {
+			return (class_uid_or_selector: string) => {
+				const config = this.getClassConfig(class_uid_or_selector);
+				if (config) {
+					return config.id;
+				}
+
+				return null;
+			};
 		},
 		getStylesConfig() {
 			return (classId: string) => {
@@ -37,46 +78,59 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 		},
 	},
 	actions: {
-		addCSSClass(config) {
+		addCSSClass(config: { name: string; id: string }): CSSClass {
 			const classToAdd = { ...config };
 			classToAdd.uid = config.uid || generateUID();
 			this.CSSClasses.push(classToAdd);
+
+			return classToAdd;
 		},
 		removeCSSClass(cssClass) {
 			const cssClassIndex = this.CSSClasses.indexOf(cssClass);
 			this.CSSClasses.splice(cssClassIndex, 1);
 		},
 		updateCSSClass(classId: string, newValues) {
-			const editedClass = this.CSSClasses.find(cssClassConfig => {
-				return cssClassConfig.id === classId;
-			});
+			const editedClass = this.getClassConfig(classId);
+
 			if (!editedClass) {
 				// eslint-disable-next-line
 				console.warn('could not find class with config ', { classId, newValues })
 				return;
 			}
 			const cssClassIndex = this.CSSClasses.indexOf(editedClass);
-			const updatedValues = {
-				...editedClass,
-				...newValues,
-			};
-			this.CSSClasses[cssClassIndex] = updatedValues;
+
+			this.CSSClasses[cssClassIndex] = newValues;
 		},
 		removeAllCssClasses() {
 			this.CSSClasses = [];
 		},
-		setCSSClasses(newValue) {
+		setCSSClasses(newValue: CSSClass[]) {
 			this.CSSClasses = newValue;
 		},
-		copyClassStyles(styles) {
+		setStaticClasses(classes: string[]) {
+			this.staticClasses = classes;
+		},
+		copyClassStyles(styles: CssStyles) {
 			this.copiedStyles = cloneDeep(styles);
 		},
-		pasteClassStyles(classId) {
+		pasteClassStyles(classId: string) {
 			const oldStyles = this.getStylesConfig(classId);
 			const mergedStyles = merge(oldStyles || {}, cloneDeep(this.copiedStyles));
-			this.updateCSSClass(classId, {
+
+			const editedClass = this.getClassConfig(classId);
+
+			if (!editedClass) {
+				// eslint-disable-next-line
+				console.warn('could not find class with config ', { classId, newValues })
+				return;
+			}
+			const cssClassIndex = this.CSSClasses.indexOf(editedClass);
+
+			const updatedValues = {
+				...editedClass,
 				styles: mergedStyles,
-			});
+			};
+			this.CSSClasses[cssClassIndex] = updatedValues;
 		},
 	},
 });

@@ -24,7 +24,7 @@ export const ScriptsLoader = window => {
 	}
 
 	const getAvailableStyles = () => {
-		let styles = {};
+		const styles = {};
 		const allStyles = window.document.getElementsByTagName('link');
 
 		Array.from(allStyles).forEach(domNode => {
@@ -93,7 +93,7 @@ export const ScriptsLoader = window => {
 			const javascriptTag = window.document.createElement('script');
 			javascriptTag.src = url;
 
-			if (url.indexOf('http://127.0.0.1') === 0) {
+			if (url.indexOf('//127.0.0.1') === 0) {
 				javascriptTag.type = 'module';
 			}
 

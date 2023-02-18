@@ -4,6 +4,7 @@
 		:class="{ 'znpb-editor-library-modal-category__item--active': category.isActive }"
 	>
 		<div class="znpb-editor-library-modal-category__header" @click="onCategoryActivate(category)">
+			<!-- eslint-disable-next-line vue/no-v-html -->
 			<h6 class="znpb-editor-library-modal-category__title" v-html="category.name" />
 
 			<span v-if="showCount" class="znpb-editor-library-modal-category__number">
@@ -32,10 +33,10 @@ import { computed, ref, watch } from 'vue';
 import CategoriesLibrary from './CategoriesLibrary.vue';
 
 const props = defineProps<{
-	category: Record<string, unknown>;
+	category: LibraryCategory;
 	isActive?: boolean;
 	showCount?: boolean;
-	onCategoryActivate: Function;
+	onCategoryActivate: (category: LibraryCategory) => void;
 }>();
 
 const hasSubcategories = computed(() => {

@@ -15,7 +15,7 @@
 				</template>
 			</ActionsOverlay>
 			<div
-				v-if="shouldDragImage && (previewExpanded || !shouldDisplayExpander)"
+				v-if="imageSrc && shouldDragImage && (previewExpanded || !shouldDisplayExpander)"
 				ref="dragButton"
 				class="znpb-drag-icon-wrapper"
 				:style="positionCircleStyle"
@@ -109,7 +109,7 @@ const props = withDefaults(
 );
 
 const inputWrapper = inject('inputWrapper');
-const optionsForm = inject('optionsForm');
+const optionsForm = inject('OptionsForm');
 const emit = defineEmits<{
 	(e: 'background-position-change', value: { x: number; y: number }): void;
 	(e: 'update:modelValue', value: ImageValue | string): void;
@@ -271,7 +271,7 @@ const imageSrc = computed(() => {
 		: props.modelValue || null;
 });
 
-const element = inject('ZionElement');
+const element = inject('ZionElement', null);
 
 watchEffect(() => {
 	doAction('zionbuilder/input/image/src_url', dynamicImageSrc, props.modelValue, element);
@@ -418,7 +418,7 @@ function deleteImage() {
 
 	// Reset the selection
 	if (mediaModal) {
-		let selection = mediaModal.state().get('selection');
+		const selection = mediaModal.state().get('selection');
 		selection.reset([]);
 	}
 }

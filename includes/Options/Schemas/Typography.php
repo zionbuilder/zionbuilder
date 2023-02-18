@@ -139,34 +139,31 @@ class Typography extends BaseSchema {
 		$typography_options->add_option(
 			'font-size',
 			[
-				'title'        => esc_html__( 'Font size', 'zionbuilder' ),
-				'description'  => esc_html__( 'The font size option sets the size of the font in various units', 'zionbuilder' ),
-				'type'         => 'number_unit',
-				'width'        => 50,
-				'min'          => 0,
-				'default_unit' => 'px',
+				'title'       => esc_html__( 'Font size', 'zionbuilder' ),
+				'description' => esc_html__( 'The font size option sets the size of the font in various units', 'zionbuilder' ),
+				'type'        => 'number_unit',
+				'width'       => 50,
+				'min'         => 0,
 			]
 		);
 		$typography_options->add_option(
 			'line-height',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Line height', 'zionbuilder' ),
-				'description'  => esc_html__( 'Line height sets the distance between lines of text.', 'zionbuilder' ),
-				'width'        => 50,
-				'min'          => 0,
-				'default_unit' => 'px',
+				'type'        => 'number_unit',
+				'title'       => esc_html__( 'Line height', 'zionbuilder' ),
+				'description' => esc_html__( 'Line height sets the distance between lines of text.', 'zionbuilder' ),
+				'width'       => 50,
+				'min'         => 0,
 			]
 		);
 
 		$typography_options->add_option(
 			'letter-spacing',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Letter Spacing', 'zionbuilder' ),
-				'description'  => esc_html__( 'Letter spacings sets the width between letters.', 'zionbuilder' ),
-				'width'        => 50,
-				'default_unit' => 'px',
+				'type'        => 'number_unit',
+				'title'       => esc_html__( 'Letter Spacing', 'zionbuilder' ),
+				'description' => esc_html__( 'Letter spacings sets the width between letters.', 'zionbuilder' ),
+				'width'       => 50,
 			]
 		);
 

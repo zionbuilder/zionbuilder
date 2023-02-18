@@ -21,7 +21,7 @@ import ChildAdder from './ChildAdder';
 import ElementEventButton from './ElementEventButton';
 import ElementSelector from './ElementSelector';
 
-import { useOptions } from '/@/common/composables';
+const { useOptions } = window.zb.composables;
 
 export const registerEditorOptions = () => {
 	const { registerOption } = useOptions();

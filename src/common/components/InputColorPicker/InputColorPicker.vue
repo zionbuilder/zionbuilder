@@ -7,8 +7,8 @@
 			:show-library="showLibrary"
 			:placeholder="placeholder"
 			class="znpb-colorpicker-circle znpb-colorpicker-circle--trigger znpb-colorpicker-circle--opacity"
-			@open="$emit('open')"
-			@close="$emit('close')"
+			@open="emit('open')"
+			@close="emit('close')"
 		>
 			<template #trigger>
 				<span
@@ -28,7 +28,7 @@
 
 				<span
 					v-if="!modelValue"
-					v-znpb-tooltip="$translate('no_color_chosen')"
+					v-znpb-tooltip="i18n.__('No color chosen', 'zionbuilder')"
 					class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"
 				></span>
 			</template>
@@ -41,21 +41,21 @@
 					:show-library="showLibrary"
 					class="znpb-colorpicker-circle znpb-colorpicker-circle--trigger znpb-colorpicker-circle--opacity"
 					:placeholder="placeholder"
-					@open="$emit('open')"
-					@close="$emit('close')"
+					@open="emit('open')"
+					@close="emit('close')"
 				>
 					<template #trigger>
 						<span>
-							<Tooltip
+							<span
 								v-if="!modelValue || modelValue === undefined"
-								:content="$translate('no_color_chosen')"
-								tag="span"
+								v-znpb-tooltip="i18n.__('No color chosen', 'zionbuilder')"
 							>
 								<span
 									:style="{ backgroundColor: modelValue || placeholder }"
 									class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 								></span>
-							</Tooltip>
+							</span>
+
 							<span
 								v-else
 								:style="{ backgroundColor: modelValue || placeholder }"
@@ -87,12 +87,12 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 import BaseInput from '../BaseInput/BaseInput.vue';
 import Color from './Color.vue';
 import { Tooltip } from '../tooltip';
 import { Icon } from '../Icon';
-import { translate } from '../../modules/i18n';
 
 const props = withDefaults(
 	defineProps<{
@@ -117,7 +117,7 @@ const emit = defineEmits<{
 const color = ref<InstanceType<typeof Color> | null>(null);
 
 const computedPlaceholder = computed(() => {
-	return props.placeholder || translate('color');
+	return props.placeholder || i18n.__('Color', 'zionbuilder');
 });
 
 const colorModel = computed({

@@ -73,7 +73,6 @@ class Responsive {
 	public static function get_breakpoints() {
 		if ( null === self::$cached_devices ) {
 			$saved_breakpoints = get_option( self::SETTINGS_OPTION_KEY );
-
 			if ( false === $saved_breakpoints ) {
 				self::$cached_devices = self::get_default_breakpoints();
 			} else {

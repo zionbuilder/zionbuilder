@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia';
 import { filter, get } from 'lodash-es';
 import { useUserData } from '../composables/useUserData';
-import { useResponsiveDevices } from '/@/common/composables';
 import { useContentStore } from './useContentStore';
+
+const { useResponsiveDevices } = window.zb.composables;
+
 interface Panel {
 	id: string;
 	component: string;
@@ -137,9 +139,13 @@ export const useUIStore = defineStore('ui', {
 	getters: {
 		openPanels: (state): Panel[] => filter(state.panels, { isActive: true }) || [],
 		isAnyPanelDragging: (state): boolean => filter(state.panels, { isDragging: true }).length > 0,
-		editedElement: state => {
+		editedElement: (state): ZionElement | null => {
 			const contentStore = useContentStore();
-			return contentStore.getElement(state.editedElementUID);
+			if (state.editedElementUID) {
+				return contentStore.getElement(state.editedElementUID);
+			}
+
+			return null;
 		},
 		openPanelsIDs(): string[] {
 			return this.openPanels.map(panel => panel.id);
@@ -201,7 +207,7 @@ export const useUIStore = defineStore('ui', {
 
 			// Check to see if the event is from iframe
 			if (event.view !== window) {
-				const iframe = window.frames['znpb-editor-iframe'];
+				const iframe = window.document.getElementById('znpb-editor-iframe') as HTMLIFrameElement;
 
 				if (iframe) {
 					const { left, top } = iframe.getBoundingClientRect();
@@ -355,7 +361,7 @@ export const useUIStore = defineStore('ui', {
 
 			// Check to see if the event is from iframe
 			if (event.view !== window) {
-				const iframe = window.frames['znpb-editor-iframe'];
+				const iframe = window.document.getElementById('znpb-editor-iframe') as HTMLIFrameElement;
 
 				if (iframe) {
 					const { left, top } = iframe.getBoundingClientRect();

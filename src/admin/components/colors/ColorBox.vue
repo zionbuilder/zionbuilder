@@ -1,29 +1,24 @@
 <template>
 	<div class="znpb-admin-color-preset-box" :class="{ ['znpb-admin-color-preset-box--' + type]: type }">
 		<Tooltip
+			v-model:show="showColorPicker"
 			tooltip-class="hg-popper--no-padding"
+			:close-on-outside-click="true"
 			:trigger="null"
-			:show="showColorPicker"
 			placement="right-start"
-			:modifiers="[]"
 			:show-arrows="false"
+			@hide="closeColorPicker"
 		>
 			<template #content>
-				<ColorPicker
-					ref="colorpickerHolder"
-					v-click-outside="closeColorpicker"
-					:model="color || ''"
-					:show-library="false"
-					@color-changed="updateColor"
-				/>
+				<ColorPicker :model="localColor" :show-library="false" @color-changed="localColor = $event" />
 			</template>
 			<div v-if="type == 'addcolor'" class="znpb-admin-color-preset-box__empty" @click.stop="showColorPicker = true">
 				<Icon icon="plus" />
-				<div>{{ $translate('add_color') }}</div>
+				<div>{{ i18n.__('Add color', 'zionbuilder') }}</div>
 			</div>
 			<div v-else class="znpb-admin-color-preset-box__color" @click.stop="showColorPicker = true">
 				<Icon
-					v-znpb-tooltip="$translate('delete_color_from_preset')"
+					v-znpb-tooltip="i18n.__('Delete this color from your preset', 'zionbuilder')"
 					icon="close"
 					@click.stop="$emit('delete-color')"
 				/>
@@ -42,53 +37,37 @@
 		</Tooltip>
 	</div>
 </template>
-<script>
+
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { ref, watchEffect } from 'vue';
-import clickOutside from '../../../common/directives/click-outside.ts';
 
-export default {
-	name: 'ColorBox',
-	directives: {
-		clickOutside,
+const props = withDefaults(
+	defineProps<{
+		color?: string;
+		type?: string;
+	}>(),
+	{
+		color: '',
+		type: '',
 	},
-	props: {
-		color: {
-			type: String,
-			required: false,
-		},
-		type: {
-			type: String,
-			required: false,
-		},
-	},
-	setup(props, { emit }) {
-		const localColor = ref('');
-		const showColorPicker = ref(false);
+);
 
-		watchEffect(() => {
-			localColor.value = props.color;
-		});
+const emit = defineEmits(['delete-color', 'option-updated']);
 
-		function updateColor(color) {
-			localColor.value = color;
-		}
+const localColor = ref(props.color);
+const showColorPicker = ref(false);
 
-		function closeColorpicker() {
-			showColorPicker.value = false;
-			// Check if color has changed
-			if (props.color !== localColor.value) {
-				emit('option-updated', localColor.value);
-			}
-		}
+watchEffect(() => {
+	localColor.value = props.color;
+});
 
-		return {
-			localColor,
-			showColorPicker,
-			updateColor,
-			closeColorpicker,
-		};
-	},
-};
+function closeColorPicker() {
+	// Check if color has changed
+	if (props.color !== localColor.value) {
+		emit('option-updated', localColor.value);
+	}
+}
 </script>
 
 <style lang="scss">

@@ -17,30 +17,29 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'ColumnSize',
-	props: {
-		options: {
-			type: Array,
-		},
-		modelValue: {
-			type: [String, Number],
-			required: false,
-		},
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const props = withDefaults(
+	defineProps<{
+		options: Array<{ id: string; name: string }>;
+		modelValue: string;
+	}>(),
+	{
+		modelValue: '',
 	},
-	computed: {
-		valueModel: {
-			get() {
-				return this.modelValue;
-			},
-			set(newValue) {
-				this.$emit('update:modelValue', newValue);
-			},
-		},
+);
+
+const emit = defineEmits(['update:modelValue']);
+
+const valueModel = computed({
+	get() {
+		return props.modelValue;
 	},
-	methods: {},
-};
+	set(newValue) {
+		emit('update:modelValue', newValue);
+	},
+});
 </script>
 
 <style lang="scss">

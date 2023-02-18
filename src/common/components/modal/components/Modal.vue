@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { getZindex, removeZindex } from '../../../modules/z-index-manager';
+import { getZIndex, removeZIndex } from '../../../modules/z-index-manager';
 import { Icon } from '../../Icon';
 
 export default {
@@ -166,7 +166,7 @@ export default {
 			return this.fullSize ? 'minimize' : 'maximize';
 		},
 		modalContentStyle() {
-			let modalStyle = {};
+			const modalStyle = {};
 
 			if (this.width) {
 				modalStyle['max-width'] = this.width + 'px';
@@ -187,7 +187,7 @@ export default {
 	watch: {
 		show(newValue) {
 			if (newValue) {
-				this.zIndex = getZindex();
+				this.zIndex = getZIndex();
 
 				// Wait for the HTML to be added
 				this.$nextTick(() => {
@@ -204,7 +204,7 @@ export default {
 			} else {
 				this.$nextTick(() => {
 					if (this.zIndex) {
-						removeZindex();
+						removeZIndex();
 						this.zIndex = null;
 					}
 					// remove overflow from body
@@ -240,7 +240,7 @@ export default {
 		}
 
 		if (this.show) {
-			this.zIndex = getZindex();
+			this.zIndex = getZIndex();
 		}
 	},
 
@@ -253,7 +253,7 @@ export default {
 		}
 
 		if (this.zIndex) {
-			removeZindex();
+			removeZIndex();
 			this.zIndex = null;
 		}
 	},
@@ -300,7 +300,7 @@ export default {
 		appendModal() {
 			if (!this.appendToElement) {
 				// eslint-disable-next-line
-				console.warn(`${this.$translate('no_html_matching')} ${this.appendTo}`)
+				console.warn(`No HTMLElement was found matching ${this.appendTo}`);
 				return;
 			}
 			this.appendToElement.appendChild(this.$el);

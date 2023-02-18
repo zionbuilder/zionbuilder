@@ -1,8 +1,6 @@
-import { getManager } from './manager'
+import { getManager } from './manager';
 
-const instance = getManager()
+const instance = getManager();
 
-export const { getZindex, removeZindex } = instance
-export {
-	getManager
-}
+export const { getZIndex, removeZIndex } = instance;
+export { getManager };

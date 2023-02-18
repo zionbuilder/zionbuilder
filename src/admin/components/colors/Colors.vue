@@ -1,6 +1,6 @@
 <template>
 	<PageTemplate class="znpb-admin-colors__wrapper">
-		<h3>{{ $translate('color_presets') }}</h3>
+		<h3>{{ i18n.__('Color Presets', 'zionbuilder') }}</h3>
 
 		<Tabs tab-style="minimal">
 			<Tab name="Local">
@@ -20,9 +20,14 @@
 			</Tab>
 			<Tab name="Global">
 				<UpgradeToPro
-					v-if="!isPro"
-					:message_title="$translate('pro_manage_global_colors_free_title')"
-					:message_description="$translate('pro_manage_global_colors_free')"
+					v-if="!isProActive"
+					:message_title="i18n.__('Meet Global Colors', 'zionbuilder')"
+					:message_description="
+						i18n.__(
+							'Global colors allows you to define a color that you can use in builder, and every time this color changes it will be updated automatically in all locations where it was used. ',
+							'zionbuilder',
+						)
+					"
 				/>
 
 				<template v-else>
@@ -48,81 +53,62 @@
 			</Tab>
 		</Tabs>
 		<template #right>
-			<p class="znpb-admin-info-p">{{ $translate('create_color_palette') }}</p>
+			<p class="znpb-admin-info-p">
+				{{ i18n.__('Create your color pallette to use locally or globally', 'zionbuilder') }}
+			</p>
 		</template>
 	</PageTemplate>
 </template>
 
-<script>
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { computed } from 'vue';
-import { useBuilderOptionsStore } from '/@/common/store';
-import { generateUID } from '/@/common/utils/generateUID';
+import { generateUID } from '@zb/utils';
+import { Sortable } from '@zb/components';
+import { useBuilderOptionsStore, useEnvironmentStore } from '@zb/store';
 
 // Components
 import ColorBox from './ColorBox.vue';
-import { Sortable } from '/@/common/components/sortable';
 
-export default {
-	name: 'Colors',
-	components: {
-		ColorBox,
-		Sortable,
+const { isProActive } = useEnvironmentStore();
+const {
+	addLocalColor,
+	getOptionValue,
+	deleteLocalColor,
+	editLocalColor,
+	addGlobalColor,
+	deleteGlobalColor,
+	editGlobalColor,
+	updateOptionValue,
+} = useBuilderOptionsStore();
+
+const computedLocalColors = computed({
+	get() {
+		return getOptionValue('local_colors');
 	},
-	setup() {
-		const isPro = window.ZnPbAdminPageData.is_pro_active;
-		const {
-			addLocalColor,
-			getOptionValue,
-			deleteLocalColor,
-			editLocalColor,
-			addGlobalColor,
-			deleteGlobalColor,
-			editGlobalColor,
-			updateOptionValue,
-		} = useBuilderOptionsStore();
-
-		const computedLocalColors = computed({
-			get() {
-				return getOptionValue('local_colors');
-			},
-			set(newValue) {
-				updateOptionValue('local_colors', newValue);
-			},
-		});
-		const computedGlobalColors = computed({
-			get() {
-				return getOptionValue('global_colors');
-			},
-			set(newValue) {
-				updateOptionValue('global_colors', newValue);
-			},
-		});
-
-		function addGlobal(color) {
-			const colorId = generateUID();
-			let globalColor = {
-				id: colorId,
-				color: color,
-				name: colorId,
-			};
-
-			addGlobalColor(globalColor);
-		}
-
-		return {
-			isPro,
-			addLocalColor,
-			editLocalColor,
-			deleteLocalColor,
-			computedLocalColors,
-			computedGlobalColors,
-			// Global colors
-			addGlobal,
-			deleteGlobalColor,
-			editGlobalColor,
-		};
+	set(newValue) {
+		updateOptionValue('local_colors', newValue);
 	},
-};
+});
+const computedGlobalColors = computed({
+	get() {
+		return getOptionValue('global_colors');
+	},
+	set(newValue) {
+		updateOptionValue('global_colors', newValue);
+	},
+});
+
+function addGlobal(color: string) {
+	const colorId = generateUID();
+	const globalColor = {
+		id: colorId,
+		color: color,
+		name: colorId,
+	};
+
+	addGlobalColor(globalColor);
+}
 </script>
 <style lang="scss">
 .znpb-admin-colors__wrapper {

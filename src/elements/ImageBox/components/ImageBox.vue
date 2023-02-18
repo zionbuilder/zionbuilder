@@ -1,12 +1,8 @@
 <template>
 	<div class="zb-el-imageBox">
-		<slot name="
-		start" />
+		<slot name="start" />
 
-		<div
-			class="zb-el-imageBox-imageWrapper"
-			v-if="imageSrc"
-		>
+		<div v-if="imageSrc" class="zb-el-imageBox-imageWrapper">
 			<img
 				class="zb-el-imageBox-image"
 				:src="imageSrc"
@@ -18,12 +14,12 @@
 		<div
 			class="zb-el-imageBox-text"
 			:style="{
-				'text-align': options.align
+				'text-align': options.align,
 			}"
 		>
 			<component
-				v-if="options.title"
 				:is="titleTag"
+				v-if="options.title"
 				class="zb-el-imageBox-title"
 				:class="api.getStyleClasses('title_styles')"
 				v-bind="api.getAttributesForTag('title_styles')"
@@ -44,17 +40,30 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'image_box',
-	props: ['element', 'options', 'api'],
-	computed: {
-		imageSrc () {
-			return (this.options.image || {}).image
-		},
-		titleTag () {
-			return this.options.title_tag || 'h3'
-		}
-	}
-}
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const props = defineProps<{
+	options: {
+		image: {
+			image: string;
+		};
+		title: string;
+		description: string;
+		align: string;
+		link: {
+			link: string;
+		};
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
+
+const imageSrc = computed(() => {
+	return (props.options.image || {}).image;
+});
+
+const titleTag = computed(() => {
+	return props.options.link && props.options.link.link;
+});
 </script>

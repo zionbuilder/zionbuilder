@@ -14,51 +14,49 @@
 		>
 		</a>
 
-		<ElementIcon
-			v-else
-			class="zb-el-icon-icon"
-			:iconConfig="iconConfig"
-			v-bind="api.getAttributesForTag('shape')"
-		/>
+		<ElementIcon v-else class="zb-el-icon-icon" :icon-config="iconConfig" v-bind="api.getAttributesForTag('shape')" />
 
 		<slot name="end" />
 	</div>
 </template>
 
-<script>
-import { computed } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue';
 
-export default {
-	name: 'icon',
-	props: ['options', 'element', 'api'],
-	setup (props) {
-		const hasLink = computed(() => {
-			return props.options.link && props.options.link.link && props.options.link.link !== ''
-		})
+const props = defineProps<{
+	options: {
+		link?: {
+			link: string;
+			target: string;
+			title: string;
+		};
+		icon?: {
+			family: string;
+			name: string;
+			unicode: string;
+		};
+		style?: string;
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
 
-		const iconStyle = computed(() => {
-			return props.options.style && props.options.style !== '' ? props.options.style : 'default'
-		})
+const hasLink = computed(() => {
+	return props.options.link && props.options.link.link && props.options.link.link !== '';
+});
 
-		const iconConfig = computed(() => {
-			return props.options.icon || {
-				'family': 'Font Awesome 5 Free Regular',
-				'name': 'star',
-				'unicode': 'uf005'
-			}
-		})
-
-		const iconUnicode = computed(() => {
-			const json = `"\\${iconConfig.value.unicode}"`
-			return JSON.parse(json).trim()
-		})
-
-		return {
-			iconUnicode,
-			hasLink,
-			iconStyle,
-			iconConfig
+const iconConfig = computed(() => {
+	return (
+		props.options.icon || {
+			family: 'Font Awesome 5 Free Regular',
+			name: 'star',
+			unicode: 'uf005',
 		}
-	}
-}
+	);
+});
+
+const iconUnicode = computed(() => {
+	const json = `"\\${iconConfig.value.unicode}"`;
+	return JSON.parse(json).trim();
+});
 </script>

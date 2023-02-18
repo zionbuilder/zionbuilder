@@ -1,37 +1,24 @@
 <template>
 	<div class="znpb-option__elementEvent" @click="onClick">
-		{{ buttonText }}
+		{{ button_text }}
 	</div>
 </template>
 
-<script>
-import { useElementProvide } from '../../../composables';
-export default {
-	name: 'ElementEventButton',
-	props: {
-		event: {
-			type: String,
-			required: true,
-		},
-		button_text: {
-			type: String,
-			required: true,
-		},
-	},
-	setup(props) {
-		const { injectElement } = useElementProvide();
-		const element = injectElement();
+<script lang="ts" setup>
+import { useElementProvide } from '/@/editor/composables';
 
-		function onClick() {
-			element.trigger(props.event);
-		}
+const props = defineProps<{
+	event: string;
+	// eslint-disable-next-line vue/prop-name-casing
+	button_text: string;
+}>();
 
-		return {
-			buttonText: props.button_text,
-			onClick,
-		};
-	},
-};
+const { injectElement } = useElementProvide();
+const element = <ZionElement>injectElement();
+
+function onClick() {
+	element.trigger(props.event);
+}
 </script>
 <style lang="scss">
 .znpb-option__elementEvent {

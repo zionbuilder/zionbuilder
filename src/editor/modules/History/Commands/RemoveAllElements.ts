@@ -1,5 +1,5 @@
+import * as i18n from '@wordpress/i18n';
 import { HistoryCommand } from '../HistoryCommand';
-import { translate } from '/@/common/modules/i18n';
 import { useContentStore } from '/@/editor/store';
 
 export class RemoveAllElements extends HistoryCommand {
@@ -28,7 +28,7 @@ export class RemoveAllElements extends HistoryCommand {
 					areaID,
 					areaModel,
 				},
-				title: translate('page_cleared'),
+				title: i18n.__( 'Page cleared', 'zionbuilder' ),
 			});
 		}
 	}

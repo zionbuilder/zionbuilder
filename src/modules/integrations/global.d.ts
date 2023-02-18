@@ -4,4 +4,12 @@ interface Window {
 		page_content: string;
 	};
 	jQuery;
+	ZbRankMathData: {
+		rest_root: string;
+		nonce: string;
+	};
+
+	rankMathEditor: {
+		refresh: (content: string) => void;
+	};
 }

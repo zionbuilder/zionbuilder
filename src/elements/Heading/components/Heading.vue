@@ -3,36 +3,37 @@
 		<slot name="start" />
 
 		<a
-			@click.prevent="(e) => {e.preventDefault()}"
-			v-if="hasLink"
+			v-if="options.link && options.link.link"
 			:href="options.link.link"
 			:title="options.link.title"
 			:target="options.link.target"
+			@click.prevent="
+				e => {
+					e.preventDefault();
+				}
+			"
 		>
-			<RenderValue
-				option="content"
-				:forced-root-node="false"
-			/>
+			<RenderValue option="content" :forced-root-node="false" />
 		</a>
 
-		<RenderValue
-			v-else
-			option="content"
-			:forced-root-node="false"
-		/>
+		<RenderValue v-else option="content" :forced-root-node="false" />
 
 		<slot name="end" />
 	</component>
 </template>
 
-<script>
-export default {
-	name: 'zion_heading',
-	props: ['options', 'element', 'api'],
-	computed: {
-		hasLink () {
-			return this.options.link && this.options.link.link
-		}
-	}
-}
+<script lang="ts" setup>
+defineProps<{
+	options: {
+		content: string;
+		tag?: string;
+		link?: {
+			link: string;
+			target: string;
+			title: string;
+		};
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
 </script>

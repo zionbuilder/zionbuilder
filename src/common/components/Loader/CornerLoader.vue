@@ -1,17 +1,31 @@
 <template>
-	<transition name="save">
-		<div v-if="builderOptionsStore.isLoading" class="znpb-admin__options-save-loader">
-			<Icon icon="check" />
-		</div>
-	</transition>
+	<div class="znpb-cornerLoaderWrapper">
+		<transition name="save">
+			<div v-if="isLoading" class="znpb-admin__options-save-loader">
+				<Icon icon="check" />
+			</div>
+		</transition>
+	</div>
 </template>
 
-<script setup>
-import { useBuilderOptionsStore } from '/@/common/store';
-const builderOptionsStore = useBuilderOptionsStore();
+<script lang="ts" setup>
+defineProps<{
+	isLoading: boolean;
+}>();
 </script>
 
 <style lang="scss">
+.znpb-cornerLoaderWrapper {
+	position: fixed;
+	right: 50px;
+	bottom: 50px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	min-width: 200px;
+	z-index: 999;
+}
+
 .znpb-admin__options-save-loader {
 	position: relative;
 	display: flex;
@@ -20,6 +34,7 @@ const builderOptionsStore = useBuilderOptionsStore();
 	width: 45px;
 	height: 45px;
 	border-radius: 50%;
+
 	.znpb-editor-icon-wrapper {
 		color: white;
 		font-size: 18px;

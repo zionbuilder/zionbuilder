@@ -3,7 +3,7 @@
 		<Tabs tab-style="minimal">
 			<Tab name="Local">
 				<div v-if="getLocalGradients.length === 0" class="znpb-form-library-grid__panel-content-message">
-					{{ $translate('no_local_gradients') }}
+					{{ i18n.__('No local gradients were found', 'zionbuilder') }}
 				</div>
 				<div
 					v-else
@@ -20,13 +20,13 @@
 			</Tab>
 			<Tab name="Global">
 				<div v-if="!isPro" class="znpb-colorpicker-global-wrapper--pro">
-					{{ $translate('global_colors_availability') }}
+					{{ i18n.__('Global colors are available in', 'zionbuilder') }}
 
-					<Label :text="$translate('pro')" type="pro" />
+					<Label :text="i18n.__('pro', 'zionbuilder')" type="pro" />
 				</div>
 				<template v-else>
 					<div v-if="getGlobalGradients.length === 0" class="znpb-form-library-grid__panel-content-message">
-						{{ $translate('no_global_gradients') }}
+						{{ i18n.__('No global gradients were found', 'zionbuilder') }}
 					</div>
 					<div
 						v-else
@@ -53,6 +53,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { computed, inject, nextTick } from 'vue';
 import GradientPreview from './GradientPreview.vue';
 import LibraryElement from './LibraryElement.vue';
@@ -78,8 +79,8 @@ const emit = defineEmits<{
 const updateValueByPath = inject('updateValueByPath');
 
 function getPro() {
-	if (window.ZnPbComponentsData !== undefined) {
-		return window.ZnPbComponentsData.is_pro_active;
+	if (window.ZBCommonData !== undefined) {
+		return window.ZBCommonData.environment.plugin_pro.is_active;
 	}
 
 	return false;

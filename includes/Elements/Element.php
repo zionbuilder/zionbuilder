@@ -3,13 +3,12 @@
 namespace ZionBuilder\Elements;
 
 use ZionBuilder\Utils;
-use ZionBuilder\Elements\Style;
+use ZionBuilder\CSSClasses;
 use ZionBuilder\Plugin;
 use ZionBuilder\Options\Options;
 use ZionBuilder\Icons;
 use ZionBuilder\RenderAttributes;
 use ZionBuilder\CustomCSS;
-use ZionBuilder\PageAssets;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -190,7 +189,6 @@ class Element {
 			$this->render_attributes = new RenderAttributes();
 			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
 			$this->options->set_data( $model, $this->render_attributes, $this->custom_css );
-			$this->custom_css->set_css_selector( $this->get_css_selector() );
 		}
 
 		// Allow elements creators to hook here without rewriting construct
@@ -289,7 +287,14 @@ class Element {
 				$render_tag   = isset( $style_config['render_tag'] ) ? $style_config['render_tag'] : $style_config_id;
 
 				if ( isset( $style_value['classes'] ) && is_array( $style_value['classes'] ) ) {
-					foreach ( $style_value['classes'] as $css_class ) {
+					foreach ( $style_value['classes'] as $css_class_uid_or_selector ) {
+						$this->render_attributes->add( $render_tag, 'class', CSSClasses::get_css_class_by_uid( $css_class_uid_or_selector ) );
+					}
+				}
+
+				// Assign static classes
+				if ( isset( $style_value['static_classes'] ) && is_array( $style_value['static_classes'] ) ) {
+					foreach ( $style_value['static_classes'] as $css_class ) {
 						$this->render_attributes->add( $render_tag, 'class', $css_class );
 					}
 				}
@@ -698,6 +703,7 @@ class Element {
 				$this->element_base_path = trailingslashit( dirname( $filename ) );
 			}
 		}
+
 		return $this->element_base_path . wp_normalize_path( $path );
 	}
 
@@ -814,7 +820,7 @@ class Element {
 		$background_video_options = $this->options->get_value( '_styles.wrapper.styles.default.default.background-video' );
 
 		if ( ! empty( self::has_video_background( $background_video_options ) ) ) {
-			wp_enqueue_script( 'zb-video-bg' );
+			wp_enqueue_script( 'zb-video' );
 		}
 
 		$wrapper_tag = $this->get_wrapper_tag( $this->options );
@@ -857,7 +863,13 @@ class Element {
 	 */
 	public static function render_video_background( $options ) {
 		if ( self::has_video_background( $options ) ) {
-			printf( '<div class="zb__videoBackground-wrapper zbjs_video_background" data-zion-video-background=\'%s\'></div>', wp_json_encode( $options ) );
+			$video_options = array_merge(
+				$options,
+				[
+					'isBackgroundVideo' => true,
+				]
+			);
+			printf( '<div class="zb__videoBackground-wrapper zbjs_video_background" data-zion-video=\'%s\'></div>', wp_json_encode( $video_options ) );
 		}
 	}
 
@@ -1534,6 +1546,42 @@ class Element {
 				<p>
 				<?php echo $config['description']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</p>
+
+				<style>
+					.znpb-el-notice {
+						color: #fff;
+						font-size: 13px;
+						position: relative;
+						background-color: rgba(40, 40, 44, 0.6);
+						border-radius: 4px;
+						padding: 20px 20px 20px 56px;
+						width: 100%;
+						margin: 20px;
+					}
+
+					.znpb-el-notice h3 {
+						font-size: 15px !important;
+						margin: 0 0 5px !important;
+					}
+
+					.znpb-el-notice a {
+						font-weight: 700;
+					}
+
+					.znpb-el-notice .znpb-editor-icon-wrapper {
+						color: rgba(255, 255, 255, 0.4);
+						position: absolute;
+						font-size: 26px;
+						margin-left: -36px;
+					}
+
+					.znpb-el-notice .znpb-editor-icon-wrapper svg {
+						fill: currentColor;
+						width: 1em;
+						height: 1em;
+						display: block;
+					}
+				</style>
 			</div>
 		<?php
 	}

@@ -1,4 +1,4 @@
-import { useResponsiveDevices } from '/@/common/composables';
+const { useResponsiveDevices } = window.zb.composables;
 
 export function getCssFromSelector(selectors, styleConfig, args = {}) {
 	let css = '';
@@ -10,7 +10,7 @@ export function getCssFromSelector(selectors, styleConfig, args = {}) {
 	// Check for child classes
 	if (styleConfig.child_styles) {
 		styleConfig.child_styles.forEach(childConfig => {
-			const { states = ['default'], selector, styles } = childConfig;
+			const { states = ['default'], selector } = childConfig;
 
 			// Check for nested selectors
 			const childSelectors = [];
@@ -39,7 +39,7 @@ export function getStyles(cssSelector, styleValues = {}, args) {
 	Object.keys(responsiveDevicesAsIdWidth.value).forEach(deviceId => {
 		const pseudoStyleValue = styleValues[deviceId];
 		if (pseudoStyleValue) {
-			let pseudoStyles = getPseudoStyles(cssSelector, pseudoStyleValue, args);
+			const pseudoStyles = getPseudoStyles(cssSelector, pseudoStyleValue, args);
 			compiledStyles += getResponsiveDeviceStyles(deviceId, pseudoStyles);
 		}
 	});
@@ -121,7 +121,6 @@ export function compileStyleTabs(styleValues) {
 		'transition-delay': transitionDelay = 0,
 		// Special styles that we don't want to print
 		'flex-reverse': flexReverse = false,
-		'background-video': backGroundVideo = false,
 		'custom-order': customFlexOrder = null,
 		order: flexOrder = null,
 		transform_origin_x_axis: transformOriginX,
@@ -162,8 +161,8 @@ export function compileStyleTabs(styleValues) {
 			return `-ms-flex-order: ${value}; order: ${value};`;
 		},
 		'align-items': value => {
-			let todelete = /flex-/gi;
-			let cleanValue = value.replace(todelete, '');
+			const todelete = /flex-/gi;
+			const cleanValue = value.replace(todelete, '');
 			return `-webkit-box-align: ${cleanValue}; -ms-flex-align: ${cleanValue}; align-items: ${value};`;
 		},
 		'justify-content': value => {
@@ -172,8 +171,8 @@ export function compileStyleTabs(styleValues) {
 			} else if (value === 'space-between') {
 				return `-webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between;`;
 			} else {
-				let todelete = /flex-/gi;
-				let cleanValue = value.replace(todelete, '');
+				const todelete = /flex-/gi;
+				const cleanValue = value.replace(todelete, '');
 				return `-webkit-box-pack: ${cleanValue}; -ms-flex-pack: ${cleanValue}; justify-content: ${value};`;
 			}
 		},
@@ -186,8 +185,8 @@ export function compileStyleTabs(styleValues) {
 			} else if (value === 'space-between') {
 				return `-ms-flex-line-pack: justify; align-content: space-between;`;
 			} else {
-				let todelete = /flex-/gi;
-				let cleanValue = value.replace(todelete, '');
+				const todelete = /flex-/gi;
+				const cleanValue = value.replace(todelete, '');
 				return `-ms-flex-line-pack: ${cleanValue}; align-content: ${value};`;
 			}
 		},
@@ -201,8 +200,8 @@ export function compileStyleTabs(styleValues) {
 			return `-ms-flex-preferred-size: ${value}; flex-basis: ${value};`;
 		},
 		'align-self': value => {
-			let todelete = /flex-/gi;
-			let cleanValue = value.replace(todelete, '');
+			const todelete = /flex-/gi;
+			const cleanValue = value.replace(todelete, '');
 			return `-ms-flex-item-align: ${cleanValue}; align-self:${value};`;
 		},
 		perspective: value => {
@@ -224,8 +223,9 @@ export function compileStyleTabs(styleValues) {
 	 */
 	Object.keys(keyValueStyles).forEach(property => {
 		const value = keyValueStyles[property];
+		const ignoredProperties = ['background-video', '__dynamic_content__'];
 
-		if (property !== '__dynamic_content__' && (value || value === 0)) {
+		if (!ignoredProperties.includes(property) && (value || value === 0)) {
 			// Add prefixes
 			if (filterProperties.includes(property)) {
 				if (property === 'hue-rotate') {
@@ -247,7 +247,7 @@ export function compileStyleTabs(styleValues) {
 	if (transform.length) {
 		let transformStyleString = '';
 		let originStyleString = '';
-		let perspectiveOrigin = {};
+		const perspectiveOrigin = {};
 
 		transform.forEach(transformProperty => {
 			const property = transformProperty.property || 'translate';
@@ -280,8 +280,8 @@ export function compileStyleTabs(styleValues) {
 		}
 
 		if (perspectiveOrigin.y !== undefined || perspectiveOrigin.x !== undefined) {
-			let xAxis = perspectiveOrigin.x !== undefined ? perspectiveOrigin.x : '50%';
-			let yAxis = perspectiveOrigin.y !== undefined ? perspectiveOrigin.y : '50%';
+			const xAxis = perspectiveOrigin.x !== undefined ? perspectiveOrigin.x : '50%';
+			const yAxis = perspectiveOrigin.y !== undefined ? perspectiveOrigin.y : '50%';
 
 			combineStyles += `-ms-perspective-origin: ${xAxis} ${yAxis}; -moz-perspective-origin: ${xAxis} ${yAxis}; -webkit-perspective-origin: ${xAxis} ${yAxis}; perspective-origin: ${xAxis} ${yAxis};`;
 		}
@@ -289,9 +289,9 @@ export function compileStyleTabs(styleValues) {
 
 	// Check for transform origin
 	if (transformOriginX || transformOriginY || transformOriginZ) {
-		let originX = transformOriginX || '50%';
-		let originY = transformOriginY || '50%';
-		let originZ = transformOriginZ || '0';
+		const originX = transformOriginX || '50%';
+		const originY = transformOriginY || '50%';
+		const originZ = transformOriginZ || '0';
 		combineStyles += `transform-origin: ${originX} ${originY} ${originZ};-webkit-transform-origin: ${originX} ${originY} ${originZ};`;
 	}
 
@@ -333,7 +333,7 @@ export function compileStyleTabs(styleValues) {
 
 	// Text decoration
 	if (textDecoration) {
-		let textDecorationValue = [];
+		const textDecorationValue = [];
 		if (textDecoration.includes('underline')) {
 			textDecorationValue.push('underline');
 		}
@@ -369,7 +369,7 @@ export function compileStyleTabs(styleValues) {
 	}
 
 	// let filtersGroup = ''
-	let transformGroup = {};
+	const transformGroup = {};
 	// let flexDirection = ''
 	// let flexReverse = false
 	// let customOrder = false
@@ -410,9 +410,9 @@ export function compileStyleTabs(styleValues) {
 	}
 
 	if (transformGroup['x'] !== undefined || transformGroup['y'] !== undefined || transformGroup['z'] !== undefined) {
-		let xAxis = transformGroup['x'] !== undefined ? transformGroup['x'] : '50%';
-		let yAxis = transformGroup['y'] !== undefined ? transformGroup['y'] : '50%';
-		let zAxis = transformGroup['z'] !== undefined ? transformGroup['z'] : '';
+		const xAxis = transformGroup['x'] !== undefined ? transformGroup['x'] : '50%';
+		const yAxis = transformGroup['y'] !== undefined ? transformGroup['y'] : '50%';
+		const zAxis = transformGroup['z'] !== undefined ? transformGroup['z'] : '';
 		combineStyles += `-webkit-transform-origin: ${xAxis} ${yAxis} ${zAxis}; transform-origin: ${xAxis} ${yAxis} ${zAxis};`;
 	}
 
@@ -426,7 +426,7 @@ export function compileStyleTabs(styleValues) {
 
 	// Transitions
 	if (transitionDuration) {
-		let delayCompiled = transitionDelay !== 0 ? `${transitionDelay}ms` : '';
+		const delayCompiled = transitionDelay !== 0 ? `${transitionDelay}ms` : '';
 		combineStyles += `transition: ${transitionProperty} ${transitionDuration}ms ${transitionTimingFunction} ${delayCompiled};`;
 	}
 
@@ -434,11 +434,11 @@ export function compileStyleTabs(styleValues) {
 }
 
 export function getGradientCss(config) {
-	let gradient = [];
+	const gradient = [];
 	let position;
 
 	config.forEach(element => {
-		let colors = [];
+		const colors = [];
 
 		const colorsCopy = [...element.colors].sort((a, b) => {
 			return a.position > b.position ? 1 : -1;
@@ -467,7 +467,8 @@ export function getGradientCss(config) {
 }
 
 function compileShadow(textShadowValue) {
-	let { 'offset-x': offsetX, 'offset-y': offsetY, blur, spread, color, inset } = textShadowValue;
+	let { 'offset-x': offsetX, 'offset-y': offsetY } = textShadowValue;
+	const { blur, spread, color, inset } = textShadowValue;
 
 	if (offsetX || offsetY || blur || spread || color || inset) {
 		offsetX = offsetX || 0;
@@ -547,7 +548,7 @@ export function compileFontTab(styleValues) {
 	}
 
 	if (textDecoration) {
-		let textDecorationValue = [];
+		const textDecorationValue = [];
 		if (textDecoration.includes('underline')) {
 			textDecorationValue.push('underline');
 		}

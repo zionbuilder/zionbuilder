@@ -2,11 +2,11 @@ import './scss/index.scss';
 import { toPng } from 'html-to-image';
 
 export default function screenshot() {
-	const options = ZnPbScreenshootData;
+	const options = window.ZnPbScreenshotData;
 
 	function init() {
-		// Fix iframes as the html-to-image cannot screenshot iframe content
-		handleIframes();
+		// Fix iframe as the html-to-image cannot screenshot iframe content
+		handleIframe();
 
 		// Proxy external assets
 		handleCSS();
@@ -19,7 +19,7 @@ export default function screenshot() {
 	}
 
 	function createImage() {
-		// Take screenshoot
+		// Take screenshot
 		toPng(document.body)
 			.then(dataUrl => {
 				sendMessage({
@@ -40,11 +40,11 @@ export default function screenshot() {
 	function handleCSS() {
 		const stylesheets = document.getElementsByTagName('link');
 
-		const externallStylesheets = Array.from(stylesheets).filter(stylesheet => {
+		const externalStylesheets = Array.from(stylesheets).filter(stylesheet => {
 			return stylesheet.rel === 'stylesheet' && stylesheet.href.indexOf(options.home_url) === -1;
 		});
 
-		for (const stylesheet of externallStylesheets) {
+		for (const stylesheet of externalStylesheets) {
 			stylesheet.href = getProxyURL(stylesheet.href);
 		}
 	}
@@ -65,9 +65,9 @@ export default function screenshot() {
 		}
 	}
 
-	function handleIframes() {
-		const iframes = document.getElementsByTagName('iframe');
-		Array.from(iframes).forEach(iframe => {
+	function handleIframe() {
+		const iframe = document.getElementsByTagName('iframe');
+		Array.from(iframe).forEach(iframe => {
 			const { width, height } = iframe.getBoundingClientRect();
 
 			// Create div element
@@ -80,20 +80,7 @@ export default function screenshot() {
 		});
 	}
 
-	function download(url: string) {
-		const link = document.createElement('a');
-		link.href = url;
-		link.download = 'image.png';
-
-		const img = document.createElement('img');
-		img.src = url;
-		document.body.append(img);
-
-		document.body.append(link);
-		link.click();
-	}
-
-	function sendMessage(message) {
+	function sendMessage(message: { success: boolean; error?: unknown; thumbnail?: string; errorMessage?: string }) {
 		window.postMessage({
 			type: 'zionbuilder-screenshot',
 			...message,

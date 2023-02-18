@@ -3,65 +3,59 @@
 		<div class="zion-inline-editor-button">
 			<InputColorPicker
 				:modelValue="color"
-				@update:modelValue="onColorChange"
 				:show-library="false"
-				@open="$emit('open-color-picker', true)"
-				@close="$emit('close-color-picker', false)"
 				type="simple"
+				@update:modelValue="onColorChange"
+				@open="emit('open-color-picker', true)"
+				@close="emit('close-color-picker', false)"
 			/>
 		</div>
 	</div>
 </template>
 
-<script>
-import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
+<script lang="ts" setup>
+import { ref, inject, onMounted, onBeforeUnmount } from 'vue';
 
-export default {
-	setup (props, { emit }) {
-		const editor = inject('ZionInlineEditor')
-		const color = ref(null)
+// Emits
+const emit = defineEmits(['open-color-picker', 'close-color-picker']);
 
-		let justChangeColor = false
-		let changeTimeout = null
+const editor = inject('ZionInlineEditor');
+const color = ref(null);
 
-		function onColorChange (newValue) {
-			color.value = newValue
-			editor.editor.formatter.apply('forecolor', { value: newValue })
+let justChangeColor = false;
+let changeTimeout = null;
 
-			clearTimeout(changeTimeout)
-			changeTimeout = setTimeout(() => {
-				justChangeColor = false
-			}, 500);
+function onColorChange(newValue) {
+	color.value = newValue;
+	editor.editor.formatter.apply('forecolor', { value: newValue });
 
-			justChangeColor = true
-		}
+	clearTimeout(changeTimeout);
+	changeTimeout = setTimeout(() => {
+		justChangeColor = false;
+	}, 500);
 
-		function onNodeChange (node) {
-			if (!justChangeColor) {
-				getActiveColor()
-			}
-		}
+	justChangeColor = true;
+}
 
-		function getActiveColor () {
-			// set a flag so we don't recursively update the color
-			color.value = editor.editor.queryCommandValue('forecolor')
-		}
-
-		onMounted(() => {
-			getActiveColor()
-			editor.editor.on('NodeChange', onNodeChange)
-		})
-
-		onBeforeUnmount(() => {
-			editor.editor.off('NodeChange', onNodeChange)
-		})
-
-		return {
-			color,
-			onColorChange
-		}
+function onNodeChange() {
+	if (!justChangeColor) {
+		getActiveColor();
 	}
 }
+
+function getActiveColor() {
+	// set a flag so we don't recursively update the color
+	color.value = editor.editor.queryCommandValue('forecolor');
+}
+
+onMounted(() => {
+	getActiveColor();
+	editor.editor.on('NodeChange', onNodeChange);
+});
+
+onBeforeUnmount(() => {
+	editor.editor.off('NodeChange', onNodeChange);
+});
 </script>
 
 <style lang="scss">
@@ -104,7 +98,7 @@ export default {
 	}
 }
 .zion-inline-editor-color-picker-button {
-	content: " ";
+	content: ' ';
 	position: absolute;
 	top: 50%;
 	left: 50%;

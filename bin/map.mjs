@@ -21,12 +21,30 @@ fs.readdirSync('src/elements/').forEach(folder => {
 export const filesMap = [
   // Global
   {
-    input: 'src/vue.ts',
+    input: 'src/common/vue.ts',
     format: 'iife',
     output: 'vue',
     name: 'vue',
   },
-  //   admin
+  {
+    input: 'src/common/vue-router.ts',
+    format: 'iife',
+    output: 'vue-router',
+    name: 'VueRouter',
+  },
+  {
+    input: 'src/common/pinia.ts',
+    format: 'iife',
+    output: 'pinia',
+    name: 'pinia',
+  },
+  {
+    input: 'src/common/index.ts',
+    format: 'iife',
+    output: 'common',
+    name: 'common',
+  },
+  // admin
   {
     input: 'src/admin/edit-page.ts',
     format: 'iife',
@@ -37,6 +55,7 @@ export const filesMap = [
     input: 'src/admin/gutenberg.ts',
     format: 'iife',
     output: 'gutenberg',
+    name: 'gutenberg',
   },
   {
     input: 'src/admin/admin-page.ts',
@@ -44,88 +63,61 @@ export const filesMap = [
     output: 'admin-page',
     name: 'adminPage',
   },
-
   {
     input: 'src/admin/regenerateAssets.ts',
     format: 'iife',
     output: 'regenerate-assets-notice',
     name: 'regenerateAssetsNotice',
   },
-
   {
     input: 'src/modules/screenshot/index.ts',
     format: 'iife',
     output: 'screenshot',
+    name: 'screenshot',
   },
   {
     input: 'src/modules/integrations/rankmath.ts',
     format: 'iife',
     output: 'integrations/rankmath',
+    name: 'integrations.rankmath',
   },
   {
     input: 'src/modules/integrations/yoast.ts',
     format: 'iife',
     output: 'integrations/yoast',
+    name: 'integrations.yoast',
   },
   // Editor
   {
     input: 'src/editor/editor.ts',
     format: 'iife',
     output: 'editor',
+    name: 'editor',
   },
-  {
-    input: 'src/preview/index.ts',
-    format: 'iife',
-    output: 'preview',
-  },
-
   // packages
   {
     input: 'src/modules/animateJS/index.ts',
     format: 'iife',
     output: 'animateJS',
+    name: 'animateJS',
   },
-
   // Frontend
   {
     input: 'src/frontend/modules/modalJS/index.ts',
     format: 'iife',
     output: 'ModalJS',
+    name: 'ModalJS',
   },
   {
     input: 'src/frontend/modules/video/index.ts',
     format: 'iife',
     output: 'ZBVideo',
-  },
-  {
-    input: 'src/frontend/modules/videoBG/index.ts',
-    format: 'iife',
-    output: 'ZBVideoBg',
+    name: 'ZBVideo',
   },
   {
     input: 'src/scss/frontend/index.scss',
     output: 'frontend',
-  },
-  // TEMP FILES for backwards compatibility
-  {
-    input: 'src/modules/components/index.ts',
-    format: 'iife',
-    output: 'components',
-  },
-  {
-    input: 'src/modules/i18n/index.ts',
-    format: 'iife',
-    output: 'i18n',
-  },
-  {
-    input: 'src/modules/hooks/index.ts',
-    format: 'iife',
-    output: 'hooks',
-  },
-  {
-    input: 'src/modules/rest/index.ts',
-    format: 'iife',
-    output: 'rest',
+    name: 'frontend',
   },
   ...elementsMap,
 ];

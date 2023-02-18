@@ -1,23 +1,71 @@
 <template>
-	<div class="znpb-input-number-unit">
+	<div ref="root" class="znpb-input-number-unit">
 		<BaseInput
 			ref="numberUnitInput"
-			v-model="computedStringValue"
+			:model-value="localRawValue"
 			class="znpb-input-number--has-units"
 			size="narrow"
-			:placeholder="placeholder"
+			:placeholder="computedPlaceholder"
+			@update:model-value="onTextValueChange"
 			@mousedown.stop="actNumberDrag"
 			@touchstart.prevent.passive="actNumberDrag"
 			@mouseup="deactivateDragNumber"
 			@keydown="onKeyDown"
-		/>
+		>
+			<template #suffix>
+				<Tooltip
+					v-model:show="showUnits"
+					trigger="click"
+					placement="bottom"
+					append-to="element"
+					:show-arrows="false"
+					strategy="fixed"
+					tooltip-class="hg-popper--no-padding"
+					:close-on-outside-click="true"
+					class="znpb-input-number__units-tooltip-wrapper"
+				>
+					<template #content>
+						<div class="znpb-number-unit-list hg-popper-list">
+							<div
+								v-for="(unit, i) in units"
+								:key="i"
+								class="znpb-number-unit-list__option hg-popper-list__item"
+								:class="{
+									[`znpb-number-unit-list__option--selected`]: activeUnit === unit,
+								}"
+								@click.stop="changeUnit(unit)"
+							>
+								{{ unit.length ? unit : '-' }}
+							</div>
+
+							<div
+								class="znpb-number-unit-list__option hg-popper-list__item"
+								:class="{
+									[`znpb-number-unit-list__option--selected`]: activeUnit === '',
+								}"
+								@click.stop="changeUnit('')"
+							>
+								{{ i18n.__('custom', 'zionbuilder') }}
+							</div>
+						</div>
+					</template>
+
+					<span class="znpb-input-number__unitValue" @click.stop="showUnits = !showUnits">{{
+						localUnit.length ? localUnit : '-'
+					}}</span>
+				</Tooltip>
+			</template>
+		</BaseInput>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeMount, onMounted } from 'vue';
+import * as i18n from '@wordpress/i18n';
+import { computed, onMounted, ref, watch, Ref, nextTick, onBeforeUnmount } from 'vue';
 import rafSchd from 'raf-schd';
 
+import { DEFAULT_UNIT_TYPES, ALL_NUMBER_UNITS_TYPES } from '../../data';
+import Tooltip from '../tooltip/components/Tooltip.vue';
 import BaseInput from '../BaseInput/BaseInput.vue';
 
 const props = withDefaults(
@@ -31,6 +79,7 @@ const props = withDefaults(
 		placeholder?: string;
 		// eslint-disable-next-line vue/prop-name-casing
 		default_unit?: string;
+		units?: string[];
 	}>(),
 	{
 		modelValue: '',
@@ -39,15 +88,196 @@ const props = withDefaults(
 		step: 1,
 		shift_step: 5,
 		placeholder: '',
+		units: function () {
+			return DEFAULT_UNIT_TYPES;
+		},
 		default_unit: '',
 	},
 );
 
 const emit = defineEmits(['update:modelValue', 'linked-value']);
 
+const root: Ref<HTMLElement | null> = ref(null);
+const numberUnitInput: Ref<typeof BaseInput | null> = ref(null);
+const localRawValue = ref('');
+const localValue = ref(0);
+const localUnit: Ref<string> = ref('');
+const showUnits = ref(false);
+
+// Flag to allow the values to change or not on newValues
+let preventWatcher = false;
+
+const defaultUnit = computed(() => {
+	return props.default_unit.length ? props.default_unit : props.units[0];
+});
+
+const computedPlaceholder = computed(() => {
+	const { value, rawValue } = getValuesFromString(props.placeholder);
+
+	return value ?? rawValue;
+});
+
+const activeUnit = computed(() => {
+	if (props.units.includes(localUnit.value)) {
+		return localUnit.value;
+	} else if (props.units.includes(localRawValue.value)) {
+		return localRawValue.value;
+	}
+
+	return defaultUnit.value;
+});
+
+watch(
+	() => props.modelValue,
+	newValue => {
+		if (preventWatcher) {
+			return;
+		}
+
+		const { unit, value, rawValue, unitIsValid } = getValuesFromString(newValue);
+
+		localRawValue.value = rawValue;
+		localValue.value = null !== value ? value : getValueInRange(0);
+
+		if (localRawValue.value && localRawValue.value.length) {
+			localUnit.value = unitIsValid && unit ? unit : '';
+		} else {
+			const { unit } = getValuesFromString(props.placeholder);
+
+			// Use default unit or empty string
+			localUnit.value = unit && unit.length ? unit : defaultUnit.value ? defaultUnit.value : '';
+		}
+
+		preventWatcher = false;
+	},
+	{
+		immediate: true,
+	},
+);
+
+function isNumeric(value: string | number) {
+	return !isNaN(value as number) && !isNaN(parseFloat(value as string));
+}
+
+function getValuesFromString(string: string) {
+	let unit = null;
+	let value = null;
+	let rawValue = '';
+	let unitIsValid = false;
+
+	if (isNumeric(string)) {
+		value = parseFloat(string);
+		rawValue = string;
+	} else {
+		const { value: parsedValue, unit: parsedUnit } = getIntegerAndUnit(string);
+
+		unitIsValid = parsedUnit !== null && props.units.includes(parsedUnit);
+
+		if (parsedValue !== null && parsedUnit !== null) {
+			// If the unit is valid, we will split the value and the unit
+			rawValue = unitIsValid ? `${parsedValue}` : `${parsedValue}${parsedUnit}`;
+			value = parsedValue;
+			unit = parsedUnit;
+		} else {
+			rawValue = string ?? '';
+			unit = parsedUnit;
+		}
+	}
+
+	return {
+		unit,
+		value,
+		rawValue,
+		unitIsValid,
+	};
+}
+
+function changeUnit(newUnit: string) {
+	showUnits.value = false;
+	localUnit.value = newUnit;
+
+	// Focus the input
+	nextTick(() => {
+		if (numberUnitInput.value !== null) {
+			numberUnitInput.value.focus();
+		}
+	});
+
+	// Don't proceed if we don't have an existing value
+	if ((props.units && props.units.includes(newUnit)) || ALL_NUMBER_UNITS_TYPES.includes(newUnit)) {
+		if (localValue.value) {
+			onTextValueChange(`${localValue.value}${newUnit}`);
+		} else {
+			// Only change locally and remove the value
+			onTextValueChange('', {
+				shouldPreventWatcher: true,
+			});
+		}
+	} else if (newUnit === '') {
+		// Clear the value
+		onTextValueChange('', {
+			shouldPreventWatcher: true,
+		});
+	} else {
+		localUnit.value = '';
+		// Clear the value
+		onTextValueChange(newUnit, {
+			shouldPreventWatcher: true,
+		});
+	}
+}
+
+function onTextValueChange(
+	newValue: string,
+	flags: {
+		shouldPreventWatcher?: boolean;
+		updateLocalRawValue?: boolean;
+	} = {
+		shouldPreventWatcher: false,
+		updateLocalRawValue: true,
+	},
+) {
+	const { unit, value, rawValue } = getValuesFromString(newValue);
+	const validUnit = unit && unit.length ? unit : localUnit.value;
+	const { shouldPreventWatcher = false, updateLocalRawValue = true } = flags;
+	preventWatcher = shouldPreventWatcher;
+
+	// Ensure that the input gets updated..
+	if (updateLocalRawValue) {
+		localRawValue.value = newValue;
+	}
+
+	// If the value is empty, prevent returning to default value when the watcher is running
+	if (newValue.length === 0) {
+		preventWatcher = true;
+	}
+
+	if (value !== null && validUnit) {
+		const validValue = getValueInRange(value);
+		emit('update:modelValue', `${validValue}${validUnit}`);
+	} else {
+		emit('update:modelValue', rawValue);
+	}
+}
+
+function getValueInRange(value: number) {
+	return Math.max(props.min, Math.min(props.max, value));
+}
+
+function getIntegerAndUnit(string: string) {
+	const match = typeof string === 'string' && string ? string.match(/^([+-]?[0-9]+(?:[.][0-9]+)?)(\D+)?$/) : null;
+	const value = match && match[1] ? parseFloat(match[1]) : null;
+	const unit = match && match[2] ? match[2] : null;
+
+	return {
+		value,
+		unit,
+	};
+}
+
 let mouseDownPositionTop = 0;
 let draggingPositionTop = 0;
-let dragThreshold = 3;
+const dragThreshold = 3;
 let shiftDrag = false;
 let toTop = false;
 let directionReset = 0;
@@ -55,61 +285,9 @@ let draggingCached = 0;
 let dragging = false;
 const dragNumberThrottle = rafSchd(dragNumber);
 
-const computedValueUnit = computed(() => {
-	return getIntegerAndUnit(props.modelValue);
-});
-
-const computedIntegerValue = computed({
-	get() {
-		return computedValueUnit.value.value !== null ? computedValueUnit.value.value : 0;
-	},
-	set(newValue: number) {
-		computedStringValue.value = `${newValue}${computedUnitValue.value}`;
-	},
-});
-
-const computedUnitValue = computed(() => (computedValueUnit.value.unit !== null ? computedValueUnit.value.unit : ''));
-
-const computedStringValue = computed({
-	get() {
-		return props.modelValue ? props.modelValue : '';
-	},
-	set(newValue: string) {
-		// Get the value and unit
-		const integerAndUnit = getIntegerAndUnit(newValue);
-
-		// Get the value in range
-		const value = integerAndUnit.value !== null ? getValueInRange(integerAndUnit.value) : '';
-
-		// Get the unit in range
-		const unit = integerAndUnit.unit !== null ? integerAndUnit.unit : '';
-
-		if (value !== '' || unit !== '') {
-			emit('update:modelValue', `${value}${unit}`);
-		} else {
-			emit('update:modelValue', newValue);
-		}
-	},
-});
-
-function getValueInRange(value: number) {
-	return Math.max(props.min, Math.min(props.max, value));
-}
-
-function getIntegerAndUnit(string: string) {
-	const match =
-		typeof string === 'string' && string ? string.match(/^([+-]?[0-9]+([.][0-9]*)?|[.][0-9]+)(\D+)?$/) : null;
-	const value = match && match[1] ? parseInt(match[1]) : null;
-	const unit = match && match[3] ? match[3] : null;
-	return {
-		value,
-		unit,
-	};
-}
-
 function actNumberDrag(event: MouseEvent) {
 	dragging = true;
-	draggingCached = computedIntegerValue.value;
+	draggingCached = localValue.value;
 	mouseDownPositionTop = event.clientY;
 
 	// Don't proceed if we do not have a valid unit
@@ -117,14 +295,18 @@ function actNumberDrag(event: MouseEvent) {
 		return;
 	}
 
-	document.body.style.userSelect = 'none';
-	window.addEventListener('mousemove', dragNumberThrottle);
-	window.addEventListener('mouseup', deactivateDragNumber);
+	if (root.value) {
+		root.value.ownerDocument.body.style.userSelect = 'none';
+
+		if (root.value.ownerDocument.defaultView) {
+			root.value.ownerDocument.defaultView.addEventListener('mousemove', dragNumberThrottle);
+			root.value.ownerDocument.defaultView.addEventListener('mouseup', deactivateDragNumber);
+		}
+	}
 }
 
 function canUpdateNumber() {
-	const integerAndUnit = getIntegerAndUnit(computedStringValue.value);
-	return computedStringValue.value === '' || integerAndUnit.value !== null;
+	return localRawValue.value === '' || isNumeric(localRawValue.value);
 }
 
 function onKeyDown(event: KeyboardEvent) {
@@ -143,7 +325,7 @@ function onKeyDown(event: KeyboardEvent) {
 	// Check if up/down arrow was presses
 	if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
 		toTop = event.key === 'ArrowUp';
-		setDraggingValue(true);
+		setDraggingValue();
 		event.preventDefault();
 	}
 }
@@ -151,13 +333,19 @@ function onKeyDown(event: KeyboardEvent) {
 function deactivateDragNumber() {
 	dragNumberThrottle.cancel();
 	dragging = false;
-	document.body.style.userSelect = '';
-	document.body.style.pointerEvents = '';
-	window.removeEventListener('mousemove', dragNumberThrottle);
+
+	if (root.value) {
+		root.value.ownerDocument.body.style.userSelect = '';
+		root.value.ownerDocument.body.style.pointerEvents = '';
+		(root.value.ownerDocument.defaultView as Window).removeEventListener('mousemove', dragNumberThrottle);
+	}
 }
 function removeEvents() {
 	deactivateDragNumber();
-	window.removeEventListener('mouseup', deactivateDragNumber);
+
+	if (root.value) {
+		(root.value.ownerDocument.defaultView as Window).removeEventListener('mouseup', deactivateDragNumber);
+	}
 }
 
 function dragNumber(event: MouseEvent) {
@@ -172,17 +360,19 @@ function dragNumber(event: MouseEvent) {
 			toTop = false;
 		}
 
-		document.body.style.pointerEvents = 'none';
+		if (root.value) {
+			root.value.ownerDocument.body.style.pointerEvents = 'none';
+		}
 
 		if (pageY !== directionReset) {
-			setDraggingValue(true);
+			setDraggingValue();
 		}
 	}
 
 	directionReset = event.pageY;
 }
 
-function setDraggingValue(addUnit = false) {
+function setDraggingValue() {
 	let newValue;
 	if (dragging) {
 		const dragged = mouseDownPositionTop - dragThreshold - draggingPositionTop;
@@ -199,34 +389,35 @@ function setDraggingValue(addUnit = false) {
 			increment = toTop ? props.step : -props.step;
 		}
 
-		newValue = computedIntegerValue.value + increment;
+		newValue = localValue.value + increment;
 		if (shiftDrag) {
 			newValue = newValue % props.shift_step ? Math.ceil(newValue / props.shift_step) * props.shift_step : newValue;
-			if (toTop && computedIntegerValue.value % props.shift_step !== 0) {
+			if (toTop && localValue.value % props.shift_step !== 0) {
 				newValue -= props.shift_step;
 			}
 		}
 	}
 
-	if (addUnit && props.default_unit.length > 0) {
-		computedStringValue.value = `${getValueInRange(newValue)}${props.default_unit}`;
-	} else {
-		// Check that value is in between min and max
-		computedIntegerValue.value = getValueInRange(newValue);
-	}
+	// Set the default unit if we do not have a valid one
+	const unit = localUnit.value && ALL_NUMBER_UNITS_TYPES.includes(localUnit.value) ? localUnit.value : '';
+	onTextValueChange(`${newValue}${unit}`, {
+		updateLocalRawValue: false,
+	});
 }
 
-onBeforeMount(() => {
+onBeforeUnmount(() => {
 	removeEvents();
 });
 
 onMounted(() => {
-	window.removeEventListener('mousemove', dragNumberThrottle);
+	if (root.value) {
+		(root.value.ownerDocument.defaultView as Window).removeEventListener('mousemove', dragNumberThrottle);
+	}
 });
 </script>
 <style lang="scss">
 .znpb-input-number__units-tooltip-wrapper {
-	padding: 0;
+	cursor: pointer;
 }
 
 .znpb-input-number-unit {
@@ -244,9 +435,7 @@ onMounted(() => {
 		font-size: 10px;
 		cursor: pointer;
 	}
-	.zion-input {
-		padding-right: 10px;
-	}
+
 	input {
 		text-align: left;
 	}
@@ -288,5 +477,12 @@ onMounted(() => {
 .znpb-input-number__units--auto {
 	padding: 7px;
 	background-color: var(--zb-surface-lighter-color);
+}
+
+.znpb-input-number__unitValue {
+	padding: 5px;
+	font-size: 11px;
+	cursor: pointer;
+	opacity: 0.6;
 }
 </style>

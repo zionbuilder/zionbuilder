@@ -3,7 +3,7 @@
 		<div class="znpb-link-optionsAttributeInput znpb-link-optionsAttributeField">
 			<BaseInput
 				type="text"
-				:placeholder="$translate('attribute_key')"
+				:placeholder="i18n.__('Attribute key', 'zionbuilder')"
 				:modelValue="attributeConfig.key"
 				:spellcheck="false"
 				@update:modelValue="updateValue('key', $event)"
@@ -12,7 +12,7 @@
 		<div class="znpb-link-optionsAttributeInput znpb-link-optionsAttributeField">
 			<BaseInput
 				type="text"
-				:placeholder="$translate('attribute_value')"
+				:placeholder="i18n.__('Attribute value', 'zionbuilder')"
 				:modelValue="attributeConfig.value"
 				:spellcheck="false"
 				@update:modelValue="updateValue('value', $event)"
@@ -22,43 +22,36 @@
 			<Icon
 				icon="delete"
 				:class="{ 'znpb-link-optionsAttributeDelete--disabled': !canDelete }"
-				@click="$emit('delete', attributeConfig)"
+				@click="emit('delete', attributeConfig)"
 			/>
 		</div>
 	</div>
 </template>
 
-<script>
-import { BaseInput } from '/@/common';
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 
-export default {
-	name: 'LinkAttributeForm',
-	components: {
-		BaseInput,
-	},
-	props: {
+const props = withDefaults(
+	defineProps<{
 		attributeConfig: {
-			type: Object,
-		},
-		canDelete: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-	},
-	setup(props, { emit }) {
-		function updateValue(key, value) {
-			emit('update-attribute', {
-				...props.attributeConfig,
-				[key]: value,
-			});
-		}
-
-		return {
-			updateValue,
+			key: string;
+			value: string;
 		};
+		canDelete?: boolean;
+	}>(),
+	{
+		canDelete: true,
 	},
-};
+);
+
+const emit = defineEmits(['update-attribute', 'delete']);
+
+function updateValue(key: string, value: string) {
+	emit('update-attribute', {
+		...props.attributeConfig,
+		[key]: value,
+	});
+}
 </script>
 
 <style lang="scss">

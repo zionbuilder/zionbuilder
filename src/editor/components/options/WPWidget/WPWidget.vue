@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-element-form__wp_widget">
 		<div v-if="loading" class="znpb-element-form__wp_widget-loading">
-			{{ translate('loading') }}
+			{{ i18n.__('Loading', 'zionbuilder') }}
 		</div>
 
 		<form v-else ref="form" v-html="optionsFormContent"></form>
@@ -9,11 +9,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, nextTick } from 'vue';
-import { getOptionsForm } from '/@/common/api';
+import * as i18n from '@wordpress/i18n';
+import { ref, nextTick, watch } from 'vue';
 import { serialize } from 'dom-form-serializer';
-import { translate } from '/@/common/modules/i18n';
 import { useUIStore } from '/@/editor/store';
+
+// Common API
+const { getOptionsForm } = window.zb.api;
 
 const props = withDefaults(
 	defineProps<{
@@ -34,34 +36,45 @@ const loading = ref(true);
 const optionsFormContent = ref('');
 const emit = defineEmits(['update:modelValue']);
 
+watch(
+	() => UIStore.editedElement,
+	() => {
+		refreshOptionsForm();
+	},
+);
+
 // Get the options form from server
-getOptionsForm(UIStore.editedElement).then(response => {
-	optionsFormContent.value = response.data.form;
-	loading.value = false;
+function refreshOptionsForm() {
+	getOptionsForm(UIStore.editedElement).then(response => {
+		optionsFormContent.value = response.data.form;
+		loading.value = false;
 
-	const wp = window.wp;
-	const jQuery = window.jQuery;
+		const wp = window.wp;
+		const jQuery = window.jQuery;
 
-	nextTick(() => {
-		if (wp.textWidgets) {
-			let widgetContainer = jQuery(form.value);
-			const event = new jQuery.Event('widget-added');
+		nextTick(() => {
+			if (wp.textWidgets) {
+				const widgetContainer = jQuery(form.value);
+				const event = new jQuery.Event('widget-added');
 
-			widgetContainer.addClass('open');
-			wp.textWidgets.handleWidgetAdded(event, widgetContainer);
-			wp.mediaWidgets.handleWidgetAdded(event, widgetContainer);
+				widgetContainer.addClass('open');
+				wp.textWidgets.handleWidgetAdded(event, widgetContainer);
+				wp.mediaWidgets.handleWidgetAdded(event, widgetContainer);
 
-			// // WP >= 4.9
-			if (wp.customHtmlWidgets) {
-				wp.customHtmlWidgets.handleWidgetAdded(event, widgetContainer);
+				// // WP >= 4.9
+				if (wp.customHtmlWidgets) {
+					wp.customHtmlWidgets.handleWidgetAdded(event, widgetContainer);
+				}
+
+				// Setup event listeners
+				jQuery(':input', jQuery(form.value)).on('input', onInputChange);
+				jQuery(':input', jQuery(form.value)).on('change', onInputChange);
 			}
-
-			// Setup event listeners
-			jQuery(':input', jQuery(form.value)).on('input', onInputChange);
-			jQuery(':input', jQuery(form.value)).on('change', onInputChange);
-		}
+		});
 	});
-});
+}
+
+refreshOptionsForm();
 
 function onInputChange() {
 	const widgetId = `widget-${props.element_type}`;
@@ -206,5 +219,14 @@ function onInputChange() {
 
 		-webkit-appearance: none;
 	}
+}
+
+.znpb-element-form__wp_widget .widget-inside {
+	background-color: var(--zb-surface-color);
+}
+
+.znpb-element-form__wp_widget .widget-inside input,
+.znpb-element-form__wp_widget .widget-inside select {
+	background-color: var(--zb-input-bg-color);
 }
 </style>

@@ -2,7 +2,7 @@
 	<transition appear name="move">
 		<div class="znpb-notices-wrapper">
 			<div class="znpb-notice" :class="`znpb-notice--${error.type || 'success'}`">
-				<Icon class="znpb-notice__close" icon="close" :size="12" @click="$emit('close-notice')" />
+				<Icon class="znpb-notice__close" icon="close" :size="12" @click="emit('close-notice')" />
 				<div v-if="error.title" class="znpb-notice__title">{{ error.title }}</div>
 				<div class="znpb-notice__message">{{ error.message }}</div>
 			</div>

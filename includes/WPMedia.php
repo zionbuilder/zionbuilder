@@ -118,7 +118,7 @@ class WPMedia {
 			preg_match( '#zion_custom_(\d*)x(\d*)#', $size, $matches );
 			$width  = $matches[1];
 			$height = $matches[2];
-			$url    = $this->get_resized_image_url( $id, $width, $height );
+			$url    = $this->get_resized_image_url( $id, (int) $width, (int) $height );
 
 			return [
 				$url,

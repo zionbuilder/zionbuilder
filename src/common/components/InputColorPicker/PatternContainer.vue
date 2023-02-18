@@ -9,7 +9,7 @@
 							:key="i"
 							class="znpb-colorpicker-circle znpb-colorpicker-circle-color"
 							:style="{ 'background-color': color }"
-							@click="$emit('color-updated', color)"
+							@click="emit('color-updated', color)"
 						>
 						</span>
 					</GridColor>
@@ -71,7 +71,7 @@ const props = withDefaults(
 	},
 );
 
-defineEmits<{
+const emit = defineEmits<{
 	(e: 'color-updated', value: string): void;
 }>();
 
@@ -88,8 +88,8 @@ const globalColors: GlobalColor[] = getOptionValue('global_colors', []);
 const showPresetInput = ref(false);
 
 const isPro = computed(() => {
-	if (window.ZnPbComponentsData !== undefined) {
-		return window.ZnPbComponentsData.is_pro_active;
+	if (window.ZBCommonData !== undefined) {
+		return window.ZBCommonData.environment.plugin_pro.is_active;
 	}
 
 	return false;
@@ -114,7 +114,7 @@ const activeTab = computed(() => {
 });
 
 function addGlobal(name: string) {
-	let globalColor = {
+	const globalColor = {
 		id: name.split(' ').join('_'),
 		color: props.model,
 		name: name,

@@ -1,6 +1,6 @@
 <template>
 	<PageTemplate class="znpb-admin-gradients__wrapper">
-		<h3>{{ $translate('gradients') }}</h3>
+		<h3>{{ i18n.__('Gradients', 'zionbuilder') }}</h3>
 		<Tabs tab-style="minimal" @changed-tab="(activeLibrary = $event), (activeGradient.value = {})">
 			<Tab name="Local">
 				<div class="znpb-admin-gradient__container">
@@ -18,8 +18,13 @@
 			<Tab name="Global">
 				<UpgradeToPro
 					v-if="!isPro"
-					:message_title="$translate('pro_manage_global_gradients_free_title')"
-					:message_description="$translate('pro_manage_global_gradients_free')"
+					:message_title="i18n.__('Meet Global Gradients', 'zionbuilder')"
+					:message_description="
+						i18n.__(
+							'Global gradients allows you to define a gradient configuration that you can use in builder, and every time this gradient configuration changes it will be updated automatically in all locations where it was used. ',
+							'zionbuilder',
+						)
+					"
 				/>
 				<template v-else>
 					<div class="znpb-admin-gradient__container">
@@ -44,107 +49,83 @@
 		/>
 
 		<template #right>
-			<p class="znpb-admin-info-p">{{ $translate('create_gradient_info') }}</p>
+			<p class="znpb-admin-info-p">
+				{{ i18n.__('Create Astonishing Gradients that you will use in all the pages of your website', 'zionbuilder') }}
+			</p>
 		</template>
 	</PageTemplate>
 </template>
 
-<script>
-import { ref, inject } from 'vue';
-import { generateUID, getDefaultGradient } from '/@/common/utils';
-import { useBuilderOptionsStore } from '/@/common/store';
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+import { ref } from 'vue';
 
 // Components
 import GradientBox from './GradientBox.vue';
 import GradientModalContent from './GradientModalContent.vue';
 import AddGradient from './AddGradient.vue';
 
-export default {
-	name: 'Gradients',
-	components: {
-		GradientBox,
-		AddGradient,
-		GradientModalContent,
-	},
-	setup(props, context) {
-		function getPro() {
-			if (window.ZnPbComponentsData !== undefined) {
-				return window.ZnPbComponentsData.is_pro_active;
-			}
+const { generateUID, getDefaultGradient } = window.zb.utils;
 
-			return false;
-		}
+function getPro() {
+	if (window.ZBCommonData !== undefined) {
+		return window.ZBCommonData.environment.plugin_pro.is_active;
+	}
 
-		const isPro = getPro();
+	return false;
+}
 
-		const {
-			getOptionValue,
-			saveOptionsToDB,
-			addLocalGradient,
-			deleteLocalGradient,
-			editLocalGradient,
-			addGlobalGradient,
-			deleteGlobalGradient,
-			editGlobalGradient,
-		} = useBuilderOptionsStore();
+const isPro = getPro();
 
-		const activeLibrary = ref('local');
-		const showModal = ref(false);
+const {
+	getOptionValue,
+	saveOptionsToDB,
+	addLocalGradient,
+	deleteLocalGradient,
+	editLocalGradient,
+	addGlobalGradient,
+	deleteGlobalGradient,
+	editGlobalGradient,
+} = window.zb.store.useBuilderOptionsStore();
 
-		const localGradients = getOptionValue('local_gradients');
-		const globalGradients = getOptionValue('global_gradients');
-		const activeGradient = ref({});
+const activeLibrary = ref('local');
+const showModal = ref(false);
 
-		function onGradientSelect(gradient) {
-			activeGradient.value = gradient;
-			showModal.value = true;
-		}
+const localGradients = getOptionValue('local_gradients');
+const globalGradients = getOptionValue('global_gradients');
+const activeGradient = ref({});
 
-		function onGradientUpdate(newValue) {
-			if (activeLibrary.value === 'local') {
-				editLocalGradient(activeGradient.value.id, newValue);
-			} else {
-				editGlobalGradient(activeGradient.value.id, newValue);
-			}
-		}
+function onGradientSelect(gradient) {
+	activeGradient.value = gradient;
+	showModal.value = true;
+}
 
-		function onAddNewGradient() {
-			let dynamicName = generateUID();
+function onGradientUpdate(newValue) {
+	if (activeLibrary.value === 'local') {
+		editLocalGradient(activeGradient.value.id, newValue);
+	} else {
+		editGlobalGradient(activeGradient.value.id, newValue);
+	}
+}
 
-			const defaultGradient = {
-				id: dynamicName,
-				name: dynamicName,
-				config: getDefaultGradient(),
-			};
+function onAddNewGradient() {
+	const dynamicName = generateUID();
 
-			if (activeLibrary.value === 'local') {
-				addLocalGradient(defaultGradient);
-			} else {
-				addGlobalGradient(defaultGradient);
-			}
+	const defaultGradient = {
+		id: dynamicName,
+		name: dynamicName,
+		config: getDefaultGradient(),
+	};
 
-			// Add the gradient to store
-			onGradientSelect(defaultGradient);
-		}
+	if (activeLibrary.value === 'local') {
+		addLocalGradient(defaultGradient);
+	} else {
+		addGlobalGradient(defaultGradient);
+	}
 
-		return {
-			localGradients,
-			globalGradients,
-			addLocalGradient,
-			deleteLocalGradient,
-			editLocalGradient,
-			saveOptionsToDB,
-			onAddNewGradient,
-			activeLibrary,
-			showModal,
-			onGradientSelect,
-			onGradientUpdate,
-			deleteGlobalGradient,
-			activeGradient,
-			isPro,
-		};
-	},
-};
+	// Add the gradient to store
+	onGradientSelect(defaultGradient);
+}
 </script>
 
 <style lang="scss">

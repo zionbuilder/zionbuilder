@@ -130,7 +130,7 @@ class Button extends Element {
 						'id'   => 'white',
 					],
 					[
-						'name' => __( 'Succes', 'zionbuilder' ),
+						'name' => __( 'Success', 'zionbuilder' ),
 						'id'   => 'succes',
 					],
 					[
@@ -297,16 +297,16 @@ class Button extends Element {
 						'name' => 'left',
 					],
 					[
-						'id'   => __( 'right', 'zionbuilder' ),
-						'name' => 'right',
+						'name' => __( 'right', 'zionbuilder' ),
+						'id'   => 'right',
 					],
 					[
-						'id'   => __( 'top', 'zionbuilder' ),
-						'name' => 'top',
+						'name' => __( 'top', 'zionbuilder' ),
+						'id'   => 'top',
 					],
 					[
-						'id'   => __( 'bottom', 'zionbuilder' ),
-						'name' => 'bottom',
+						'name' => __( 'bottom', 'zionbuilder' ),
+						'id'   => 'bottom',
 					],
 				],
 				'render_attribute' => [

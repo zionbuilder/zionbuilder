@@ -2,32 +2,22 @@
 	<label
 		class="znpb-radio-icon-item"
 		:class="{
-			'znpb-radio-icon-item--active': isSelected
+			'znpb-radio-icon-item--active': isSelected,
 		}"
 	>
-		<input
-			v-model="radioButtonValue"
-			:modelValue="optionValue"
-			type="radio"
-			class="znpb-form__input-toggle"
-		>
-		<Icon
-			v-if="icon"
-			:icon="icon"
-			:bg-size="bgSize"
-			class="znpb-radio-icon-item__icon"
-		/>
-		{{label}}
+		<input v-model="radioButtonValue" :modelValue="optionValue" type="radio" class="znpb-form__input-toggle" />
+		<Icon v-if="icon" :icon="icon" :bg-size="bgSize" class="znpb-radio-icon-item__icon" />
+		{{ label }}
 	</label>
 </template>
 
 <script>
-import { Icon } from '../Icon'
+import { Icon } from '../Icon';
 
 export default {
 	name: 'InputRadioIcon',
 	components: {
-		Icon
+		Icon,
 	},
 	props: {
 		/**
@@ -35,60 +25,58 @@ export default {
 		 */
 		modelValue: {
 			type: String,
-			required: false
+			required: false,
 		},
 		/**
 		 * Label for each radio
 		 */
 		label: {
 			type: String,
-			required: false
+			required: false,
 		},
 		/**
 		 * Value received
 		 */
 		optionValue: {
 			type: String,
-			required: true
+			required: true,
 		},
 		/**
 		 * Icon name
 		 */
 		icon: {
 			type: String,
-			required: false
+			required: false,
 		},
 		bgSize: {
 			type: Number,
 			required: false,
-			default: 32
-		}
+			default: 32,
+		},
 	},
-	data () {
+	data() {
 		return {
-			checked: ''
-		}
+			checked: '',
+		};
 	},
 	computed: {
 		radioButtonValue: {
 			get: function () {
-				return this.modelValue
+				return this.modelValue;
 			},
 			set: function () {
 				/**
 				 * Emits new radio
 				 */
-				this.$emit('update:modelValue', this.optionValue)
-			}
+				this.$emit('update:modelValue', this.optionValue);
+			},
 		},
-		isSelected () {
-			return this.modelValue === this.optionValue
-		}
+		isSelected() {
+			return this.modelValue === this.optionValue;
+		},
 	},
-	methods: {
-
-	}
-}
+	methods: {},
+};
 </script>
 <style lang="scss">
 .znpb-radio-icon-item {

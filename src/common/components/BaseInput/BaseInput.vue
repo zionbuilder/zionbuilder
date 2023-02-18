@@ -72,7 +72,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, computed, CSSProperties } from 'vue';
+import { ref, computed } from 'vue';
 import { Icon } from '../Icon';
 
 const props = withDefaults(
@@ -186,6 +186,7 @@ body {
 		border: 2px solid var(--zb-input-border-color);
 		border-radius: 3px;
 		transition: border 0.3s;
+		max-height: 100%;
 
 		.znpb-editor-icon-wrapper {
 			color: var(--zb-input-icon-color);
@@ -204,7 +205,7 @@ body {
 		textarea {
 			width: 100%;
 			height: auto;
-			padding: 10.5px 12px;
+			padding: 10.5px 5px;
 			margin: 0;
 			color: var(--zb-surface-text-color);
 			font-family: var(--zb-font-stack);

@@ -207,66 +207,60 @@ class StyleOptions extends BaseSchema {
 		$sizings_group->add_option(
 			'width',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Width', 'zionbuilder' ),
-				'width'        => 33.3,
-				'default_unit' => 'px',
-				'min'          => 0,
+				'type'  => 'number_unit',
+				'title' => esc_html__( 'Width', 'zionbuilder' ),
+				'width' => 33.3,
+				'min'   => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'min-width',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Min Width', 'zionbuilder' ),
-				'width'        => 33.3,
-				'default_unit' => 'px',
-				'min'          => 0,
+				'type'  => 'number_unit',
+				'title' => esc_html__( 'Min Width', 'zionbuilder' ),
+				'width' => 33.3,
+				'min'   => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'max-width',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Max Width', 'zionbuilder' ),
-				'width'        => 33.3,
-				'min'          => 0,
-				'default_unit' => 'px',
+				'type'  => 'number_unit',
+				'title' => esc_html__( 'Max Width', 'zionbuilder' ),
+				'width' => 33.3,
+				'min'   => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'height',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Height', 'zionbuilder' ),
-				'width'        => 33.3,
-				'default_unit' => 'px',
-				'min'          => 0,
+				'type'  => 'number_unit',
+				'title' => esc_html__( 'Height', 'zionbuilder' ),
+				'width' => 33.3,
+				'min'   => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'min-height',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Min Height', 'zionbuilder' ),
-				'width'        => 33.3,
-				'default_unit' => 'px',
-				'min'          => 0,
+				'type'  => 'number_unit',
+				'title' => esc_html__( 'Min Height', 'zionbuilder' ),
+				'width' => 33.3,
+				'min'   => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'max-height',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Max Height', 'zionbuilder' ),
-				'width'        => 33.3,
-				'default_unit' => 'px',
-				'min'          => 0,
+				'type'  => 'number_unit',
+				'title' => esc_html__( 'Max Height', 'zionbuilder' ),
+				'width' => 33.3,
+				'min'   => 0,
 			]
 		);
 	}
@@ -319,6 +313,20 @@ class StyleOptions extends BaseSchema {
 			]
 		);
 
+		// Size and Spacings accordion
+		$size_and_spacings = $pseudo_option->add_group(
+			'size_and_spacings',
+			[
+				'type'             => 'accordion_menu',
+				'home-button-text' => esc_html__( 'Styling', 'zionbuilder' ),
+				'title'            => esc_html__( 'Size & Spacing', 'zionbuilder' ),
+				'icon'             => 'size-spacing',
+				'show_title'       => false,
+			]
+		);
+
+		self::attach_size_and_spacings_options( $size_and_spacings );
+
 		self::attach_typography_options( $typography_accordion );
 
 		// Borders accordion
@@ -334,20 +342,6 @@ class StyleOptions extends BaseSchema {
 		);
 
 		self::attach_border_options( $borders );
-
-		// Size and Spacings accordion
-		$size_and_spacings = $pseudo_option->add_group(
-			'size_and_spacings',
-			[
-				'type'             => 'accordion_menu',
-				'home-button-text' => esc_html__( 'Styling', 'zionbuilder' ),
-				'title'            => esc_html__( 'Size & Spacing', 'zionbuilder' ),
-				'icon'             => 'size-spacing',
-				'show_title'       => false,
-			]
-		);
-
-		self::attach_size_and_spacings_options( $size_and_spacings );
 
 		// Display accordion
 		$display = $pseudo_option->add_group(

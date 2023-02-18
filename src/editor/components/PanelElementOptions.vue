@@ -42,14 +42,36 @@
 					@mouseenter="showBreadcrumbs = true"
 					@mouseleave="showBreadcrumbs = false"
 				>
-					{{ `${contentStore.getElementName(UIStore.editedElement)} ${translate('options')}` }}
+					{{ `${contentStore.getElementName(UIStore.editedElement)} ${i18n.__('Options', 'zionbuilder')}` }}
 					<Icon icon="select" />
 					<BreadcrumbsWrapper v-if="showBreadcrumbs" :element="UIStore.editedElement" />
 				</h4>
 			</div>
 		</template>
 
-		<div class="znpb-element-options-content-wrapper">
+		<SelectorAndPseudo
+			v-if="UserStore.userCanEditContent"
+			v-model:activeGlobalClass="activeGlobalClass"
+			:element="UIStore.editedElement"
+			:active-style-element-id="activeStyleElementId"
+		/>
+
+		<div
+			v-if="activeGlobalClass && UserStore.userCanEditContent"
+			class="znpb-panelElementOptionsGlobalClassForm znpb-fancy-scrollbar"
+		>
+			<div class="znpb-options-breadcrumbs" @click="activeGlobalClass = null">
+				<Icon class="znpb-back-icon-breadcrumbs" icon="select" />
+
+				<span class="znpb-classEditBackName"
+					>{{ i18n.__('Back to', 'zionbuilder') }} {{ UIStore.editedElement.name }}</span
+				>
+			</div>
+
+			<OptionsForm v-model="activeClassStyles" :schema="activeClassSchema" />
+		</div>
+
+		<div v-show="!activeGlobalClass" class="znpb-element-options-content-wrapper">
 			<Tabs
 				v-model:activeTab="activeKeyTab"
 				:has-scroll="['general', 'advanced']"
@@ -68,7 +90,7 @@
 					/>
 
 					<p v-else class="znpb-element-options-no-option-message">
-						{{ translate('element_has_no_specific_options') }}
+						{{ i18n.__('Element has no specific options', 'zionbuilder') }}
 					</p>
 				</Tab>
 				<Tab v-if="UserStore.userCanEditContent" name="Styling">
@@ -108,7 +130,7 @@
 						v-if="optionsFilterKeyword.length > 2 && Object.keys(filteredOptions).length === 0"
 						class="znpb-element-options-default-message"
 					>
-						{{ translate('no_options_found') }}
+						{{ i18n.__('No options found', 'zionbuilder') }}
 					</p>
 					<p v-if="optionsFilterKeyword.length < 3" class="znpb-element-options-no-option-message">
 						{{ defaultMessage }}
@@ -126,16 +148,19 @@
 </template>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { ref, Ref, watch, provide, computed, onBeforeUnmount, nextTick } from 'vue';
-import { addAction, removeAction } from '/@/common/modules/hooks';
-import { translate } from '/@/common/modules/i18n';
 import { useElementProvide } from '../composables';
-import { useOptionsSchemas } from '/@/common/composables';
-import { useUIStore, useContentStore, useElementDefinitionsStore, useUserStore } from '../store';
+import { useUIStore, useContentStore, useElementDefinitionsStore, useUserStore, useCSSClassesStore } from '../store';
 
 // Components
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue';
 import BasePanel from './BasePanel.vue';
+import SelectorAndPseudo from './options/ElementStyles/SelectorAndPseudo.vue';
+
+// Common API
+const { useOptionsSchemas } = window.zb.composables;
+const { addAction, removeAction } = window.zb.hooks;
 
 const props = defineProps<{
 	panel: ZionPanel;
@@ -150,7 +175,9 @@ const isPanelHidden = ref(false);
 const searchInput: Ref<HTMLElement | null> = ref(null);
 const showBreadcrumbs = ref(false);
 const lastTab = ref(null);
-const defaultMessage = ref(translate('element_options_default_message'));
+const defaultMessage = ref(
+	i18n.__('Start typing in the search field and the found options will appear here', 'zionbuilder'),
+);
 
 const { provideElement } = useElementProvide();
 const { getSchema } = useOptionsSchemas();
@@ -202,16 +229,6 @@ const searchIcon = computed(() => {
 	return searchActive.value ? 'close' : 'search';
 });
 
-// Change the tab when a new element is selected
-// watch(UIStore.editedElement, newValue => {
-// 	activeKeyTab.value = 'general';
-// 	searchActive.value = false;
-// 	optionsFilterKeyword.value = '';
-
-// 	// Clear selected pseudo selector
-// 	setActivePseudoSelector(null);
-// });
-
 provideElement(UIStore.editedElement);
 provide(
 	'elementInfo',
@@ -221,7 +238,7 @@ provide('OptionsFormTopModelValue', elementOptions);
 
 const computedStyleOptionsSchema = computed(() => {
 	const schema = {};
-	let styledElements = UIStore.editedElement.elementDefinition.style_elements;
+	const styledElements = UIStore.editedElement.elementDefinition.style_elements;
 	const elementHTMLID = UIStore.editedElement.elementCssId;
 	Object.keys(styledElements).forEach(styleId => {
 		const config = styledElements[styleId];
@@ -238,6 +255,7 @@ const computedStyleOptionsSchema = computed(() => {
 			allow_custom_attributes:
 				typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true,
 			allowRename: false,
+			elementStyleId: styleId,
 		};
 	});
 
@@ -338,14 +356,14 @@ function changeTabByEvent(event) {
 	}
 }
 function filterOptions(keyword, optionsSchema, currentId, currentName) {
-	let lowercaseKeyword = keyword.toLowerCase();
+	const lowercaseKeyword = keyword.toLowerCase();
 	let foundOptions = {};
 
 	Object.keys(optionsSchema).forEach(optionId => {
 		const optionConfig = optionsSchema[optionId];
 
-		let syncValue = [];
-		let syncValueName = [];
+		const syncValue: number[] = [];
+		const syncValueName = [];
 
 		if (!optionConfig.sync) {
 			if (currentId) {
@@ -353,13 +371,13 @@ function filterOptions(keyword, optionsSchema, currentId, currentName) {
 			}
 
 			if (currentName) {
-				let name = getInnerStyleName(currentName[currentName.length - 1]);
+				const name = getInnerStyleName(currentName[currentName.length - 1]);
 				currentName[currentName.length - 1] = name;
 				syncValueName.push(...currentName);
 			}
 
 			if (optionId === 'animation-group' || optionId === 'custom-css-group' || optionId === 'general-group') {
-				syncValueName.push(translate('advanced'));
+				syncValueName.push(i18n.__('Advanced', 'zionbuilder'));
 			}
 
 			if (!optionConfig.is_layout) {
@@ -368,7 +386,7 @@ function filterOptions(keyword, optionsSchema, currentId, currentName) {
 
 			if (optionConfig.type === 'element_styles' || optionConfig.type === 'css_selector') {
 				syncValue.push('styles');
-				syncValueName.push(translate('styles'), optionConfig.name);
+				syncValueName.push(i18n.__('Styles', 'zionbuilder'), optionConfig.name);
 			}
 
 			if (optionConfig.type === 'responsive_group') {
@@ -383,7 +401,7 @@ function filterOptions(keyword, optionsSchema, currentId, currentName) {
 		}
 
 		// Search in areas
-		let searchOptions = optionConfig.search_tags ? [...optionConfig.search_tags] : [];
+		const searchOptions = optionConfig.search_tags ? [...optionConfig.search_tags] : [];
 		if (optionConfig.title) {
 			searchOptions.push(optionConfig.title);
 		}
@@ -450,6 +468,7 @@ function getInnerStyleName(id) {
 		? allOptionsSchema.value[id].title
 		: undefined;
 }
+
 function toggleSearchIcon() {
 	searchActive.value = !searchActive.value;
 	if (!searchActive.value) {
@@ -473,6 +492,49 @@ function closeOptionsPanel() {
 	UIStore.closePanel(props.panel.id);
 	UIStore.unEditElement();
 }
+
+// Pseudo and css classes
+// Provide an API that can be used by the ElementStyles component
+const cssClasses = useCSSClassesStore();
+const activeStyleElementId = ref('wrapper');
+const activeGlobalClass = ref(null);
+
+provide('ElementOptionsPanelAPI', {
+	setActiveStyleElementId: (id: string) => {
+		activeStyleElementId.value = id;
+	},
+	resetActiveSelectorConfig: () => {
+		activeStyleElementId.value = 'wrapper';
+	},
+});
+
+const activeClassStyles = computed({
+	get() {
+		return cssClasses.getClassConfig(activeGlobalClass.value);
+	},
+	set(newValue) {
+		cssClasses.updateCSSClass(activeGlobalClass.value, newValue);
+	},
+});
+
+const activeClassSchema = computed(() => {
+	return {
+		globalClass: {
+			type: 'element_styles',
+			allow_class_assignments: false,
+			is_layout: true,
+		},
+	};
+});
+
+// Reset the class back to wrapper if the element is changed
+watch(
+	() => UIStore.editedElement,
+	() => {
+		activeStyleElementId.value = 'wrapper';
+		activeGlobalClass.value = null;
+	},
+);
 </script>
 
 <style lang="scss">
@@ -577,7 +639,6 @@ function closeOptionsPanel() {
 
 		.znpb-element-options__tabs-wrapper {
 			flex-grow: 1;
-			padding-top: 20px;
 			background-color: var(--zb-surface-darker-color);
 		}
 		.znpb-tabs {
@@ -774,5 +835,35 @@ function closeOptionsPanel() {
 .znpb-editor-panel--right.znpb-element-options__panel-wrapper--hidden {
 	margin-right: var(--optionsPanelWidth, -360px);
 	margin-left: 0;
+}
+
+.znpb-element-options__panel-wrapper .znpb-element-styles__media-wrapper {
+	flex-grow: 0;
+	padding: 20px;
+	flex-direction: column;
+	background: var(--zb-surface-darker-color);
+	margin: 0;
+}
+
+.znpb-element-options__panel-wrapper .znpb-class-selector,
+.znpb-element-options__panel-wrapper .znpb-element-options__media-class-pseudo-holder {
+	background: var(--zb-surface-color);
+	border: none;
+}
+
+.znpb-panelElementOptionsGlobalClassForm {
+	position: relative;
+	padding-top: 20px;
+	height: 100%;
+
+	& > .znpb-options-form-wrapper,
+	& .znpb-element-styles-option__options-wrapper,
+	& > .znpb-options-breadcrumbs {
+		padding-top: 0;
+	}
+}
+
+.znpb-classEditBackName {
+	font-weight: 500;
 }
 </style>

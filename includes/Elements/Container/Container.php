@@ -211,12 +211,11 @@ class Container extends Element {
 		$flex_container_group->add_option(
 			'gap',
 			[
-				'type'         => 'number_unit',
-				'title'        => __( 'Gap', 'zionbuilder' ),
-				'description'  => __( 'The gap option allows you to specify the gap between child elements on the main axis. Current browser support is 89.92%. In order to increase browser support, you can use margins.', 'zionbuilder' ),
-				'placeholder'  => '0px',
-				'default_unit' => 'px',
-				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.gap',
+				'type'        => 'number_unit',
+				'title'       => __( 'Gap', 'zionbuilder' ),
+				'description' => __( 'The gap option allows you to specify the gap between child elements on the main axis. Current browser support is 89.92%. In order to increase browser support, you can use margins.', 'zionbuilder' ),
+				'placeholder' => '0px',
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.gap',
 			]
 		);
 
@@ -392,7 +391,7 @@ class Container extends Element {
 						'icon' => 'content-space-around',
 					],
 					[
-						'name' => __( 'strech', 'zionbuilder' ),
+						'name' => __( 'stretch', 'zionbuilder' ),
 						'id'   => 'stretch',
 						'icon' => 'content-stretch',
 					],
@@ -439,11 +438,10 @@ class Container extends Element {
 		$flex_child_group->add_option(
 			'flex-basis',
 			[
-				'type'         => 'number_unit',
-				'width'        => 33.3,
-				'title'        => __( 'Flex Basis', 'zionbuilder' ),
-				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-basis',
-				'default_unit' => 'px',
+				'type'  => 'number_unit',
+				'width' => 33.3,
+				'title' => __( 'Flex Basis', 'zionbuilder' ),
+				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-basis',
 			]
 		);
 
@@ -519,7 +517,7 @@ class Container extends Element {
 			[
 				'type'      => 'panel_accordion',
 				'title'     => esc_html__( 'Spacing', 'zionbuilder' ),
-				'sync'      => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.order',
+				'sync'      => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default',
 				'collapsed' => true,
 			]
 		);
@@ -527,67 +525,10 @@ class Container extends Element {
 		$spacing_group->add_group(
 			'padding',
 			[
-				'type'        => 'dimensions',
-				'title'       => esc_html__( 'Padding', 'zionbuilder' ),
-				'description' => esc_html__( 'Choose the desired padding for this element.', 'zionbuilder' ),
-				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.padding',
-				'min'         => 0,
-				'max'         => 99999,
-				'dimensions'  => [
-					[
-						'name' => 'top',
-						'icon' => 'padding-top',
-						'id'   => 'padding-top',
-					],
-					[
-						'name' => 'right',
-						'icon' => 'padding-right',
-						'id'   => 'padding-right',
-					],
-					[
-						'name' => 'bottom',
-						'icon' => 'padding-bottom',
-						'id'   => 'padding-bottom',
-					],
-					[
-						'name' => 'left',
-						'icon' => 'padding-left',
-						'id'   => 'padding-left',
-					],
-				],
-			]
-		);
-		$spacing_group->add_group(
-			'margin',
-			[
-				'type'        => 'dimensions',
-				'title'       => esc_html__( 'Margin', 'zionbuilder' ),
-				'description' => esc_html__( 'Choose the desired margin for this element.', 'zionbuilder' ),
-				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.margin',
-				'min'         => -99999,
-				'max'         => 99999,
-				'dimensions'  => [
-					[
-						'name' => 'top',
-						'icon' => 'margin-top',
-						'id'   => 'margin-top',
-					],
-					[
-						'name' => 'right',
-						'icon' => 'margin-right',
-						'id'   => 'margin-right',
-					],
-					[
-						'name' => 'bottom',
-						'icon' => 'margin-bottom',
-						'id'   => 'margin-bottom',
-					],
-					[
-						'name' => 'left',
-						'icon' => 'margin-left',
-						'id'   => 'margin-left',
-					],
-				],
+				'type'        => 'spacing',
+				'title'       => esc_html__( 'Margin & padding', 'zionbuilder' ),
+				'description' => esc_html__( 'Choose the desired margin and padding for this element.', 'zionbuilder' ),
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default',
 			]
 		);
 
@@ -603,72 +544,66 @@ class Container extends Element {
 		$sizings_group->add_option(
 			'width',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Width', 'zionbuilder' ),
-				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.width',
-				'width'        => 33.3,
-				'default_unit' => 'px',
-				'min'          => 0,
+				'type'  => 'number_unit',
+				'title' => esc_html__( 'Width', 'zionbuilder' ),
+				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.width',
+				'width' => 33.3,
+				'min'   => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'min-width',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Min Width', 'zionbuilder' ),
-				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.min-width',
-				'width'        => 33.3,
-				'default_unit' => 'px',
-				'min'          => 0,
+				'type'  => 'number_unit',
+				'title' => esc_html__( 'Min Width', 'zionbuilder' ),
+				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.min-width',
+				'width' => 33.3,
+				'min'   => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'max-width',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Max Width', 'zionbuilder' ),
-				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.max-width',
-				'width'        => 33.3,
-				'min'          => 0,
-				'default_unit' => 'px',
+				'type'  => 'number_unit',
+				'title' => esc_html__( 'Max Width', 'zionbuilder' ),
+				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.max-width',
+				'width' => 33.3,
+				'min'   => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'height',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Height', 'zionbuilder' ),
-				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.height',
-				'width'        => 33.3,
-				'default_unit' => 'px',
-				'min'          => 0,
+				'type'  => 'number_unit',
+				'title' => esc_html__( 'Height', 'zionbuilder' ),
+				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.height',
+				'width' => 33.3,
+				'min'   => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'min-height',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Min Height', 'zionbuilder' ),
-				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.min-height',
-				'width'        => 33.3,
-				'default_unit' => 'px',
-				'min'          => 0,
+				'type'  => 'number_unit',
+				'title' => esc_html__( 'Min Height', 'zionbuilder' ),
+				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.min-height',
+				'width' => 33.3,
+				'min'   => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'max-height',
 			[
-				'type'         => 'number_unit',
-				'title'        => esc_html__( 'Max Height', 'zionbuilder' ),
-				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.max-height',
-				'width'        => 33.3,
-				'default_unit' => 'px',
-				'min'          => 0,
+				'type'  => 'number_unit',
+				'title' => esc_html__( 'Max Height', 'zionbuilder' ),
+				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.max-height',
+				'width' => 33.3,
+				'min'   => 0,
 			]
 		);
 	}

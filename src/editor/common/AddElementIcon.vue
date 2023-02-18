@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { translate } from '/@/common/modules/i18n';
+import * as i18n from '@wordpress/i18n';
 import { useUIStore, useUserStore } from '../store';
 import { ref, onBeforeUnmount, onMounted } from 'vue';
 
@@ -35,7 +35,8 @@ const props = withDefaults(
 const root = ref(null);
 const UIStore = useUIStore();
 const userStore = useUserStore();
-const positionString = props.placement === 'inside' ? translate('insert_inside') : translate('insert_after');
+const positionString =
+	props.placement === 'inside' ? i18n.__('Insert inside', 'zionbuilder') : i18n.__('Insert after', 'zionbuilder');
 
 onMounted(() => {
 	if (root.value) {
@@ -53,6 +54,38 @@ function onIconClick(event: MouseEvent) {
 	event.stopPropagation();
 	UIStore.showAddElementsPopup(props.element, event, props.placement);
 }
+
+// Prevent the element from exiting the browser window
+function preventElementExit() {
+	const element = root.value;
+	if (!element) {
+		return;
+	}
+
+	const elementRect = element.getBoundingClientRect();
+	const windowWidth = window.innerWidth;
+	const windowHeight = window.innerHeight;
+
+	if (elementRect.left < 0) {
+		element.style.left = '0px';
+	}
+
+	if (elementRect.top < 0) {
+		element.style.top = '0px';
+	}
+
+	if (elementRect.right > windowWidth) {
+		element.style.left = `${windowWidth - elementRect.width}px`;
+	}
+
+	if (elementRect.bottom > windowHeight) {
+		element.style.marginTop = `-30px`;
+	}
+}
+
+onMounted(() => {
+	preventElementExit();
+});
 </script>
 
 <style lang="scss">

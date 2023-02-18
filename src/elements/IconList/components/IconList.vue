@@ -3,18 +3,18 @@
 		<slot name="start" />
 
 		<component
+			:is="item.link && item.link.link ? 'a' : 'span'"
 			v-for="(item, index) in iconListConfig"
 			:key="index"
-			:is="item.link && item.link.link ? 'a' : 'span'"
 			class="zb-el-iconList__item"
-			:class="[`zb-el-iconList__item--${index} `,api.getStyleClasses('item_styles')]"
+			:class="[`zb-el-iconList__item--${index} `, api.getStyleClasses('item_styles')]"
 			v-bind="api.getAttributesForTag('item_styles')"
 		>
 			<ElementIcon
 				class="zb-el-iconList__itemIcon"
 				:class="api.getStyleClasses('icon_styles')"
 				v-bind="api.getAttributesForTag('icon_styles')"
-				:iconConfig="item.icon"
+				:icon-config="item.icon"
 			/>
 
 			<span
@@ -30,14 +30,28 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'icon_list',
-	props: ['options', 'element', 'api'],
-	computed: {
-		iconListConfig () {
-			return this.options.icons ? this.options.icons : []
-		}
-	}
-}
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const props = defineProps<{
+	options: {
+		icons: {
+			icon: {
+				type: string;
+				value: string;
+			};
+			text: string;
+			link: {
+				link: string;
+				target: string;
+			};
+		}[];
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
+
+const iconListConfig = computed(() => {
+	return props.options.icons ? props.options.icons : [];
+});
 </script>

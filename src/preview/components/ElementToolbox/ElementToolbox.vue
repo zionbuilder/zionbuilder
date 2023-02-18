@@ -77,12 +77,14 @@
 import { ref, computed } from 'vue';
 import rafSchd from 'raf-schd';
 import { get } from 'lodash-es';
-import { useResponsiveDevices } from '/@/common/composables';
-import { Environment } from '/@/common/utils';
 import { useUIStore } from '/@/editor/store';
 
 // Components
 import ToolboxTitle from './ToolboxTitle.vue';
+
+// Common API
+const { useResponsiveDevices } = window.zb.composables;
+const { Environment } = window.zb.utils;
 
 export default {
 	name: 'ElementToolbox',
@@ -276,7 +278,7 @@ export default {
 					startClientX,
 					startClientY,
 				});
-				let even = false;
+				const even = false;
 
 				// Invert the distance
 				if (['padding', 'margin'].includes(type) && position.indexOf('Right') !== -1) {
@@ -363,7 +365,7 @@ export default {
 		},
 		getDragInfo({ event, type, position, startClientX, startClientY }) {
 			const direction = position.indexOf('Top') !== -1 || position.indexOf('Bottom') !== -1 ? 'vertical' : 'horizontal';
-			let distance = direction === 'vertical' ? event.clientY - startClientY : event.clientX - startClientX;
+			const distance = direction === 'vertical' ? event.clientY - startClientY : event.clientX - startClientX;
 
 			return {
 				direction,
@@ -440,7 +442,7 @@ export default {
 		},
 		getSizeValue(type) {
 			// Return min-height
-			let value = this.element.getOptionValue(
+			const value = this.element.getOptionValue(
 				`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${type}`,
 			);
 			if (value !== null) {

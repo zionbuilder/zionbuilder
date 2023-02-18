@@ -16,37 +16,37 @@
 			:class="accordionApi.getStyleClasses('inner_content_styles_content')"
 			v-bind="accordionApi.getAttributesForTag('inner_content_styles_content')"
 		>
+			<!-- eslint-disable-next-line vue/no-v-html -->
 			<div class="zb-el-accordions-accordionContent__inner" v-html="renderedContent"></div>
 		</div>
 		<slot name="end" />
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { computed, inject } from 'vue';
+import Accordions from './Accordions.vue';
 
-export default {
-	name: 'AccordionItem',
-	props: ['options', 'element', 'api'],
-	setup(props) {
-		let renderedContent = computed(() => {
-			return props.options.content ? props.options.content : 'accordion content';
-		});
-		let activeByDefault = computed(() => {
-			return props.options.active_by_default ? props.options.active_by_default : false;
-		});
+const props = defineProps<{
+	options: {
+		title: string;
+		content: string;
+		active_by_default: boolean;
+		title_tag: string;
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
 
-		const accordionApi = inject('accordionsApi');
-		const titleTag = computed(() => {
-			return props.options.title_tag || accordionApi.options.value.title_tag || 'div';
-		});
+const renderedContent = computed(() => {
+	return props.options.content ? props.options.content : 'accordion content';
+});
+const activeByDefault = computed(() => {
+	return props.options.active_by_default ? props.options.active_by_default : false;
+});
 
-		return {
-			titleTag,
-			renderedContent,
-			activeByDefault,
-			accordionApi,
-		};
-	},
-};
+const accordionApi = inject('accordionsApi') as typeof Accordions;
+const titleTag = computed(() => {
+	return props.options.title_tag || accordionApi.options.value.title_tag || 'div';
+});
 </script>

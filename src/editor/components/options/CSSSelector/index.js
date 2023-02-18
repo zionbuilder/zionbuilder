@@ -1,10 +1,8 @@
-import CSSSelector from './CSSSelector.vue'
+import CSSSelector from './CSSSelector.vue';
 
 export default {
 	id: 'css_selector',
-	component: CSSSelector
-}
+	component: CSSSelector,
+};
 
-export {
-	CSSSelector
-}
+export { CSSSelector };

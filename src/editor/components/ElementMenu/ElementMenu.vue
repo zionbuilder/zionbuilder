@@ -18,13 +18,15 @@
 </template>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { watch, computed } from 'vue';
 import { get } from 'lodash-es';
-import { translate } from '/@/common/modules/i18n';
 
-import { Environment } from '/@/common/utils';
 import { useContentStore, useUIStore, useUserStore } from '/@/editor/store';
-import { useWindows, useElementActions, useLocalStorage, useSaveTemplate } from '../../composables';
+import { useWindows, useElementActions, useLocalStorage, useSaveTemplate } from '/@/editor/composables';
+
+// Common API
+const { Environment } = window.zb.utils;
 
 const UIStore = useUIStore();
 const userStore = useUserStore();
@@ -37,13 +39,17 @@ const { copyElement, pasteElement, copiedElement, pasteElementStyles, pasteEleme
 
 // Computed
 const elementActions = computed(() => {
+	if (!UIStore.activeElementMenu) {
+		return [];
+	}
+
 	const element = UIStore.activeElementMenu.element;
 	const contentStore = useContentStore();
 	const isElementVisible = contentStore.getElementValue(element.uid, 'options._isVisible', true);
 
 	return [
 		{
-			title: `${translate('action_edit')} ${contentStore.getElementName(element)}`,
+			title: `${i18n.__('Edit', 'zionbuilder')} ${contentStore.getElementName(element)}`,
 			icon: 'edit',
 			action: () => {
 				UIStore.editElement(element);
@@ -51,7 +57,7 @@ const elementActions = computed(() => {
 			cssClasses: 'znpb-menu-item--separator-bottom',
 		},
 		{
-			title: `${translate('duplicate_element')}`,
+			title: `${i18n.__('Duplicate', 'zionbuilder')}`,
 			icon: 'copy',
 			action: () => {
 				element.duplicate();
@@ -60,7 +66,7 @@ const elementActions = computed(() => {
 			disabled: !userStore.permissions.only_content,
 		},
 		{
-			title: `${translate('copy_element')}`,
+			title: `${i18n.__('Copy', 'zionbuilder')}`,
 			icon: 'copy',
 			action: () => {
 				copyElement(element);
@@ -69,7 +75,7 @@ const elementActions = computed(() => {
 			disabled: !userStore.permissions.only_content,
 		},
 		{
-			title: `${translate('cut_element')}`,
+			title: `${i18n.__('Cut', 'zionbuilder')}`,
 			icon: 'close',
 			action: () => {
 				copyElement(element, 'cut');
@@ -78,7 +84,7 @@ const elementActions = computed(() => {
 			disabled: !userStore.permissions.only_content,
 		},
 		{
-			title: `${translate('paste_element')}`,
+			title: `${i18n.__('Paste', 'zionbuilder')}`,
 			icon: 'paste',
 			action: () => {
 				pasteElement(element);
@@ -88,7 +94,7 @@ const elementActions = computed(() => {
 			disabled: !userStore.permissions.only_content,
 		},
 		{
-			title: translate('paste_element_styles'),
+			title: i18n.__('Paste styles', 'zionbuilder'),
 			icon: 'drop',
 			action: () => {
 				pasteElementStyles(element);
@@ -98,7 +104,7 @@ const elementActions = computed(() => {
 			disabled: !userStore.permissions.only_content,
 		},
 		{
-			title: translate('paste_classes'),
+			title: i18n.__('Paste classes', 'zionbuilder'),
 			icon: 'braces',
 			action: () => {
 				pasteElementClasses(element);
@@ -107,7 +113,7 @@ const elementActions = computed(() => {
 			disabled: !userStore.permissions.only_content,
 		},
 		{
-			title: translate('save_element'),
+			title: i18n.__('Save Element ', 'zionbuilder'),
 			icon: 'check',
 			action: () => {
 				saveElement(element);
@@ -115,7 +121,7 @@ const elementActions = computed(() => {
 			disabled: !userStore.permissions.only_content,
 		},
 		{
-			title: isElementVisible ? translate('visible_element') : translate('show_element'),
+			title: isElementVisible ? i18n.__('Hide Element ', 'zionbuilder') : i18n.__('Show Element ', 'zionbuilder'),
 			icon: 'eye',
 			action: () => {
 				element.isVisible = !isElementVisible;
@@ -125,7 +131,7 @@ const elementActions = computed(() => {
 			disabled: !userStore.permissions.only_content,
 		},
 		{
-			title: translate('wrap_with_container'),
+			title: i18n.__('Wrap with container', 'zionbuilder'),
 			icon: 'eye',
 			action: () => {
 				element.wrapIn();
@@ -135,7 +141,7 @@ const elementActions = computed(() => {
 			disabled: !userStore.permissions.only_content,
 		},
 		{
-			title: translate('discard_element_styles'),
+			title: i18n.__('Discard styles', 'zionbuilder'),
 			icon: 'drop',
 			action: () => {
 				discardElementStyles(element);
@@ -144,7 +150,7 @@ const elementActions = computed(() => {
 			disabled: !userStore.permissions.only_content,
 		},
 		{
-			title: translate('delete_element'),
+			title: i18n.__('Delete Element', 'zionbuilder'),
 			icon: 'delete',
 			action: () => element.delete(),
 			append: `⌦`,

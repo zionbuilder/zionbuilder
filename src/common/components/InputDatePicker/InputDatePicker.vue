@@ -2,9 +2,9 @@
 	<vueDatePick
 		v-model="valueModel"
 		class="znpb-input-date"
-		:next-month-caption="$translate('next_month')"
-		:previous-month-caption="$translate('previous_month')"
-		:set-time-caption="$translate('set_time')"
+		:next-month-caption="i18n.__('Next Month', 'zionbuilder')"
+		:previous-month-caption="i18n.__('Previous month', 'zionbuilder')"
+		:set-time-caption="i18n.__('Set time', 'zionbuilder')"
 		:weekdays="weekdaysStrings"
 		:months="monthsStrings"
 		:pick-time="pickTime"
@@ -12,8 +12,7 @@
 		:format="format"
 		:is-date-disabled="disableDate"
 	>
-
-		<template v-slot:default="{toggle}">
+		<template #default="{ toggle }">
 			<BaseInput
 				v-model="valueModel"
 				:readonly="readonly"
@@ -25,112 +24,84 @@
 			</BaseInput>
 		</template>
 	</vueDatePick>
-
 </template>
 
-<script>
+<script lang="ts" setup>
+import { computed } from 'vue';
+import * as i18n from '@wordpress/i18n';
+import vueDatePick from './src/vueDatePick.vue';
+import BaseInput from '../BaseInput/BaseInput.vue';
 
-import vueDatePick from './src/vueDatePick.vue'
-import BaseInput from '../BaseInput/BaseInput.vue'
-
-/**
- *   model - string
- */
-export default {
-	name: 'InputDatePicker',
-	components: {
-		vueDatePick,
-		BaseInput
-	},
-	props: {
+const props = withDefaults(
+	defineProps<{
 		/**
 		 * Value for input
 		 */
-		modelValue: {
-			type: String,
-			required: true
-		},
-		readonly: {
-			type: Boolean,
-			required: false
-		},
-		pickTime: {
-			type: Boolean,
-			required: false,
-			default: false
-		},
-		format: {
-			type: String,
-			required: false
-		},
-		use12HourClock: {
-			type: Boolean,
-			required: false
-		},
-		pastDisabled: {
-			type: Boolean,
-			required: false
-		},
-		futureDisabled: {
-			type: Boolean,
-			required: false,
-			default: false
-		}
+		modelValue: string;
+		readonly?: boolean;
+		pickTime?: boolean;
+		format?: string;
+		use12HourClock?: boolean;
+		pastDisabled?: boolean;
+		futureDisabled?: boolean;
+	}>(),
+	{
+		readonly: false,
+		pickTime: false,
+		pastDisabled: false,
+		futureDisabled: false,
+		use12HourClock: false,
+		format: 'YYYY-MM-DD',
 	},
-	data () {
-		return {
-			weekdaysStrings: [
-				this.$translate('monday'),
-				this.$translate('tuesday'),
-				this.$translate('wednesday'),
-				this.$translate('thursday'),
-				this.$translate('friday'),
-				this.$translate('saturday'),
-				this.$translate('sunday')
-			],
-			monthsStrings: [
-				this.$translate('jan'),
-				this.$translate('feb'),
-				this.$translate('mar'),
-				this.$translate('apr'),
-				this.$translate('may'),
-				this.$translate('jun'),
-				this.$translate('jul'),
-				this.$translate('aug'),
-				this.$translate('sep'),
-				this.$translate('oct'),
-				this.$translate('nov'),
-				this.$translate('dec')
-			]
-		}
-	},
-	computed: {
-		valueModel: {
-			get () {
-				return this.modelValue
-			},
-			set (newValue) {
-				/**
-				 * It emits the new value
-				*/
-				this.$emit('update:modelValue', newValue)
-			}
-		}
-	},
-	methods: {
-		disableDate (date) {
-			const currentDate = new Date()
-			currentDate.setHours(0, 0, 0, 0)
+);
 
-			if (this.pastDisabled) {
-				return date < currentDate
-			} else if (this.futureDisabled) {
-				return date > currentDate
-			} else return false
-		}
+const emit = defineEmits(['update:modelValue']);
 
-	}
+const weekdaysStrings = [
+	i18n.__('Mon', 'zionbuilder'),
+	i18n.__('Tue', 'zionbuilder'),
+	i18n.__('Wed', 'zionbuilder'),
+	i18n.__('Thu', 'zionbuilder'),
+	i18n.__('Fri', 'zionbuilder'),
+	i18n.__('Sat', 'zionbuilder'),
+	i18n.__('Sun', 'zionbuilder'),
+];
+
+const monthsStrings = [
+	i18n.__('January', 'zionbuilder'),
+	i18n.__('February', 'zionbuilder'),
+	i18n.__('March', 'zionbuilder'),
+	i18n.__('April', 'zionbuilder'),
+	i18n.__('May', 'zionbuilder'),
+	i18n.__('June', 'zionbuilder'),
+	i18n.__('July', 'zionbuilder'),
+	i18n.__('August', 'zionbuilder'),
+	i18n.__('September', 'zionbuilder'),
+	i18n.__('October', 'zionbuilder'),
+	i18n.__('November', 'zionbuilder'),
+	i18n.__('December', 'zionbuilder'),
+];
+
+const valueModel = computed({
+	get() {
+		return props.modelValue;
+	},
+	set(newValue) {
+		/**
+		 * It emits the new value
+		 */
+		emit('update:modelValue', newValue);
+	},
+});
+
+function disableDate(date) {
+	const currentDate = new Date();
+	currentDate.setHours(0, 0, 0, 0);
+
+	if (props.pastDisabled) {
+		return date < currentDate;
+	} else if (props.futureDisabled) {
+		return date > currentDate;
+	} else return false;
 }
 </script>
-<style lang="scss">
-</style>

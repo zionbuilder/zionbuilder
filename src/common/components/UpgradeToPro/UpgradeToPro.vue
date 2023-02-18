@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-option__upgrade-to-pro">
 		<div class="znpb-option__upgrade-to-pro-container">
-			<Label :text="$translate('pro')" type="warning" class="znpb-option__upgrade-to-pro-label" />
+			<Label :text="i18n.__('pro', 'zionbuilder')" type="warning" class="znpb-option__upgrade-to-pro-label" />
 
 			<h4>
 				{{ message_title }}
@@ -21,7 +21,7 @@
 					target="_blank"
 					class="znpb-button znpb-get-pro__cta znpb-button--secondary znpb-option__upgrade-to-pro-button"
 				>
-					{{ $translate('upgrade_to_pro') }}
+					{{ i18n.__('Upgrade to PRO', 'zionbuilder') }}
 				</a>
 			</div>
 		</div>
@@ -34,6 +34,7 @@ export default {
 };
 </script>
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import Label from '../Label/Label.vue';
 withDefaults(
 	defineProps<{
@@ -97,7 +98,7 @@ withDefaults(
 		}
 	}
 
-	&-label {
+	& .znpb-label {
 		margin-bottom: 20px;
 		text-transform: uppercase;
 	}

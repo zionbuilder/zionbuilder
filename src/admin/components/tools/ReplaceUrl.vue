@@ -1,84 +1,86 @@
 <template>
 	<PageTemplate>
-		<h3>{{ $translate('replace_url') }}</h3>
+		<h3>{{ i18n.__('Replace URL', 'zionbuilder') }}</h3>
 
 		<div class="znpb-admin-replace">
 			<h4 class="znpb-admin-replace__title">
-				{{ $translate('update_site_address_url') }}
+				{{ i18n.__('Update Site Address (URL)', 'zionbuilder') }}
 			</h4>
-			<BaseInput v-model="oldUrl" :placeholder="$translate('old_url')" size="narrow"> </BaseInput>
+			<BaseInput v-model="oldUrl" :placeholder="i18n.__('Old URL', 'zionbuilder')" size="narrow"> </BaseInput>
 			<Icon icon="long-arrow-right" class="znpb-admin-replace__icon" />
-			<BaseInput v-model="newUrl" :placeholder="$translate('new_url')" size="narrow"> </BaseInput>
+			<BaseInput v-model="newUrl" :placeholder="i18n.__('New URL', 'zionbuilder')" size="narrow"> </BaseInput>
 		</div>
 		<div class="znpb-admin-replace__actions">
 			<Button :type="disabled ? 'disabled' : 'line'" class="znpb-admin-replace-button" @click="callReplaceUrl">
 				<transition name="fade" mode="out-in">
 					<Loader v-if="loading" :size="13" />
-					<span v-else>{{ $translate('update_url') }}</span>
+					<span v-else>{{ i18n.__('Update URL', 'zionbuilder') }}</span>
 				</transition>
 			</Button>
 
+			<!-- eslint-disable-next-line vue/no-v-html The message comes from the server and may contain markup -->
 			<p v-if="message.length" v-html="message"></p>
 		</div>
 		<template #right>
 			<div>
 				<p class="znpb-admin-info-p">
-					{{ $translate('enter_old_and_new_url') }}
+					{{
+						i18n.__(
+							'Enter your old and new URLs for your WordPress installation, to update all references (Relevant for domain transfers or move to "HTTPS").',
+							'zionbuilder',
+						)
+					}}
 				</p>
-				<p class="znpb-admin-info-p" v-html="$translate('replace_info')"></p>
+
+				<!-- eslint-disable-next-line vue/no-v-html The message comes from the server and may contain markup -->
+				<p class="znpb-admin-info-p" v-html="panelInfo"></p>
 			</div>
 		</template>
 	</PageTemplate>
 </template>
 
-<script>
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { ref, computed } from 'vue';
-import { replaceUrl } from '/@/common/api';
+import { replaceUrl } from '@zb/api';
 
-export default {
-	name: 'ToolsPage',
-	setup() {
-		const loading = ref(false);
-		const message = ref('');
-		const oldUrl = ref('');
-		const newUrl = ref('');
+const loading = ref(false);
+const message = ref('');
+const oldUrl = ref('');
+const newUrl = ref('');
 
-		const disabled = computed(() => {
-			let check = !(oldUrl.value.length > 0 && newUrl.value.length > 0);
-			return check;
+const disabled = computed(() => {
+	return !(oldUrl.value.length > 0 && newUrl.value.length > 0);
+});
+
+const panelInfo = i18n.__(
+	`<strong>Important:</strong> It is strongly recommended that you
+					<a href="https://zionbuilder.io/documentation/replace-url-s/" target="_blank">backup your database</a> before using Replace
+					URL.`,
+	'zionbuilder',
+);
+
+function callReplaceUrl() {
+	message.value = '';
+	loading.value = true;
+
+	replaceUrl({
+		find: oldUrl.value,
+		replace: newUrl.value,
+	})
+		.then(response => {
+			loading.value = false;
+			message.value = response.data.message;
+		})
+		.catch(() => {
+			loading.value = false;
+		})
+		.finally(() => {
+			setTimeout(() => {
+				message.value = '';
+			}, 5000);
 		});
-
-		function callReplaceUrl() {
-			message.value = '';
-			loading.value = true;
-
-			replaceUrl({
-				find: oldUrl.value,
-				replace: newUrl.value,
-			})
-				.then(response => {
-					loading.value = false;
-					message.value = response.data.message;
-				})
-				.catch(error => {
-					loading.value = false;
-				})
-				.finally(() => {
-					setTimeout(() => {
-						message.value = '';
-					}, 5000);
-				});
-		}
-		return {
-			loading,
-			message,
-			oldUrl,
-			newUrl,
-			callReplaceUrl,
-			disabled,
-		};
-	},
-};
+}
 </script>
 <style lang="scss">
 .znpb-admin-replace {

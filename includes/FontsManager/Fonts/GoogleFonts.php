@@ -117,11 +117,11 @@ class GoogleFonts extends FontProvider {
 	 * @return void
 	 */
 	public static function enqueue_fonts() {
-		$enque_link = self::get_enqueue_link();
+		$enqueue_link = self::get_enqueue_link();
 
 		// check if we have fonts
-		if ( $enque_link ) {
-			wp_enqueue_style( 'zion-google-fonts', $enque_link, [], Plugin::instance()->get_version() );
+		if ( $enqueue_link ) {
+			wp_enqueue_style( 'zion-google-fonts', $enqueue_link, [], Plugin::instance()->get_version() );
 		}
 	}
 }

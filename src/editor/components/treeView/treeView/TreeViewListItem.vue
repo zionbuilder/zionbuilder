@@ -33,13 +33,13 @@
 
 			<span
 				v-if="element.isRepeaterProvider"
-				v-znpb-tooltip="$translate('repeater_provider')"
+				v-znpb-tooltip="i18n.__('repeater provider', 'zionbuilder')"
 				class="znpb-tree-view__itemLooperIcon"
 				>P</span
 			>
 			<span
 				v-if="element.isRepeaterConsumer"
-				v-znpb-tooltip="$translate('repeater_consumer')"
+				v-znpb-tooltip="i18n.__('repeater consumer', 'zionbuilder')"
 				class="znpb-tree-view__itemLooperIcon"
 				>C</span
 			>
@@ -48,7 +48,7 @@
 
 			<Icon
 				v-if="!element.isVisible"
-				v-znpb-tooltip="translate('enable_hidden_element')"
+				v-znpb-tooltip="i18n.__('The element is hidden. Click to enable it.', 'zionbuilder')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
 				@click.stop="element.isVisible = !element.isVisible"
@@ -66,8 +66,8 @@
 </template>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { ref, Ref, computed, watch, inject, nextTick } from 'vue';
-import { translate } from '/@/common/modules/i18n';
 import { useTreeViewItem } from '../useTreeViewItem';
 import { useUIStore } from '/@/editor/store';
 

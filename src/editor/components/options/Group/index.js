@@ -1,10 +1,8 @@
-import Group from './Group.vue'
+import Group from './Group.vue';
 
 export default {
 	id: 'group',
-	component: Group
-}
+	component: Group,
+};
 
-export {
-	Group
-}
+export { Group };

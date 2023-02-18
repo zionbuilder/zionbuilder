@@ -2,25 +2,19 @@
 	<div class="zb-el-iconBox">
 		<slot name="start" />
 
-		<div
-			class="zb-el-iconBox-iconWrapper"
-			v-if="options.icon"
-		>
+		<div v-if="options.icon" class="zb-el-iconBox-iconWrapper">
 			<ElementIcon
 				class="zb-el-iconBox-icon"
 				:class="api.getStyleClasses('icon_styles')"
-				:iconConfig="options.icon"
+				:icon-config="options.icon"
 				v-bind="api.getAttributesForTag('icon_styles')"
 			/>
 		</div>
-		<span
-			class="zb-el-iconBox-spacer"
-			v-bind="api.getAttributesForTag('spacer')"
-		></span>
+		<span class="zb-el-iconBox-spacer" v-bind="api.getAttributesForTag('spacer')"></span>
 		<div class="zb-el-iconBox-text">
 			<component
-				v-if="options.title"
 				:is="titleTag"
+				v-if="options.title"
 				class="zb-el-iconBox-title"
 				:class="api.getStyleClasses('title_styles')"
 				v-bind="api.getAttributesForTag('title_styles')"
@@ -41,14 +35,24 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'icon_box',
-	props: ['options', 'element', 'api'],
-	computed: {
-		titleTag () {
-			return this.options.title_tag || 'h3'
-		}
-	}
-}
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const props = defineProps<{
+	options: {
+		icon: {
+			type: string;
+			value: string;
+		};
+		title: string;
+		title_tag: string;
+		description: string;
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
+
+const titleTag = computed(() => {
+	return props.options.title_tag || 'h3';
+});
 </script>

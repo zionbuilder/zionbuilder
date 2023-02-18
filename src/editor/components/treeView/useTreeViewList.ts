@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { useUIStore, useContentStore } from '../../store';
+import { useUIStore, useContentStore } from '/@/editor/store';
 
 export function useTreeViewList() {
 	const elementOptionsRef = ref(null);

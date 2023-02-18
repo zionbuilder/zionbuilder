@@ -2,8 +2,8 @@
 Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
-Tested up to: 6.0.3
-Stable tag: 3.5.0
+Tested up to: 6.1.1
+Stable tag: 3.6.3
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,72 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 3.6.3 2023-13-02 =
+Added: Loop option for video element and video background
+Added: Option to enable video lazy loading ( can be found in Zion Builder options > Performance )
+Added: Option to add "playsinline" for video element and video background ( https://feedback.zionbuilder.io/b/5v8jzj0g/feature-requests/mobile-video-not-fullscreen )
+Improved: Removed video preview from the video option. The video preview took a lot of space and the preview can be viewed directly on the page
+Improved: Updated Google fonts list ( https://feedback.zionbuilder.io/b/5v8jzj0g/feature-requests/add-more-google-fonts )
+Improved: Allow YouTube URLs that contain playlist param. If this is present and the "loop" option is set to "no", the videos will autoplay to the next item in the playlist
+Improved: Show collapse button for accordions and tabs in tree view ( https://feedback.zionbuilder.io/roadmap/bug-for-some-elements-the-expandcollapse-icon-is-not-displayed-in-the-tree-view )
+Improved: Combined video background and video scripts into one single script
+Improved: Removed Zion Builder templates from XML sitemap ( https://feedback.zionbuilder.io/roadmap/remove-zions-templates-from-wp-default-sitemap )
+Fixed: Video background not displaying the video inside the editor
+Fixed: Select option dropdown exits the browser window in certain conditions
+Fixed: WordPress media modal not showing results the first time it is opened from the video element
+Fixed: global class options form not full height
+Fixed: Cannot discard changes when editing a CSS class
+Fixed: background image drag icon always appears in the background image option field
+Fixed: CSS class changes not applied in the editor in certain conditions
+Fixed: Console error showing in editor mode when using dynamic data for a CSS class
+Fixed: Console error showing when opening the page options inside the editor in certain conditions
+Fixed: Discard changes icon not showing properly in certain conditions ( https://feedback.zionbuilder.io/roadmap/child-green-indicator-doesnt-clear-automatically )
+Fixed: PHP warning showing in error log in certain conditions
+Fixed: Custom unit not working properly for margin and padding option
+Fixed: gradient color disappears when dragging the color from the gradient background
+
+= 3.6.2 2023-30-01 =
+Improved: Lowered z-index for video overlay from 999 to 9 ( https://feedback.zionbuilder.io/b/5v8jzj0g/feature-requests/z-index-of-embedded-videos-overlay-image-is-too-high )
+Improved: Added backward compatibility for zb.hooks API
+Fixed: Color presets cannot be selected
+Fixed: Compatibility with Rank Math plugin
+
+= 3.6.1 2023-28-01 =
+Fixed: Icon position CSS class for button element is translatable
+Fixed: Compatibility with Zion Extras
+
+= 3.6.0 2023-27-01 =
+Improved: Moved element class and pseudo selector at the top of the element options panel
+Improved: Number unit option type
+Improved: Margin/padding option type
+Improved: Press the CTRL key ( command on Mac ) to change the opposite value of the margin/padding option
+Improved: Preserve unit for number input options when changing responsive device
+Improved: Zion builder library open speed
+Improved: Remove custom attributes options when editing a global CSS class
+Improved: Zion Builder library display speed
+Improved: Display of the system info admin page
+Improved: Replaced save page notification with a small loader icon
+Improved: Removed autosave notification when opening a page
+Improved: Moved the "add new CSS" class to the top of the options panel
+Improved: Updated all code to Typescript and Vue setup
+Improved: Moved size and spacing options before border options
+Fixed: Page template not applying when a theme builder template is used
+Fixed: Rank Math integration stopped working
+Fixed: Improper background color for custom code option on the current line 
+Fixed: Fatal error occurring in certain conditions when editing the menu
+Fixed: Several actions from the inline text editor not working
+Fixed: Background video doesn't autoplay on mobile phones in certain conditions
+Fixed: Element additional classes get deleted when removing element styles
+Fixed: Compatibility with "Hoverify Chrome extension"
+Fixed: Console error when hovering various style option tabs
+Fixed: Local google fonts not working in certain conditions
+Fixed: show/hide element not working from the toolbox
+Fixed: container spacing options not showing
+Fixed: new breakpoints not saving
+Fixed: improper appear animation duration value set when changing the unit
+Fixed: possible editor freeze when using the font color picker
+Developer: Added the ability to add additional CSS classes to the CSS class selector option
+
 = 3.4.1 2022-15-11 =
 Added: Eyedropper to color picker
 Added: Highlight the affected element when hovering on element style options items

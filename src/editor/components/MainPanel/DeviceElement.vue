@@ -10,10 +10,10 @@
 			<span class="znpb-device__item-name">
 				<template v-if="deviceConfig.name"> {{ deviceConfig.name }} - </template>
 
-				<template v-if="deviceConfig.id === 'default'"> ({{ translate('all_devices') }}) </template>
+				<template v-if="deviceConfig.id === 'default'"> ({{ i18n.__('all devices', 'zionbuilder') }}) </template>
 
 				<template v-else>
-					{{ translate('max') }}
+					{{ i18n.__('max', 'zionbuilder') }}
 					<span class="znpb-device__itemValue">
 						<template v-if="isEdited">
 							<span class="znpb-device__itemValue-inner">
@@ -41,29 +41,29 @@
 			<div v-if="allowEdit" class="znpb-device__item-actions">
 				<template v-if="isEdited">
 					<Icon
-						v-znpb-tooltip="translate('save')"
+						v-znpb-tooltip="i18n.__('Save', 'zionbuilder')"
 						icon="check"
 						class="znpb-device__item-action"
 						@click.stop="updateWidth"
 					/>
 					<Icon
-						v-znpb-tooltip="translate('cancel')"
+						v-znpb-tooltip="i18n.__('Cancel', 'zionbuilder')"
 						icon="close"
 						class="znpb-device__item-action"
-						@click.stop="$emit('edit-breakpoint', null)"
+						@click.stop="emit('edit-breakpoint', null)"
 					/>
 				</template>
 				<template v-else>
 					<Icon
 						v-if="!deviceConfig.isDefault"
-						v-znpb-tooltip="translate('edit_breakpoint')"
+						v-znpb-tooltip="i18n.__('Edit breakpoint', 'zionbuilder')"
 						icon="edit"
 						class="znpb-device__item-action"
-						@click.stop="$emit('edit-breakpoint', deviceConfig)"
+						@click.stop="emit('edit-breakpoint', deviceConfig)"
 					/>
 					<Icon
 						v-if="!deviceConfig.builtIn"
-						v-znpb-tooltip="translate('delete_breakpoint')"
+						v-znpb-tooltip="i18n.__('Delete breakpoint', 'zionbuilder')"
 						icon="delete"
 						class="znpb-device__item-action"
 						@click.stop="deleteBreakpoint(deviceConfig.id)"
@@ -75,16 +75,19 @@
 </template>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { computed, ref, nextTick, watch } from 'vue';
-import { useResponsiveDevices, type ResponsiveDevice } from '/@/common/composables';
-import { doAction } from '/@/common/modules/hooks';
-import { translate } from '/@/common/modules/i18n';
 
+// Common API
+const { useResponsiveDevices } = window.zb.composables;
+const { doAction } = window.zb.hooks;
+
+// TODO: find a solution for typings
 const props = withDefaults(
 	defineProps<{
-		deviceConfig: ResponsiveDevice;
+		deviceConfig: Breakpoint;
 		allowEdit: boolean;
-		editedBreakpoint?: ResponsiveDevice | null;
+		editedBreakpoint?: Breakpoint | null;
 	}>(),
 	{
 		editedBreakpoint: () => {
@@ -109,7 +112,7 @@ const isEdited = computed(() => {
 const widthInput = ref<HTMLInputElement | null>(null);
 
 const discardChangesTitle = computed(() => {
-	return translate('discard_changes_for') + ' ' + props.deviceConfig.name;
+	return i18n.__('Discard changes for', 'zionbuilder') + ' ' + props.deviceConfig.name;
 });
 
 const isActiveDevice = computed(() => {

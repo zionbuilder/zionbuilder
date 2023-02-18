@@ -26,7 +26,7 @@
 
 			<ChangesBullet
 				v-if="showChanges && hasChanges"
-				:content="$translate('discard_changes')"
+				:content="i18n.__('Discard changes', 'zionbuilder')"
 				@remove-styles="onDeleteOption"
 			/>
 
@@ -121,8 +121,11 @@
 	</div>
 </template>
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { provide, inject, readonly, toRef, watchEffect, ref, computed, markRaw } from 'vue';
-import { useOptions, useOptionsSchemas, useResponsiveDevices } from '../../composables';
+import { useOptions } from '../../composables/useOptions';
+import { useOptionsSchemas } from '../../composables/useOptionsSchemas';
+import { useResponsiveDevices } from '../../composables/useResponsiveDevices';
 
 // Components
 import { Tooltip } from '../tooltip';
@@ -234,8 +237,11 @@ const hasChanges = computed(() => {
 		const childOptionsIds = getChildOptionsIds(props.schema);
 
 		return childOptionsIds.find(optionId => {
-			let hasDynamicValue = get(props.modelValue, `__dynamic_content__[${optionId}]`);
-			return (savedOptionValue.value && savedOptionValue.value[optionId]) || hasDynamicValue !== undefined;
+			const hasDynamicValue = get(props.modelValue, `__dynamic_content__[${optionId}]`);
+			return (
+				(typeof savedOptionValue.value !== 'undefined' && typeof savedOptionValue.value[optionId]) !== 'undefined' ||
+				hasDynamicValue !== undefined
+			);
 		});
 	} else {
 		return typeof savedOptionValue.value !== 'undefined' && savedOptionValue.value !== null;
@@ -396,7 +402,7 @@ function getPseudoIcon(pseudo) {
  */
 function onDeleteOption(optionId) {
 	if (props.schema.sync) {
-		let fullOptionIds = [];
+		const fullOptionIds = [];
 		const childOptionsIds = getChildOptionsIds(props.schema, false);
 		const compiledSync = props.compilePlaceholder(props.schema.sync);
 

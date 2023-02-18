@@ -34,8 +34,8 @@ const props = withDefaults(
 	defineProps<{
 		label?: string;
 		showLabel?: boolean;
-		modelValue?: boolean | string[];
-		optionValue?: string | boolean;
+		modelValue?: boolean | string | string[] | number | number[];
+		optionValue?: boolean | string | string[] | number | number[];
 		disabled?: boolean;
 		checked?: boolean;
 		rounded?: boolean;

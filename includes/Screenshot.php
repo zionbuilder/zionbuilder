@@ -64,7 +64,7 @@ class Screenshot {
 
 		wp_localize_script(
 			'zb-screenshot',
-			'ZnPbScreenshootData',
+			'ZnPbScreenshotData',
 			[
 				'home_url'  => home_url(),
 				'is_debug'  => Environment::is_debug(),

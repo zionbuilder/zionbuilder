@@ -12,6 +12,7 @@ use ZionBuilder\Whitelabel;
 use ZionBuilder\User;
 use ZionBuilder\Nonces;
 use ZionBuilder\CommonJS;
+use ZionBuilder\Scripts;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -102,7 +103,9 @@ class Editor {
 		// Add head actions again
 		add_action( 'wp_head', '_wp_render_title_tag', 1 );
 		add_action( 'wp_head', 'wp_enqueue_scripts', 1 );
+		// @phpstan-ignore-next-line
 		add_action( 'wp_head', 'wp_print_styles', 8 );
+		// @phpstan-ignore-next-line
 		add_action( 'wp_head', 'wp_print_head_scripts', 9 );
 		add_action( 'wp_head', 'wp_site_icon', 99 );
 
@@ -185,67 +188,38 @@ class Editor {
 		do_action( 'admin_print_scripts-widgets.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName
 		do_action( 'admin_footer-widgets.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName
 
-		wp_enqueue_media();
-
-		// This is needed because wp_editor somehow unloads dashicons
-		wp_print_styles( 'media-views' );
-
-		// Load roboto font
-		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
-
 		// Load Scripts
 		// Load animation css file
 		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
+
+		// Enqueue common js and css
+		Scripts::enqueue_common();
 
 		Plugin::instance()->scripts->enqueue_style(
 			'zion-editor-style',
 			'editor',
 			[
-				'wp-codemirror',
+				'zb-common',
 			],
 			Plugin::instance()->get_version()
 		);
 
 		wp_add_inline_style( 'zion-editor-style', Plugin::instance()->icons->get_icons_css() );
 
-		// Load Scripts
-		Plugin::instance()->scripts->enqueue_script(
-			'zb-vue',
-			'vue',
-			[],
-			Plugin::instance()->get_version(),
-			true
-		);
-
 		Plugin::instance()->scripts->enqueue_script(
 			'zb-editor',
 			'editor',
 			[
-				'zb-vue',
+				'zb-common',
 				'wp-auth-check',
 				'heartbeat',
-				'wp-codemirror',
-				'csslint',
-				'htmlhint',
-				'jshint',
-				'jsonlint',
-				'jquery-masonry',
+				'wp-i18n',
 			],
 			Plugin::instance()->get_version(),
 			true
 		);
 
-		wp_localize_script(
-			'zb-editor',
-			'ZnRestConfig',
-			[
-				'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
-				'rest_root' => esc_url_raw( rest_url() ),
-			]
-		);
-
-		CommonJS::localize_common_js_data( 'zb-editor' );
-
+		wp_set_script_translations( 'zb-editor', 'zionbuilder' );
 		wp_localize_script( 'zb-editor', 'ZnPbInitialData', $this->get_editor_initial_data() );
 
 		do_action( 'zionbuilder/editor/after_scripts' );
@@ -276,22 +250,6 @@ class Editor {
 			];
 		}
 
-		$plugin_updates = get_site_transient( 'update_plugins' );
-
-		$free_plugin_update = null;
-		$pro_plugin_update  = null;
-		if ( isset( $plugin_updates->response ) && is_array( $plugin_updates->response ) ) {
-			if ( isset( $plugin_updates->response['zionbuilder/zionbuilder.php'] ) ) {
-				$free_plugin_update = $plugin_updates->response['zionbuilder/zionbuilder.php'];
-			}
-		}
-
-		if ( isset( $plugin_updates->response ) && is_array( $plugin_updates->response ) ) {
-			if ( isset( $plugin_updates->response['zionbuilder-pro/zionbuilder-pro.php'] ) ) {
-				$pro_plugin_update = $plugin_updates->response['zionbuilder-pro/zionbuilder-pro.php'];
-			}
-		}
-
 		$autosave_instance = Plugin::$instance->post_manager->get_post_or_autosave_instance( $post_instance->get_post_id() );
 
 		// Prepare content data
@@ -300,18 +258,17 @@ class Editor {
 		return apply_filters(
 			'zionbuilder/editor/initial_data',
 			[
-				'page_settings'    => [
+				'page_settings'      => [
 					'schema' => $post_instance->get_page_settings_schema(),
 					'values' => $autosave_instance->get_page_settings_values(),
 				],
-				'urls'             => [
+				'urls'               => [
 					'assets_url'            => Utils::get_file_url( 'assets' ),
 					'logo'                  => Whitelabel::get_logo_url(),
 					'loader'                => Whitelabel::get_loader_url(),
 					'getting_started_video' => Whitelabel::get_getting_started_video(),
 					'edit_page'             => get_edit_post_link( $this->post_id, '' ),
 					'zion_admin'            => admin_url( sprintf( 'admin.php?page=%s', Whitelabel::get_id() ) ),
-					'updates_page'          => admin_url( 'update-core.php' ),
 					'preview_frame_url'     => $post_instance->get_preview_frame_url(),
 					'preview_url'           => $post_instance->get_preview_url(),
 					'all_pages_url'         => $post_instance->get_all_pages_url(),
@@ -322,70 +279,41 @@ class Editor {
 					'ajax_url'              => admin_url( 'admin-ajax.php', 'relative' ),
 					'plugin_root'           => Utils::get_file_url(),
 				],
-				'masks'            => Masks::get_shapes(),
-				'builder_settings' => [],
-				'page_id'          => $this->post_id,
-				'page_data'        => get_post( $this->post_id ),
-				'autosaveInterval' => AUTOSAVE_INTERVAL,
+				'masks'              => Masks::get_shapes(),
+				'builder_settings'   => [],
+				'page_id'            => $this->post_id,
+				'page_data'          => get_post( $this->post_id ),
+				'autosaveInterval'   => AUTOSAVE_INTERVAL,
 
 				// User data
-				'post_lock_user'   => $locked_user_name,
-				'wp_editor'        => $this->get_wp_editor(),
+				'post_lock_user'     => $locked_user_name,
 
 				// Css classes
-				'css_classes'      => CSSClasses::get_classes(),
+				'css_classes'        => CSSClasses::get_classes(),
+				'css_static_classes' => CSSClasses::get_static_classes(),
 
 				// Plugin info
-				'plugin_info'      => [
-					'is_pro_active'      => Utils::is_pro_active(),
-					'is_pro_installed'   => Utils::is_pro_installed(),
-					'free_version'       => Plugin::instance()->get_version(),
-					'pro_version'        => class_exists( 'ZionBuilderPro\Plugin' ) ? \ZionBuilderPro\Plugin::instance()->get_version() : null,
-					'free_plugin_update' => $free_plugin_update,
-					'pro_plugin_update'  => $pro_plugin_update,
+				'plugin_info'        => [
+					'is_pro_active'    => Utils::is_pro_active(),
+					'is_pro_installed' => Utils::is_pro_installed(),
 				],
 
 				// Templates
-				'template_types'   => Plugin::$instance->templates->get_template_types(),
-				'template_sources' => Plugin::$instance->library->get_sources(),
+				'template_types'     => Plugin::$instance->templates->get_template_types(),
+				'template_sources'   => Plugin::$instance->library->get_sources(),
 
 				// Misc
-				'rtl'              => is_rtl(),
+				'rtl'                => is_rtl(),
 
 				// User data
-				'user_data'        => User::get_user_data(),
-				'user_permissions' => Permissions::get_user_permissions(),
+				'user_data'          => User::get_user_data(),
+				'user_permissions'   => Permissions::get_user_permissions(),
 			]
 		);
 	}
 
 
-	/**
-	 * Returns the HTML content for the WP editor
-	 *
-	 * @return string|false The editor HTML content or false on failure
-	 */
-	public function get_wp_editor() {
-		// Remove all TinyMCE plugins.
-		remove_all_filters( 'mce_buttons', 10 );
-		remove_all_filters( 'mce_external_plugins', 10 );
 
-		ob_start();
-		wp_editor(
-			'%%ZNPB_EDITOR_CONTENT%%',
-			'znpbwpeditorid',
-			[
-				'editor_height' => '150',
-				'wpautop'       => false,
-				'tinymce'       => [
-					'forced_root_block' => '',
-				],
-			]
-		);
-		$wp_editor = ob_get_clean();
-
-		return $wp_editor;
-	}
 
 
 	/**

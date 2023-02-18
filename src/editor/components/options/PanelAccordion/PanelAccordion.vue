@@ -1,12 +1,12 @@
 <template>
-	<div class="znpb-pannel-accordion">
-		<div class="znpb-pannel-accordion__header" @click="toggle">
-			<div class="znpb-pannel-accordion__header-title">
+	<div class="znpb-panel-accordion">
+		<div class="znpb-panel-accordion__header" @click="toggle">
+			<div class="znpb-panel-accordion__header-title">
 				{{ title }}
 				<ChangesBullet
 					v-if="hasChanges"
-					:content="$translate('discard_changes')"
-					@remove-styles="$emit('discard-changes')"
+					:content="i18n.__('Discard changes', 'zionbuilder')"
+					@remove-styles="emit('discard-changes')"
 				/>
 			</div>
 
@@ -22,54 +22,46 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'PanelAccordion',
-	props: {
-		modelValue: {},
-		child_options: {
-			type: Object,
-			required: false,
-		},
-		title: {
-			type: String,
-		},
-		collapsed: {
-			type: Boolean,
-			default: false,
-		},
-		hasChanges: {
-			type: Boolean,
-			default: false,
-			required: false,
-		},
+<script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
+
+import { ref, computed } from 'vue';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue: Record<string, any>;
+		child_options: Record<string, any>;
+		title?: string;
+		collapsed?: boolean;
+		hasChanges?: boolean;
+	}>(),
+	{
+		collapsed: false,
+		hasChanges: false,
+		title: '',
 	},
-	data() {
-		return {
-			expanded: !this.collapsed,
-			height: null,
-		};
+);
+
+const emit = defineEmits(['update:modelValue', 'discard-changes']);
+
+const expanded = ref(!props.collapsed);
+
+const valueModel = computed({
+	get() {
+		return props.modelValue || {};
 	},
-	computed: {
-		valueModel: {
-			get() {
-				return this.modelValue || {};
-			},
-			set(newValue) {
-				this.$emit('update:modelValue', newValue);
-			},
-		},
+	set(newValue) {
+		emit('update:modelValue', newValue);
 	},
-	methods: {
-		toggle() {
-			this.expanded = !this.expanded;
-		},
-	},
-};
+});
+
+function toggle() {
+	expanded.value = !expanded.value;
+}
 </script>
 
 <style lang="scss">
-.znpb-pannel-accordion__header {
+.znpb-panel-accordion__header {
 	top: 0;
 	display: flex;
 	justify-content: space-between;
@@ -80,10 +72,10 @@ export default {
 	cursor: pointer;
 }
 
-.znpb-pannel-accordion {
+.znpb-panel-accordion {
 	position: relative;
 	width: 100%;
-	.znpb-pannel-accordion__header-title {
+	.znpb-panel-accordion__header-title {
 		color: var(--zb-surface-text-active-color);
 		font-size: 13px;
 		font-weight: 500;

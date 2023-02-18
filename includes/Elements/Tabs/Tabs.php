@@ -41,6 +41,18 @@ class Tabs extends Element {
 	}
 
 	/**
+	 * Is wrapper
+	 *
+	 * Returns true if the element can contain other elements ( f.e. section, column )
+	 *
+	 * @return boolean The element icon
+	 */
+	public function is_wrapper() {
+		return Utils::is_pro_installed();
+	}
+
+
+	/**
 	 * Get keywords
 	 *
 	 * Returns the keywords for this element
