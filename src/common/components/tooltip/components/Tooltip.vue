@@ -43,6 +43,9 @@ const props = withDefaults(
 		tooltipClass?: string;
 		tooltipStyle?: Record<string, unknown>;
 		placement?: string;
+
+		// Popper JS props
+		strategy?: string;
 	}>(),
 	{
 		modifiers: () => [],
@@ -62,6 +65,7 @@ const props = withDefaults(
 		tooltipClass: '',
 		tooltipStyle: () => ({}),
 		placement: 'top',
+		strategy: 'absolute',
 	},
 );
 
@@ -299,16 +303,20 @@ function onOutsideClick(event) {
 		return;
 	}
 
+	preventOutsideClickPropagation = true;
+
 	// Prevent clicks on popper selector
 	if (
 		popperSelector.value &&
 		typeof popperSelector.value.contains === 'function' &&
 		popperSelector.value.contains(event.target)
 	) {
+		preventOutsideClickPropagation = false;
 		return;
 	}
 
 	if (popperContentRef.value && popperContentRef.value.contains(event.target)) {
+		preventOutsideClickPropagation = false;
 		return;
 	}
 
@@ -324,6 +332,7 @@ function onKeyUp(event) {
 	if (event.which === 27) {
 		hidePopper();
 		event.stopPropagation();
+		event.stopImmediatePropagation();
 	}
 }
 
@@ -355,12 +364,14 @@ function removePopperEvents() {
 	}
 }
 
-defineExpose({
+const api = {
 	showPopper,
 	hidePopper,
 	destroyPopper,
 	scheduleUpdate,
-});
+};
+
+defineExpose(api);
 </script>
 
 <style lang="scss">

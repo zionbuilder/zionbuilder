@@ -1,10 +1,11 @@
 <template>
 	<Tooltip
 		v-model:show="showDropdown"
-		append-to="body"
+		append-to="element"
 		:placement="placement"
 		trigger="click"
 		:close-on-outside-click="true"
+		:close-on-escape="true"
 		tooltip-class="znpb-option-selectTooltip hg-popper--no-padding"
 		class="znpb-option-selectWrapper"
 		:tooltip-style="{ width: tooltipWidth + 'px' }"
@@ -100,7 +101,7 @@ import { useSelectServerData } from './useSelectServerData.js';
 
 const props = withDefaults(
 	defineProps<{
-		modelValue: string | number | [] | boolean | undefined;
+		modelValue: string | number | [] | boolean | Undefined;
 		options: [];
 		filterable?: boolean;
 		// eslint-disable-next-line vue/prop-name-casing
