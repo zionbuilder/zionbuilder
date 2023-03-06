@@ -220,6 +220,32 @@ class Container extends Element {
 		);
 
 		$flex_container_group->add_option(
+			'column-gap',
+			[
+				'type'         => 'number_unit',
+				'title'        => __( 'Column Gap', 'zionbuilder-pro' ),
+				'description'  => __( 'The column-gap CSS property sets the size of the gap (gutter) between an element\'s columns', 'zionbuilder-pro' ),
+				'placeholder'  => '0px',
+				'default_unit' => 'px',
+				'width'       => 50,
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.column-gap',
+			]
+		);
+
+		$flex_container_group->add_option(
+			'row-gap',
+			[
+				'type'         => 'number_unit',
+				'title'        => __( 'Row Gap', 'zionbuilder-pro' ),
+				'description'  => __( 'The row-gap CSS property sets the size of the gap (gutter) between an element\'s rows', 'zionbuilder-pro' ),
+				'placeholder'  => '0px',
+				'default_unit' => 'px',
+				'width'       => 50,
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.row-gap',
+			]
+		);
+
+		$flex_container_group->add_option(
 			'flex-direction',
 			[
 				'type'    => 'custom_selector',

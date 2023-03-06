@@ -322,7 +322,6 @@ function onOutsideClick(event) {
 
 	// Hide popper if clicked outside
 	hidePopper();
-	emit('hide');
 	emit('update:show', false);
 
 	preventOutsideClickPropagation = false;
