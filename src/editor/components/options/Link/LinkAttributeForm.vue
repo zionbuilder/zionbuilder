@@ -1,23 +1,12 @@
 <template>
 	<div class="znpb-link-optionsAttribute">
-		<div class="znpb-link-optionsAttributeInput znpb-link-optionsAttributeField">
-			<BaseInput
-				type="text"
-				:placeholder="i18n.__('Attribute key', 'zionbuilder')"
-				:modelValue="attributeConfig.key"
-				:spellcheck="false"
-				@update:modelValue="updateValue('key', $event)"
-			/>
-		</div>
-		<div class="znpb-link-optionsAttributeInput znpb-link-optionsAttributeField">
-			<BaseInput
-				type="text"
-				:placeholder="i18n.__('Attribute value', 'zionbuilder')"
-				:modelValue="attributeConfig.value"
-				:spellcheck="false"
-				@update:modelValue="updateValue('value', $event)"
-			/>
-		</div>
+		<OptionsForm
+			v-model="computedModel"
+			class="znpb-link--optionsForm"
+			:schema="schema"
+			:enable-dynamic-data="true"
+			:no-space="true"
+		/>
 		<div class="znpb-link-optionsAttributeDelete znpb-link-optionsAttributeField">
 			<Icon
 				icon="delete"
@@ -30,6 +19,7 @@
 
 <script lang="ts" setup>
 import * as i18n from '@wordpress/i18n';
+import { computed } from 'vue';
 
 const props = withDefaults(
 	defineProps<{
@@ -46,12 +36,29 @@ const props = withDefaults(
 
 const emit = defineEmits(['update-attribute', 'delete']);
 
-function updateValue(key: string, value: string) {
-	emit('update-attribute', {
-		...props.attributeConfig,
-		[key]: value,
-	});
-}
+const computedModel = computed({
+	get() {
+		return props.attributeConfig;
+	},
+	set(newValue) {
+		emit('update-attribute', newValue);
+	},
+});
+
+const schema = {
+	key: {
+		type: 'text',
+		placeholder: i18n.__('Attribute key', 'zionbuilder'),
+		width: 50,
+		id: 'key',
+	},
+	value: {
+		type: 'text',
+		placeholder: i18n.__('Attribute value', 'zionbuilder'),
+		width: 50,
+		id: 'value',
+	},
+};
 </script>
 
 <style lang="scss">
@@ -61,7 +68,7 @@ function updateValue(key: string, value: string) {
 }
 
 .znpb-link-optionsAttributeField {
-	margin-bottom: 5px;
+	margin-bottom: 20px;
 	margin-left: 5px;
 
 	&:first-child {

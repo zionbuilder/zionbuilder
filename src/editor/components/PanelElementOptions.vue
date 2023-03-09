@@ -87,6 +87,7 @@
 						class="znpb-element-options-content-form znpb-fancy-scrollbar"
 						:schema="UIStore.editedElement.elementDefinition.options"
 						:replacements="optionsReplacements"
+						:enable-dynamic-data="true"
 					/>
 
 					<p v-else class="znpb-element-options-no-option-message">

@@ -4,6 +4,8 @@
 			<Tooltip
 				v-model:show="showResults"
 				placement="bottom"
+				append-to="element"
+				strategy="fixed"
 				:show-arrows="false"
 				:trigger="null"
 				:close-on-outside-click="true"
@@ -29,7 +31,7 @@
 					:is="linkURLComponent"
 					ref="urlInput"
 					v-model="linkModel"
-					:placeholder="i18n.__('Add an URL', 'zionbuilder')"
+					:placeholder="i18n.__('Type to search or enter URL', 'zionbuilder')"
 					spellcheck="false"
 				>
 					<template #prepend>
@@ -41,9 +43,8 @@
 						<Tooltip
 							trigger="click"
 							:close-on-outside-click="true"
-							append-to="body"
 							tooltip-class="znpb-link-optionsTooltip"
-							placement="bottom-end"
+							placement="bottom"
 							class="znpb-flex znpb-flex--vcenter"
 						>
 							<template #content>
@@ -74,12 +75,14 @@
 				</component>
 			</Tooltip>
 		</InputWrapper>
-		<InputWrapper v-if="show_target" layout="inline" :schema="{ width: 50 }">
-			<InputSelect v-model="targetModel" :options="targetOptions"></InputSelect>
-		</InputWrapper>
-		<InputWrapper v-if="show_title" layout="inline" :schema="{ width: 50 }">
-			<BaseInput v-model="titleModel" :clearable="false" :placeholder="i18n.__('Set a title', 'zionbuilder')" />
-		</InputWrapper>
+
+		<OptionsForm
+			v-model="computedModel"
+			class="znpb-link--optionsForm"
+			:schema="targetTitleSchema"
+			:enable-dynamic-data="true"
+			:no-space="true"
+		/>
 	</div>
 </template>
 
@@ -152,6 +155,32 @@ const searchResults: Ref<Post[]> = ref([]);
 const linkURLComponent = computed(() => {
 	return applyFilters('zionbuilder/options/link/url_component', 'BaseInput', props.modelValue);
 });
+
+const computedModel = computed({
+	get() {
+		return props.modelValue;
+	},
+	set(newValue) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+const targetTitleSchema = {
+	target: {
+		type: 'select',
+		label: i18n.__('Target', 'zionbuilder'),
+		options: targetOptions,
+		width: 50,
+		default: '_self',
+		id: 'target',
+	},
+	title: {
+		type: 'text',
+		label: i18n.__('Title', 'zionbuilder'),
+		width: 50,
+		id: 'title',
+	},
+};
 
 const linkModel = computed({
 	get() {
@@ -321,6 +350,7 @@ function onSearchItemClick(url: string) {
 
 		& .zion-input__prepend {
 			background: var(--zb-surface-lighter-color);
+			padding: 10px;
 		}
 
 		& .zion-input__append {
@@ -341,7 +371,7 @@ function onSearchItemClick(url: string) {
 }
 
 .znpb-link-optionsTooltip {
-	width: 320px;
+	width: 500px;
 }
 
 .znpb-link-optionsAttributesAdd {
@@ -374,6 +404,10 @@ function onSearchItemClick(url: string) {
 }
 
 .znpb-optionLinkTooltip {
+	width: 100%;
+}
+
+.znpb-link--optionsForm {
 	width: 100%;
 }
 </style>

@@ -447,7 +447,6 @@ function onInputKeydown(event) {
 
 .znpb-option-selectWrapper {
 	width: 100%;
-	margin-right: 10px;
 	color: var(--zb-surface-text-color);
 }
 

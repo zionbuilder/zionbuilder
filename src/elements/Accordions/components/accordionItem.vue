@@ -1,5 +1,9 @@
 <template>
-	<div class="zb-el-accordions-accordionWrapper" :class="{ 'zb-el-accordions--active': activeByDefault }">
+	<div
+		v-if="accordionApi"
+		class="zb-el-accordions-accordionWrapper"
+		:class="{ 'zb-el-accordions--active': activeByDefault }"
+	>
 		<slot name="start" />
 
 		<component
@@ -25,7 +29,6 @@
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue';
-import Accordions from './Accordions.vue';
 
 const props = defineProps<{
 	options: {
@@ -45,8 +48,9 @@ const activeByDefault = computed(() => {
 	return props.options.active_by_default ? props.options.active_by_default : false;
 });
 
-const accordionApi = inject('accordionsApi') as typeof Accordions;
+const accordionApi = inject('accordionsApi', null);
 const titleTag = computed(() => {
-	return props.options.title_tag || accordionApi.options.value.title_tag || 'div';
+	const parentAccordionTitle = accordionApi ? accordionApi.options.value.title_tag : 'div';
+	return props.options.title_tag || parentAccordionTitle || 'div';
 });
 </script>

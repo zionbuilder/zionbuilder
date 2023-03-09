@@ -452,7 +452,6 @@ defineExpose({
 /* style panel */
 .znpb-editor-panel {
 	position: relative;
-	z-index: 1;
 	display: flex;
 	flex-direction: column;
 	min-height: 320px;

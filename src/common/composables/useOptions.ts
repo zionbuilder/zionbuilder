@@ -106,6 +106,9 @@ const options: Option[] = [
 	{
 		id: 'number',
 		component: InputNumber,
+		dynamic: {
+			type: 'TEXT',
+		},
 	},
 	{
 		id: 'number_unit',

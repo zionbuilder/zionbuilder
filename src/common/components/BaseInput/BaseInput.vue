@@ -45,7 +45,7 @@
 			@mousedown.stop.prevent="$emit('update:modelValue', '')"
 		/>
 
-		<div v-if="$slots.suffix || icon || $slots.append" class="zion-input__suffix">
+		<div class="zion-input__suffix">
 			<!-- @slot Content that will be placed after input -->
 			<slot name="suffix"></slot>
 
@@ -56,9 +56,11 @@
 				@click.stop.prevent="$emit('update:modelValue', '')"
 			/>
 
-			<div v-if="$slots.append" class="zion-input__append">
+			<div class="zion-input__append">
 				<!-- @slot Content that will be appended to input -->
 				<slot name="append"></slot>
+
+				<Injection location="base_input/append" class="znpb-options-injection--after-title" />
 			</div>
 		</div>
 	</div>
@@ -233,7 +235,7 @@ body {
 			max-height: 42px;
 			min-width: 0;
 			border: none;
-			// prevent other themes to add their own style uppon input fixed height
+			// prevent other themes to add their own style upon input fixed height
 		}
 		input::placeholder {
 			color: var(--zb-input-placeholder-color);
@@ -252,7 +254,7 @@ body {
 			display: flex;
 			align-items: center;
 			height: 100%;
-			padding: 0 13px;
+			padding: 0 5px;
 			color: var(--zb-surface-icon-color);
 		}
 

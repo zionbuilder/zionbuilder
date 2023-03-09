@@ -7,7 +7,7 @@
 			class="zb-el-pricingBox-featured"
 			:class="api.getStyleClasses('featured_label_styles')"
 			v-bind="api.getAttributesForTag('featured_label_styles')"
-			>{{ $translate('featured') }}
+			>{{ i18n.__('featured', 'zionbuilder') }}
 		</span>
 		<div class="zb-el-pricingBox-content">
 			<div class="zb-el-pricingBox-heading">
@@ -72,6 +72,7 @@
 </template>
 
 <script lang="ts" setup>
+import * as i18n from '@wordpress/i18n';
 import { computed } from 'vue';
 
 const props = defineProps<{

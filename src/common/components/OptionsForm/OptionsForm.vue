@@ -1,5 +1,5 @@
 <template>
-	<div class="znpb-options-form-wrapper">
+	<div class="znpb-options-form-wrapper" :class="{ 'znpb-options-form-wrapper--noSpace': noSpace }">
 		<template v-for="(optionConfig, optionId) in optionsSchema" :key="optionId">
 			<div v-if="optionConfig.breadcrumbs" class="znpb-options-breadcrumbs-path znpb-options-breadcrumbs-path--search">
 				<div v-for="(breadcrumb, i) in optionConfig.breadcrumbs" :key="i" class="znpb-options-breadcrumbs-path">
@@ -56,8 +56,33 @@ export default {
 			required: false,
 			default: () => [],
 		},
+		enableDynamicData: {
+			type: Boolean,
+			required: false,
+			default: null,
+		},
+		noSpace: {
+			type: Boolean,
+			required: false,
+			default: false,
+		},
 	},
 	setup(props, { emit }) {
+		const parentOptionsForm = inject('OptionsForm', null);
+		const dynamicDataEnabled = computed(() => {
+			let enabled = false;
+
+			if (null !== parentOptionsForm) {
+				enabled = parentOptionsForm.dynamicDataEnabled.value;
+			}
+
+			if (null !== props.enableDynamicData) {
+				enabled = props.enableDynamicData;
+			}
+
+			return enabled;
+		});
+
 		// Provide the top model value so we can check for sync options values
 		let topModelValue = inject('OptionsFormTopModelValue', null);
 
@@ -177,6 +202,7 @@ export default {
 			deleteTopModelValueByPath,
 			modelValue: computed(() => props.modelValue),
 			deleteValues,
+			dynamicDataEnabled,
 		});
 
 		const topOptionsForm = inject('topOptionsForm', null);
@@ -440,5 +466,9 @@ export default {
 	// width: 100%;
 	max-height: 100%;
 	padding: 20px 20px 0;
+}
+
+.znpb-options-form-wrapper--noSpace {
+	padding: 0;
 }
 </style>
