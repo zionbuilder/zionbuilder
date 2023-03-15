@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements\Text;
+namespace ZionBuilder\Elements\Link;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Plugin;
@@ -11,11 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Text
+ * Class Link
  *
  * @package ZionBuilder\Elements
  */
-class Text extends Element {
+class Link extends Element {
 	/**
 	 * Get type
 	 *
@@ -24,7 +24,7 @@ class Text extends Element {
 	 * @return string The element id/type
 	 */
 	public function get_type() {
-		return 'zion_text';
+		return 'zion_link';
 	}
 
 	/**
@@ -35,18 +35,7 @@ class Text extends Element {
 	 * @return string The element name
 	 */
 	public function get_name() {
-		return __( 'Text', 'zionbuilder' );
-	}
-
-	/**
-	 * Get keywords
-	 *
-	 * Returns the keywords for this element
-	 *
-	 * @return array<string> The list of element keywords
-	 */
-	public function get_keywords() {
-		return [ 'text', 'heading', 'title', 'paragraph', 'sentence', 'caption', 'txt' ];
+		return __( 'Link', 'zionbuilder' );
 	}
 
 	/**
@@ -60,6 +49,10 @@ class Text extends Element {
 		return 'element-text';
 	}
 
+	public function get_wrapper_tag( $options ) {
+		return 'a';
+	}
+
 	/**
 	 * Registers the element options
 	 *
@@ -71,11 +64,19 @@ class Text extends Element {
 		$options->add_option(
 			'content',
 			[
-				'type'        => 'editor',
+				'type'        => 'text',
 				'description' => esc_html__( 'Set the desired content for this element', 'zionbuilder' ),
 				'title'       => esc_html__( 'Content', 'zionbuilder' ),
 				'placeholder' => esc_html__( 'Enter text', 'zionbuilder' ),
-				'default'     => sprintf( '<p>%s</p>', __( 'Just a sample text from heading element.', 'zionbuilder' ) ),
+				'default'     => __( 'Just a sample text.', 'zionbuilder' ),
+			]
+		);
+
+		$options->add_option(
+			'link',
+			[
+				'type'        => 'link',
+				'title'       => __( 'Link', 'zionbuilder' ),
 			]
 		);
 	}
@@ -87,7 +88,24 @@ class Text extends Element {
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Text/editor', 'js' ) );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Link/editor', 'js' ) );
+	}
+
+	/**
+	 * Sets wrapper css classes
+	 *
+	 * @param \ZionBuilder\Options\Options $options
+	 *
+	 * @return void
+	 */
+	public function before_render( $options ) {
+		// Add the grid column class
+		$this->render_attributes->add( 'wrapper', 'class', 'zb-column' );
+		$link = $options->get_value( 'link', false );
+
+		if ( ! empty( $link['link'] ) ) {
+			$this->attach_link_attributes( 'wrapper', $link );
+		}
 	}
 
 	/**
@@ -98,6 +116,12 @@ class Text extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
+		$link = $options->get_value( 'link', false );
+
+		if ( ! empty( $link['link'] ) ) {
+			$this->attach_link_attributes( 'wrapper', $link );
+		}
+
 		echo $options->get_value( 'content' ); // phpcs:ignore WordPress.Security.EscapeOutput
 	}
 }

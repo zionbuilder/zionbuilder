@@ -8,7 +8,6 @@ import Typography from './Typography';
 import Group from './Group';
 import PanelAccordion from './PanelAccordion';
 import ResponsiveGroup from './ResponsiveGroup';
-import Link from './Link';
 import ColumnSize from './ColumnSize';
 import WPWidget from './WPWidget';
 import TabGroup from './TabGroup';
@@ -36,7 +35,6 @@ export const registerEditorOptions = () => {
 	registerOption(Group);
 	registerOption(PanelAccordion);
 	registerOption(ResponsiveGroup);
-	registerOption(Link);
 	registerOption(ColumnSize);
 	registerOption(WPWidget);
 	registerOption(TabGroup);

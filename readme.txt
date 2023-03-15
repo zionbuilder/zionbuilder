@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 6.1.1
-Stable tag: 3.6.4
+Stable tag: 3.6.5
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,23 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 3.6.5 2023-14-03 =
+Added: Ability to set mega menu icon color ( https://feedback.zionbuilder.io/roadmap/option-to-change-mega-menu-icon-color )
+Added: Link Element. This element allows you to easily insert links on the page. ( https://feedback.zionbuilder.io/roadmap/add-dynamic-data-to-the-field-of-link-title )
+Added: Ability to style the last menu item directly from the options ( https://feedback.zionbuilder.io/roadmap/style-last-menu-item-of-menu-in-styling-tab-useful-with-example-image )
+Improved: Improved Link option type UI/UX
+Fixed: Advanced custom fields dynamic data not working in certain conditions
+Fixed: JavaScript console warning when adding the image slider element to the page
+
+= 3.6.4 2023-17-02 =
+Added: Additional helpful tooltip for various option types
+Improved: Prevent page jump caused by the element add icon
+Improved: The accordion element can be closed by clicking on the item icon ( https://feedback.zionbuilder.io/roadmap/alt-attributes-anchor-text-for-icons )
+Fixed: WP widget options form not displaying properly on dark mode
+Fixed: WP widget form not displaying the correct form when editing different WordPress widget
+Fixed: The element menu automatically hides in certain conditions ( https://feedback.zionbuilder.io/roadmap/context-menu-doesnt-open-with-right-click-sometimes-under-some-conditions )
+Fixed: Improper placement of select dropdowns
+
 = 3.6.3 2023-13-02 =
 Added: Loop option for video element and video background
 Added: Option to enable video lazy loading ( can be found in Zion Builder options > Performance )

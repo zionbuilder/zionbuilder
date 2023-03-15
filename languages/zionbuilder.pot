@@ -2,14 +2,14 @@
 # This file is distributed under the GPL3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Zion Builder 3.6.3\n"
+"Project-Id-Version: Zion Builder 3.6.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/zionbuilder\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-02-13T20:05:52+00:00\n"
+"POT-Creation-Date: 2023-03-14T14:56:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: zionbuilder\n"
@@ -297,7 +297,7 @@ msgstr ""
 #: includes/Elements/Soundcloud/Soundcloud.php:291
 #: includes/Elements/Soundcloud/Soundcloud.php:313
 #: includes/MaintenanceMode.php:238
-#: dist/common.js:17251
+#: dist/common.js:17262
 msgid "Yes"
 msgstr ""
 
@@ -315,7 +315,7 @@ msgstr ""
 #: includes/Elements/Soundcloud/Soundcloud.php:295
 #: includes/Elements/Soundcloud/Soundcloud.php:317
 #: includes/MaintenanceMode.php:242
-#: dist/common.js:17251
+#: dist/common.js:17262
 msgid "No"
 msgstr ""
 
@@ -348,7 +348,7 @@ msgid "Theme"
 msgstr ""
 
 #: includes/Api/RestControllers/SystemInfo.php:145
-#: dist/common.js:13709
+#: dist/common.js:13720
 msgid "name"
 msgstr ""
 
@@ -530,7 +530,8 @@ msgstr ""
 #: includes/Elements/ProgressBars/ProgressBars.php:100
 #: includes/Elements/Tabs/TabsItem.php:70
 #: dist/admin-page.js:1313
-#: dist/editor.js:7994
+#: dist/common.js:20845
+#: dist/editor.js:7672
 msgid "Title"
 msgstr ""
 
@@ -538,29 +539,30 @@ msgstr ""
 msgid "Accordion title"
 msgstr ""
 
-#: includes/Elements/Accordions/AccordionItem.php:81
+#: includes/Elements/Accordions/AccordionItem.php:78
 #: includes/Elements/Heading/Heading.php:77
 #: includes/Elements/IconList/IconList.php:185
-#: includes/Elements/Manager.php:209
+#: includes/Elements/Link/Link.php:69
+#: includes/Elements/Manager.php:210
 #: includes/Elements/Tabs/TabsItem.php:79
 #: includes/Elements/Text/Text.php:76
 msgid "Content"
 msgstr ""
 
-#: includes/Elements/Accordions/AccordionItem.php:82
+#: includes/Elements/Accordions/AccordionItem.php:79
 msgid "Accordion content"
 msgstr ""
 
-#: includes/Elements/Accordions/AccordionItem.php:92
+#: includes/Elements/Accordions/AccordionItem.php:89
 msgid "Active by default?"
 msgstr ""
 
-#: includes/Elements/Accordions/AccordionItem.php:100
+#: includes/Elements/Accordions/AccordionItem.php:97
 #: includes/Elements/Accordions/Accordions.php:143
 msgid "Select the HTML tag to use for the title. If you want to add a custom tag, make sure to only use letters and numbers"
 msgstr ""
 
-#: includes/Elements/Accordions/AccordionItem.php:101
+#: includes/Elements/Accordions/AccordionItem.php:98
 #: includes/Elements/Accordions/Accordions.php:144
 msgid "HTML tag for titles"
 msgstr ""
@@ -585,10 +587,10 @@ msgid "Single accordion wrapper"
 msgstr ""
 
 #: includes/Elements/Accordions/Accordions.php:204
-#: includes/Elements/IconBox/IconBox.php:232
-#: includes/Elements/ImageBox/ImageBox.php:244
-#: includes/Elements/PricingBox/PricingBox.php:255
-#: includes/Elements/ProgressBars/ProgressBars.php:264
+#: includes/Elements/IconBox/IconBox.php:229
+#: includes/Elements/ImageBox/ImageBox.php:238
+#: includes/Elements/PricingBox/PricingBox.php:243
+#: includes/Elements/ProgressBars/ProgressBars.php:261
 msgid "Title styles"
 msgstr ""
 
@@ -606,22 +608,22 @@ msgid "Alert"
 msgstr ""
 
 #: includes/Elements/Alert/Alert.php:73
-#: includes/Elements/Button/Button.php:145
+#: includes/Elements/Button/Button.php:142
 msgid "Info"
 msgstr ""
 
 #: includes/Elements/Alert/Alert.php:77
-#: includes/Elements/Button/Button.php:133
+#: includes/Elements/Button/Button.php:130
 msgid "Success"
 msgstr ""
 
 #: includes/Elements/Alert/Alert.php:81
-#: includes/Elements/Button/Button.php:137
+#: includes/Elements/Button/Button.php:134
 msgid "Danger"
 msgstr ""
 
 #: includes/Elements/Alert/Alert.php:85
-#: includes/Elements/Button/Button.php:141
+#: includes/Elements/Button/Button.php:138
 msgid "Warning"
 msgstr ""
 
@@ -674,8 +676,8 @@ msgid "Set the button text"
 msgstr ""
 
 #: includes/Elements/Button/Button.php:79
-#: includes/Elements/PricingBox/PricingBox.php:171
-#: includes/Elements/PricingBox/PricingBox.php:173
+#: includes/Elements/PricingBox/PricingBox.php:162
+#: includes/Elements/PricingBox/PricingBox.php:164
 msgid "Button text"
 msgstr ""
 
@@ -683,7 +685,7 @@ msgstr ""
 msgid "Press me"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:91
+#: includes/Elements/Button/Button.php:88
 #: includes/Elements/Icon/Icon.php:40
 #: includes/Elements/Icon/Icon.php:78
 #: includes/Elements/IconBox/IconBox.php:77
@@ -692,7 +694,7 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:92
+#: includes/Elements/Button/Button.php:89
 #: includes/Elements/Icon/Icon.php:79
 #: includes/Elements/IconBox/IconBox.php:78
 #: includes/Elements/IconList/IconList.php:176
@@ -700,124 +702,126 @@ msgstr ""
 msgid "Choose an icon"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:100
+#: includes/Elements/Button/Button.php:97
 #: includes/Elements/Icon/Icon.php:92
 msgid "Set the url"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:101
-#: includes/Elements/Button/Button.php:149
+#: includes/Elements/Button/Button.php:98
+#: includes/Elements/Button/Button.php:146
 #: includes/Elements/Column/Column.php:180
 #: includes/Elements/Container/Container.php:150
-#: includes/Elements/Heading/Heading.php:90
+#: includes/Elements/Heading/Heading.php:87
 #: includes/Elements/Icon/Icon.php:93
-#: includes/Elements/IconList/IconList.php:198
-#: includes/Elements/Image/Image.php:118
-#: dist/common.js:20536
-#: dist/common.js:20575
+#: includes/Elements/IconList/IconList.php:195
+#: includes/Elements/Image/Image.php:115
+#: includes/Elements/Link/Link.php:38
+#: includes/Elements/Link/Link.php:79
+#: dist/common.js:20552
+#: dist/common.js:20591
 msgid "Link"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:109
+#: includes/Elements/Button/Button.php:106
 msgid "Button type"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:113
+#: includes/Elements/Button/Button.php:110
 msgid "Primary"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:117
+#: includes/Elements/Button/Button.php:114
 msgid "Black"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:121
+#: includes/Elements/Button/Button.php:118
 msgid "Dark"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:125
+#: includes/Elements/Button/Button.php:122
 msgid "Gray"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:129
+#: includes/Elements/Button/Button.php:126
 msgid "White"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:167
+#: includes/Elements/Button/Button.php:164
 msgid "Button shape"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:173
-#: includes/Elements/Button/Button.php:209
+#: includes/Elements/Button/Button.php:170
+#: includes/Elements/Button/Button.php:206
 #: includes/Elements/GoogleMaps/GoogleMaps.php:165
 #: includes/Elements/Icon/Icon.php:216
 msgid "Normal"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:177
+#: includes/Elements/Button/Button.php:174
 msgid "Semi rounded"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:181
+#: includes/Elements/Button/Button.php:178
 #: includes/Elements/Icon/Icon.php:156
-#: includes/Elements/ProgressBars/ProgressBars.php:163
+#: includes/Elements/ProgressBars/ProgressBars.php:160
 msgid "Rounded"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:199
+#: includes/Elements/Button/Button.php:196
 msgid "Button size"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:205
+#: includes/Elements/Button/Button.php:202
 msgid "Small"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:213
+#: includes/Elements/Button/Button.php:210
 msgid "Medium"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:217
+#: includes/Elements/Button/Button.php:214
 msgid "Large"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:237
+#: includes/Elements/Button/Button.php:234
 msgid "Full width"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:252
+#: includes/Elements/Button/Button.php:249
 msgid "Button position"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:265
-#: includes/Elements/Button/Button.php:300
+#: includes/Elements/Button/Button.php:262
+#: includes/Elements/Button/Button.php:297
 #: includes/Elements/Counter/Counter.php:156
 #: includes/Elements/IconList/IconList.php:112
 msgid "right"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:290
+#: includes/Elements/Button/Button.php:287
 #: includes/Elements/IconBox/IconBox.php:91
 msgid "Icon position"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:304
+#: includes/Elements/Button/Button.php:301
 #: includes/Elements/IconList/IconList.php:116
 msgid "top"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:308
+#: includes/Elements/Button/Button.php:305
 #: includes/Elements/IconList/IconList.php:120
 msgid "bottom"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:335
-#: includes/Elements/PricingBox/PricingBox.php:279
+#: includes/Elements/Button/Button.php:332
+#: includes/Elements/PricingBox/PricingBox.php:267
 msgid "Button styles"
 msgstr ""
 
-#: includes/Elements/Button/Button.php:343
+#: includes/Elements/Button/Button.php:340
 #: includes/Elements/Icon/Icon.php:386
-#: includes/Elements/IconBox/IconBox.php:224
-#: includes/Elements/IconList/IconList.php:265
+#: includes/Elements/IconBox/IconBox.php:221
+#: includes/Elements/IconList/IconList.php:262
 #: includes/Elements/Separator/Separator.php:403
 msgid "Icon styles"
 msgstr ""
@@ -855,7 +859,7 @@ msgstr ""
 
 #: includes/Elements/Column/Column.php:190
 #: includes/Elements/Container/Container.php:109
-#: includes/Elements/Heading/Heading.php:99
+#: includes/Elements/Heading/Heading.php:96
 #: includes/Elements/Section/Section.php:216
 msgid "HTML tag"
 msgstr ""
@@ -871,13 +875,13 @@ msgid "Content orientation"
 msgstr ""
 
 #: includes/Elements/Column/Column.php:237
-#: includes/Elements/Container/Container.php:229
+#: includes/Elements/Container/Container.php:255
 #: includes/Elements/Section/Section.php:263
 msgid "vertical"
 msgstr ""
 
 #: includes/Elements/Column/Column.php:241
-#: includes/Elements/Container/Container.php:233
+#: includes/Elements/Container/Container.php:259
 #: includes/Elements/Section/Section.php:267
 msgid "horizontal"
 msgstr ""
@@ -900,13 +904,13 @@ msgstr ""
 #: includes/Elements/Column/Column.php:346
 #: includes/Elements/Section/Section.php:284
 #: includes/Elements/Section/Section.php:372
-#: includes/Elements/Testimonial/Testimonial.php:175
+#: includes/Elements/Testimonial/Testimonial.php:166
 msgid "Left"
 msgstr ""
 
 #: includes/Elements/Column/Column.php:263
 #: includes/Elements/Column/Column.php:308
-#: includes/Elements/Testimonial/Testimonial.php:179
+#: includes/Elements/Testimonial/Testimonial.php:170
 msgid "Center"
 msgstr ""
 
@@ -914,7 +918,7 @@ msgstr ""
 #: includes/Elements/Column/Column.php:356
 #: includes/Elements/Section/Section.php:294
 #: includes/Elements/Section/Section.php:382
-#: includes/Elements/Testimonial/Testimonial.php:183
+#: includes/Elements/Testimonial/Testimonial.php:174
 msgid "Right"
 msgstr ""
 
@@ -964,10 +968,10 @@ msgstr ""
 
 #: includes/Elements/Column/Column.php:351
 #: includes/Elements/Column/Column.php:396
-#: includes/Elements/Container/Container.php:272
-#: includes/Elements/Container/Container.php:310
-#: includes/Elements/Container/Container.php:374
-#: includes/Elements/Container/Container.php:462
+#: includes/Elements/Container/Container.php:298
+#: includes/Elements/Container/Container.php:336
+#: includes/Elements/Container/Container.php:400
+#: includes/Elements/Container/Container.php:488
 #: includes/Elements/Counter/Counter.php:152
 #: includes/Elements/Section/Section.php:289
 #: includes/Elements/Section/Section.php:334
@@ -978,33 +982,33 @@ msgid "center"
 msgstr ""
 
 #: includes/Elements/Column/Column.php:361
-#: includes/Elements/Container/Container.php:320
-#: includes/Elements/Container/Container.php:384
+#: includes/Elements/Container/Container.php:346
+#: includes/Elements/Container/Container.php:410
 #: includes/Elements/Section/Section.php:344
 #: includes/Elements/Section/Section.php:387
 msgid "space-between"
 msgstr ""
 
 #: includes/Elements/Column/Column.php:366
-#: includes/Elements/Container/Container.php:325
-#: includes/Elements/Container/Container.php:389
+#: includes/Elements/Container/Container.php:351
+#: includes/Elements/Container/Container.php:415
 #: includes/Elements/Section/Section.php:349
 #: includes/Elements/Section/Section.php:392
 msgid "space-around"
 msgstr ""
 
 #: includes/Elements/Column/Column.php:406
-#: includes/Elements/Container/Container.php:282
-#: includes/Elements/Container/Container.php:394
-#: includes/Elements/Container/Container.php:472
+#: includes/Elements/Container/Container.php:308
+#: includes/Elements/Container/Container.php:420
+#: includes/Elements/Container/Container.php:498
 #: includes/Elements/Section/Section.php:299
 #: includes/Elements/Section/Section.php:432
 msgid "stretch"
 msgstr ""
 
 #: includes/Elements/Column/Column.php:411
-#: includes/Elements/Container/Container.php:287
-#: includes/Elements/Container/Container.php:477
+#: includes/Elements/Container/Container.php:313
+#: includes/Elements/Container/Container.php:503
 #: includes/Elements/Section/Section.php:304
 #: includes/Elements/Section/Section.php:437
 msgid "baseline"
@@ -1019,17 +1023,17 @@ msgid "If you choose to wrap the content, all inner elements will be placed on a
 msgstr ""
 
 #: includes/Elements/Column/Column.php:434
-#: includes/Elements/Container/Container.php:343
+#: includes/Elements/Container/Container.php:369
 msgid "wrap"
 msgstr ""
 
 #: includes/Elements/Column/Column.php:438
-#: includes/Elements/Container/Container.php:347
+#: includes/Elements/Container/Container.php:373
 msgid "nowrap"
 msgstr ""
 
 #: includes/Elements/Column/Column.php:442
-#: includes/Elements/Container/Container.php:351
+#: includes/Elements/Container/Container.php:377
 msgid "wrap-reverse"
 msgstr ""
 
@@ -1093,158 +1097,158 @@ msgstr ""
 msgid "The gap option allows you to specify the gap between child elements on the main axis. Current browser support is 89.92%. In order to increase browser support, you can use margins."
 msgstr ""
 
-#: includes/Elements/Container/Container.php:237
+#: includes/Elements/Container/Container.php:263
 msgid "Flex direction"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:249
+#: includes/Elements/Container/Container.php:275
 msgid "flex-reverse"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:254
+#: includes/Elements/Container/Container.php:280
 msgid "Flex reverse"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:263
+#: includes/Elements/Container/Container.php:289
 msgid "Align items"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:264
+#: includes/Elements/Container/Container.php:290
 msgid "Set align items"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:267
-#: includes/Elements/Container/Container.php:305
-#: includes/Elements/Container/Container.php:369
-#: includes/Elements/Container/Container.php:457
+#: includes/Elements/Container/Container.php:293
+#: includes/Elements/Container/Container.php:331
+#: includes/Elements/Container/Container.php:395
+#: includes/Elements/Container/Container.php:483
 #: includes/Elements/Separator/Separator.php:115
 msgid "flex-start"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:277
-#: includes/Elements/Container/Container.php:315
-#: includes/Elements/Container/Container.php:379
-#: includes/Elements/Container/Container.php:467
+#: includes/Elements/Container/Container.php:303
+#: includes/Elements/Container/Container.php:341
+#: includes/Elements/Container/Container.php:405
+#: includes/Elements/Container/Container.php:493
 #: includes/Elements/Separator/Separator.php:125
 msgid "flex-end"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:300
-#: dist/common.js:19476
+#: includes/Elements/Container/Container.php:326
+#: dist/common.js:19487
 msgid "Justify"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:301
+#: includes/Elements/Container/Container.php:327
 msgid "Set float option for element"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:339
+#: includes/Elements/Container/Container.php:365
 msgid "Wrap"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:340
+#: includes/Elements/Container/Container.php:366
 msgid "Set wrap for element"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:364
+#: includes/Elements/Container/Container.php:390
 msgid "Align content"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:365
+#: includes/Elements/Container/Container.php:391
 msgid "Set align content"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:407
+#: includes/Elements/Container/Container.php:433
 msgid "Flexbox child options"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:423
+#: includes/Elements/Container/Container.php:449
 msgid "Flex Grow"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:433
+#: includes/Elements/Container/Container.php:459
 msgid "Flex Shrink"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:443
+#: includes/Elements/Container/Container.php:469
 msgid "Flex Basis"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:452
+#: includes/Elements/Container/Container.php:478
 msgid "Align self"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:453
+#: includes/Elements/Container/Container.php:479
 msgid "Set align self"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:489
+#: includes/Elements/Container/Container.php:515
 msgid "Order"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:494
+#: includes/Elements/Container/Container.php:520
 msgid "first"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:498
+#: includes/Elements/Container/Container.php:524
 msgid "last"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:509
+#: includes/Elements/Container/Container.php:535
 msgid "Custom Order"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:519
+#: includes/Elements/Container/Container.php:545
 #: includes/Options/Schemas/StyleOptions.php:186
-#: dist/editor.js:8436
+#: dist/editor.js:8114
 msgid "Spacing"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:529
+#: includes/Elements/Container/Container.php:555
 #: includes/Options/Schemas/StyleOptions.php:194
 msgid "Margin & padding"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:530
+#: includes/Elements/Container/Container.php:556
 #: includes/Options/Schemas/StyleOptions.php:195
 msgid "Choose the desired margin and padding for this element."
 msgstr ""
 
-#: includes/Elements/Container/Container.php:539
+#: includes/Elements/Container/Container.php:565
 #: includes/Options/Schemas/StyleOptions.php:203
 msgid "Sizing"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:548
+#: includes/Elements/Container/Container.php:574
 #: includes/Elements/Separator/Separator.php:154
 #: includes/Options/Schemas/BackgroundImage.php:171
 #: includes/Options/Schemas/StyleOptions.php:211
 msgid "Width"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:559
+#: includes/Elements/Container/Container.php:585
 #: includes/Options/Schemas/StyleOptions.php:221
 msgid "Min Width"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:570
+#: includes/Elements/Container/Container.php:596
 #: includes/Options/Schemas/StyleOptions.php:231
 msgid "Max Width"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:581
+#: includes/Elements/Container/Container.php:607
 #: includes/Options/Schemas/BackgroundImage.php:180
 #: includes/Options/Schemas/StyleOptions.php:241
-#: dist/editor.js:8428
+#: dist/editor.js:8106
 msgid "Height"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:592
+#: includes/Elements/Container/Container.php:618
 #: includes/Options/Schemas/StyleOptions.php:251
 msgid "Min Height"
 msgstr ""
 
-#: includes/Elements/Container/Container.php:603
+#: includes/Elements/Container/Container.php:629
 #: includes/Options/Schemas/StyleOptions.php:261
 msgid "Max Height"
 msgstr ""
@@ -1283,20 +1287,20 @@ msgid "Text after"
 msgstr ""
 
 #: includes/Elements/Counter/Counter.php:143
-#: includes/Elements/Heading/Heading.php:146
+#: includes/Elements/Heading/Heading.php:143
 #: includes/Elements/Icon/Icon.php:101
 #: includes/Elements/IconBox/IconBox.php:122
-#: includes/Elements/Image/Image.php:106
+#: includes/Elements/Image/Image.php:103
 #: includes/Elements/ImageBox/ImageBox.php:133
 #: includes/Options/Schemas/Typography.php:30
 msgid "Align"
 msgstr ""
 
 #: includes/Elements/Counter/Counter.php:144
-#: includes/Elements/Heading/Heading.php:147
+#: includes/Elements/Heading/Heading.php:144
 #: includes/Elements/Icon/Icon.php:102
 #: includes/Elements/IconBox/IconBox.php:123
-#: includes/Elements/Image/Image.php:107
+#: includes/Elements/Image/Image.php:104
 #: includes/Elements/ImageBox/ImageBox.php:134
 msgid "Select the desired alignment."
 msgstr ""
@@ -1353,8 +1357,8 @@ msgstr ""
 #: includes/Options/Schemas/StyleOptions.php:648
 #: includes/Permissions.php:76
 #: dist/admin-page.js:2353
-#: dist/common.js:19438
-#: dist/editor.js:6317
+#: dist/common.js:19449
+#: dist/editor.js:5972
 msgid "Click here to learn more about PRO."
 msgstr ""
 
@@ -1413,73 +1417,73 @@ msgid "Terrain"
 msgstr ""
 
 #: includes/Elements/Heading/Heading.php:39
-#: dist/editor.js:8386
+#: dist/editor.js:8064
 msgid "Heading"
 msgstr ""
 
 #: includes/Elements/Heading/Heading.php:78
-#: includes/Elements/Heading/Heading.php:185
-#: includes/Elements/IconBox/IconBox.php:206
-#: includes/Elements/ImageBox/ImageBox.php:217
+#: includes/Elements/Heading/Heading.php:182
+#: includes/Elements/IconBox/IconBox.php:203
+#: includes/Elements/ImageBox/ImageBox.php:214
 #: includes/Elements/Text/Text.php:78
 msgid "Just a sample text from heading element."
 msgstr ""
 
-#: includes/Elements/Heading/Heading.php:100
+#: includes/Elements/Heading/Heading.php:97
 msgid "Set the desired heading tag."
 msgstr ""
 
-#: includes/Elements/Heading/Heading.php:103
-#: includes/Elements/IconBox/IconBox.php:162
-#: includes/Elements/ImageBox/ImageBox.php:173
+#: includes/Elements/Heading/Heading.php:100
+#: includes/Elements/IconBox/IconBox.php:159
+#: includes/Elements/ImageBox/ImageBox.php:170
 msgid "h1"
 msgstr ""
 
-#: includes/Elements/Heading/Heading.php:107
-#: includes/Elements/IconBox/IconBox.php:166
-#: includes/Elements/ImageBox/ImageBox.php:177
+#: includes/Elements/Heading/Heading.php:104
+#: includes/Elements/IconBox/IconBox.php:163
+#: includes/Elements/ImageBox/ImageBox.php:174
 msgid "h2"
 msgstr ""
 
-#: includes/Elements/Heading/Heading.php:111
-#: includes/Elements/IconBox/IconBox.php:170
-#: includes/Elements/ImageBox/ImageBox.php:181
+#: includes/Elements/Heading/Heading.php:108
+#: includes/Elements/IconBox/IconBox.php:167
+#: includes/Elements/ImageBox/ImageBox.php:178
 msgid "h3"
 msgstr ""
 
-#: includes/Elements/Heading/Heading.php:115
-#: includes/Elements/IconBox/IconBox.php:174
-#: includes/Elements/ImageBox/ImageBox.php:185
+#: includes/Elements/Heading/Heading.php:112
+#: includes/Elements/IconBox/IconBox.php:171
+#: includes/Elements/ImageBox/ImageBox.php:182
 msgid "h4"
 msgstr ""
 
-#: includes/Elements/Heading/Heading.php:119
-#: includes/Elements/IconBox/IconBox.php:178
-#: includes/Elements/ImageBox/ImageBox.php:189
+#: includes/Elements/Heading/Heading.php:116
+#: includes/Elements/IconBox/IconBox.php:175
+#: includes/Elements/ImageBox/ImageBox.php:186
 msgid "h5"
 msgstr ""
 
-#: includes/Elements/Heading/Heading.php:123
-#: includes/Elements/IconBox/IconBox.php:182
-#: includes/Elements/ImageBox/ImageBox.php:193
+#: includes/Elements/Heading/Heading.php:120
+#: includes/Elements/IconBox/IconBox.php:179
+#: includes/Elements/ImageBox/ImageBox.php:190
 msgid "h6"
 msgstr ""
 
-#: includes/Elements/Heading/Heading.php:127
-#: includes/Elements/IconBox/IconBox.php:186
-#: includes/Elements/ImageBox/ImageBox.php:197
+#: includes/Elements/Heading/Heading.php:124
+#: includes/Elements/IconBox/IconBox.php:183
+#: includes/Elements/ImageBox/ImageBox.php:194
 msgid "p"
 msgstr ""
 
-#: includes/Elements/Heading/Heading.php:131
-#: includes/Elements/IconBox/IconBox.php:190
-#: includes/Elements/ImageBox/ImageBox.php:201
+#: includes/Elements/Heading/Heading.php:128
+#: includes/Elements/IconBox/IconBox.php:187
+#: includes/Elements/ImageBox/ImageBox.php:198
 msgid "span"
 msgstr ""
 
-#: includes/Elements/Heading/Heading.php:135
-#: includes/Elements/IconBox/IconBox.php:194
-#: includes/Elements/ImageBox/ImageBox.php:205
+#: includes/Elements/Heading/Heading.php:132
+#: includes/Elements/IconBox/IconBox.php:191
+#: includes/Elements/ImageBox/ImageBox.php:202
 msgid "div"
 msgstr ""
 
@@ -1510,12 +1514,12 @@ msgid "Shape"
 msgstr ""
 
 #: includes/Elements/Icon/Icon.php:148
-#: includes/Elements/ProgressBars/ProgressBars.php:159
+#: includes/Elements/ProgressBars/ProgressBars.php:156
 msgid "Square"
 msgstr ""
 
 #: includes/Elements/Icon/Icon.php:152
-#: includes/Elements/ProgressBars/ProgressBars.php:167
+#: includes/Elements/ProgressBars/ProgressBars.php:164
 msgid "Circle"
 msgstr ""
 
@@ -1532,7 +1536,7 @@ msgid "Hover"
 msgstr ""
 
 #: includes/Elements/Icon/Icon.php:238
-#: includes/Elements/IconList/IconList.php:206
+#: includes/Elements/IconList/IconList.php:203
 #: includes/Elements/Separator/Separator.php:302
 msgid "Icon Color"
 msgstr ""
@@ -1580,28 +1584,28 @@ msgstr ""
 msgid "Just a sample title."
 msgstr ""
 
-#: includes/Elements/IconBox/IconBox.php:158
-#: includes/Elements/ImageBox/ImageBox.php:169
+#: includes/Elements/IconBox/IconBox.php:155
+#: includes/Elements/ImageBox/ImageBox.php:166
 msgid "HTML title tag"
 msgstr ""
 
-#: includes/Elements/IconBox/IconBox.php:159
-#: includes/Elements/ImageBox/ImageBox.php:170
+#: includes/Elements/IconBox/IconBox.php:156
+#: includes/Elements/ImageBox/ImageBox.php:167
 msgid "Set the desired HTML tag for the title."
 msgstr ""
 
-#: includes/Elements/IconBox/IconBox.php:205
-#: includes/Elements/ImageBox/ImageBox.php:216
+#: includes/Elements/IconBox/IconBox.php:202
+#: includes/Elements/ImageBox/ImageBox.php:213
 msgid "Description text"
 msgstr ""
 
-#: includes/Elements/IconBox/IconBox.php:240
-#: includes/Elements/ImageBox/ImageBox.php:252
-#: includes/Elements/Testimonial/Testimonial.php:259
+#: includes/Elements/IconBox/IconBox.php:237
+#: includes/Elements/ImageBox/ImageBox.php:246
+#: includes/Elements/Testimonial/Testimonial.php:250
 msgid "Description styles"
 msgstr ""
 
-#: includes/Elements/IconBox/IconBox.php:248
+#: includes/Elements/IconBox/IconBox.php:245
 msgid "Spacer styles"
 msgstr ""
 
@@ -1626,6 +1630,7 @@ msgid "Add new list item"
 msgstr ""
 
 #: includes/Elements/IconList/IconList.php:184
+#: includes/Elements/Link/Link.php:68
 #: includes/Elements/Text/Text.php:75
 msgid "Set the desired content for this element"
 msgstr ""
@@ -1634,23 +1639,23 @@ msgstr ""
 msgid "Enter item text"
 msgstr ""
 
-#: includes/Elements/IconList/IconList.php:207
+#: includes/Elements/IconList/IconList.php:204
 msgid "Select the color of the icon"
 msgstr ""
 
-#: includes/Elements/IconList/IconList.php:223
+#: includes/Elements/IconList/IconList.php:220
 msgid "Text Color"
 msgstr ""
 
-#: includes/Elements/IconList/IconList.php:224
+#: includes/Elements/IconList/IconList.php:221
 msgid "Select the color of the text"
 msgstr ""
 
-#: includes/Elements/IconList/IconList.php:249
+#: includes/Elements/IconList/IconList.php:246
 msgid "Item styles"
 msgstr ""
 
-#: includes/Elements/IconList/IconList.php:257
+#: includes/Elements/IconList/IconList.php:254
 msgid "Text styles"
 msgstr ""
 
@@ -1660,25 +1665,25 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: includes/Elements/Image/Image.php:148
+#: includes/Elements/Image/Image.php:142
 msgid "Show caption"
 msgstr ""
 
-#: includes/Elements/Image/Image.php:156
+#: includes/Elements/Image/Image.php:150
 msgid "Caption Text"
 msgstr ""
 
-#: includes/Elements/Image/Image.php:157
+#: includes/Elements/Image/Image.php:151
 msgid "Image caption."
 msgstr ""
 
-#: includes/Elements/Image/Image.php:180
+#: includes/Elements/Image/Image.php:174
 msgid "Link styles"
 msgstr ""
 
-#: includes/Elements/Image/Image.php:188
-#: includes/Elements/ImageBox/ImageBox.php:237
-#: includes/Elements/Testimonial/Testimonial.php:266
+#: includes/Elements/Image/Image.php:182
+#: includes/Elements/ImageBox/ImageBox.php:231
+#: includes/Elements/Testimonial/Testimonial.php:257
 msgid "Image styles"
 msgstr ""
 
@@ -1687,12 +1692,12 @@ msgid "Image Box"
 msgstr ""
 
 #: includes/Elements/ImageBox/ImageBox.php:103
-#: includes/Elements/Testimonial/Testimonial.php:140
+#: includes/Elements/Testimonial/Testimonial.php:131
 msgid "Image position"
 msgstr ""
 
 #: includes/Elements/ImageBox/ImageBox.php:107
-#: includes/Elements/Testimonial/Testimonial.php:144
+#: includes/Elements/Testimonial/Testimonial.php:135
 msgid "Image on top"
 msgstr ""
 
@@ -1761,21 +1766,30 @@ msgstr ""
 msgid "Transition speed"
 msgstr ""
 
-#: includes/Elements/Manager.php:204
+#: includes/Elements/Link/Link.php:70
+#: includes/Elements/Text/Text.php:77
+msgid "Enter text"
+msgstr ""
+
+#: includes/Elements/Link/Link.php:71
+msgid "Just a sample text."
+msgstr ""
+
+#: includes/Elements/Manager.php:205
 #: includes/Elements/Tabs/Tabs.php:121
-#: dist/editor.js:19045
+#: dist/editor.js:18748
 msgid "Layout"
 msgstr ""
 
-#: includes/Elements/Manager.php:214
+#: includes/Elements/Manager.php:215
 msgid "Media"
 msgstr ""
 
-#: includes/Elements/Manager.php:219
+#: includes/Elements/Manager.php:220
 msgid "External"
 msgstr ""
 
-#: includes/Elements/Manager.php:224
+#: includes/Elements/Manager.php:225
 msgid "WordPress Widgets"
 msgstr ""
 
@@ -1792,96 +1806,96 @@ msgstr ""
 msgid "Basic"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:89
+#: includes/Elements/PricingBox/PricingBox.php:86
 msgid "Plan description"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:90
+#: includes/Elements/PricingBox/PricingBox.php:87
 msgid "Pricing box description"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:91
+#: includes/Elements/PricingBox/PricingBox.php:88
 msgid "Price box description"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:103
+#: includes/Elements/PricingBox/PricingBox.php:97
 msgid "Heading color"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:122
+#: includes/Elements/PricingBox/PricingBox.php:116
 msgid "Heading background"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:137
+#: includes/Elements/PricingBox/PricingBox.php:131
 msgid "Price"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:138
+#: includes/Elements/PricingBox/PricingBox.php:132
 msgid "Choose price"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:139
+#: includes/Elements/PricingBox/PricingBox.php:133
 msgid "$999"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:148
+#: includes/Elements/PricingBox/PricingBox.php:142
 msgid "Period"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:149
-#: includes/Elements/PricingBox/PricingBox.php:150
+#: includes/Elements/PricingBox/PricingBox.php:143
+#: includes/Elements/PricingBox/PricingBox.php:144
 msgid "/month"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:158
+#: includes/Elements/PricingBox/PricingBox.php:152
 msgid "Features"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:159
+#: includes/Elements/PricingBox/PricingBox.php:153
 msgid "Please add each feature on a new line"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:160
+#: includes/Elements/PricingBox/PricingBox.php:154
 msgid "<p>20+ Proactively</p><p>facilitate 150+ Alternative</p><p>Vectors quality</p><p>Strategic themes</p><p>Brand</p><p>Intellectual capital</p><p>Proactive applications</p>"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:172
+#: includes/Elements/PricingBox/PricingBox.php:163
 msgid "Set the desired text for the button."
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:174
+#: includes/Elements/PricingBox/PricingBox.php:165
 msgid "Select this plan"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:185
+#: includes/Elements/PricingBox/PricingBox.php:173
 msgid "Add a link for the Button"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:186
+#: includes/Elements/PricingBox/PricingBox.php:174
 msgid "Button link"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:194
+#: includes/Elements/PricingBox/PricingBox.php:182
 msgid "Plan featured?"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:196
+#: includes/Elements/PricingBox/PricingBox.php:184
 msgid "Select 'YES' if you want this Plan to have a featured badge"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:216
+#: includes/Elements/PricingBox/PricingBox.php:204
 msgid "Borders color"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:247
+#: includes/Elements/PricingBox/PricingBox.php:235
 msgid "Featured Label styles"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:263
+#: includes/Elements/PricingBox/PricingBox.php:251
 msgid "Price styles"
 msgstr ""
 
-#: includes/Elements/PricingBox/PricingBox.php:271
+#: includes/Elements/PricingBox/PricingBox.php:259
 msgid "Features styles"
 msgstr ""
 
@@ -1909,29 +1923,29 @@ msgstr ""
 msgid "Set the desired bar title"
 msgstr ""
 
-#: includes/Elements/ProgressBars/ProgressBars.php:112
+#: includes/Elements/ProgressBars/ProgressBars.php:109
 msgid "Fill percentage"
 msgstr ""
 
-#: includes/Elements/ProgressBars/ProgressBars.php:125
-#: includes/Elements/ProgressBars/ProgressBars.php:185
+#: includes/Elements/ProgressBars/ProgressBars.php:122
+#: includes/Elements/ProgressBars/ProgressBars.php:182
 msgid "Bar progress color"
 msgstr ""
 
-#: includes/Elements/ProgressBars/ProgressBars.php:140
-#: includes/Elements/ProgressBars/ProgressBars.php:201
+#: includes/Elements/ProgressBars/ProgressBars.php:137
+#: includes/Elements/ProgressBars/ProgressBars.php:198
 msgid "Bar background color"
 msgstr ""
 
-#: includes/Elements/ProgressBars/ProgressBars.php:155
+#: includes/Elements/ProgressBars/ProgressBars.php:152
 msgid "Select the desired bar style"
 msgstr ""
 
-#: includes/Elements/ProgressBars/ProgressBars.php:217
+#: includes/Elements/ProgressBars/ProgressBars.php:214
 msgid "Bars height"
 msgstr ""
 
-#: includes/Elements/ProgressBars/ProgressBars.php:236
+#: includes/Elements/ProgressBars/ProgressBars.php:233
 msgid "Items distance"
 msgstr ""
 
@@ -2174,105 +2188,101 @@ msgstr ""
 msgid "Edit the element options to change it"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:100
-#: includes/Elements/Testimonial/Testimonial.php:102
+#: includes/Elements/Testimonial/Testimonial.php:97
+#: includes/Elements/Testimonial/Testimonial.php:99
 msgid "User name"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:101
+#: includes/Elements/Testimonial/Testimonial.php:98
 msgid "Set the desired user name."
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:103
+#: includes/Elements/Testimonial/Testimonial.php:100
 msgid "John Dow"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:114
+#: includes/Elements/Testimonial/Testimonial.php:108
 msgid "Client description"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:115
+#: includes/Elements/Testimonial/Testimonial.php:109
 msgid "Set the client description."
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:116
+#: includes/Elements/Testimonial/Testimonial.php:110
 msgid "description"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:117
+#: includes/Elements/Testimonial/Testimonial.php:111
 msgid "I'm Awesome"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:129
+#: includes/Elements/Testimonial/Testimonial.php:120
 msgid "User Photo"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:141
+#: includes/Elements/Testimonial/Testimonial.php:132
 msgid "Set where the image should be"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:148
+#: includes/Elements/Testimonial/Testimonial.php:139
 msgid "Image to the left"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:152
+#: includes/Elements/Testimonial/Testimonial.php:143
 msgid "Image to the right"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:171
+#: includes/Elements/Testimonial/Testimonial.php:162
 msgid "Content alignment"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:172
+#: includes/Elements/Testimonial/Testimonial.php:163
 msgid "Set how elements to be aligned"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:201
+#: includes/Elements/Testimonial/Testimonial.php:192
 msgid "Stars"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:205
+#: includes/Elements/Testimonial/Testimonial.php:196
 msgid "Do not show stars"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:209
+#: includes/Elements/Testimonial/Testimonial.php:200
 msgid "1 star"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:213
+#: includes/Elements/Testimonial/Testimonial.php:204
 msgid "2 stars"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:217
+#: includes/Elements/Testimonial/Testimonial.php:208
 msgid "3 stars"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:221
+#: includes/Elements/Testimonial/Testimonial.php:212
 msgid "4 stars"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:225
+#: includes/Elements/Testimonial/Testimonial.php:216
 msgid "5 stars"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:245
+#: includes/Elements/Testimonial/Testimonial.php:236
 msgid "Testimonial styles"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:252
+#: includes/Elements/Testimonial/Testimonial.php:243
 msgid "Name styles"
 msgstr ""
 
-#: includes/Elements/Testimonial/Testimonial.php:273
+#: includes/Elements/Testimonial/Testimonial.php:264
 msgid "Stars styles"
 msgstr ""
 
 #: includes/Elements/Text/Text.php:38
 msgid "Text"
-msgstr ""
-
-#: includes/Elements/Text/Text.php:77
-msgid "Enter text"
 msgstr ""
 
 #: includes/Elements/Video/Video.php:40
@@ -2350,7 +2360,7 @@ msgstr ""
 
 #: includes/Library/Sources/LocalSource.php:116
 #: includes/Templates.php:138
-#: dist/editor.js:19001
+#: dist/editor.js:18704
 msgid "Template"
 msgstr ""
 
@@ -2434,8 +2444,8 @@ msgid "Element visibility"
 msgstr ""
 
 #: includes/Options/Schemas/Advanced.php:64
-#: dist/editor.js:16069
-#: dist/editor.js:17582
+#: dist/editor.js:15772
+#: dist/editor.js:17285
 msgid "All"
 msgstr ""
 
@@ -2826,7 +2836,7 @@ msgid "Background blend mode"
 msgstr ""
 
 #: includes/Options/Schemas/PageOptions.php:47
-#: dist/editor.js:13932
+#: dist/editor.js:13634
 msgid "Page options"
 msgstr ""
 
@@ -3229,7 +3239,7 @@ msgid "Video source"
 msgstr ""
 
 #: includes/Options/Schemas/Video.php:33
-#: dist/common.js:13679
+#: dist/common.js:13690
 msgid "Local"
 msgstr ""
 
@@ -3598,23 +3608,23 @@ msgid "Copied"
 msgstr ""
 
 #: dist/admin-page.js:1202
-#: dist/editor.js:12889
-#: dist/editor.js:17981
+#: dist/editor.js:12591
+#: dist/editor.js:17684
 msgid "Copy"
 msgstr ""
 
 #: dist/admin-page.js:1212
-#: dist/editor.js:15911
+#: dist/editor.js:15614
 msgid "Edit template"
 msgstr ""
 
 #: dist/admin-page.js:1219
-#: dist/editor.js:15934
+#: dist/editor.js:15637
 msgid "Delete template"
 msgstr ""
 
 #: dist/admin-page.js:1226
-#: dist/editor.js:15919
+#: dist/editor.js:15622
 msgid "Export template"
 msgstr ""
 
@@ -3767,7 +3777,7 @@ msgstr ""
 
 #: dist/admin-page.js:2355
 #: dist/admin-page.js:3017
-#: dist/common.js:19358
+#: dist/common.js:19369
 msgid "Upgrade to PRO"
 msgstr ""
 
@@ -3864,13 +3874,13 @@ msgstr ""
 #: dist/admin-page.js:2814
 #: dist/admin-page.js:2829
 #: dist/admin-page.js:2883
-#: dist/common.js:14953
-#: dist/common.js:19346
-#: dist/editor.js:6308
-#: dist/editor.js:6309
-#: dist/editor.js:13035
-#: dist/editor.js:13038
-#: dist/editor.js:15986
+#: dist/common.js:14964
+#: dist/common.js:19357
+#: dist/editor.js:5963
+#: dist/editor.js:5964
+#: dist/editor.js:12737
+#: dist/editor.js:12740
+#: dist/editor.js:15689
 msgid "pro"
 msgstr ""
 
@@ -3903,8 +3913,8 @@ msgid "With PRO you can upload your own icons in addition to the Font Awesome ic
 msgstr ""
 
 #: dist/admin-page.js:2880
-#: dist/editor.js:13908
-#: dist/editor.js:16447
+#: dist/editor.js:13610
+#: dist/editor.js:16150
 msgid "Library"
 msgstr ""
 
@@ -3917,320 +3927,365 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
-#: dist/common.js:7871
-#: dist/common.js:20527
-#: dist/common.js:20566
-#: dist/common.js:21439
+#: dist/common.js:7874
+#: dist/common.js:20543
+#: dist/common.js:20582
+#: dist/common.js:21820
 #: dist/editor.js:719
-#: dist/editor.js:6420
+#: dist/editor.js:6075
 msgid "Discard changes"
 msgstr ""
 
-#: dist/common.js:11245
+#: dist/common.js:11255
 msgid "custom"
 msgstr ""
 
-#: dist/common.js:12111
+#: dist/common.js:12121
 msgid "Click to add gradient point"
 msgstr ""
 
-#: dist/common.js:12526
-#: dist/common.js:17737
+#: dist/common.js:12536
+#: dist/common.js:17748
 msgid "Color"
 msgstr ""
 
-#: dist/common.js:12527
+#: dist/common.js:12537
 msgid "Location"
 msgstr ""
 
-#: dist/common.js:13042
+#: dist/common.js:13052
 msgid "Gradient type"
 msgstr ""
 
-#: dist/common.js:13055
+#: dist/common.js:13065
 msgid "Gradient angle"
 msgstr ""
 
-#: dist/common.js:13131
+#: dist/common.js:13141
 msgid "Gradient bar"
 msgstr ""
 
-#: dist/common.js:13590
+#: dist/common.js:13601
 msgid "Search or add new"
 msgstr ""
 
-#: dist/common.js:13590
-#: dist/common.js:19579
+#: dist/common.js:13601
+#: dist/common.js:19590
 msgid "Search"
 msgstr ""
 
-#: dist/common.js:13604
+#: dist/common.js:13615
 msgid "Add new item"
 msgstr ""
 
-#: dist/common.js:13632
+#: dist/common.js:13643
 msgid "no more items"
 msgstr ""
 
-#: dist/common.js:13683
+#: dist/common.js:13694
 msgid "Global"
 msgstr ""
 
-#: dist/common.js:13709
+#: dist/common.js:13720
 msgid "Global color name"
 msgstr ""
 
-#: dist/common.js:13761
+#: dist/common.js:13772
 msgid "Draggable"
 msgstr ""
 
-#: dist/common.js:14741
-#: dist/editor.js:16930
+#: dist/common.js:14752
+#: dist/editor.js:16633
 msgid "Save to library"
 msgstr ""
 
-#: dist/common.js:14935
+#: dist/common.js:14946
 msgid "No local gradients were found"
 msgstr ""
 
-#: dist/common.js:14951
+#: dist/common.js:14962
 msgid "Global colors are available in"
 msgstr ""
 
-#: dist/common.js:14957
+#: dist/common.js:14968
 msgid "No global gradients were found"
 msgstr ""
 
-#: dist/common.js:15243
+#: dist/common.js:15254
 msgid "Search through"
 msgstr ""
 
-#: dist/common.js:15243
+#: dist/common.js:15254
 msgid "icons"
 msgstr ""
 
-#: dist/common.js:15404
+#: dist/common.js:15415
 msgid "Select an icon"
 msgstr ""
 
-#: dist/common.js:15414
+#: dist/common.js:15425
 msgid "Icon Library"
 msgstr ""
 
-#: dist/common.js:15596
+#: dist/common.js:15607
 msgid "Custom Width"
 msgstr ""
 
-#: dist/common.js:15615
+#: dist/common.js:15626
 msgid "Custom Height"
 msgstr ""
 
-#: dist/common.js:15631
+#: dist/common.js:15642
 msgid "Apply"
 msgstr ""
 
-#: dist/common.js:16674
+#: dist/common.js:16685
 msgid "No video Selected"
 msgstr ""
 
-#: dist/common.js:17777
-#: dist/common.js:17805
+#: dist/common.js:17788
+#: dist/common.js:17816
 msgid "No color chosen"
 msgstr ""
 
-#: dist/common.js:18628
+#: dist/common.js:18639
 msgid "Mon"
 msgstr ""
 
-#: dist/common.js:18629
+#: dist/common.js:18640
 msgid "Tue"
 msgstr ""
 
-#: dist/common.js:18630
+#: dist/common.js:18641
 msgid "Wed"
 msgstr ""
 
-#: dist/common.js:18631
+#: dist/common.js:18642
 msgid "Thu"
 msgstr ""
 
-#: dist/common.js:18632
+#: dist/common.js:18643
 msgid "Fri"
 msgstr ""
 
-#: dist/common.js:18633
+#: dist/common.js:18644
 msgid "Sat"
 msgstr ""
 
-#: dist/common.js:18634
+#: dist/common.js:18645
 msgid "Sun"
 msgstr ""
 
-#: dist/common.js:18637
+#: dist/common.js:18648
 msgid "January"
 msgstr ""
 
-#: dist/common.js:18638
+#: dist/common.js:18649
 msgid "February"
 msgstr ""
 
-#: dist/common.js:18639
+#: dist/common.js:18650
 msgid "March"
 msgstr ""
 
-#: dist/common.js:18640
+#: dist/common.js:18651
 msgid "April"
 msgstr ""
 
-#: dist/common.js:18641
+#: dist/common.js:18652
 msgid "May"
 msgstr ""
 
-#: dist/common.js:18642
+#: dist/common.js:18653
 msgid "June"
 msgstr ""
 
-#: dist/common.js:18643
+#: dist/common.js:18654
 msgid "July"
 msgstr ""
 
-#: dist/common.js:18644
+#: dist/common.js:18655
 msgid "August"
 msgstr ""
 
-#: dist/common.js:18645
+#: dist/common.js:18656
 msgid "September"
 msgstr ""
 
-#: dist/common.js:18646
+#: dist/common.js:18657
 msgid "October"
 msgstr ""
 
-#: dist/common.js:18647
+#: dist/common.js:18658
 msgid "November"
 msgstr ""
 
-#: dist/common.js:18648
+#: dist/common.js:18659
 msgid "December"
 msgstr ""
 
-#: dist/common.js:18673
+#: dist/common.js:18684
 msgid "Next Month"
 msgstr ""
 
-#: dist/common.js:18674
+#: dist/common.js:18685
 msgid "Previous month"
 msgstr ""
 
-#: dist/common.js:18675
+#: dist/common.js:18686
 msgid "Set time"
 msgstr ""
 
-#: dist/common.js:19214
+#: dist/common.js:19225
 msgid "Top masks"
 msgstr ""
 
-#: dist/common.js:19218
+#: dist/common.js:19229
 msgid "Bottom masks"
 msgstr ""
 
-#: dist/common.js:19223
+#: dist/common.js:19234
 msgid "Selected top mask"
 msgstr ""
 
-#: dist/common.js:19223
+#: dist/common.js:19234
 msgid "Selected bottom mask"
 msgstr ""
 
-#: dist/common.js:19238
+#: dist/common.js:19249
 msgid "Add a color to mask"
 msgstr ""
 
-#: dist/common.js:19243
+#: dist/common.js:19254
 msgid "Add mask height"
 msgstr ""
 
-#: dist/common.js:19256
+#: dist/common.js:19267
 msgid "Flip mask horizontally"
 msgstr ""
 
-#: dist/common.js:19394
+#: dist/common.js:19405
 msgid "Select shape divider"
 msgstr ""
 
-#: dist/common.js:19436
+#: dist/common.js:19447
 msgid "More shape dividers"
 msgstr ""
 
-#: dist/common.js:19437
+#: dist/common.js:19448
 msgid "The shape you were looking for is not listed above ?"
 msgstr ""
 
-#: dist/common.js:19461
+#: dist/common.js:19472
 msgid "Align left"
 msgstr ""
 
-#: dist/common.js:19466
+#: dist/common.js:19477
 msgid "Align center"
 msgstr ""
 
-#: dist/common.js:19471
+#: dist/common.js:19482
 msgid "Align right"
 msgstr ""
 
-#: dist/common.js:19639
+#: dist/common.js:19650
 msgid "No items found"
 msgstr ""
 
-#: dist/common.js:19737
+#: dist/common.js:19717
+msgid "Clone"
+msgstr ""
+
+#: dist/common.js:19725
+msgid "Delete"
+msgstr ""
+
+#: dist/common.js:19753
 msgid "Add new"
 msgstr ""
 
-#: dist/common.js:20323
+#: dist/common.js:20339
 msgid "Margin top"
 msgstr ""
 
-#: dist/common.js:20333
+#: dist/common.js:20349
 msgid "Margin right"
 msgstr ""
 
-#: dist/common.js:20343
+#: dist/common.js:20359
 msgid "Margin bottom"
 msgstr ""
 
-#: dist/common.js:20353
+#: dist/common.js:20369
 msgid "Margin left"
 msgstr ""
 
-#: dist/common.js:20365
+#: dist/common.js:20381
 msgid "Padding top"
 msgstr ""
 
-#: dist/common.js:20375
+#: dist/common.js:20391
 msgid "Padding right"
 msgstr ""
 
-#: dist/common.js:20385
+#: dist/common.js:20401
 msgid "Padding bottom"
 msgstr ""
 
-#: dist/common.js:20395
+#: dist/common.js:20411
 msgid "Padding left"
 msgstr ""
 
-#: dist/common.js:20536
-#: dist/common.js:20575
+#: dist/common.js:20552
+#: dist/common.js:20591
 msgid "Unlink"
 msgstr ""
 
-#: dist/common.js:22397
-#: dist/editor.js:13273
-#: dist/editor.js:13665
-#: dist/editor.js:16951
+#: dist/common.js:20749
+msgid "Attribute key"
+msgstr ""
+
+#: dist/common.js:20755
+msgid "Attribute value"
+msgstr ""
+
+#: dist/common.js:20809
+msgid "New Window"
+msgstr ""
+
+#: dist/common.js:20813
+msgid "Same Window"
+msgstr ""
+
+#: dist/common.js:20837
+#: dist/editor.js:7659
+msgid "Target"
+msgstr ""
+
+#: dist/common.js:21013
+msgid "Type to search or enter URL"
+msgstr ""
+
+#: dist/common.js:21035
+msgid "Link attributes"
+msgstr ""
+
+#: dist/common.js:21051
+msgid "Add custom link attribute"
+msgstr ""
+
+#: dist/common.js:21058
+msgid "Edit link attributes"
+msgstr ""
+
+#: dist/common.js:22805
+#: dist/editor.js:12975
+#: dist/editor.js:13367
+#: dist/editor.js:16654
 msgid "Save"
 msgstr ""
 
-#: dist/common.js:22452
+#: dist/common.js:22860
 msgid "No icons were found in package"
 msgstr ""
 
@@ -4250,757 +4305,721 @@ msgstr ""
 msgid "Select from library"
 msgstr ""
 
-#: dist/editor.js:3069
-msgid "Attribute key"
-msgstr ""
-
-#: dist/editor.js:3078
-msgid "Attribute value"
-msgstr ""
-
-#: dist/editor.js:3121
-msgid "New Window"
-msgstr ""
-
-#: dist/editor.js:3125
-msgid "Same Window"
-msgstr ""
-
-#: dist/editor.js:3299
-msgid "Add an URL"
-msgstr ""
-
-#: dist/editor.js:3322
-msgid "Link attributes"
-msgstr ""
-
-#: dist/editor.js:3338
-msgid "Add custom link attribute"
-msgstr ""
-
-#: dist/editor.js:3345
-msgid "Edit link attributes"
-msgstr ""
-
-#: dist/editor.js:3384
-msgid "Set a title"
-msgstr ""
-
-#: dist/editor.js:3821
+#: dist/editor.js:3467
 msgid "Root"
 msgstr ""
 
-#: dist/editor.js:3831
+#: dist/editor.js:3477
 msgid "Invalid Element"
 msgstr ""
 
-#: dist/editor.js:5245
+#: dist/editor.js:4891
 msgid "Editing started"
 msgstr ""
 
-#: dist/editor.js:5358
+#: dist/editor.js:5013
 msgid "Loading"
 msgstr ""
 
-#: dist/editor.js:5677
+#: dist/editor.js:5332
 msgid "Click to add content for pseudo selector."
 msgstr ""
 
-#: dist/editor.js:5745
+#: dist/editor.js:5400
 msgid "Add new pseudo-selector ex: :hover::before "
 msgstr ""
 
-#: dist/editor.js:5805
+#: dist/editor.js:5460
 msgid "State:"
 msgstr ""
 
-#: dist/editor.js:5888
+#: dist/editor.js:5543
 msgid "Selector nice name"
 msgstr ""
 
-#: dist/editor.js:5888
+#: dist/editor.js:5543
 msgid "CSS class nice name"
 msgstr ""
 
-#: dist/editor.js:5889
+#: dist/editor.js:5544
 msgid "Enter a name that will help you recognize this CSS class"
 msgstr ""
 
-#: dist/editor.js:5893
+#: dist/editor.js:5548
 msgid "CSS selector"
 msgstr ""
 
-#: dist/editor.js:5893
+#: dist/editor.js:5548
 msgid "CSS class"
 msgstr ""
 
-#: dist/editor.js:5894
+#: dist/editor.js:5549
 msgid "Enter the css selector you want to style"
 msgstr ""
 
-#: dist/editor.js:5894
+#: dist/editor.js:5549
 msgid "Enter the CSS class name without the leading dot"
 msgstr ""
 
-#: dist/editor.js:5895
+#: dist/editor.js:5550
 msgid ".my-selector"
 msgstr ""
 
-#: dist/editor.js:5895
+#: dist/editor.js:5550
 msgid "my-class-name"
 msgstr ""
 
-#: dist/editor.js:5901
+#: dist/editor.js:5556
 msgid "Add child selector"
 msgstr ""
 
-#: dist/editor.js:5901
-#: dist/editor.js:6709
+#: dist/editor.js:5556
+#: dist/editor.js:6364
 msgid "Add CSS class"
 msgstr ""
 
-#: dist/editor.js:6190
-#: dist/editor.js:12905
-#: dist/editor.js:14611
+#: dist/editor.js:5845
+#: dist/editor.js:12607
+#: dist/editor.js:14313
 msgid "Copy styles"
 msgstr ""
 
-#: dist/editor.js:6197
-#: dist/editor.js:12909
-#: dist/editor.js:14621
-#: dist/editor.js:18009
+#: dist/editor.js:5852
+#: dist/editor.js:12611
+#: dist/editor.js:14323
+#: dist/editor.js:17712
 msgid "Paste styles"
 msgstr ""
 
-#: dist/editor.js:6210
+#: dist/editor.js:5865
 msgid "Delete selector"
 msgstr ""
 
-#: dist/editor.js:6315
+#: dist/editor.js:5970
 msgid "Meet custom attributes"
 msgstr ""
 
-#: dist/editor.js:6316
+#: dist/editor.js:5971
 msgid "Generate custom attributes to every inner parts of the element"
 msgstr ""
 
-#: dist/editor.js:6559
+#: dist/editor.js:6214
 msgid "No images selected"
 msgstr ""
 
-#: dist/editor.js:6733
+#: dist/editor.js:6388
 msgid "No class found"
 msgstr ""
 
-#: dist/editor.js:7423
+#: dist/editor.js:7077
 msgid "Insert inside"
 msgstr ""
 
-#: dist/editor.js:7423
+#: dist/editor.js:7077
 msgid "Insert after"
 msgstr ""
 
-#: dist/editor.js:7961
+#: dist/editor.js:7639
 msgid "Add a link"
 msgstr ""
 
-#: dist/editor.js:7981
-msgid "Target"
-msgstr ""
-
-#: dist/editor.js:7988
+#: dist/editor.js:7666
 msgid "Select target"
 msgstr ""
 
-#: dist/editor.js:8378
+#: dist/editor.js:8056
 msgid "family"
 msgstr ""
 
-#: dist/editor.js:8420
+#: dist/editor.js:8098
 msgid "Size"
 msgstr ""
 
-#: dist/editor.js:9669
+#: dist/editor.js:9371
 msgid "element not found"
 msgstr ""
 
-#: dist/editor.js:11411
+#: dist/editor.js:11113
 msgid "oops, something went wrong!"
 msgstr ""
 
-#: dist/editor.js:11458
+#: dist/editor.js:11160
 msgid "Preview not available"
 msgstr ""
 
-#: dist/editor.js:11473
-#: dist/editor.js:11727
-#: dist/editor.js:12039
+#: dist/editor.js:11175
+#: dist/editor.js:11429
+#: dist/editor.js:11741
 msgid "repeater provider"
 msgstr ""
 
-#: dist/editor.js:11478
-#: dist/editor.js:11732
-#: dist/editor.js:12044
+#: dist/editor.js:11180
+#: dist/editor.js:11434
+#: dist/editor.js:11746
 msgid "repeater consumer"
 msgstr ""
 
-#: dist/editor.js:11492
-#: dist/editor.js:11745
-#: dist/editor.js:12059
+#: dist/editor.js:11194
+#: dist/editor.js:11447
+#: dist/editor.js:11761
 msgid "The element is hidden. Click to enable it."
 msgstr ""
 
-#: dist/editor.js:11884
+#: dist/editor.js:11586
 msgid "Yes, delete elements"
 msgstr ""
 
-#: dist/editor.js:11885
-#: dist/editor.js:13280
-#: dist/editor.js:13672
+#: dist/editor.js:11587
+#: dist/editor.js:12982
+#: dist/editor.js:13374
 msgid "Cancel"
 msgstr ""
 
-#: dist/editor.js:11890
+#: dist/editor.js:11592
 msgid "Are you sure you want to remove all elements from page?"
 msgstr ""
 
-#: dist/editor.js:11902
+#: dist/editor.js:11604
 msgid "Remove all"
 msgstr ""
 
-#: dist/editor.js:11913
+#: dist/editor.js:11615
 msgid "Expand all"
 msgstr ""
 
-#: dist/editor.js:11919
+#: dist/editor.js:11621
 msgid "Collapse all"
 msgstr ""
 
-#: dist/editor.js:12550
-#: dist/editor.js:13893
+#: dist/editor.js:12252
+#: dist/editor.js:13595
 msgid "Tree view"
 msgstr ""
 
-#: dist/editor.js:12556
+#: dist/editor.js:12258
 msgid "Section view"
 msgstr ""
 
-#: dist/editor.js:12562
+#: dist/editor.js:12264
 msgid "Wireframe"
 msgstr ""
 
-#: dist/editor.js:12602
+#: dist/editor.js:12304
 msgid "Tree view panel"
 msgstr ""
 
-#: dist/editor.js:12676
+#: dist/editor.js:12378
 msgid "Global CSS classes"
 msgstr ""
 
-#: dist/editor.js:12688
-#: dist/editor.js:15544
+#: dist/editor.js:12390
+#: dist/editor.js:15246
 msgid "Options"
 msgstr ""
 
-#: dist/editor.js:12777
-#: dist/editor.js:13918
+#: dist/editor.js:12479
+#: dist/editor.js:13620
 msgid "History"
 msgstr ""
 
-#: dist/editor.js:12791
+#: dist/editor.js:12493
 msgid "Your history is empty"
 msgstr ""
 
-#: dist/editor.js:12792
+#: dist/editor.js:12494
 msgid "Modify your page and your changes will appear here"
 msgstr ""
 
-#: dist/editor.js:12804
+#: dist/editor.js:12506
 msgid "Now"
 msgstr ""
 
-#: dist/editor.js:12885
+#: dist/editor.js:12587
 msgid "Save changes"
 msgstr ""
 
-#: dist/editor.js:12893
-#: dist/editor.js:17999
+#: dist/editor.js:12595
+#: dist/editor.js:17702
 msgid "Paste"
 msgstr ""
 
-#: dist/editor.js:12897
-#: dist/editor.js:17990
+#: dist/editor.js:12599
+#: dist/editor.js:17693
 msgid "Cut"
 msgstr ""
 
-#: dist/editor.js:12901
-#: dist/editor.js:17972
+#: dist/editor.js:12603
+#: dist/editor.js:17675
 msgid "Duplicate"
 msgstr ""
 
-#: dist/editor.js:12913
+#: dist/editor.js:12615
 msgid "Undo"
 msgstr ""
 
-#: dist/editor.js:12917
-#: dist/editor.js:12921
+#: dist/editor.js:12619
+#: dist/editor.js:12623
 msgid "Redo"
 msgstr ""
 
-#: dist/editor.js:12925
+#: dist/editor.js:12627
 msgid "Hide element"
 msgstr ""
 
-#: dist/editor.js:12929
+#: dist/editor.js:12631
 msgid "Toggle preview mode"
 msgstr ""
 
-#: dist/editor.js:12933
+#: dist/editor.js:12635
 msgid "Toggle Tree View Panel"
 msgstr ""
 
-#: dist/editor.js:12937
+#: dist/editor.js:12639
 msgid "Toggle Library Panel"
 msgstr ""
 
-#: dist/editor.js:12941
+#: dist/editor.js:12643
 msgid "Toggle page options"
 msgstr ""
 
-#: dist/editor.js:12945
+#: dist/editor.js:12647
 msgid "Duplicate element in place"
 msgstr ""
 
-#: dist/editor.js:12946
+#: dist/editor.js:12648
 msgid "When dragging element"
 msgstr ""
 
-#: dist/editor.js:12950
+#: dist/editor.js:12652
 msgid "Set even values"
 msgstr ""
 
-#: dist/editor.js:12951
+#: dist/editor.js:12653
 msgid "When dragging toolbox"
 msgstr ""
 
-#: dist/editor.js:12955
+#: dist/editor.js:12657
 msgid "Set even incremental value"
 msgstr ""
 
-#: dist/editor.js:12959
-#: dist/editor.js:13770
+#: dist/editor.js:12661
+#: dist/editor.js:13472
 msgid "Back to WP dashboard"
 msgstr ""
 
-#: dist/editor.js:12963
-#: dist/editor.js:12968
+#: dist/editor.js:12665
+#: dist/editor.js:12670
 msgid "Set incremental value"
 msgstr ""
 
-#: dist/editor.js:12964
+#: dist/editor.js:12666
 msgid "On input of type number"
 msgstr ""
 
-#: dist/editor.js:12973
+#: dist/editor.js:12675
 msgid "On input of type number with link option available"
 msgstr ""
 
-#: dist/editor.js:13038
+#: dist/editor.js:12740
 msgid "FREE"
 msgstr ""
 
-#: dist/editor.js:13049
-#: dist/editor.js:13060
+#: dist/editor.js:12751
+#: dist/editor.js:12762
 msgid "View changelog"
 msgstr ""
 
-#: dist/editor.js:13052
+#: dist/editor.js:12754
 msgid "Not installed!"
 msgstr ""
 
-#: dist/editor.js:13070
+#: dist/editor.js:12772
 msgid "Update to"
 msgstr ""
 
-#: dist/editor.js:13070
-#: dist/editor.js:13079
+#: dist/editor.js:12772
+#: dist/editor.js:12781
 msgid "You are up to date!"
 msgstr ""
 
-#: dist/editor.js:13078
-#: dist/editor.js:16003
-#: dist/editor.js:16563
+#: dist/editor.js:12780
+#: dist/editor.js:15706
+#: dist/editor.js:16266
 msgid "Buy Pro"
 msgstr ""
 
-#: dist/editor.js:13085
+#: dist/editor.js:12787
 msgid "Update to version"
 msgstr ""
 
-#: dist/editor.js:13107
+#: dist/editor.js:12809
 msgid "Producing <b>smashing design</b> is now possible with Zion Builder. <br/>Complex elements, library system, responsive building design, multilingual adaptability, speed and performance, control not only over the actions but also over the whole website, and powerful blog options are barely few of the features for this <b> blue-chip </b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active."
 msgstr ""
 
-#: dist/editor.js:13130
+#: dist/editor.js:12832
 msgid "Do you need help?"
 msgstr ""
 
-#: dist/editor.js:13176
+#: dist/editor.js:12878
 msgid "Discard changes for"
 msgstr ""
 
-#: dist/editor.js:13240
+#: dist/editor.js:12942
 msgid "all devices"
 msgstr ""
 
-#: dist/editor.js:13242
-#: dist/editor.js:13641
+#: dist/editor.js:12944
+#: dist/editor.js:13343
 msgid "max"
 msgstr ""
 
-#: dist/editor.js:13289
+#: dist/editor.js:12991
 msgid "Edit breakpoint"
 msgstr ""
 
-#: dist/editor.js:13297
+#: dist/editor.js:12999
 msgid "Delete breakpoint"
 msgstr ""
 
-#: dist/editor.js:13577
+#: dist/editor.js:13279
 msgid "Preview width"
 msgstr ""
 
-#: dist/editor.js:13593
+#: dist/editor.js:13295
 msgid "Preview scale"
 msgstr ""
 
-#: dist/editor.js:13604
+#: dist/editor.js:13306
 msgid "Disable auto-scale"
 msgstr ""
 
-#: dist/editor.js:13604
+#: dist/editor.js:13306
 msgid "Enable auto-scale"
 msgstr ""
 
-#: dist/editor.js:13684
+#: dist/editor.js:13386
 msgid "Add breakpoint"
 msgstr ""
 
-#: dist/editor.js:13694
+#: dist/editor.js:13396
 msgid "Edit breakpoints"
 msgstr ""
 
-#: dist/editor.js:13697
+#: dist/editor.js:13399
 msgid "Disable edit breakpoints"
 msgstr ""
 
-#: dist/editor.js:13752
+#: dist/editor.js:13454
 msgid "Start tour"
 msgstr ""
 
-#: dist/editor.js:13757
-#: dist/editor.js:13982
+#: dist/editor.js:13459
+#: dist/editor.js:13684
 msgid "Key shortcuts"
 msgstr ""
 
-#: dist/editor.js:13761
-#: dist/editor.js:13995
+#: dist/editor.js:13463
+#: dist/editor.js:13697
 msgid "About"
 msgstr ""
 
-#: dist/editor.js:13766
+#: dist/editor.js:13468
 msgid "Builder settings"
 msgstr ""
 
-#: dist/editor.js:13774
+#: dist/editor.js:13476
 msgid "Preview post"
 msgstr ""
 
-#: dist/editor.js:13792
+#: dist/editor.js:13494
 msgid "Save Template"
 msgstr ""
 
-#: dist/editor.js:13797
+#: dist/editor.js:13499
 msgid "Save Page"
 msgstr ""
 
-#: dist/editor.js:13802
+#: dist/editor.js:13504
 msgid "Save & Publish Page"
 msgstr ""
 
-#: dist/editor.js:13961
+#: dist/editor.js:13663
 msgid "Getting started"
 msgstr ""
 
-#: dist/editor.js:14584
+#: dist/editor.js:14286
 msgid "ID"
 msgstr ""
 
-#: dist/editor.js:14585
+#: dist/editor.js:14287
 msgid "class"
 msgstr ""
 
-#: dist/editor.js:14586
+#: dist/editor.js:14288
 msgid "external"
 msgstr ""
 
-#: dist/editor.js:14631
+#: dist/editor.js:14333
 msgid "Remove class from element."
 msgstr ""
 
-#: dist/editor.js:14891
+#: dist/editor.js:14593
 msgid "Class assignments not allowed"
 msgstr ""
 
-#: dist/editor.js:14910
+#: dist/editor.js:14612
 msgid "Enter class name"
 msgstr ""
 
-#: dist/editor.js:14920
+#: dist/editor.js:14622
 msgid "Add Class"
 msgstr ""
 
-#: dist/editor.js:14939
+#: dist/editor.js:14641
 msgid "No class found. Press \"Add class\" to create a new class and assign it to the element."
 msgstr ""
 
-#: dist/editor.js:15160
+#: dist/editor.js:14862
 msgid "Remove class"
 msgstr ""
 
-#: dist/editor.js:15207
+#: dist/editor.js:14909
 msgid "Start typing in the search field and the found options will appear here"
 msgstr ""
 
-#: dist/editor.js:15372
+#: dist/editor.js:15074
 msgid "Advanced"
 msgstr ""
 
-#: dist/editor.js:15379
+#: dist/editor.js:15081
 msgid "Styles"
 msgstr ""
 
-#: dist/editor.js:15571
+#: dist/editor.js:15273
 msgid "Back to"
 msgstr ""
 
-#: dist/editor.js:15596
+#: dist/editor.js:15299
 msgid "Element has no specific options"
 msgstr ""
 
-#: dist/editor.js:15653
+#: dist/editor.js:15356
 msgid "No options found"
 msgstr ""
 
-#: dist/editor.js:15926
+#: dist/editor.js:15629
 msgid "Regenerate screenshot"
 msgstr ""
 
-#: dist/editor.js:15998
-#: dist/editor.js:16558
+#: dist/editor.js:15701
+#: dist/editor.js:16261
 msgid "Activate PRO"
 msgstr ""
 
-#: dist/editor.js:16008
-#: dist/editor.js:16570
+#: dist/editor.js:15711
+#: dist/editor.js:16273
 msgid "Insert"
 msgstr ""
 
-#: dist/editor.js:16010
-#: dist/editor.js:16577
+#: dist/editor.js:15713
+#: dist/editor.js:16280
 msgid "Insert this item into page"
 msgstr ""
 
-#: dist/editor.js:16017
+#: dist/editor.js:15720
 msgid "Click to preview this item"
 msgstr ""
 
-#: dist/editor.js:16205
+#: dist/editor.js:15908
 msgid "Search in this library"
 msgstr ""
 
-#: dist/editor.js:16225
+#: dist/editor.js:15928
 msgid "Sort"
 msgstr ""
 
-#: dist/editor.js:16239
+#: dist/editor.js:15942
 msgid "No more to show :("
 msgstr ""
 
-#: dist/editor.js:16372
+#: dist/editor.js:16075
 msgid "Drag and drop your exported item here or just click to "
 msgstr ""
 
-#: dist/editor.js:16373
+#: dist/editor.js:16076
 msgid "browse"
 msgstr ""
 
-#: dist/editor.js:16374
+#: dist/editor.js:16077
 msgid "for files"
 msgstr ""
 
-#: dist/editor.js:16387
+#: dist/editor.js:16090
 msgid "Drop your files"
 msgstr ""
 
-#: dist/editor.js:16389
+#: dist/editor.js:16092
 msgid "to upload"
 msgstr ""
 
-#: dist/editor.js:16445
-#: dist/editor.js:16586
+#: dist/editor.js:16148
+#: dist/editor.js:16289
 msgid "Import"
 msgstr ""
 
-#: dist/editor.js:16537
+#: dist/editor.js:16240
 msgid "Go Back"
 msgstr ""
 
-#: dist/editor.js:16596
+#: dist/editor.js:16299
 msgid "Refresh data from the server "
 msgstr ""
 
-#: dist/editor.js:16669
-#: dist/editor.js:16695
+#: dist/editor.js:16372
+#: dist/editor.js:16398
 msgid "Could not lock current post"
 msgstr ""
 
-#: dist/editor.js:16703
+#: dist/editor.js:16406
 msgid "Preview"
 msgstr ""
 
-#: dist/editor.js:16711
+#: dist/editor.js:16414
 msgid "Go back"
 msgstr ""
 
-#: dist/editor.js:16720
+#: dist/editor.js:16423
 msgid "Take Over"
 msgstr ""
 
-#: dist/editor.js:16842
+#: dist/editor.js:16545
 msgid "Choose a title"
 msgstr ""
 
-#: dist/editor.js:16843
+#: dist/editor.js:16546
 msgid "Write a suggestive name for your element"
 msgstr ""
 
-#: dist/editor.js:16869
+#: dist/editor.js:16572
 msgid "The template was successfully added to library"
 msgstr ""
 
-#: dist/editor.js:16960
+#: dist/editor.js:16663
 msgid "Download"
 msgstr ""
 
-#: dist/editor.js:16993
+#: dist/editor.js:16696
 msgid "Regenerating assets"
 msgstr ""
 
-#: dist/editor.js:17588
+#: dist/editor.js:17291
 msgid "Favorites"
 msgstr ""
 
-#: dist/editor.js:17696
+#: dist/editor.js:17399
 msgid "Search elements"
 msgstr ""
 
-#: dist/editor.js:17721
+#: dist/editor.js:17424
 msgid "No elements found matching the search criteria"
 msgstr ""
 
-#: dist/editor.js:17964
+#: dist/editor.js:17667
 msgid "Edit"
 msgstr ""
 
-#: dist/editor.js:18019
+#: dist/editor.js:17722
 msgid "Paste classes"
 msgstr ""
 
-#: dist/editor.js:18028
+#: dist/editor.js:17731
 msgid "Save Element "
 msgstr ""
 
-#: dist/editor.js:18036
+#: dist/editor.js:17739
 msgid "Hide Element "
 msgstr ""
 
-#: dist/editor.js:18036
+#: dist/editor.js:17739
 msgid "Show Element "
 msgstr ""
 
-#: dist/editor.js:18046
+#: dist/editor.js:17749
 msgid "Wrap with container"
 msgstr ""
 
-#: dist/editor.js:18056
+#: dist/editor.js:17759
 msgid "Discard styles"
 msgstr ""
 
-#: dist/editor.js:18065
+#: dist/editor.js:17768
 msgid "Delete Element"
 msgstr ""
 
-#: dist/editor.js:18311
+#: dist/editor.js:18014
 msgid "Generating preview..."
 msgstr ""
 
-#: dist/editor.js:18403
-#: dist/editor.js:19002
-#: dist/editor.js:19046
+#: dist/editor.js:18106
+#: dist/editor.js:18705
+#: dist/editor.js:18749
 msgid "added"
 msgstr ""
 
-#: dist/editor.js:18404
+#: dist/editor.js:18107
 msgid "deleted"
 msgstr ""
 
-#: dist/editor.js:18405
+#: dist/editor.js:18108
 msgid "renamed"
 msgstr ""
 
-#: dist/editor.js:18406
+#: dist/editor.js:18109
 msgid "show"
 msgstr ""
 
-#: dist/editor.js:18407
+#: dist/editor.js:18110
 msgid "hide"
 msgstr ""
 
-#: dist/editor.js:18408
+#: dist/editor.js:18111
 msgid "duplicate"
 msgstr ""
 
-#: dist/editor.js:18409
+#: dist/editor.js:18112
 msgid "wrapped with container"
 msgstr ""
 
-#: dist/editor.js:18410
+#: dist/editor.js:18113
 msgid "copied"
 msgstr ""
 
-#: dist/editor.js:18411
+#: dist/editor.js:18114
 msgid "moved"
 msgstr ""
 
-#: dist/editor.js:18412
+#: dist/editor.js:18115
 msgid "paste styles"
 msgstr ""
 
-#: dist/editor.js:18413
+#: dist/editor.js:18116
 msgid "paste css classes"
 msgstr ""
 
-#: dist/editor.js:18414
+#: dist/editor.js:18117
 msgid "discard styles"
 msgstr ""
 
-#: dist/editor.js:18586
+#: dist/editor.js:18289
 msgid "Page cleared"
 msgstr ""
 
-#: dist/editor.js:19090
+#: dist/editor.js:18793
 msgid "Edited"
+msgstr ""
+
+#: dist/elements/PricingBox/editor.js:52
+msgid "featured"
 msgstr ""
 
 #. translators: %s: Plugin name

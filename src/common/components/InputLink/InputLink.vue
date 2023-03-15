@@ -87,11 +87,12 @@
 </template>
 
 <script lang="ts" setup>
+// External imports
 import * as i18n from '@wordpress/i18n';
-import { BaseInput } from '@zb/components';
 import { computed, ref, watchEffect, watch, Ref } from 'vue';
 import { get, debounce } from 'lodash-es';
 
+import { BaseInput } from '../BaseInput';
 import LinkAttributeForm from './LinkAttributeForm.vue';
 
 // Common API

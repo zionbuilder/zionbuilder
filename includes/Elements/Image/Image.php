@@ -93,9 +93,6 @@ class Image extends Element {
 				'default'     => [
 					'image' => Utils::get_file_url( 'assets/img/no-image.jpg' ),
 				],
-				'dynamic'     => [
-					'enabled' => true,
-				],
 			]
 		);
 
@@ -116,9 +113,6 @@ class Image extends Element {
 				'type'        => 'link',
 				'description' => 'This is the element content',
 				'title'       => esc_html__( 'Link', 'zionbuilder' ),
-				'dynamic'     => [
-					'enabled' => true,
-				],
 			]
 		);
 

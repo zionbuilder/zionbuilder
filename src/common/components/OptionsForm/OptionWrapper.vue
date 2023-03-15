@@ -95,6 +95,7 @@
 			</Tooltip>
 
 			<Injection location="input_wrapper/end" class="znpb-options-injection--after-title" />
+			<Injection :location="`input_wrapper/end/${schema.type}`" class="znpb-options-injection--after-title" />
 		</div>
 		<div class="znpb-input-content">
 			<Icon v-if="schema.itemIcon" :icon="schema.itemIcon" />

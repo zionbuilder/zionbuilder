@@ -31,6 +31,8 @@ import { InputRepeater } from '../components/InputRepeater';
 import { UpgradeToPro } from '../components/UpgradeToPro';
 import { InputDimensions } from '../components/InputDimensions';
 import { InputHTML } from '../components/InputHTML';
+import { InputLink } from '../components/InputLink';
+
 interface Option {
 	id: string;
 	component: Component;
@@ -48,14 +50,6 @@ const options: Option[] = [
 		},
 	},
 	{
-		id: 'icon_library',
-		component: InputIcon,
-		config: {
-			// Can be one of the following
-			barebone: true,
-		},
-	},
-	{
 		id: 'textarea',
 		component: BaseInput,
 		componentProps: {
@@ -65,6 +59,44 @@ const options: Option[] = [
 			type: 'TEXT',
 		},
 	},
+
+	{
+		id: 'editor',
+		component: InputEditor,
+		dynamic: {
+			type: 'TEXT',
+		},
+	},
+
+	{
+		id: 'number',
+		component: InputNumber,
+		dynamic: {
+			type: 'TEXT',
+		},
+	},
+
+	{
+		id: 'colorpicker',
+		component: InputColorPicker,
+		dynamic: {
+			type: 'TYPE_HIDDEN',
+		},
+	},
+
+	{
+		id: 'link',
+		component: InputLink,
+	},
+	{
+		id: 'icon_library',
+		component: InputIcon,
+		config: {
+			// Can be one of the following
+			barebone: true,
+		},
+	},
+
 	{
 		id: 'password',
 		componentProps: {
@@ -84,13 +116,7 @@ const options: Option[] = [
 		id: 'dynamic_slider',
 		component: InputRangeDynamic,
 	},
-	{
-		id: 'editor',
-		component: InputEditor,
-		dynamic: {
-			type: 'TEXT',
-		},
-	},
+
 	{
 		id: 'media',
 		component: InputMedia,
@@ -103,13 +129,7 @@ const options: Option[] = [
 		id: 'image',
 		component: InputImage,
 	},
-	{
-		id: 'number',
-		component: InputNumber,
-		dynamic: {
-			type: 'TEXT',
-		},
-	},
+
 	{
 		id: 'number_unit',
 		component: InputNumberUnit,
@@ -122,14 +142,7 @@ const options: Option[] = [
 		id: 'custom_selector',
 		component: InputCustomSelector,
 	},
-	{
-		id: 'colorpicker',
-		component: InputColorPicker,
-		dynamic: {
-			type: 'TYPE_HIDDEN',
-			custom_dynamic: true,
-		},
-	},
+
 	{
 		id: 'checkbox',
 		component: InputCheckbox,

@@ -78,9 +78,6 @@ class Button extends Element {
 				'description' => __( 'Set the button text', 'zionbuilder' ),
 				'title'       => __( 'Button text', 'zionbuilder' ),
 				'default'     => __( 'Press me', 'zionbuilder' ),
-				'dynamic'     => [
-					'enabled' => true,
-				],
 			]
 		);
 

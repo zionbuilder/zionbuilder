@@ -87,9 +87,6 @@ class Testimonial extends Element {
 				'type'    => 'editor',
 				'title'   => esc_html__( 'Testimonial content', 'zionbuilder' ),
 				'default' => __( 'Edit the element options to change it', 'zionbuilder' ),
-				'dynamic' => [
-					'enabled' => true,
-				],
 			]
 		);
 
@@ -101,9 +98,6 @@ class Testimonial extends Element {
 				'description' => __( 'Set the desired user name.', 'zionbuilder' ),
 				'placeholder' => __( 'User name', 'zionbuilder' ),
 				'default'     => esc_html__( 'John Dow', 'zionbuilder' ),
-				'dynamic'     => [
-					'enabled' => true,
-				],
 			]
 		);
 
@@ -115,9 +109,6 @@ class Testimonial extends Element {
 				'description' => __( 'Set the client description.', 'zionbuilder' ),
 				'placeholder' => __( 'description', 'zionbuilder' ),
 				'default'     => __( "I'm Awesome", 'zionbuilder' ),
-				'dynamic'     => [
-					'enabled' => true,
-				],
 			]
 		);
 
