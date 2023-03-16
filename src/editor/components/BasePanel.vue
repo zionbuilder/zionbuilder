@@ -495,6 +495,8 @@ defineExpose({
 	&--detached {
 		box-shadow: 0 0 0 var(--zb-panel-sideborder) var(--zb-surface-border-color);
 		border: none;
+		z-index: 1;
+
 		.znpb-editor-panel__resize--horizontal {
 			right: -6px;
 		}
