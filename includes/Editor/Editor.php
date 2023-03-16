@@ -79,9 +79,18 @@ class Editor {
 			return;
 		}
 
+
+
 		// Set active post instance and global post data
 		Plugin::$instance->post_manager->switch_to_post( $post_id );
 		$this->post_id = $post_id;
+
+		// Activate the builder for the post
+		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post_id );
+
+		if ($post_instance) {
+			$post_instance->set_builder_status( true );
+		}
 
 		// Set post lock if not locked already
 		if ( ! $this->get_locked_user( $this->post_id ) ) {

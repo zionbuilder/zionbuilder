@@ -60,18 +60,32 @@ class AdminBar {
 			return;
 		}
 
-		if ( $post_instance->is_built_with_zion() ) {
+		// If this is a single page, show edit with zion builder button
+		if ( is_singular() ) {
 			$admin_bar->add_menu(
 				[
 					'id'    => 'edit-with-zion',
 					/* translators: %s: ZionBuilder white label name */
 					'title' => sprintf( __( 'Edit with %s', 'zionbuilder' ), Whitelabel::get_title() ),
 					'href'  => $post_instance->get_edit_url(),
-
+	
 				]
 			);
-
-			do_action( 'zionbuilder/admin-bar/register_menu_items', $admin_bar );
+		} else {
+			// If this is a post archive, show edit with zion builder button
+			$admin_bar->add_menu(
+				[
+					'id'    => 'edit-with-zion',
+					/* translators: %s: ZionBuilder white label name */
+					'title' => Whitelabel::get_title(),
+					'href'  => '#',
+				]
+			);
 		}
+
+
+
+		do_action( 'zionbuilder/admin-bar/register_menu_items', $admin_bar );
+		
 	}
 }
