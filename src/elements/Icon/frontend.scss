@@ -16,7 +16,9 @@ a.zb-el-icon-icon.zb-el-icon-link {
 	&:before {
 		width: 1em;
 		height: 1em;
-		text-align: center;
+		display: flex;
+		justify-content: center;
+		vertical-align: middle;
 	}
 }
 
