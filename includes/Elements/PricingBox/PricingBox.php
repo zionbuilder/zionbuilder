@@ -83,6 +83,54 @@ class PricingBox extends Element {
 		);
 
 		$options->add_option(
+			'plan_title_tag',
+			[
+				'type'        => 'select',
+				'default'     => 'h3',
+				'title'       => __( 'HTML title tag', 'zionbuilder' ),
+				'description' => __( 'Set the desired HTML tag for the plan title.', 'zionbuilder' ),
+				'options'     => [
+					[
+						'name' => __( 'h1', 'zionbuilder' ),
+						'id'   => 'h1',
+					],
+					[
+						'name' => __( 'h2', 'zionbuilder' ),
+						'id'   => 'h2',
+					],
+					[
+						'name' => __( 'h3', 'zionbuilder' ),
+						'id'   => 'h3',
+					],
+					[
+						'name' => __( 'h4', 'zionbuilder' ),
+						'id'   => 'h4',
+					],
+					[
+						'name' => __( 'h5', 'zionbuilder' ),
+						'id'   => 'h5',
+					],
+					[
+						'name' => __( 'h6', 'zionbuilder' ),
+						'id'   => 'h6',
+					],
+					[
+						'name' => __( 'p', 'zionbuilder' ),
+						'id'   => 'p',
+					],
+					[
+						'name' => __( 'span', 'zionbuilder' ),
+						'id'   => 'span',
+					],
+					[
+						'name' => __( 'div', 'zionbuilder' ),
+						'id'   => 'div',
+					],
+				],
+			]
+		);
+
+		$options->add_option(
 			'plan_description',
 			[
 				'type'        => 'text',
@@ -324,6 +372,7 @@ class PricingBox extends Element {
 		$button_text      = $options->get_value( 'button_text' );
 		$button_link      = $options->get_value( 'button_link' );
 		$plan_featured    = $options->get_value( 'plan_featured' );
+		$plan_title_tag   = $options->get_value( 'plan_title_tag', 'h3' );
 
 		$compiled_price = explode( '.', $price );
 
@@ -389,6 +438,8 @@ class PricingBox extends Element {
 						'link',
 						$button_text,
 						$combined_button_attr
+						$plan_title_tag,
+						'plan_title',
 					);
 				}
 				?>
